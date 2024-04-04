@@ -14,6 +14,16 @@ These additional references should also help you:
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 * [Configure AOT settings in Build Plugin](https://docs.spring.io/spring-boot/docs/3.2.4/gradle-plugin/reference/htmlsingle/#aot)
 
+## GraphQL code generation with DGS
+
+This project has been configured to use the Netflix DGS Codegen plugin.
+This plugin can be used to generate client files for accessing remote GraphQL services.
+The default setup assumes that the GraphQL schema file for the remote service is added to the `src/main/resources/graphql-client/` location.
+
+You can learn more about the [plugin configuration options](https://netflix.github.io/dgs/generating-code-from-schema/#configuring-code-generation) and
+[how to use the generated types](https://netflix.github.io/dgs/generating-code-from-schema/) to adapt the default setup.
+
+
 ## GraalVM Native Support
 
 This project has been configured to let you generate either a lightweight container or a native executable.
