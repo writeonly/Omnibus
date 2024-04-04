@@ -12,6 +12,7 @@ For further reference, please consider the following sections:
 * [Spring Configuration Processor](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#appendix.configuration-metadata.annotation-processor)
 * [Spring Web](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web)
 * [Spring Reactive Web](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.reactive)
+* [Spring for GraphQL](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.graphql)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
@@ -20,6 +21,7 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 * [Building a Reactive RESTful Web Service](https://spring.io/guides/gs/reactive-rest-service/)
+* [Building a GraphQL service](https://spring.io/guides/gs/graphql-server/)
 
 ### Additional Links
 These additional references should also help you:
