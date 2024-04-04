@@ -14,6 +14,7 @@ For further reference, please consider the following sections:
 * [Spring Reactive Web](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.reactive)
 * [Spring for GraphQL](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.graphql)
 * [Spring HATEOAS](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.spring-hateoas)
+* [Vaadin](https://vaadin.com/docs)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
@@ -24,6 +25,7 @@ The following guides illustrate how to use some features concretely:
 * [Building a Reactive RESTful Web Service](https://spring.io/guides/gs/reactive-rest-service/)
 * [Building a GraphQL service](https://spring.io/guides/gs/graphql-server/)
 * [Building a Hypermedia-Driven RESTful Web Service](https://spring.io/guides/gs/rest-hateoas/)
+* [Creating CRUD UI with Vaadin](https://spring.io/guides/gs/crud-with-vaadin/)
 
 ### Additional Links
 These additional references should also help you:
