@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class Config {
-
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
+class Config(val objectMapper: ObjectMapper) {
 
     fun customizeObjectMapper() {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
