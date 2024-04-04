@@ -7,6 +7,7 @@ plugins {
 	id("org.hibernate.orm") version "6.2.22.Final"
 	id("org.graalvm.buildtools.native") version "0.9.28"
 	id("com.vaadin") version "24.3.7"
+
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
 	kotlin("plugin.jpa") version "1.8.22"
@@ -45,20 +46,30 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    implementation("org.springframework.modulith:spring-modulith-starter-core")
+    implementation("org.springframework.modulith:spring-modulith-starter-jdbc")
+    implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+
+    implementation("org.springframework.kafka:spring-kafka")
+
+    implementation("org.drools:drools-core:9.44.0.Final")
+
 	implementation("com.vaadin:vaadin-spring-boot-starter")
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.springframework.kafka:spring-kafka")
-	implementation("org.springframework.modulith:spring-modulith-starter-core")
-	implementation("org.springframework.modulith:spring-modulith-starter-jdbc")
-	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+
 	compileOnly("org.projectlombok:lombok")
+
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.hsqldb:hsqldb")
+
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.amqp:spring-rabbit-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
@@ -67,8 +78,8 @@ dependencies {
 
 dependencyManagement {
 	imports {
+        mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
 		mavenBom("com.vaadin:vaadin-bom:${property("vaadinVersion")}")
-		mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
 	}
 }
 
