@@ -4,10 +4,12 @@ plugins {
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
     id("com.netflix.dgs.codegen") version "6.0.3"
+    id("org.hibernate.orm") version "6.4.4.Final"
     id("org.graalvm.buildtools.native") version "0.9.28"
     id("com.vaadin") version "24.3.9"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
+    kotlin("plugin.jpa") version "1.9.23"
 }
 
 group = "pl.writeonly"
@@ -30,6 +32,7 @@ repositories {
 extra["vaadinVersion"] = "24.3.9"
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -70,5 +73,11 @@ tasks.generateJava {
     schemaPaths.add("${projectDir}/src/main/resources/graphql-client")
     packageName = "pl.writeonly.omnibus.codegen"
     generateClient = true
+}
+
+hibernate {
+    enhancement {
+        enableAssociationManagement.set(true)
+    }
 }
 

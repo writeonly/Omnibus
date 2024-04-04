@@ -15,6 +15,7 @@ For further reference, please consider the following sections:
 * [Spring for GraphQL](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.graphql)
 * [Spring HATEOAS](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web.spring-hateoas)
 * [Vaadin](https://vaadin.com/docs)
+* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#data.sql.jpa-and-spring-data)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
@@ -26,6 +27,7 @@ The following guides illustrate how to use some features concretely:
 * [Building a GraphQL service](https://spring.io/guides/gs/graphql-server/)
 * [Building a Hypermedia-Driven RESTful Web Service](https://spring.io/guides/gs/rest-hateoas/)
 * [Creating CRUD UI with Vaadin](https://spring.io/guides/gs/crud-with-vaadin/)
+* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 
 ### Additional Links
 These additional references should also help you:
