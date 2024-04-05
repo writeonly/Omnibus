@@ -6,7 +6,7 @@ plugins {
     id("com.netflix.dgs.codegen") version "6.0.3"
     id("org.hibernate.orm") version "6.4.4.Final"
     id("org.graalvm.buildtools.native") version "0.9.28"
-    id("com.vaadin") version "24.3.9"
+//    id("com.vaadin") version "24.3.9"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
     kotlin("plugin.jpa") version "1.9.23"
@@ -29,7 +29,7 @@ repositories {
     mavenCentral()
 }
 
-extra["vaadinVersion"] = "24.3.9"
+//extra["vaadinVersion"] = "24.3.9"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -38,10 +38,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.vaadin:vaadin-spring-boot-starter")
+//    implementation("com.vaadin:vaadin-spring-boot-starter")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.5.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
@@ -54,7 +58,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("com.vaadin:vaadin-bom:${property("vaadinVersion")}")
+//        mavenBom("com.vaadin:vaadin-bom:${property("vaadinVersion")}")
     }
 }
 
