@@ -7,6 +7,6 @@ import pl.writeonly.omnibus.service.HelloService
 @RestController
 class HelloController(val helloService: HelloService) {
 
-    @GetMapping("/")
-    fun hello() = helloService.hello()
+  @GetMapping("/")
+  fun hello() = helloService.hello()
 }

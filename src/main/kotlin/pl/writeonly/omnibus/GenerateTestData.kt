@@ -11,22 +11,24 @@ class GenerateTestData
 fun main(args: Array<String>) {
 
   val dataSql = File("src/main/resources/data.sql")
-    dataSql.writeText("")
+  dataSql.writeText("")
 
-    repeat(100) { i ->
-        val timestamp = Timestamp.valueOf(LocalDateTime.now().minusDays(100 - i.toLong()))
-        dataSql.appendText(
-            "INSERT INTO post(id, title, content, created)"
-                    + " VALUES(${i}, 'Test Post ${i}', 'Content ${i}', TIMESTAMP '${timestamp}');\n"
-        )
-    }
+  repeat(100) { i ->
+    val localDataTime = LocalDateTime.now().minusDays(100 - i.toLong())
+    val timestamp = Timestamp.valueOf(localDataTime)
+    dataSql.appendText(
+      "INSERT INTO post(id, title, content, created)"
+          + " VALUES(${i}, 'Test Post ${i}', 'Content ${i}', TIMESTAMP '${timestamp}');\n"
+    )
+  }
 
-    repeat(1000) { i ->
-        val post_id = i/10
-        val timestamp = Timestamp.valueOf(LocalDateTime.now().minusDays(100 - i.toLong()))
-        dataSql.appendText(
-            "INSERT INTO comment(id, post_id, content, created)"
-                    + " VALUES(${i}, ${post_id}, 'Content ${i}', TIMESTAMP '${timestamp}');\n"
-        )
-    }
+  repeat(1000) { i ->
+    val post_id = i/10
+    val localDataTime = LocalDateTime.now().minusDays(100 - i.toLong())
+    val timestamp = Timestamp.valueOf(localDataTime)
+    dataSql.appendText(
+      "INSERT INTO comment(id, post_id, content, created)"
+          + " VALUES(${i}, ${post_id}, 'Content ${i}', TIMESTAMP '${timestamp}');\n"
+    )
+  }
 }
