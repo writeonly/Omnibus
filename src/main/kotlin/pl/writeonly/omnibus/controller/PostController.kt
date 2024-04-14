@@ -17,6 +17,10 @@ class PostController(val service: PostService) {
   fun getPosts(@Min(0) page: Int = 0): List<PostDto> =
     mapToPostDtos(service.getPosts(page))
 
+  @GetMapping("/posts/comments")
+  fun getPostsWithComments(@Min(0) page: Int = 0): List<Post> =
+    service.getPostsWithComments(page)
+
   @GetMapping("/posts/{id}")
   fun getPost(@Min(0) id: Long): Post = service.getPost(id)
 

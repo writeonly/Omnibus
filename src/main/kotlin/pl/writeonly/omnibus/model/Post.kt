@@ -9,12 +9,12 @@ import java.time.LocalDateTime
 @Entity
 open class Post(
   @Id
-  open var id: Long?,
+  open var id: Long,
   open var title: String?,
   open var content: String?,
   open var created: LocalDateTime?,
 
   @OneToMany(targetEntity = Comment::class)
-  @JoinColumn(name = "post_id")
+  @JoinColumn(name = "postId")
   open var comments: List<Comment>
 )
