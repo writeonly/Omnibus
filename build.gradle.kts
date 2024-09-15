@@ -47,6 +47,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.5.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
+    implementation("org.zalando:logbook-spring-boot-starter:3.0.0")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")

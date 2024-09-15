@@ -1,0 +1,37 @@
+logging:
+  level:
+    org.zalando.logbook: DEBUG
+
+logbook:
+  predicate:
+    include:
+      - path: /api/**
+        methods:
+          - GET
+          - POST
+      - path: /actuator/**
+    exclude:
+      - path: /actuator/health
+      - path: /api/admin/**
+        methods:
+          - POST
+  filter.enabled: true
+  secure-filter.enabled: true
+  format.style: http
+  strategy: body-only-if-status-at-least
+  minimum-status: 400
+  obfuscate:
+    headers:
+      - Authorization
+      - X-Secret
+    parameters:
+      - access_token
+      - password
+  write:
+    chunk-size: 1000
+  attribute-extractors:
+    - type: JwtFirstMatchingClaimExtractor
+      claim-names: [ "sub", "subject" ]
+      claim-key: Principal
+    - type: JwtAllMatchingClaimsExtractor
+      claim-names: [ "sub", "iat" ]
