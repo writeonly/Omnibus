@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.2.4"
+    id("org.springframework.boot") version "3.3.3"
     id("io.spring.dependency-management") version "1.1.4"
     id("com.netflix.dgs.codegen") version "6.0.3"
     id("org.hibernate.orm") version "6.4.4.Final"
-    id("org.graalvm.buildtools.native") version "0.9.28"
+    id("org.graalvm.buildtools.native") version "0.10.2"
 //    id("com.vaadin") version "24.3.9"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
@@ -32,6 +32,7 @@ repositories {
 //extra["vaadinVersion"] = "24.3.9"
 
 dependencies {
+//    implementation("org.springframework.boot:spring-boot-starter-aot")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
@@ -85,3 +86,6 @@ hibernate {
     }
 }
 
+springBoot {
+    mainClass = "pl.writeonly.omnibus.OmnibusApplication"
+}
