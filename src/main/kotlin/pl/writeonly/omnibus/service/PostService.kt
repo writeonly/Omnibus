@@ -13,7 +13,7 @@ class PostService(val repository: PostRepository) {
     repository.findAllPost(PageRequest.of(pageNumber, 10))
   }
 
-  fun getPost(id: Long): Post = repository.getById(id)
+  fun getPost(id: Long): Post = repository.getReferenceById(id)
 
   fun findAllByTitle(title: String): List<Post> =
     repository.findAllByTitle(title)

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 class GenerateTestData
 
-fun main(args: Array<String>) {
+fun main() {
 
   val dataSql = File("src/main/resources/data.sql")
   dataSql.writeText("")
