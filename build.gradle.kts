@@ -1,22 +1,22 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.3.3"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("com.netflix.dgs.codegen") version "6.0.3"
-    id("org.hibernate.orm") version "6.4.4.Final"
-    id("org.graalvm.buildtools.native") version "0.10.2"
-//    id("com.vaadin") version "24.3.9"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
-    kotlin("plugin.jpa") version "1.9.23"
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
+    id("org.springframework.boot") version "3.4.3"
+    id("io.spring.dependency-management") version "1.1.7"
+    id("org.hibernate.orm") version "6.6.8.Final"
+    id("org.graalvm.buildtools.native") version "0.10.5"
+    kotlin("plugin.jpa") version "1.9.25"
 }
 
 group = "pl.writeonly"
 version = "0.0.1-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 configurations {
@@ -65,9 +65,21 @@ dependencyManagement {
     }
 }
 
+hibernate {
+    enhancement {
+        enableAssociationManagement = true
+    }
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
+//        freeCompilerArgs += "-Xjsr305=strict"
         jvmTarget = "21"
     }
 }
@@ -76,18 +88,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.generateJava {
-    schemaPaths.add("${projectDir}/src/main/resources/graphql-client")
-    packageName = "pl.writeonly.omnibus.codegen"
-    generateClient = true
-}
-
-hibernate {
-    enhancement {
-        enableAssociationManagement.set(true)
-    }
-}
-
 springBoot {
-    mainClass = "pl.writeonly.omnibus.OmnibusApplication"
+    mainClass = "pl.writeonly.omnibus.OmnibusApplicationKt"
 }

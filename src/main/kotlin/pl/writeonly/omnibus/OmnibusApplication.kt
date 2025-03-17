@@ -4,12 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class OmnibusApplication {
-	fun main(args: Array<String>) {
-		runApplication<OmnibusApplication>(*args)
-	}
-}
+class OmbibusApplication
 
 fun main(args: Array<String>) {
-	runApplication<OmnibusApplication>(*args)
+	runApplication<OmbibusApplication>(*args)
 }
