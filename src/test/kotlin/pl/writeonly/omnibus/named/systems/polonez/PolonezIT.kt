@@ -9,15 +9,13 @@ import org.springframework.test.context.ActiveProfiles
 import pl.writeonly.omnibus.named.system.Bidding
 import pl.writeonly.omnibus.named.system.Context
 import pl.writeonly.omnibus.named.system.Hand
-import pl.writeonly.omnibus.named.systems.polonez.Polonez
 
 import io.vavr.collection.List
-import org.springframework.beans.factory.annotation.Autowired
 import pl.writeonly.omnibus.OmbibusApplication
 import pl.writeonly.omnibus.named.system.Bid
 
 @SpringBootTest(classes = [OmbibusApplication::class])
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 class PolonezIT : StringSpec() {
 
     @Inject
