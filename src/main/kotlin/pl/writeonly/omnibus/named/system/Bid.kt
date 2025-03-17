@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.partialfunction.system
+package pl.writeonly.omnibus.named.system
 
 sealed class Bid {
     data class LevelBid(val level: Level, val trump: Trump) : Bid()

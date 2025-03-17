@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.partialfunction.system
+package pl.writeonly.omnibus.named.system
 
 import io.vavr.collection.List
 

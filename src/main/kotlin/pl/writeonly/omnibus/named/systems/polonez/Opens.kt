@@ -1,8 +1,8 @@
-package pl.writeonly.omnibus.partialfunction.systems.polonez
+package pl.writeonly.omnibus.named.systems.polonez
 
 import jakarta.inject.Named
-import pl.writeonly.omnibus.partialfunction.Rule
-import pl.writeonly.omnibus.partialfunction.system.*
+import pl.writeonly.omnibus.named.system.*
+import pl.writeonly.omnibus.rule.Rule
 
 @Named("polonez")
 class Pass(): Rule<Context, Bid> {

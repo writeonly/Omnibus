@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.partialfunction
+package pl.writeonly.omnibus.rule
 
 
 import io.vavr.PartialFunction
