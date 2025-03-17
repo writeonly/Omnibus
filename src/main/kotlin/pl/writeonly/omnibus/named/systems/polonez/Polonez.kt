@@ -11,6 +11,6 @@ import io.vavr.collection.List
 @Named
 class Polonez(val list: List<Rule<Context, Bid>>): Function1<Context, Bid> {
     override fun apply(context: Context): Bid {
-        return list.find { it.isDefinedAt(context) }.getOrElse(Bid.Pass).apply(context)
+        return list.find { it.isDefinedAt(context) }.map { it.apply(context) }.getOrElse(Bid.Pass)
     }
 }
