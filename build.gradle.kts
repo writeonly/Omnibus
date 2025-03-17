@@ -49,6 +49,10 @@ dependencies {
 
     implementation("org.zalando:logbook-spring-boot-starter:3.0.0")
 
+    implementation("io.vavr:vavr:0.10.6")
+    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+    implementation("jakarta.inject:jakarta.inject-api:2.0.1")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
