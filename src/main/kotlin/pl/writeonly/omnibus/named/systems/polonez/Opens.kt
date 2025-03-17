@@ -4,7 +4,7 @@ import jakarta.inject.Named
 import pl.writeonly.omnibus.named.system.*
 import pl.writeonly.omnibus.rule.Rule
 
-@Named("polonez")
+@Named
 class Pass(): Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean {
         return context.hand.doublePoints() < 6u
