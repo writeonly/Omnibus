@@ -4,8 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class OmbibusApplication
+class OmnibusApplication
 
+@Suppress("SpreadOperator")
 fun main(args: Array<String>) {
-    runApplication<OmbibusApplication>(*args)
+    runApplication<OmnibusApplication>(*args)
 }

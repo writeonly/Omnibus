@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.vavr.collection.List
 import jakarta.inject.Inject
 import org.springframework.boot.test.context.SpringBootTest
-import pl.writeonly.omnibus.OmbibusApplication
+import pl.writeonly.omnibus.OmnibusApplication
 import pl.writeonly.omnibus.named.system.Bid
 import pl.writeonly.omnibus.named.system.Bidding
 import pl.writeonly.omnibus.named.system.Context
@@ -15,9 +15,10 @@ import pl.writeonly.omnibus.named.system.Level
 import pl.writeonly.omnibus.named.system.Suit
 import pl.writeonly.omnibus.named.system.Trump
 
-@SpringBootTest(classes = [OmbibusApplication::class])
+@SpringBootTest(classes = [OmnibusApplication::class])
 class PolonezIT : StringSpec() {
 
+    @Suppress("VariableDefinition")
     @Inject
     private lateinit var polonez: Polonez
 
