@@ -7,7 +7,7 @@ import pl.writeonly.omnibus.rule.Rule
 import pl.writeonly.omnibus.named.system.Bid
 import pl.writeonly.omnibus.named.system.Context
 
-import java.util.List as LegacyList
+import kotlin.collections.List as LegacyList
 
 import io.vavr.collection.List
 
