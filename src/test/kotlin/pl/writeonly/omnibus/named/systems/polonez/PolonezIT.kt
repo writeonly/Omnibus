@@ -10,7 +10,7 @@ import pl.writeonly.omnibus.OmnibusApplication
 import pl.writeonly.omnibus.named.system.Bid
 import pl.writeonly.omnibus.named.system.Bidding
 import pl.writeonly.omnibus.named.system.Context
-import pl.writeonly.omnibus.named.system.Hand
+import pl.writeonly.omnibus.named.system.Hands
 import pl.writeonly.omnibus.named.system.Level
 import pl.writeonly.omnibus.named.system.Suit
 import pl.writeonly.omnibus.named.system.Trump
@@ -25,7 +25,7 @@ class PolonezIT : StringSpec() {
     init {
         extension(SpringExtension)
         "pass" {
-            val hand = Hand()
+            val hand = Hands.fromString("AKQJ T987 6543 2")
             val bidding = Bidding(List.empty())
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
@@ -34,7 +34,7 @@ class PolonezIT : StringSpec() {
         }
 
         "1C" {
-            val hand = Hand(12u)
+            val hand = Hands.fromString("A432 A432 A432 A")
             val bidding = Bidding(List.empty())
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
@@ -43,7 +43,7 @@ class PolonezIT : StringSpec() {
         }
 
         "1NT" {
-            val hand = Hand(24u)
+            val hand = Hands.fromString("AKQJ AKQJ AKQJ A")
             val bidding = Bidding(List.empty())
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
