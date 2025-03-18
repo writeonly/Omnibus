@@ -18,11 +18,10 @@ class Pass(): Rule<Context, Bid> {
 class One(): Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean {
         val dp = context.hand.doublePoints()
-        return dp >= 6u && dp < 12u
+        return dp >= 6u && dp < 11u
     }
     override fun apply(context: Context): Bid {
         return Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
-
     }
 }
 
@@ -30,11 +29,10 @@ class One(): Rule<Context, Bid> {
 class OneNT(): Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean {
         val dp = context.hand.doublePoints()
-        return 12u < dp
+        return 11u <= dp
     }
     override fun apply(context: Context): Bid {
         return Bid.LevelBid(Level.ONE, Trump.NoTrump)
-
     }
 }
 

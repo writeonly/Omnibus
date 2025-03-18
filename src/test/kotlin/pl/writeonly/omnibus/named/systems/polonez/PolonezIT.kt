@@ -6,16 +6,12 @@ import io.kotest.matchers.shouldBe
 import jakarta.inject.Inject
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
-import pl.writeonly.omnibus.named.system.Bidding
-import pl.writeonly.omnibus.named.system.Context
-import pl.writeonly.omnibus.named.system.Hand
 
 import io.vavr.collection.List
 import pl.writeonly.omnibus.OmbibusApplication
-import pl.writeonly.omnibus.named.system.Bid
+import pl.writeonly.omnibus.named.system.*
 
 @SpringBootTest(classes = [OmbibusApplication::class])
-//@ActiveProfiles("test")
 class PolonezIT : StringSpec() {
 
     @Inject
@@ -23,13 +19,31 @@ class PolonezIT : StringSpec() {
 
     init {
         extension(SpringExtension)
-        "should" {
+        "pass" {
             val hand = Hand()
             val bidding = Bidding(List.empty())
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
 
             bid shouldBe Bid.Pass
+        }
+
+        "1C" {
+            val hand = Hand(12u)
+            val bidding = Bidding(List.empty())
+            val context = Context(hand, bidding)
+            val bid = polonez.apply(context)
+
+            bid shouldBe Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
+        }
+
+        "1NT" {
+            val hand = Hand(24u)
+            val bidding = Bidding(List.empty())
+            val context = Context(hand, bidding)
+            val bid = polonez.apply(context)
+
+            bid shouldBe Bid.LevelBid(Level.ONE, Trump.NoTrump)
         }
     }
 }

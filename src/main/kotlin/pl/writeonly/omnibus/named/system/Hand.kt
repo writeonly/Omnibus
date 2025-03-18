@@ -1,8 +1,9 @@
 package pl.writeonly.omnibus.named.system
 
-class Hand {
+class Hand(private val points: UInt = 0u) {
+
     fun points(): UInt {
-        return 0u;
+        return points;
     }
 
     fun doublePoints(): UInt {
