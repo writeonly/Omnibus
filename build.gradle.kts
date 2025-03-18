@@ -1,13 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    kotlin("jvm") version "2.0.10"
+    kotlin("plugin.spring") version "2.0.10"
+    kotlin("plugin.jpa") version "2.0.10"
+
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.hibernate.orm") version "6.6.8.Final"
     id("org.graalvm.buildtools.native") version "0.10.5"
-    kotlin("plugin.jpa") version "1.9.25"
+    id("io.gitlab.arturbosch.detekt") version "1.23.7"
 }
 
 group = "pl.writeonly"
@@ -32,6 +35,9 @@ repositories {
 //extra["vaadinVersion"] = "24.3.9"
 
 dependencies {
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
+    detektPlugins("pl.setblack:kure-potlin:0.7.0")
+
 //    implementation("org.springframework.boot:spring-boot-starter-aot")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
@@ -85,10 +91,10 @@ allOpen {
     annotation("jakarta.persistence.Embeddable")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-//        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "21"
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+        freeCompilerArgs.add("-Xjsr305=strict")
     }
 }
 

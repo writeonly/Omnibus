@@ -2,19 +2,12 @@ package pl.writeonly.omnibus.named.system
 
 class Hand(private val points: UInt = 0u) {
 
-    fun points(): UInt {
-        return points;
-    }
+    fun points(): UInt = points
 
-    fun doublePoints(): UInt {
-        return points() / 2u;
-    }
-
-
+    fun doublePoints(): UInt = points() / 2u
 }
 
-
-enum class  Rank {
+enum class Rank {
     TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
 }
 

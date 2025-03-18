@@ -13,14 +13,14 @@ import pl.writeonly.omnibus.service.PostService
 @RestController
 class PostController(val service: PostService) {
 
-  @GetMapping("/posts")
-  fun getPosts(@Min(0) page: Int = 0): List<PostDto> =
-    mapToPostDtos(service.getPosts(page))
+    @GetMapping("/posts")
+    fun getPosts(@Min(0) page: Int = 0): List<PostDto> =
+        mapToPostDtos(service.getPosts(page))
 
-  @GetMapping("/posts/{id}")
-  fun getPost(@Min(0) id: Long): Post = service.getPost(id)
+    @GetMapping("/posts/{id}")
+    fun getPost(@Min(0) id: Long): Post = service.getPost(id)
 
-  @GetMapping("/posts/title/{title}")
-  fun findAllByTitle(title: String): List<PostDto> =
-    mapToPostDtos(service.findAllByTitle(title))
+    @GetMapping("/posts/title/{title}")
+    fun findAllByTitle(title: String): List<PostDto> =
+        mapToPostDtos(service.findAllByTitle(title))
 }

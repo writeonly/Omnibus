@@ -5,9 +5,7 @@ sealed class Bid {
     data object Pass : Bid()
     data object Double : Bid()
     data object Redouble : Bid()
-
 }
-
 
 enum class Level {
     ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN
@@ -17,5 +15,3 @@ sealed class Trump {
     data class SuitTrump(val suit: Suit) : Trump()
     data object NoTrump : Trump()
 }
-
-

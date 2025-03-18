@@ -6,9 +6,8 @@ import java.time.LocalDateTime
 
 @Entity
 open class Comment(
-  @Id
-  open var id: Long?,
-  open var content: String?,
-  open var created: LocalDateTime?
-
+    @Id
+    open var id: Long?,
+    open var content: String?,
+    open var created: LocalDateTime?
 )

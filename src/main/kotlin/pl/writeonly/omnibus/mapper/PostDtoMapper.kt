@@ -6,12 +6,12 @@ import pl.writeonly.omnibus.model.Post
 class PostDtoMapper
 
 fun mapToPostDtos(posts: List<Post>) = posts.map {
-  mapToPostDto(it)
+    mapToPostDto(it)
 }
 
 fun mapToPostDto(post: Post) = PostDto(
-  id = post.id,
-  title = post.title,
-  content = post.content,
-  created = post.created
+    id = post.id,
+    title = post.title,
+    content = post.content,
+    created = post.created
 )

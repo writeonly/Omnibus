@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class OmbibusApplication
 
 fun main(args: Array<String>) {
-	runApplication<OmbibusApplication>(*args)
+    runApplication<OmbibusApplication>(*args)
 }

@@ -1,38 +1,35 @@
 package pl.writeonly.omnibus.named.systems.polonez
 
 import jakarta.inject.Named
-import pl.writeonly.omnibus.named.system.*
+import pl.writeonly.omnibus.named.system.Bid
+import pl.writeonly.omnibus.named.system.Context
+import pl.writeonly.omnibus.named.system.Level
+import pl.writeonly.omnibus.named.system.Suit
+import pl.writeonly.omnibus.named.system.Trump
 import pl.writeonly.omnibus.rule.Rule
 
 @Named
-class Pass(): Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean {
-        return context.hand.doublePoints() < 6u
+class Pass : Rule<Context, Bid> {
+    override fun isDefinedAt(context: Context): Boolean = run {
+        context.hand.doublePoints() < 6u
     }
-    override fun apply(hand: Context): Bid {
-        return Bid.Pass
-    }
+    override fun apply(hand: Context): Bid = Bid.Pass
 }
 
 @Named
-class One(): Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean {
+class One : Rule<Context, Bid> {
+    override fun isDefinedAt(context: Context): Boolean = run {
         val dp = context.hand.doublePoints()
-        return dp >= 6u && dp < 11u
+        dp >= 6u && dp < 11u
     }
-    override fun apply(context: Context): Bid {
-        return Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
-    }
+    override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
 }
 
 @Named
-class OneNT(): Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean {
+class OneNT : Rule<Context, Bid> {
+    override fun isDefinedAt(context: Context): Boolean = run {
         val dp = context.hand.doublePoints()
-        return 11u <= dp
+        11u <= dp
     }
-    override fun apply(context: Context): Bid {
-        return Bid.LevelBid(Level.ONE, Trump.NoTrump)
-    }
+    override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.NoTrump)
 }
-

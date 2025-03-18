@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class Config(val objectMapper: ObjectMapper) {
 
-  fun customizeObjectMapper() {
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-  }
+    fun customizeObjectMapper() {
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+    }
 }
