@@ -32,12 +32,12 @@ object BidParser {
     }
 
     private fun parseLevelBid(bidString: String) = run {
-        val level = levelMap.get(bidString[0]).getOrNull()
-        val trump = trumpMap.get(bidString.substring(1).uppercase()).getOrNull()
-        if (level != null && trump != null) {
-            Bid.LevelBid(level, trump)
-        } else {
-            null
-        }
+        val levelOpt = levelMap.get(bidString[0])
+        val trumpOpt = trumpMap.get(bidString.substring(1).uppercase())
+        levelOpt.flatMap { level ->
+            trumpOpt.map { trump ->
+                Bid.LevelBid(level, trump)
+            }
+        }.orNull
     }
 }
