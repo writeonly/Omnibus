@@ -16,9 +16,9 @@ impure:
     ignoredAnnotations: [ ]
     ignoreDsl: false
   ClassDefinition:
-    active: false
+    active: true
   AbstractClassDefinition:
-    active: false
+    active: true
   ThrowExpression:
     active: true
   MutableCollections:
@@ -26,4 +26,4 @@ impure:
   BranchStatement:
     active: true
   MissingElse:
-    active: false
+    active: true
