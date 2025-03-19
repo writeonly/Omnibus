@@ -22,5 +22,4 @@ object Rangs {
     )
 
     fun fromChar(char: Char): Rank? = rankMap.get(char.uppercaseChar()).getOrNull()
-
 }

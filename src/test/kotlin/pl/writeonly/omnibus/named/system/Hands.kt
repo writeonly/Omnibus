@@ -14,5 +14,4 @@ object Hands {
 
         Hand(ranksBySuit[0], ranksBySuit[1], ranksBySuit[2], ranksBySuit[3])
     }
-
 }
