@@ -1,6 +1,7 @@
 package pl.writeonly.omnibus.named.systems.polonez
 
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.datatest.withData
 import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
 import io.vavr.collection.List
@@ -24,31 +25,23 @@ class PolonezIT : StringSpec() {
 
     init {
         extension(SpringExtension)
-        "pass" {
-            val hand = Hands.fromString("AKQJ T987 6543 2")
+
+        withData(
+            nameFn = { "${it.handString} -> ${it.expectedBid}" },
+            listOf(
+                TestCase("AKQJ T987 6543 2", Bid.Pass),
+                TestCase("A432 A432 A432 A", Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))),
+                TestCase("AKQJ AKQJ AKQJ A", Bid.LevelBid(Level.ONE, Trump.NoTrump))
+            )
+        ) { (handString, expectedBid) ->
+            val hand = Hands.fromString(handString)
             val bidding = Bidding(List.empty())
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
 
-            bid shouldBe Bid.Pass
-        }
-
-        "1C" {
-            val hand = Hands.fromString("A432 A432 A432 A")
-            val bidding = Bidding(List.empty())
-            val context = Context(hand, bidding)
-            val bid = polonez.apply(context)
-
-            bid shouldBe Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
-        }
-
-        "1NT" {
-            val hand = Hands.fromString("AKQJ AKQJ AKQJ A")
-            val bidding = Bidding(List.empty())
-            val context = Context(hand, bidding)
-            val bid = polonez.apply(context)
-
-            bid shouldBe Bid.LevelBid(Level.ONE, Trump.NoTrump)
+            bid shouldBe expectedBid
         }
     }
+
+    data class TestCase(val handString: String, val expectedBid: Bid)
 }
