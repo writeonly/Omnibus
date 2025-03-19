@@ -8,13 +8,10 @@ import io.vavr.collection.List
 import jakarta.inject.Inject
 import org.springframework.boot.test.context.SpringBootTest
 import pl.writeonly.omnibus.OmnibusApplication
-import pl.writeonly.omnibus.named.system.Bid
+import pl.writeonly.omnibus.named.system.BidParser.parse
 import pl.writeonly.omnibus.named.system.Bidding
 import pl.writeonly.omnibus.named.system.Context
 import pl.writeonly.omnibus.named.system.Hands
-import pl.writeonly.omnibus.named.system.Level
-import pl.writeonly.omnibus.named.system.Suit
-import pl.writeonly.omnibus.named.system.Trump
 
 @SpringBootTest(classes = [OmnibusApplication::class])
 class PolonezIT : StringSpec() {
@@ -29,9 +26,9 @@ class PolonezIT : StringSpec() {
         withData(
             nameFn = { "${it.handString} -> ${it.expectedBid}" },
             listOf(
-                TestCase("AKQJ T987 6543 2", Bid.Pass),
-                TestCase("A432 A432 A432 A", Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))),
-                TestCase("AKQJ AKQJ AKQJ A", Bid.LevelBid(Level.ONE, Trump.NoTrump))
+                TestCase("AKQJ T987 6543 2", "pass"),
+                TestCase("A432 A432 A432 A", "1C"),
+                TestCase("AKQJ AKQJ AKQJ A", "1NT")
             )
         ) { (handString, expectedBid) ->
             val hand = Hands.fromString(handString)
@@ -39,9 +36,9 @@ class PolonezIT : StringSpec() {
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
 
-            bid shouldBe expectedBid
+            bid shouldBe parse(expectedBid)
         }
     }
 
-    data class TestCase(val handString: String, val expectedBid: Bid)
+    data class TestCase(val handString: String, val expectedBid: String)
 }
