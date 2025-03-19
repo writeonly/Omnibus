@@ -2,3 +2,28 @@ formatting:
   TrailingCommaOnCallSite: true
   TrailingCommaOnDeclarationSite: true
 
+impure:
+  active: true
+  LoopDefinition:
+    active: true
+  ReturnStatement:
+    active: true
+  VariableDefinition:
+    active: true
+  ReturnUnit:
+    active: true
+    ignoreFunctionType: false
+    ignoredAnnotations: [ ]
+    ignoreDsl: false
+  ClassDefinition:
+    active: false
+  AbstractClassDefinition:
+    active: false
+  ThrowExpression:
+    active: true
+  MutableCollections:
+    active: true
+  BranchStatement:
+    active: true
+  MissingElse:
+    active: false
