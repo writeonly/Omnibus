@@ -38,6 +38,11 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
     detektPlugins("pl.setblack:kure-potlin:0.7.0")
 
+    implementation("io.vavr:vavr:0.10.6")
+
+    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+    implementation("jakarta.inject:jakarta.inject-api:2.0.1")
+
 //    implementation("org.springframework.boot:spring-boot-starter-aot")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
@@ -54,10 +59,6 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
     implementation("org.zalando:logbook-spring-boot-starter:3.0.0")
-
-    implementation("io.vavr:vavr:0.10.6")
-    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
-    implementation("jakarta.inject:jakarta.inject-api:2.0.1")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
