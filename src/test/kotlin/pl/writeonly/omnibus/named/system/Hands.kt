@@ -1,6 +1,7 @@
 package pl.writeonly.omnibus.named.system
 
 import io.vavr.collection.List
+import io.vavr.collection.Map
 
 object Hands {
 
@@ -15,21 +16,22 @@ object Hands {
         Hand(ranksBySuit[0], ranksBySuit[1], ranksBySuit[2], ranksBySuit[3])
     }
 
-    @SuppressWarnings("CyclomaticComplexMethod")
-    private fun fromChar(char: Char): Rank? = when (char.uppercaseChar()) {
-        '2' -> Rank.TWO
-        '3' -> Rank.THREE
-        '4' -> Rank.FOUR
-        '5' -> Rank.FIVE
-        '6' -> Rank.SIX
-        '7' -> Rank.SEVEN
-        '8' -> Rank.EIGHT
-        '9' -> Rank.NINE
-        'T' -> Rank.TEN
-        'J' -> Rank.JACK
-        'Q' -> Rank.QUEEN
-        'K' -> Rank.KING
-        'A' -> Rank.ACE
-        else -> null
-    }
+    private val rankMap: Map<Char, Rank> = HashMap.of(
+        '2', Rank.TWO,
+        '3', Rank.THREE,
+        '4', Rank.FOUR,
+        '5', Rank.FIVE,
+        '6', Rank.SIX,
+        '7', Rank.SEVEN,
+        '8', Rank.EIGHT,
+        '9', Rank.NINE,
+        'T', Rank.TEN,
+        'J', Rank.JACK,
+        'Q', Rank.QUEEN,
+        'K', Rank.KING,
+        'A', Rank.ACE
+    )
+
+    private fun fromChar(char: Char): Rank? = rankMap.get(char.uppercaseChar()).getOrNull()
+
 }
