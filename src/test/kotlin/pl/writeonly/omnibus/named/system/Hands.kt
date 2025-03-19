@@ -4,7 +4,7 @@ import io.vavr.collection.List
 
 object Hands {
 
-    fun fromString(handString: String): Hand {
+    fun fromString(handString: String): Hand = run {
         val suits = List.ofAll(handString.split(" "))
         require(suits.length() == 4) { "Invalid hand format. Expected four suit groups separated by '.'" }
 
@@ -12,9 +12,10 @@ object Hands {
             List.ofAll(suitString.mapNotNull { char -> fromChar(char) })
         }
 
-        return Hand(ranksBySuit[0], ranksBySuit[1], ranksBySuit[2], ranksBySuit[3])
+        Hand(ranksBySuit[0], ranksBySuit[1], ranksBySuit[2], ranksBySuit[3])
     }
 
+    @SuppressWarnings("CyclomaticComplexMethod")
     private fun fromChar(char: Char): Rank? = when (char.uppercaseChar()) {
         '2' -> Rank.TWO
         '3' -> Rank.THREE
@@ -31,14 +32,4 @@ object Hands {
         'A' -> Rank.ACE
         else -> null
     }
-
-
-    val wholeSuit = List.of(Rank.ACE, Rank.KING, Rank.QUEEN, Rank.JACK, Rank.TEN, Rank.NINE, Rank.EIGHT, Rank.SEVEN, Rank.SIX,  Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO)
-
-    val wholeClubs = Hand(List.of(), List.of(), List.of(), wholeSuit)
-
-    val weakHand = Hand(List.of(Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO), List.of(Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO), List.of(Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO), List.of(Rank.TWO))
-
-    val strongHand = Hand(List.of(Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO), List.of(Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO), List.of(Rank.FIVE, Rank.FOUR, Rank.THREE, Rank.TWO), List.of(Rank.TWO))
-
 }

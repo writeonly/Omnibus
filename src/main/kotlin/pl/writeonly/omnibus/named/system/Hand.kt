@@ -7,7 +7,9 @@ class Hand {
     private val cards: List<Card>
 
     constructor(cards: List<Card>) {
-        require(cards.length() == 13) { "A bridge hand must contain exactly 13 cards. %d".format(cards.length()) }
+        require(
+            cards.length() == Companion.N
+        ) { "A bridge hand must contain exactly 13 cards. %d".format(cards.length()) }
         this.cards = cards
     }
 
@@ -24,12 +26,11 @@ class Hand {
 
     fun suits(): Map<Suit, List<Card>> = cards.groupBy { it.suit }
 
-    fun isBalanced(): Boolean {
-        val suitCounts = suits().values().map { it.size() }
-        return suitCounts.contains(3) || suitCounts.all { it in 2..5 }
-    }
-
     override fun toString(): String = cards.joinToString(" ")
+
+    companion object {
+        const val N = 13
+    }
 }
 
 data class Card(val rank: Rank, val suit: Suit) {
@@ -43,7 +44,7 @@ data class Card(val rank: Rank, val suit: Suit) {
 }
 
 enum class Rank {
-    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
+    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
 }
 
 enum class Suit {
