@@ -4,7 +4,7 @@ import io.vavr.collection.List
 import io.vavr.collection.Map
 
 class Hand {
-    private val cards: List<Card>
+    val cards: List<Card>
 
     constructor(cards: List<Card>) {
         require(
