@@ -70,5 +70,12 @@ enum class Rank {
 }
 
 enum class Suit {
-    CLUBS, DIAMONDS, HEARTS, SPADES
+    CLUBS, DIAMONDS, HEARTS, SPADES;
+
+    fun isMajor() = this == HEARTS || this == SPADES
+    fun isMinor() = this == DIAMONDS || this == CLUBS
+    fun isRed() = this == DIAMONDS || this == HEARTS
+    fun isBlack() = this == SPADES || this == CLUBS
+    fun isRound() = this == HEARTS || this == CLUBS
+    fun isAngular() = this == SPADES || this == DIAMONDS
 }

@@ -4,6 +4,7 @@ import jakarta.inject.Named
 import pl.writeonly.omnibus.named.system.Bid
 import pl.writeonly.omnibus.named.system.Context
 import pl.writeonly.omnibus.named.system.Level
+import pl.writeonly.omnibus.named.system.Suit
 import pl.writeonly.omnibus.named.system.Trump
 import pl.writeonly.omnibus.rule.Rule
 
@@ -23,9 +24,29 @@ class One : Rule<Context, Bid> {
     }
     override fun apply(context: Context): Bid = run {
         val sorted = context.hand.sortedSuitLengths()
-
-        Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0).suit))
+        (
+            if (4u < sorted.get(0).length) {
+                Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0).suit))
+            } else {
+                val m = sorted.filter { it.suit.isMinor() }
+                val m4 = m.filter { it.length == 4u }
+                when (m4.size()) {
+                    2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.DIAMONDS))
+                    1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(m4.get(0).suit))
+                    else -> {
+                        val m3 = m.filter { it.length == 3u }
+                        when (m3.size()) {
+                            2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
+                            1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(m4.get(0).suit))
+                            else -> null
+                        }
+                    }
+                }
+            }
+            )!!
     }
+
+
 }
 
 @Named
