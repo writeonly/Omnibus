@@ -38,9 +38,7 @@ class One : Rule<Context, Bid> {
         when (minors4.size()) {
             2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.DIAMONDS))
             1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors4.get(0).suit))
-            else -> {
-                balanced3(minors)
-            }
+            else -> balanced3(minors)
         }
     }
     private fun balanced3(minors: Seq<SuitLength>): Bid = run {
