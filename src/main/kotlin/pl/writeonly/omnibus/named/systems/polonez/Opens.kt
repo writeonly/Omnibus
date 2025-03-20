@@ -22,7 +22,12 @@ class One : Rule<Context, Bid> {
         val dp = context.hand.doublePoints()
         dp >= 6u && dp < 11u
     }
-    override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
+    override fun apply(context: Context): Bid = run {
+        val sorted = context.hand.sortedSuitLengths()
+        Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0)._1))
+    }
+
+
 }
 
 @Named
