@@ -1,7 +1,11 @@
 package pl.writeonly.omnibus.named.system
 
+import io.vavr.Tuple
+import io.vavr.Tuple2
+import io.vavr.collection.HashMap
 import io.vavr.collection.List
 import io.vavr.collection.Map
+import io.vavr.collection.Seq
 
 class Hand {
     val cards: List<Card>
@@ -28,8 +32,26 @@ class Hand {
 
     override fun toString(): String = cards.joinToString(" ")
 
+    fun sortedSuitLengths(): Seq<Tuple2<Suit, Int>> = suits()
+        .map { t -> Tuple.of(t._1, t._2.size()) }
+        .sorted(
+            compareByDescending<Tuple2<Suit, Int>> { it._2 }
+                .thenBy { suitOrder[it._1].getOrElse(Int.MAX_VALUE) }
+        )
+
     companion object {
         const val N = 13
+
+        private val suitOrder = HashMap.of(
+            Suit.SPADES,
+            0,
+            Suit.HEARTS,
+            1,
+            Suit.DIAMONDS,
+            2,
+            Suit.CLUBS,
+            3
+        )
     }
 }
 
