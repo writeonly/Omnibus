@@ -23,7 +23,8 @@ class One : Rule<Context, Bid> {
     }
     override fun apply(context: Context): Bid = run {
         val sorted = context.hand.sortedSuitLengths()
-        Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0)._1))
+
+        Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0).suit))
     }
 }
 
