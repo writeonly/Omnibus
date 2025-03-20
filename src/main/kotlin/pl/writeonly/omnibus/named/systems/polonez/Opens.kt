@@ -4,7 +4,6 @@ import jakarta.inject.Named
 import pl.writeonly.omnibus.named.system.Bid
 import pl.writeonly.omnibus.named.system.Context
 import pl.writeonly.omnibus.named.system.Level
-import pl.writeonly.omnibus.named.system.Suit
 import pl.writeonly.omnibus.named.system.Trump
 import pl.writeonly.omnibus.rule.Rule
 
@@ -26,8 +25,6 @@ class One : Rule<Context, Bid> {
         val sorted = context.hand.sortedSuitLengths()
         Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0)._1))
     }
-
-
 }
 
 @Named

@@ -27,7 +27,7 @@ class PolonezIT : StringSpec() {
             nameFn = { "${it.handString} -> ${it.expectedBid}" },
             listOf(
                 TestCase("AKQJ T987 6543 2", "pass"),
-                TestCase("A432 A432 A432 A", "1C"),
+                TestCase("A432 A432 A432 A", "1S"),
                 TestCase("AKQJ AKQJ AKQJ A", "1NT")
             )
         ) { (handString, expectedBid) ->
