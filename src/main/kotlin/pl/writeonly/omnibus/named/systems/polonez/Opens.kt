@@ -81,19 +81,18 @@ class OverMinorOne : LiftedRule<Context, Bid> {
     fun apply(context: Context, openingSuit: Suit): Option<Bid> = run {
         val hand = context.hand
         val points = hand.doublePoints()
-        if (points < 3u) {
-            return Option.of(Bid.Pass)
-        }
         val suits = hand.sortedSuitLengths()
         val longest = suits.head()
-        if (longest.suit.isMajor() && longest.length >= 5u) {
-            return Option.of(Bid.LevelBid(Level.ONE, Trump.SuitTrump(longest.suit)))
-        }
         val suit4 = suits.filter { it.length == 4u }
-        if (points in 3u..4u) {
-            return Option.of(one(context, openingSuit, suit4))
+
+        when {
+            points < 3u -> Option.of(Bid.Pass)
+            longest.suit.isMajor() && longest.length >= 5u -> Option.of(
+                Bid.LevelBid(Level.ONE, Trump.SuitTrump(longest.suit))
+            )
+            points in 3u..4u -> Option.of(one(context, openingSuit, suit4))
+            else -> Option.none()
         }
-        return Option.none()
     }
 
     fun one(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid = run {
