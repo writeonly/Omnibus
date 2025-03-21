@@ -90,20 +90,26 @@ class OverMinorOne : LiftedRule<Context, Bid> {
             longest.suit.isMajor() && longest.length >= 5u -> Option.of(
                 Bid.LevelBid(Level.ONE, Trump.SuitTrump(longest.suit))
             )
-            points in 3u..4u -> Option.of(one(context, openingSuit, suit4))
+            points in 3u..4u -> Option.of(weak(context, openingSuit, suit4))
             else -> Option.none()
         }
     }
 
-    fun one(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid = run {
-        val oldestSuit4 = suit4.filter { it.suit.isOldest(openingSuit) }
-        val lowestSuit = oldestSuit4.lastOption()
-        val openingSuitLength = context.hand.suits().get(openingSuit).map { it.length().toUInt() }.getOrElse(0u)
-
-        when {
-            lowestSuit.isDefined -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(lowestSuit.get().suit))
-            openingSuitLength >= 5u -> Bid.LevelBid(Level.THREE, Trump.SuitTrump(openingSuit))
-            else -> Bid.LevelBid(Level.ONE, Trump.NoTrump)
-        }
+    private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid = run {
+        oneOverOne(openingSuit, suit4).orElse(three(context, openingSuit)).getOrElse(
+            Bid.LevelBid(Level.ONE, Trump.NoTrump)
+        )
     }
+
+    private fun oneOverOne(openingSuit: Suit, suit4: Seq<SuitLength>) : Option<Bid> =
+    suit4.filter { it.suit.isOldest(openingSuit) }.lastOption().map {
+            Bid.LevelBid(Level.ONE, Trump.SuitTrump(it.suit))
+        }
+
+    private fun three(context: Context, openingSuit: Suit): Option<Bid> =
+        context.hand.suits().get(openingSuit).map { it.length().toUInt() }.filter {it >= 5u }.map {
+            Bid.LevelBid(Level.THREE, Trump.SuitTrump(openingSuit))
+        }
+
+
 }
