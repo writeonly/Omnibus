@@ -1,6 +1,7 @@
 package pl.writeonly.omnibus.named.systems.polonez
 
 import io.vavr.collection.Seq
+import io.vavr.control.Option
 import jakarta.inject.Named
 import pl.writeonly.omnibus.named.system.Bid
 import pl.writeonly.omnibus.named.system.Context
@@ -8,6 +9,7 @@ import pl.writeonly.omnibus.named.system.Level
 import pl.writeonly.omnibus.named.system.Suit
 import pl.writeonly.omnibus.named.system.SuitLength
 import pl.writeonly.omnibus.named.system.Trump
+import pl.writeonly.omnibus.rule.LiftedRule
 import pl.writeonly.omnibus.rule.Rule
 
 @Named
@@ -60,26 +62,45 @@ class OneNT : Rule<Context, Bid> {
     override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.NoTrump)
 }
 
-object OverOne
-
 @Named
-class OneOverOne : Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean = run {
+class OverMinorOne : LiftedRule<Context, Bid> {
+    override fun apply(context: Context): Option<Bid> = run {
         val bidding = context.bidding.trim().raw
-        val length = bidding.length()
-        if (length == 1) {
-            val opening = bidding.get(0)!!
-            when (opening) {
-                is Bid.LevelBid -> opening.level == Level.ONE || opening.trump is Trump.SuitTrump
-                else -> false
-            }
-        } else {
-            false
-        }
-        val opening = bidding.get(0)
+        val head = bidding.headOption()
 
-        val dp = context.hand.doublePoints()
-        11u <= dp
+        when (val opening = head.getOrNull()) {
+            is Bid.LevelBid -> when {
+                opening.level == Level.ONE && opening.trump is Trump.SuitTrump && opening.trump.suit.isMinor() ->
+                    apply(context, opening.trump.suit)
+                else -> Option.none()
+            }
+            else -> Option.none()
+        }
     }
-    override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.HEARTS))
+
+    fun apply(context: Context, openingSuit: Suit): Option<Bid> = run {
+        val hand = context.hand
+        val points = hand.doublePoints()
+        if (points < 3u) {
+            return Option.of(Bid.Pass)
+        }
+        val suits = hand.sortedSuitLengths()
+        val longest = suits.head()
+        if (longest.suit.isMajor() && longest.length >= 5u) {
+            return Option.of(Bid.LevelBid(Level.ONE, Trump.SuitTrump(longest.suit)))
+        }
+        val suit4 = suits.filter { it.length == 4u }
+        if (points in 3u..4u) {
+            val oldestSuit4 = suit4.filter { it.suit.isOldest(openingSuit) }
+            val lowestSuit = oldestSuit4.lastOption()
+            if (lowestSuit.isDefined) {
+                return Option.of(Bid.LevelBid(Level.ONE, Trump.SuitTrump(lowestSuit.get().suit)))
+            }
+            if (hand.suits().get(openingSuit).get().length().toUInt() >= 5u) {
+                return Option.of(Bid.LevelBid(Level.THREE, Trump.SuitTrump(openingSuit)))
+            }
+            return Option.of(Bid.LevelBid(Level.ONE, Trump.NoTrump))
+        }
+        return Option.none()
+    }
 }

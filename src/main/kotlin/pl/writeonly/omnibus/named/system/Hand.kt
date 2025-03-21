@@ -78,4 +78,6 @@ enum class Suit {
     fun isBlack() = this == SPADES || this == CLUBS
     fun isRound() = this == HEARTS || this == CLUBS
     fun isAngular() = this == SPADES || this == DIAMONDS
+
+    fun isOldest(that: Suit) = ordinal > that.ordinal
 }
