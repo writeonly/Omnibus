@@ -95,21 +95,18 @@ class OverMinorOne : LiftedRule<Context, Bid> {
         }
     }
 
-    private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid = run {
+    private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid =
         oneOverOne(openingSuit, suit4).orElse(three(context, openingSuit)).getOrElse(
             Bid.LevelBid(Level.ONE, Trump.NoTrump)
         )
-    }
 
-    private fun oneOverOne(openingSuit: Suit, suit4: Seq<SuitLength>) : Option<Bid> =
-    suit4.filter { it.suit.isOldest(openingSuit) }.lastOption().map {
+    private fun oneOverOne(openingSuit: Suit, suit4: Seq<SuitLength>): Option<Bid> =
+        suit4.filter { it.suit.isOldest(openingSuit) }.lastOption().map {
             Bid.LevelBid(Level.ONE, Trump.SuitTrump(it.suit))
         }
 
     private fun three(context: Context, openingSuit: Suit): Option<Bid> =
-        context.hand.suits().get(openingSuit).map { it.length().toUInt() }.filter {it >= 5u }.map {
+        context.hand.suits().get(openingSuit).map { it.length().toUInt() }.filter { it >= 5u }.map {
             Bid.LevelBid(Level.THREE, Trump.SuitTrump(openingSuit))
         }
-
-
 }
