@@ -59,3 +59,30 @@ class OneNT : Rule<Context, Bid> {
     }
     override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.NoTrump)
 }
+
+object OverOne {
+
+}
+
+
+@Named
+class OneOverOne : Rule<Context, Bid> {
+    override fun isDefinedAt(context: Context): Boolean = run {
+        val bidding = context.bidding.trim().raw
+        val length = bidding.length()
+        if (length == 1) {
+            val opening = bidding.get(0)!!
+            when(opening) {
+                is Bid.LevelBid -> opening.level == Level.ONE || opening.trump is Trump.SuitTrump
+                else -> false
+            }
+        } else false
+        val opening = bidding.get(0)
+
+
+        val dp = context.hand.doublePoints()
+        11u <= dp
+    }
+    override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.HEARTS))
+}
+
