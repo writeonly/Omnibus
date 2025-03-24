@@ -98,13 +98,11 @@ class OverMinorOne : LiftedRule<Context, Bid> {
     }
 
     private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid =
-        applyWithDefault(
-            { Bid.LevelBid(Level.ONE, Trump.NoTrump) },
-            Stream.of(
-                { oneOverOne(openingSuit, suit4) },
-                { three(context, openingSuit) },
-            )
+        Stream.of(
+            { oneOverOne(openingSuit, suit4) },
+            { three(context, openingSuit) },
         )
+            .applyWithDefault { Bid.LevelBid(Level.ONE, Trump.NoTrump) }
 
     private fun oneOverOne(openingSuit: Suit, suit4: Seq<SuitLength>): Option<Bid> =
         suit4.filter { it.suit.isOldest(openingSuit) }.lastOption().map {

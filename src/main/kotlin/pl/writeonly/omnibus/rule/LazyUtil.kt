@@ -7,10 +7,11 @@ typealias LazyApply<A> = () -> A
 typealias LazyOptionApply<A> = () -> Option<A>
 
 object LazyUtil {
-    fun <A> applyWithDefault(d: LazyApply<A>, stream: Stream<LazyOptionApply<A>>): A = apply(stream).getOrElse(d)
+    fun <A> Stream<LazyOptionApply<A>>.apply(): Option<A> =
+        map { it() }
+            .flatMap(Option<A>::toStream)
+            .headOption()
 
-    fun <A> apply(stream: Stream<LazyOptionApply<A>>): Option<A> = stream
-        .map { it() }
-        .flatMap(Option<A>::toStream)
-        .headOption()
+    fun <A> Stream<LazyOptionApply<A>>.applyWithDefault(default: LazyApply<A>): A =
+        apply().getOrElse(default)
 }
