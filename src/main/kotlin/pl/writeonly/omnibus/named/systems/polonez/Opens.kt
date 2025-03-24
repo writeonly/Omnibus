@@ -25,10 +25,9 @@ class OneSuit : Rule<Context, Bid> {
     override fun apply(context: Context): Bid = run {
         val sorted = context.hand.sortedSuitLengths()
         val theLongest = sorted.head()
-        if (5u <= theLongest.length) {
-            Bid.LevelBid(Level.ONE, Trump.SuitTrump(theLongest.suit))
-        } else {
-            balancedMinor4(sorted)
+        when (theLongest.length) {
+            5u -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(theLongest.suit))
+            else -> balancedMinor4(sorted)
         }
     }
     private fun balancedMinor4(sorted: Seq<SuitLength>): Bid = run {
