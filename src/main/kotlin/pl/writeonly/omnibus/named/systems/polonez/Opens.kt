@@ -12,9 +12,7 @@ import pl.writeonly.omnibus.rule.Rule
 
 @Named
 class Pass : Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean = run {
-        context.hand.doublePoints() < 6u
-    }
+    override fun isDefinedAt(context: Context): Boolean = context.hand.doublePoints() < 6u
     override fun apply(hand: Context): Bid = Bid.Pass
 }
 
@@ -22,12 +20,13 @@ class Pass : Rule<Context, Bid> {
 class OneSuit : Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean = run {
         val dp = context.hand.doublePoints()
-        dp >= 6u && dp < 11u
+        dp in 6u..10u
     }
     override fun apply(context: Context): Bid = run {
         val sorted = context.hand.sortedSuitLengths()
-        if (4u < sorted.head().length) {
-            Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.head().suit))
+        val theLongest = sorted.head()
+        if (5u <= theLongest.length) {
+            Bid.LevelBid(Level.ONE, Trump.SuitTrump(theLongest.suit))
         } else {
             balancedMinor4(sorted)
         }

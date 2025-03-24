@@ -15,21 +15,19 @@ import pl.writeonly.omnibus.rule.LiftedRule
 
 @Named
 class OverOneMinor : LiftedRule<Context, Bid> {
-    override fun apply(context: Context): Option<Bid> = run {
-        val bidding = context.bidding.trim().raw
-        val head = bidding.headOption()
-
-        when (val opening = head.getOrNull()) {
-            is Bid.LevelBid -> when {
-                opening.level == Level.ONE && opening.trump is Trump.SuitTrump && opening.trump.suit.isMinor() ->
-                    apply(context, opening.trump.suit)
+    override fun apply(context: Context): Option<Bid> =
+        context.bidding.trim().raw.headOption().flatMap { opening ->
+            when (opening) {
+                is Bid.LevelBid -> when {
+                    opening.level == Level.ONE && opening.trump is Trump.SuitTrump && opening.trump.suit.isMinor() ->
+                        Option.of(apply(context, opening.trump.suit))
+                    else -> Option.none()
+                }
                 else -> Option.none()
             }
-            else -> Option.none()
         }
-    }
 
-    fun apply(context: Context, openingSuit: Suit): Option<Bid> = run {
+    fun apply(context: Context, openingSuit: Suit): Bid = run {
         val hand = context.hand
         val points = hand.doublePoints()
         val suits = hand.sortedSuitLengths()
@@ -37,19 +35,19 @@ class OverOneMinor : LiftedRule<Context, Bid> {
         val suit4 = suits.filter { it.length == 4u }
 
         when {
-            points < 3u -> Option.of(Bid.Pass)
-            longest.suit.isMajor() && longest.length >= 5u -> Option.of(
-                Bid.LevelBid(Level.ONE, Trump.SuitTrump(longest.suit))
-            )
-            points in 3u..4u -> Option.of(weak(context, openingSuit, suit4))
-            else -> Option.none()
+            points < 3u -> Bid.Pass
+            longest.suit.isMajor() && longest.length >= 5u -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(longest.suit))
+            points in 3u..4u -> weak(context, openingSuit, suit4)
+            points == 5u -> Bid.LevelBid(Level.TWO, Trump.NoTrump) // TODO
+            points >= 6u -> Bid.LevelBid(Level.THREE, Trump.NoTrump) // TODO
+            else -> Bid.LevelBid(Level.THREE, Trump.NoTrump) // TODO
         }
     }
 
     private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid =
         Stream.of(
             { oneOverOne(openingSuit, suit4) },
-            { three(context, openingSuit) },
+            { threeInOpeningSuit(context, openingSuit) },
         )
             .applyWithDefault { Bid.LevelBid(Level.ONE, Trump.NoTrump) }
 
@@ -58,7 +56,7 @@ class OverOneMinor : LiftedRule<Context, Bid> {
             Bid.LevelBid(Level.ONE, Trump.SuitTrump(it.suit))
         }
 
-    private fun three(context: Context, openingSuit: Suit): Option<Bid> =
+    private fun threeInOpeningSuit(context: Context, openingSuit: Suit): Option<Bid> =
         context.hand.suits().get(openingSuit).map { it.length().toUInt() }.filter { it >= 5u }.map {
             Bid.LevelBid(Level.THREE, Trump.SuitTrump(openingSuit))
         }
