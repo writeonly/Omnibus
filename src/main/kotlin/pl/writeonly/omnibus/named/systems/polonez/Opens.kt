@@ -1,6 +1,7 @@
 package pl.writeonly.omnibus.named.systems.polonez
 
 import io.vavr.collection.Seq
+import io.vavr.collection.Stream
 import io.vavr.control.Option
 import jakarta.inject.Named
 import pl.writeonly.omnibus.named.system.Bid
@@ -9,6 +10,7 @@ import pl.writeonly.omnibus.named.system.Level
 import pl.writeonly.omnibus.named.system.Suit
 import pl.writeonly.omnibus.named.system.SuitLength
 import pl.writeonly.omnibus.named.system.Trump
+import pl.writeonly.omnibus.rule.LazyUtil.applyWithDefault
 import pl.writeonly.omnibus.rule.LiftedRule
 import pl.writeonly.omnibus.rule.Rule
 
@@ -96,8 +98,12 @@ class OverMinorOne : LiftedRule<Context, Bid> {
     }
 
     private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid =
-        oneOverOne(openingSuit, suit4).orElse(three(context, openingSuit)).getOrElse(
-            Bid.LevelBid(Level.ONE, Trump.NoTrump)
+        applyWithDefault(
+            { Bid.LevelBid(Level.ONE, Trump.NoTrump) },
+            Stream.of(
+                { oneOverOne(openingSuit, suit4) },
+                { three(context, openingSuit) },
+            )
         )
 
     private fun oneOverOne(openingSuit: Suit, suit4: Seq<SuitLength>): Option<Bid> =
