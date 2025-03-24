@@ -18,14 +18,16 @@ class OverOneMinor : LiftedRule<Context, Bid> {
     override fun apply(context: Context): Option<Bid> =
         context.bidding.trim().raw.headOption().flatMap { opening ->
             when (opening) {
-                is Bid.LevelBid -> when {
-                    opening.level == Level.ONE && opening.trump is Trump.SuitTrump && opening.trump.suit.isMinor() ->
-                        Option.of(apply(context, opening.trump.suit))
-                    else -> Option.none()
-                }
+                is Bid.LevelBid -> apply(context, opening)
                 else -> Option.none()
             }
         }
+
+    fun apply(context: Context, opening: Bid.LevelBid): Option<Bid> = when {
+        opening.level == Level.ONE && opening.trump is Trump.SuitTrump && opening.trump.suit.isMinor() ->
+            Option.of(apply(context, opening.trump.suit))
+        else -> Option.none()
+    }
 
     fun apply(context: Context, openingSuit: Suit): Bid = run {
         val hand = context.hand
