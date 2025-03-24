@@ -26,26 +26,26 @@ class OneSuit : Rule<Context, Bid> {
     }
     override fun apply(context: Context): Bid = run {
         val sorted = context.hand.sortedSuitLengths()
-        if (4u < sorted.get(0).length) {
-            Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.get(0).suit))
+        if (4u < sorted.head().length) {
+            Bid.LevelBid(Level.ONE, Trump.SuitTrump(sorted.head().suit))
         } else {
-            balanced4(sorted)
+            balancedMinor4(sorted)
         }
     }
-    private fun balanced4(sorted: Seq<SuitLength>): Bid = run {
+    private fun balancedMinor4(sorted: Seq<SuitLength>): Bid = run {
         val minors = sorted.filter { it.suit.isMinor() }
         val minors4 = minors.filter { it.length == 4u }
         when (minors4.size()) {
             2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.DIAMONDS))
-            1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors4.get(0).suit))
-            else -> balanced3(minors)
+            1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors4.head().suit))
+            else -> balancedMinor3(minors)
         }
     }
-    private fun balanced3(minors: Seq<SuitLength>): Bid = run {
+    private fun balancedMinor3(minors: Seq<SuitLength>): Bid = run {
         val minors3 = minors.filter { it.length == 3u }
         when (minors3.size()) {
             2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
-            1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors3.get(0).suit))
+            1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors3.head().suit))
             else -> null!!
         }
     }

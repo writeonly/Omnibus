@@ -13,9 +13,8 @@ import pl.writeonly.omnibus.named.system.Trump
 import pl.writeonly.omnibus.rule.LazyUtil.applyWithDefault
 import pl.writeonly.omnibus.rule.LiftedRule
 
-
 @Named
-class OverMinorOne : LiftedRule<Context, Bid> {
+class OverOneMinor : LiftedRule<Context, Bid> {
     override fun apply(context: Context): Option<Bid> = run {
         val bidding = context.bidding.trim().raw
         val head = bidding.headOption()
