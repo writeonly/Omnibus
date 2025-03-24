@@ -5,7 +5,7 @@ import io.vavr.collection.List
 object Osika {
     fun countQuarters(hand: Hand): UInt = run {
         val quarters = countHonorQuarters(hand)
-        val lengthBonus = hand.suits().values().map { lengthToQuarters(it.size().toUInt()) }.sumOf { it }
+        val lengthBonus = hand.suits().values().map { lengthToQuarters(it.length().toUInt()) }.sumOf { it }
         quarters + lengthBonus
     }
 

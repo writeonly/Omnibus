@@ -33,7 +33,7 @@ class OneSuit : Rule<Context, Bid> {
     private fun balancedMinor4(sorted: Seq<SuitLength>): Bid = run {
         val minors = sorted.filter { it.suit.isMinor() }
         val minors4 = minors.filter { it.length == 4u }
-        when (minors4.size()) {
+        when (minors4.length()) {
             2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.DIAMONDS))
             1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors4.head().suit))
             else -> balancedMinor3(minors)
@@ -41,7 +41,7 @@ class OneSuit : Rule<Context, Bid> {
     }
     private fun balancedMinor3(minors: Seq<SuitLength>): Bid = run {
         val minors3 = minors.filter { it.length == 3u }
-        when (minors3.size()) {
+        when (minors3.length()) {
             2 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(Suit.CLUBS))
             1 -> Bid.LevelBid(Level.ONE, Trump.SuitTrump(minors3.head().suit))
             else -> null!!
