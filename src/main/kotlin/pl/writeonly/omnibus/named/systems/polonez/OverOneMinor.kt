@@ -15,8 +15,12 @@ import pl.writeonly.omnibus.rule.LiftedRule
 
 @Named
 class OverOneMinor : LiftedRule<Context, Bid> {
-    override fun apply(context: Context): Option<Bid> = context.bidding.trim().raw.headOption().flatMap {
-        apply(context, it)
+    override fun apply(context: Context): Option<Bid> = run {
+        val raw = context.bidding.trim().raw
+        when (raw.length()) {
+            2 -> apply(context, raw.head())
+            else -> Option.none()
+        }
     }
 
     fun apply(context: Context, opening: Bid): Option<Bid> = when (opening) {
