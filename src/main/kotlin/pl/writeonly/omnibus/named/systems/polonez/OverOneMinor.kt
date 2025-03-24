@@ -15,13 +15,14 @@ import pl.writeonly.omnibus.rule.LiftedRule
 
 @Named
 class OverOneMinor : LiftedRule<Context, Bid> {
-    override fun apply(context: Context): Option<Bid> =
-        context.bidding.trim().raw.headOption().flatMap { opening ->
-            when (opening) {
-                is Bid.LevelBid -> apply(context, opening)
-                else -> Option.none()
-            }
-        }
+    override fun apply(context: Context): Option<Bid> = context.bidding.trim().raw.headOption().flatMap {
+        apply(context, it)
+    }
+
+    fun apply(context: Context, opening: Bid): Option<Bid> = when (opening) {
+        is Bid.LevelBid -> apply(context, opening)
+        else -> Option.none()
+    }
 
     fun apply(context: Context, opening: Bid.LevelBid): Option<Bid> = when {
         opening.level == Level.ONE && opening.trump is Trump.SuitTrump && opening.trump.suit.isMinor() ->
