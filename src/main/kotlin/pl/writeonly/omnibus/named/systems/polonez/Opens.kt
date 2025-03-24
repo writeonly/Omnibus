@@ -19,7 +19,7 @@ class Pass : Rule<Context, Bid> {
 }
 
 @Named
-class OneColor : Rule<Context, Bid> {
+class OneSuit : Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean = run {
         val dp = context.hand.doublePoints()
         dp >= 6u && dp < 11u
