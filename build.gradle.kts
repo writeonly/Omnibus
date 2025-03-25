@@ -11,6 +11,7 @@ plugins {
     id("org.hibernate.orm") version "6.6.8.Final"
     id("org.graalvm.buildtools.native") version "0.10.5"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
+    id("jacoco")
 }
 
 group = "pl.writeonly"
@@ -103,6 +104,19 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
 
 springBoot {
