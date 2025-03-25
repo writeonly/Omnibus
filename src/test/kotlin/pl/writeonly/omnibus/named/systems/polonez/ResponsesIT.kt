@@ -14,7 +14,7 @@ import pl.writeonly.omnibus.named.system.Context
 import pl.writeonly.omnibus.named.system.Hands
 
 @SpringBootTest(classes = [OmnibusApplication::class])
-class OpensIT : StringSpec() {
+class ResponsesIT : StringSpec() {
 
     @Suppress("VariableDefinition")
     @Inject
@@ -26,14 +26,14 @@ class OpensIT : StringSpec() {
         withData(
             nameFn = { "${it.handString} -> ${it.expectedBid}" },
             listOf(
-                TestCase("AKQJ T987 6543 2", "pass"),
-                TestCase("A432 A432 A432 A", "1D"),
-                TestCase("A432 A432 A A432", "1C"),
-                TestCase("AKQJ AKQJ AKQJ A", "1NT")
+                TestCase("AKQJ T987 6543 2",  "1C", "pass"),
+                TestCase("A432 A432 A432 A", "1C",  "1D"),
+                TestCase("A432 A432 A A432", "1C", "1C"),
+                TestCase("AKQJ AKQJ AKQJ A", "1C", "1NT")
             )
-        ) { (handString, expectedBid) ->
+        ) { (handString, opening, expectedBid) ->
             val hand = Hands.fromString(handString)
-            val bidding = Bidding(List.empty())
+            val bidding = Bidding(List.of(parse(opening), parse("pass")))
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
 
@@ -41,5 +41,5 @@ class OpensIT : StringSpec() {
         }
     }
 
-    data class TestCase(val handString: String, val expectedBid: String)
+    data class TestCase(val handString: String, val opening: String, val expectedBid: String)
 }
