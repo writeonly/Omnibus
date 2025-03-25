@@ -27,9 +27,9 @@ class ResponsesIT : StringSpec() {
             nameFn = { "${it.handString} -> ${it.expectedBid}" },
             listOf(
                 TestCase("AKQJ T987 6543 2",  "1C", "pass"),
-                TestCase("A432 A432 A432 A", "1C",  "1D"),
-                TestCase("A432 A432 A A432", "1C", "1C"),
-                TestCase("AKQJ AKQJ AKQJ A", "1C", "1NT")
+                TestCase("A432 A432 A432 A", "1C",  "3NT"),
+                TestCase("A432 A432 A A432", "1C", "3NT"),
+                TestCase("AKQJ AKQJ AKQJ A", "1C", "3NT")
             )
         ) { (handString, opening, expectedBid) ->
             val hand = Hands.fromString(handString)

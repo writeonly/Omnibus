@@ -18,10 +18,8 @@ class Pass : Rule<Context, Bid> {
 
 @Named
 class OneSuit : Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean = run {
-        val dp = context.hand.doublePoints()
-        dp in 6u..10u
-    }
+    override fun isDefinedAt(context: Context): Boolean =
+        context.bidding.trim().isEmpty() && context.hand.doublePoints() in 6u..10u
     override fun apply(context: Context): Bid = run {
         val sorted = context.hand.sortedSuitLengths()
         val theLongest = sorted.head()
@@ -51,9 +49,7 @@ class OneSuit : Rule<Context, Bid> {
 
 @Named
 class OneNT : Rule<Context, Bid> {
-    override fun isDefinedAt(context: Context): Boolean = run {
-        val dp = context.hand.doublePoints()
-        11u <= dp
-    }
+    override fun isDefinedAt(context: Context): Boolean =
+      context.bidding.trim().isEmpty() && context.hand.doublePoints() >= 11u
     override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.NoTrump)
 }
