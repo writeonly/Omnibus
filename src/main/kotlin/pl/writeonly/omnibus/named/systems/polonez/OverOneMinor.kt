@@ -51,6 +51,11 @@ class OverOneMinor : LiftedRule<Context, Bid> {
         }
     }
 
+    fun pass(points: UInt): Option<Bid> =
+        Option.`when`(points < 3u) { Bid.Pass }
+
+    
+
     private fun weak(context: Context, openingSuit: Suit, suit4: Seq<SuitLength>): Bid =
         Stream.of(
             { oneOverOne(openingSuit, suit4) },

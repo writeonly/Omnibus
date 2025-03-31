@@ -26,8 +26,10 @@ class ResponsesIT : StringSpec() {
         withData(
             nameFn = { "${it.handString} -> ${it.expectedBid}" },
             listOf(
-                TestCase("AKQJ T987 6543 2",  "1C", "pass"),
-                TestCase("A432 A432 A432 A", "1C",  "3NT"),
+                TestCase("AKT9 T987 6543 2",  "1C", "1D"),
+                TestCase("AKQJ T987 6543 2",  "1C", "1D"),
+                TestCase("AKQJ A987 6543 2",  "1C", "1D"),
+                TestCase("A432 A432 A432 A", "1C",  "1D"),
                 TestCase("A432 A432 A A432", "1C", "3NT"),
                 TestCase("AKQJ AKQJ AKQJ A", "1C", "3NT")
             )

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 class HelloService {
     fun hello() = HELLO_MESSAGE
 
-    companion object {
+    private companion object {
         const val HELLO_MESSAGE = "Hello, World!"
     }
 }

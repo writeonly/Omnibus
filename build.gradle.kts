@@ -75,6 +75,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.2.0")
 }
 
 dependencyManagement {

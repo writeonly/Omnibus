@@ -18,7 +18,7 @@ class PostService(val repository: PostRepository) {
     fun findAllByTitle(title: String): List<Post> =
         repository.findAllByTitle(title)
 
-    companion object {
+    private companion object {
         const val pageSize = 10
     }
 }
