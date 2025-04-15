@@ -1,9 +1,13 @@
 package pl.writeonly.omnibus.archunit
 
+import com.tngtech.archunit.base.DescribedPredicate
+import com.tngtech.archunit.core.domain.JavaModifier
+import com.tngtech.archunit.core.importer.ImportOption
 import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.ArchRule
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
+import jakarta.inject.Named
 import org.springframework.aop.SpringProxy
 import org.springframework.aot.generate.Generated
 
@@ -13,7 +17,10 @@ class NamingConventionTest {
     @ArchTest
     val namedBeansShouldHaveCorrectAnnotation: ArchRule = classes()
         .that().resideInAPackage("..named..")
-        .should().beAnnotatedWith(jakarta.inject.Named::class.java)
+        .and().haveSimpleNameNotEndingWith("IT")
+        .and().areNotNestedClasses()
+        .and().areNotAnnotatedWith(Generated::class.java)
+        .should().beAnnotatedWith(Named::class.java)
 
     @ArchTest
     val controllersShouldHaveCorrectSuffix: ArchRule = classes()
