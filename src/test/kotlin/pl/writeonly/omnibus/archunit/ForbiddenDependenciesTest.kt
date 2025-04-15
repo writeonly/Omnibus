@@ -12,4 +12,3 @@ class ForbiddenDependenciesTest {
     val noOldJavaDateUsage: ArchRule = noClasses()
         .should().dependOnClassesThat().resideInAnyPackage("java.util.Date")
 }
-
