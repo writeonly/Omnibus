@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.jakarta.named.rule.polonez
+package pl.writeonly.omnibus.jakarta.named.polonez.rule
 
 import io.vavr.collection.Seq
 import jakarta.inject.Named
@@ -11,13 +11,13 @@ import pl.writeonly.omnibus.jakarta.common.system.SuitLength
 import pl.writeonly.omnibus.jakarta.common.system.Trump
 
 @Named
-class Pass : Rule<Context, Bid> {
+class PassRule : Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean = context.hand.doublePoints() < 6u
     override fun apply(hand: Context): Bid = Bid.Pass
 }
 
 @Named
-class OneSuit : Rule<Context, Bid> {
+class OneSuitRule : Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean =
         context.bidding.trim().isEmpty() && context.hand.doublePoints() in 6u..10u
     override fun apply(context: Context): Bid = run {
@@ -48,7 +48,7 @@ class OneSuit : Rule<Context, Bid> {
 }
 
 @Named
-class OneNT : Rule<Context, Bid> {
+class OneNTRule : Rule<Context, Bid> {
     override fun isDefinedAt(context: Context): Boolean =
         context.bidding.trim().isEmpty() && context.hand.doublePoints() >= 11u
     override fun apply(context: Context): Bid = Bid.LevelBid(Level.ONE, Trump.NoTrump)

@@ -15,6 +15,15 @@ import org.springframework.aot.generate.Generated
 class NamingConventionTest {
 
     @ArchTest
+    val rulesShouldHaveCorrectSuffix: ArchRule = classes()
+        .that().resideInAPackage("..named..")
+        .and().resideInAPackage("..rule..")
+        .and().haveSimpleNameNotEndingWith("IT")
+        .and().areNotNestedClasses()
+        .and().areNotAnnotatedWith(Generated::class.java)
+        .should().haveSimpleNameEndingWith("Rule")
+
+    @ArchTest
     val namedBeansShouldHaveCorrectAnnotation: ArchRule = classes()
         .that().resideInAPackage("..named..")
         .and().haveSimpleNameNotEndingWith("IT")

@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.jakarta.named.rule.polonez
+package pl.writeonly.omnibus.jakarta.named.polonez
 
 import io.vavr.Function1
 import io.vavr.PartialFunction

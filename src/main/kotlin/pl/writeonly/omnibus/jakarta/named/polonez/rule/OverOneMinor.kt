@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.jakarta.named.rule.polonez
+package pl.writeonly.omnibus.jakarta.named.polonez.rule
 
 import io.vavr.collection.Seq
 import io.vavr.collection.Stream
@@ -14,7 +14,7 @@ import pl.writeonly.omnibus.jakarta.common.system.SuitLength
 import pl.writeonly.omnibus.jakarta.common.system.Trump
 
 @Named
-class OverOneMinor : LiftedRule<Context, Bid> {
+class OverOneMinorRule : LiftedRule<Context, Bid> {
     override fun apply(context: Context): Option<Bid> = run {
         val raw = context.bidding.trim().raw
         when (raw.length()) {

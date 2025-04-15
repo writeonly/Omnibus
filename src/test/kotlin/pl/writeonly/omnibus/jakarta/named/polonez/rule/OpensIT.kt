@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.jakarta.named.rule.polonez
+package pl.writeonly.omnibus.jakarta.named.polonez.rule
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.datatest.withData
@@ -12,9 +12,10 @@ import pl.writeonly.omnibus.jakarta.common.system.BidParser.parse
 import pl.writeonly.omnibus.jakarta.common.system.Bidding
 import pl.writeonly.omnibus.jakarta.common.system.Context
 import pl.writeonly.omnibus.jakarta.common.system.Hands
+import pl.writeonly.omnibus.jakarta.named.polonez.Polonez
 
 @SpringBootTest(classes = [OmnibusApplication::class])
-class ResponsesIT : StringSpec() {
+class OpensIT : StringSpec() {
 
     @Suppress("VariableDefinition")
     @Inject
@@ -26,16 +27,14 @@ class ResponsesIT : StringSpec() {
         withData(
             nameFn = { "${it.handString} -> ${it.expectedBid}" },
             listOf(
-//                TestCase("AKT9 T987 6543 2", "1C", "1D"),
-//                TestCase("AKQJ T987 6543 2", "1C", "1D"),
-//                TestCase("AKQJ A987 6543 2", "1C", "1D"),
-//                TestCase("A432 A432 A432 A", "1C", "1D"),
-                TestCase("A432 A432 A A432", "1C", "3NT"),
-                TestCase("AKQJ AKQJ AKQJ A", "1C", "3NT")
+                TestCase("AKQJ T987 6543 2", "pass"),
+                TestCase("A432 A432 A432 A", "1D"),
+                TestCase("A432 A432 A A432", "1C"),
+                TestCase("AKQJ AKQJ AKQJ A", "1NT")
             )
-        ) { (handString, opening, expectedBid) ->
+        ) { (handString, expectedBid) ->
             val hand = Hands.fromString(handString)
-            val bidding = Bidding(List.of(parse(opening), parse("pass")))
+            val bidding = Bidding(List.empty())
             val context = Context(hand, bidding)
             val bid = polonez.apply(context)
 
@@ -43,5 +42,5 @@ class ResponsesIT : StringSpec() {
         }
     }
 
-    data class TestCase(val handString: String, val opening: String, val expectedBid: String)
+    data class TestCase(val handString: String, val expectedBid: String)
 }
