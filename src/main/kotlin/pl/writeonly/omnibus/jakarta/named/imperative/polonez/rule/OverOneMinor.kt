@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.jakarta.named.polonez.rule
+package pl.writeonly.omnibus.jakarta.named.imperative.polonez.rule
 
 import io.vavr.collection.Seq
 import io.vavr.collection.Stream

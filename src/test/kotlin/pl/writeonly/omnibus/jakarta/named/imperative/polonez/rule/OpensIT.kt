@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.jakarta.named.polonez.rule
+package pl.writeonly.omnibus.jakarta.named.imperative.polonez.rule
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.datatest.withData
@@ -12,7 +12,7 @@ import pl.writeonly.omnibus.jakarta.common.system.BidParser.parse
 import pl.writeonly.omnibus.jakarta.common.system.Bidding
 import pl.writeonly.omnibus.jakarta.common.system.Context
 import pl.writeonly.omnibus.jakarta.common.system.Hands
-import pl.writeonly.omnibus.jakarta.named.polonez.Polonez
+import pl.writeonly.omnibus.jakarta.named.imperative.polonez.Polonez
 
 @SpringBootTest(classes = [OmnibusApplication::class])
 class OpensIT : StringSpec() {
