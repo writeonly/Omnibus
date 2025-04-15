@@ -11,6 +11,11 @@ import org.springframework.aot.generate.Generated
 class NamingConventionTest {
 
     @ArchTest
+    val namedBeansShouldHaveCorrectAnnotation: ArchRule = classes()
+        .that().resideInAPackage("..named..")
+        .should().beAnnotatedWith(jakarta.inject.Named::class.java)
+
+    @ArchTest
     val controllersShouldHaveCorrectSuffix: ArchRule = classes()
         .that().resideInAPackage("..controller..")
         .and().areNotAnnotatedWith(Generated::class.java)
