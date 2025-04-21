@@ -61,6 +61,17 @@ dependencies {
 
     implementation("org.zalando:logbook-spring-boot-starter:3.0.0")
 
+    implementation("org.openl:org.openl.core:5.27.10")
+    implementation("org.openl.rules:org.openl.rules:5.27.10")
+
+    implementation("org.drools:drools-core:10.0.0")
+    implementation("org.kie:kie-spring:7.74.1.Final")
+
+    implementation("com.deliveredtechnologies:rulebook-core:0.12")
+    implementation("com.deliveredtechnologies:rulebook-spring:0.12")
+
+    implementation("org.jeasy:easy-rules-core:4.1.0")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
