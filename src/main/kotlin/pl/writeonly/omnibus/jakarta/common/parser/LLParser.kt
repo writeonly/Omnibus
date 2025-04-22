@@ -54,7 +54,7 @@ class LLParser(input: String) {
                 ">" -> Either.right(s to RelationalOperator.GT)
                 "<=" -> Either.right(s to RelationalOperator.LE)
                 ">=" -> Either.right(s to RelationalOperator.GE)
-                else -> Either.left("Unexpected relational op: $token")
+                else -> Either.left("Unexpected relational op: '$token'")
             }
         }
 
@@ -69,9 +69,9 @@ class LLParser(input: String) {
             }
         }
 
-    private fun tokenize(input: String): List<String> =
-        """\\(|\\)|<=|>=|<>|=|<|>|\\d+|[a-zA-Z_]\\w*|&|\\|""".toRegex()
+    fun tokenize(input: String): List<String> =
+        "\\(|\\)|\\||&|<=|>=|=|<|>|<>|\\d+|\\w+".toRegex()
             .findAll(input)
-            .map { it.value }
+            .flatMap { it.groupValues }
             .toList()
 }
