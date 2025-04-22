@@ -22,32 +22,40 @@ class LLParser(input: String) {
     private fun parseBooleanExpression(): Either<String, BooleanExpression> =
         peek().flatMap { token ->
             when (token) {
-                "&" -> consume().flatMap {
-                    parseBooleanExpression().flatMap { left ->
+                "&" -> consume()
+                    .flatMap { parseBooleanExpression() }
+                    .flatMap { left ->
                         parseBooleanExpression().map { right ->
-                            ListBooleanExpression(BooleanOperator.AND, listOf(left, right))
+                            ListBooleanExpression(
+                                BooleanOperator.AND,
+                                listOf(left, right)
+                            )
                         }
                     }
-                }
-                "|" -> consume().flatMap {
-                    parseBooleanExpression().flatMap { left ->
+
+                "|" -> consume()
+                    .flatMap { parseBooleanExpression() }
+                    .flatMap { left ->
                         parseBooleanExpression().map { right ->
-                            ListBooleanExpression(BooleanOperator.OR, listOf(left, right))
+                            ListBooleanExpression(
+                                BooleanOperator.OR,
+                                listOf(left, right)
+                            )
                         }
                     }
-                }
-                else -> parseRelationalExpression().map { RelationalBooleanExpression(it) }
+
+                else -> parseRelationalExpression().map(::RelationalBooleanExpression)
             }
         }
 
     private fun parseRelationalExpression(): Either<String, RelationalExpression> =
-        parseRelationalOperator().flatMap { op ->
-            parseValue().flatMap { left ->
-                parseValue().map { right ->
-                    RelationalExpression(op, left, right)
-                }
+        parseRelationalOperator()
+            .flatMap { op ->
+                parseValue()
+                    .flatMap { left ->
+                        parseValue().map { right -> RelationalExpression(op, left, right) }
+                    }
             }
-        }
 
     private fun parseRelationalOperator(): Either<String, RelationalOperator> =
         consume().flatMap { token ->
@@ -65,26 +73,29 @@ class LLParser(input: String) {
     private fun parseValue(): Either<String, Value> =
         peek().flatMap { token ->
             when {
-                token.matches(Regex("\\d+")) -> consume().map { Literal(it.toUInt()) }
-                token.matches(Regex("[a-zA-Z_]\\w*")) -> consume().map { FunctionCall(it) }
+                token.matches(Regex("\\d+")) ->
+                    consume().map { Literal(it.toUInt()) }
+
+                token.matches(Regex("[a-zA-Z_]\\w*")) ->
+                    consume().map(::FunctionCall)
+
                 else -> Either.left("Unexpected value: $token")
             }
         }
 
-    private fun tokenize(input: String): List<String> {
-        val regex = """\(|\)|<=|>=|<>|=|<|>|\d+|[a-zA-Z_]\w*|&|\|""".toRegex()
-        return regex.findAll(input).map { it.value }.toList()
-    }
+    private fun tokenize(input: String): List<String> =
+        """\(|\)|<=|>=|<>|=|<|>|\d+|[a-zA-Z_]\w*|&|\|"""
+            .toRegex()
+            .findAll(input)
+            .map { it.value }
+            .toList()
 
-    private fun consume(): Either<String, String> {
-        return if (index < tokens.size) {
-            val token = tokens[index]
-            index++
-            Either.right(token)
+    private fun consume(): Either<String, String> =
+        if (index < tokens.size) {
+            Either.right(tokens[index++])
         } else {
             Either.left("Unexpected end of input")
         }
-    }
 
     private fun peek(): Either<String, String> =
         if (index < tokens.size) {
