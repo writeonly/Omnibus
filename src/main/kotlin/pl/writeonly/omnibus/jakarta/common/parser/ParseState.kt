@@ -25,7 +25,10 @@ data class ParseState(val tokens: List<String>, val index: Int) {
 
     fun consumeExpected(expected: String): Parser<String> =
         consume().flatMap { (nextState, token) ->
-            if (token == expected) Either.right(nextState to token)
-            else Either.left("Expected '$expected' but got '$token'")
+            if (token == expected) {
+                Either.right(nextState to token)
+            } else {
+                Either.left("Expected '$expected' but got '$token'")
+            }
         }
 }

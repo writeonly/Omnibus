@@ -70,7 +70,7 @@ class LLParser(input: String) {
         }
 
     fun tokenize(input: String): List<String> =
-        "\\(|\\)|\\||&|<=|>=|=|<|>|<>|\\d+|\\w+".toRegex()
+        "\\(|\\)|\\||&|<>|<=|>=|=|<|>|\\d+|\\w+".toRegex()
             .findAll(input)
             .flatMap { it.groupValues }
             .toList()
