@@ -72,6 +72,9 @@ dependencies {
 
     implementation("org.jeasy:easy-rules-core:4.1.0")
 
+    implementation("me.alllex.parsus:parsus-jvm:0.6.1")
+    implementation("com.sksamuel.tribune:tribune-core-jvm:1.2.4")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
