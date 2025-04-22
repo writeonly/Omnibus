@@ -13,81 +13,65 @@ import pl.writeonly.omnibus.jakarta.common.ast.Value
 
 class LLParser(input: String) {
 
-    private var index = 0
-    private val tokens = tokenize(input)
+    private val initialState = ParseState(tokenize(input), 0)
 
-    fun parse(): Either<String, BooleanExpression> =
-        parseBooleanExpression()
+    fun parse(): Error<BooleanExpression> =
+        parseBooleanExpression(initialState).map { it.second }
 
-    private fun parseBooleanExpression(): Either<String, BooleanExpression> =
-        peek().flatMap { token ->
+    private fun parseBooleanExpression(state: ParseState): Parser<BooleanExpression> =
+        state.peek().flatMap { token ->
             when (token) {
-                "&" -> parseBooleanExpression(BooleanOperator.AND)
-                "|" -> parseBooleanExpression(BooleanOperator.OR)
-                else -> parseRelationalExpression().map(::RelationalBooleanExpression)
+                "&" -> parseBooleanListExpression(state, BooleanOperator.AND)
+                "|" -> parseBooleanListExpression(state, BooleanOperator.OR)
+                else -> parseRelationalExpression(state).map { (s, rel) -> s to RelationalBooleanExpression(rel) }
             }
         }
 
-    private fun parseBooleanExpression(operator: BooleanOperator) = consume()
-        .flatMap { parseBooleanExpression() }
-        .flatMap { left ->
-            parseBooleanExpression().map { right ->
-                ListBooleanExpression(
-                    operator,
-                    listOf(left, right)
-                )
+    private fun parseBooleanListExpression(state: ParseState, op: BooleanOperator): Parser<ListBooleanExpression> =
+        state.consume().flatMap { (s1, _) ->
+            parseBooleanExpression(s1).flatMap { (s2, left) ->
+                parseBooleanExpression(s2).map { (s3, right) ->
+                    s3 to ListBooleanExpression(op, listOf(left, right))
+                }
             }
         }
 
-    private fun parseRelationalExpression(): Either<String, RelationalExpression> =
-        parseRelationalOperator()
-            .flatMap { op ->
-                parseValue()
-                    .flatMap { left ->
-                        parseValue().map { right -> RelationalExpression(op, left, right) }
-                    }
+    private fun parseRelationalExpression(state: ParseState): Parser<RelationalExpression> =
+        parseRelationalOperator(state).flatMap { (s1, op) ->
+            parseValue(s1).flatMap { (s2, left) ->
+                parseValue(s2).map { (s3, right) ->
+                    s3 to RelationalExpression(op, left, right)
+                }
             }
+        }
 
-    private fun parseRelationalOperator(): Either<String, RelationalOperator> =
-        consume().flatMap { token ->
+    private fun parseRelationalOperator(state: ParseState): Parser<RelationalOperator> =
+        state.consume().flatMap { (s, token) ->
             when (token) {
-                "=" -> Either.right(RelationalOperator.EQ)
-                "<>" -> Either.right(RelationalOperator.NE)
-                "<" -> Either.right(RelationalOperator.LT)
-                ">" -> Either.right(RelationalOperator.GT)
-                "<=" -> Either.right(RelationalOperator.LE)
-                ">=" -> Either.right(RelationalOperator.GE)
-                else -> Either.left("Unexpected relational operator: $token")
+                "=" -> Either.right(s to RelationalOperator.EQ)
+                "<>" -> Either.right(s to RelationalOperator.NE)
+                "<" -> Either.right(s to RelationalOperator.LT)
+                ">" -> Either.right(s to RelationalOperator.GT)
+                "<=" -> Either.right(s to RelationalOperator.LE)
+                ">=" -> Either.right(s to RelationalOperator.GE)
+                else -> Either.left("Unexpected relational op: $token")
             }
         }
 
-    private fun parseValue(): Either<String, Value> =
-        peek().flatMap { token ->
+    private fun parseValue(state: ParseState): Parser<Value> =
+        state.peek().flatMap { token ->
             when {
-                token.matches(Regex("\\d+")) -> consume().map { Literal(it.toUInt()) }
-                token.matches(Regex("[a-zA-Z_]\\w*")) -> consume().map(::FunctionCall)
+                token.matches(Regex("\\d+")) ->
+                    state.consume().map { (s, t) -> s to Literal(t.toUInt()) }
+                token.matches(Regex("[a-zA-Z_]\\w*")) ->
+                    state.consume().map { (s, t) -> s to FunctionCall(t) }
                 else -> Either.left("Unexpected value: $token")
             }
         }
 
     private fun tokenize(input: String): List<String> =
-        """\(|\)|<=|>=|<>|=|<|>|\d+|[a-zA-Z_]\w*|&|\|"""
-            .toRegex()
+        """\\(|\\)|<=|>=|<>|=|<|>|\\d+|[a-zA-Z_]\\w*|&|\\|""".toRegex()
             .findAll(input)
             .map { it.value }
             .toList()
-
-    private fun consume(): Either<String, String> =
-        if (index < tokens.size) {
-            Either.right(tokens[index++])
-        } else {
-            Either.left("Unexpected end of input")
-        }
-
-    private fun peek(): Either<String, String> =
-        if (index < tokens.size) {
-            Either.right(tokens[index])
-        } else {
-            Either.left("Unexpected end of input")
-        }
 }
