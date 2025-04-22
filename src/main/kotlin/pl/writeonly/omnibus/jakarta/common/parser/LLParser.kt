@@ -1,5 +1,6 @@
 package pl.writeonly.omnibus.jakarta.common.parser
 
+import io.vavr.control.Either
 import pl.writeonly.omnibus.jakarta.common.ast.BooleanExpression
 import pl.writeonly.omnibus.jakarta.common.ast.BooleanOperator
 import pl.writeonly.omnibus.jakarta.common.ast.FunctionCall
@@ -15,80 +16,80 @@ class LLParser(input: String) {
     private var index = 0
     private val tokens = tokenize(input)
 
-    fun parse(): BooleanExpression {
-        return parseBooleanExpression()
-    }
+    fun parse(): Either<String, BooleanExpression> =
+        parseBooleanExpression()
 
-    private fun parseBooleanExpression(): BooleanExpression {
-        val token = peek()
-
-        return when (token) {
-            "&" -> {
-                consume() // consume AND
-                val left = parseBooleanExpression()
-                val right = parseBooleanExpression()
-                ListBooleanExpression(BooleanOperator.AND, listOf(left, right))
-            }
-            "|" -> {
-                consume() // consume OR
-                val left = parseBooleanExpression()
-                val right = parseBooleanExpression()
-                ListBooleanExpression(BooleanOperator.OR, listOf(left, right))
-            }
-            else -> {
-                val relational = parseRelationalExpression()
-                RelationalBooleanExpression(relational)
+    private fun parseBooleanExpression(): Either<String, BooleanExpression> =
+        peek().flatMap { token ->
+            when (token) {
+                "&" -> consume().flatMap {
+                    parseBooleanExpression().flatMap { left ->
+                        parseBooleanExpression().map { right ->
+                            ListBooleanExpression(BooleanOperator.AND, listOf(left, right))
+                        }
+                    }
+                }
+                "|" -> consume().flatMap {
+                    parseBooleanExpression().flatMap { left ->
+                        parseBooleanExpression().map { right ->
+                            ListBooleanExpression(BooleanOperator.OR, listOf(left, right))
+                        }
+                    }
+                }
+                else -> parseRelationalExpression().map { RelationalBooleanExpression(it) }
             }
         }
-    }
 
-    private fun parseRelationalExpression(): RelationalExpression {
-        val operator = parseRelationalOperator()
-        val left = parseValue()
-        val right = parseValue()
-        return RelationalExpression(operator, left, right)
-    }
-
-    private fun parseRelationalOperator(): RelationalOperator {
-        return when (val token = consume()) {
-            "=" -> RelationalOperator.EQ
-            "<>" -> RelationalOperator.NE
-            "<" -> RelationalOperator.LT
-            ">" -> RelationalOperator.GT
-            "<=" -> RelationalOperator.LE
-            ">=" -> RelationalOperator.GE
-            else -> throw IllegalArgumentException("Unexpected relational operator: $token")
-        }
-    }
-
-    private fun parseValue(): Value {
-        val token = peek() ?: throw IllegalArgumentException("Unexpected end of input")
-
-        return when {
-            token.matches(Regex("\\d+")) -> {
-                Literal(consume().toUInt())
+    private fun parseRelationalExpression(): Either<String, RelationalExpression> =
+        parseRelationalOperator().flatMap { op ->
+            parseValue().flatMap { left ->
+                parseValue().map { right ->
+                    RelationalExpression(op, left, right)
+                }
             }
-            token.matches(Regex("[a-zA-Z_]\\w*")) -> {
-                FunctionCall(consume())
-            }
-            else -> throw IllegalArgumentException("Unexpected value: $token")
         }
-    }
+
+    private fun parseRelationalOperator(): Either<String, RelationalOperator> =
+        consume().flatMap { token ->
+            when (token) {
+                "=" -> Either.right(RelationalOperator.EQ)
+                "<>" -> Either.right(RelationalOperator.NE)
+                "<" -> Either.right(RelationalOperator.LT)
+                ">" -> Either.right(RelationalOperator.GT)
+                "<=" -> Either.right(RelationalOperator.LE)
+                ">=" -> Either.right(RelationalOperator.GE)
+                else -> Either.left("Unexpected relational operator: $token")
+            }
+        }
+
+    private fun parseValue(): Either<String, Value> =
+        peek().flatMap { token ->
+            when {
+                token.matches(Regex("\\d+")) -> consume().map { Literal(it.toUInt()) }
+                token.matches(Regex("[a-zA-Z_]\\w*")) -> consume().map { FunctionCall(it) }
+                else -> Either.left("Unexpected value: $token")
+            }
+        }
 
     private fun tokenize(input: String): List<String> {
-        val regex = """\(|\)|\b(&|\|==|<>|<|>|<=|>=)\b|\d+|[a-zA-Z_]\w*""".toRegex()
+        val regex = """\(|\)|<=|>=|<>|=|<|>|\d+|[a-zA-Z_]\w*|&|\|""".toRegex()
         return regex.findAll(input).map { it.value }.toList()
     }
 
-    private fun consume(): String {
-        val token = peek()
-        if (token != null) {
+    private fun consume(): Either<String, String> {
+        return if (index < tokens.size) {
+            val token = tokens[index]
             index++
+            Either.right(token)
+        } else {
+            Either.left("Unexpected end of input")
         }
-        return token ?: throw IllegalArgumentException("Unexpected end of input")
     }
 
-    private fun peek(): String? {
-        return if (index < tokens.size) tokens[index] else null
-    }
+    private fun peek(): Either<String, String> =
+        if (index < tokens.size) {
+            Either.right(tokens[index])
+        } else {
+            Either.left("Unexpected end of input")
+        }
 }
