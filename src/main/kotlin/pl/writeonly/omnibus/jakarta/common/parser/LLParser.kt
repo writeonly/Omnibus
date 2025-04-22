@@ -22,29 +22,20 @@ class LLParser(input: String) {
     private fun parseBooleanExpression(): Either<String, BooleanExpression> =
         peek().flatMap { token ->
             when (token) {
-                "&" -> consume()
-                    .flatMap { parseBooleanExpression() }
-                    .flatMap { left ->
-                        parseBooleanExpression().map { right ->
-                            ListBooleanExpression(
-                                BooleanOperator.AND,
-                                listOf(left, right)
-                            )
-                        }
-                    }
-
-                "|" -> consume()
-                    .flatMap { parseBooleanExpression() }
-                    .flatMap { left ->
-                        parseBooleanExpression().map { right ->
-                            ListBooleanExpression(
-                                BooleanOperator.OR,
-                                listOf(left, right)
-                            )
-                        }
-                    }
-
+                "&" -> parseBooleanExpression(BooleanOperator.AND)
+                "|" -> parseBooleanExpression(BooleanOperator.OR)
                 else -> parseRelationalExpression().map(::RelationalBooleanExpression)
+            }
+        }
+
+    private fun parseBooleanExpression(operator: BooleanOperator) = consume()
+        .flatMap { parseBooleanExpression() }
+        .flatMap { left ->
+            parseBooleanExpression().map { right ->
+                ListBooleanExpression(
+                    operator,
+                    listOf(left, right)
+                )
             }
         }
 
@@ -73,12 +64,8 @@ class LLParser(input: String) {
     private fun parseValue(): Either<String, Value> =
         peek().flatMap { token ->
             when {
-                token.matches(Regex("\\d+")) ->
-                    consume().map { Literal(it.toUInt()) }
-
-                token.matches(Regex("[a-zA-Z_]\\w*")) ->
-                    consume().map(::FunctionCall)
-
+                token.matches(Regex("\\d+")) -> consume().map { Literal(it.toUInt()) }
+                token.matches(Regex("[a-zA-Z_]\\w*")) -> consume().map(::FunctionCall)
                 else -> Either.left("Unexpected value: $token")
             }
         }
