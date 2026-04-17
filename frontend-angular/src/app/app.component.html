@@ -1,0 +1,40 @@
+<main class="shell">
+  <section class="hero">
+    <p class="eyebrow">Omnibus</p>
+    <h1>Bridge bidding workbench with an enterprise split.</h1>
+    <p class="lead">
+      Angular renders the desk, Nest orchestrates the frontend contract, and Spring with Drools
+      makes the bidding recommendation.
+    </p>
+  </section>
+
+  <section class="panel">
+    <form class="form" (ngSubmit)="submit()">
+      <label>
+        Hand
+        <input [ngModel]="hand()" (ngModelChange)="hand.set($event)" name="hand" />
+      </label>
+
+      <label>
+        Auction
+        <input [ngModel]="auction()" (ngModelChange)="auction.set($event)" name="auction" />
+      </label>
+
+      <label>
+        System
+        <select [ngModel]="system()" (ngModelChange)="system.set($event)" name="system">
+          <option value="POLISH_CLUB">Polish Club</option>
+          <option value="STANDARD_AMERICAN">Standard American</option>
+        </select>
+      </label>
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Evaluating...' : 'Recommend bid' }}
+      </button>
+    </form>
+
+    <p class="error" *ngIf="error()">{{ error() }}</p>
+
+    <app-recommendation-result *ngIf="result()" [result]="result()!"></app-recommendation-result>
+  </section>
+</main>

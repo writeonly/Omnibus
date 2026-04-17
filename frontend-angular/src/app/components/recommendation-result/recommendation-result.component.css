@@ -1,0 +1,36 @@
+.result {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.headline h2 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+.headline p,
+.headline span,
+.details p,
+.details li {
+  line-height: 1.6;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+article {
+  background: rgba(244, 239, 231, 0.7);
+  border-radius: 18px;
+  padding: 1rem;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}

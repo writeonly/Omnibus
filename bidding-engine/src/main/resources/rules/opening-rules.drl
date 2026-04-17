@@ -1,0 +1,52 @@
+package rules
+
+import com.omnibus.bidding.rules.BiddingFacts;
+import com.omnibus.bidding.rules.CandidateBid;
+
+rule "PASS_WITH_FEWER_THAN_12_HCP"
+salience 100
+when
+    $facts : BiddingFacts(hcp < 12)
+then
+    insert(new CandidateBid("PASS", 10, "Hand below opening threshold"));
+end
+
+rule "OPEN_ONE_NOTRUMP_BALANCED"
+salience 90
+when
+    $facts : BiddingFacts(balanced == true, hcp >= 15, hcp <= 17)
+then
+    insert(new CandidateBid("1NT", 90, "Balanced 15-17 HCP hand"));
+end
+
+rule "OPEN_ONE_SPADE"
+salience 80
+when
+    $facts : BiddingFacts(spades >= 5, hcp >= 12)
+then
+    insert(new CandidateBid("1S", 80, "Five-card or longer spade suit"));
+end
+
+rule "OPEN_ONE_HEART"
+salience 70
+when
+    $facts : BiddingFacts(hearts >= 5, hcp >= 12)
+then
+    insert(new CandidateBid("1H", 70, "Five-card or longer heart suit"));
+end
+
+rule "OPEN_ONE_DIAMOND"
+salience 60
+when
+    $facts : BiddingFacts(diamonds > clubs, hcp >= 12)
+then
+    insert(new CandidateBid("1D", 60, "Longer diamonds than clubs"));
+end
+
+rule "OPEN_ONE_CLUB"
+salience 50
+when
+    $facts : BiddingFacts(hcp >= 12)
+then
+    insert(new CandidateBid("1C", 50, "Default minor-suit opening"));
+end

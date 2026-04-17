@@ -1,0 +1,77 @@
+.shell {
+  display: grid;
+  gap: 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+}
+
+.hero {
+  padding: 2rem 0 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+h1 {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(2.6rem, 7vw, 5.8rem);
+  line-height: 0.95;
+}
+
+.lead {
+  max-width: 48rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.panel {
+  background: rgba(255, 253, 248, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 60px rgba(57, 39, 20, 0.08);
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+}
+
+input,
+select,
+button {
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  padding: 0.95rem 1rem;
+  font: inherit;
+}
+
+button {
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.error {
+  color: #8f2517;
+}
+
+@media (max-width: 720px) {
+  .shell {
+    padding-top: 2rem;
+  }
+}

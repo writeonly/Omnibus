@@ -1,0 +1,28 @@
+services:
+  bidding-engine:
+    build:
+      context: ./bidding-engine
+    container_name: omnibus-bidding-engine
+    ports:
+      - "8080:8080"
+
+  bff-nest:
+    build:
+      context: ./bff-nest
+    container_name: omnibus-bff
+    environment:
+      BACKEND_BASE_URL: http://bidding-engine:8080
+      PORT: 3000
+    depends_on:
+      - bidding-engine
+    ports:
+      - "3000:3000"
+
+  frontend-angular:
+    build:
+      context: ./frontend-angular
+    container_name: omnibus-frontend
+    depends_on:
+      - bff-nest
+    ports:
+      - "4200:80"
