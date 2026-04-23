@@ -1,11 +1,11 @@
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+FROM gradle:9.4.0-jdk21 AS build
 WORKDIR /app
-COPY pom.xml .
+COPY build.gradle.kts settings.gradle.kts ./
 COPY src ./src
-RUN mvn -q -DskipTests package
+RUN gradle -q bootJar
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=build /app/target/event-archive-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
