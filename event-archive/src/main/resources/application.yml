@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: event-archive
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: event-archive
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.omnibus.archive.events
+        spring.json.use.type.headers: false
+  cassandra:
+    contact-points: ${CASSANDRA_CONTACT_POINTS:localhost}
+    port: ${CASSANDRA_PORT:9042}
+    local-datacenter: dc1
+    keyspace-name: ${CASSANDRA_KEYSPACE:omnibus}
+    schema-action: create_if_not_exists
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+omnibus:
+  kafka:
+    topics:
+      recommendation-produced: omnibus.recommendation.produced
+      rule-updated: omnibus.rule.updated

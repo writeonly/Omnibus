@@ -8,6 +8,8 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 - `bff-nest` - NestJS backend-for-frontend that fronts the domain API
 - `bidding-engine` - Spring Boot `Java 21` service with `Drools`
 - `kafka` - event backbone for recommendation and rule update events
+- `event-archive` - Kafka consumer archiving events into Cassandra
+- `cassandra` - durable event history store
 - `keycloak` - identity provider for administrator login
 - `infra` - shared infrastructure notes and placeholders
 
@@ -60,6 +62,14 @@ docker compose up --build
 - recommendation topic: `omnibus.recommendation.produced`
 - rule update topic: `omnibus.rule.updated`
 
+### Cassandra
+
+- CQL port: `localhost:9042`
+- keyspace: `omnibus`
+- archived tables:
+  - `recommendations_by_day`
+  - `rule_updates_by_day`
+
 ### Keycloak
 
 - URL: `http://localhost:9090`
@@ -101,6 +111,7 @@ Managed rules are loaded together with bundled rules on each recommendation requ
 Prometheus is configured in [infra/prometheus/prometheus.yml](/Users/kamilzabinski/IdeaProjects/writeonly/Omnibus/infra/prometheus/prometheus.yml:1) and scrapes:
 
 - `bidding-engine` through Spring Boot Actuator Prometheus metrics
+- `event-archive` through Spring Boot Actuator Prometheus metrics
 - `keycloak` through the built-in metrics endpoint
 
 ## Event Flow
@@ -109,6 +120,7 @@ Kafka is used as an asynchronous event bus next to the bidding engine, not for s
 
 - `RecommendationProducedEvent` is emitted after the engine returns a bid
 - `RuleUpdatedEvent` is emitted after an admin rule is saved and validated
+- `event-archive` consumes both topics and writes a durable history to Cassandra
 
 ## Repo Notes
 

@@ -14,3 +14,9 @@ scrape_configs:
     static_configs:
       - targets:
           - keycloak:8080
+
+  - job_name: omnibus-event-archive
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - event-archive:8081

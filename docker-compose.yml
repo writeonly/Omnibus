@@ -17,6 +17,35 @@ services:
     ports:
       - "29092:29092"
 
+  cassandra:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: OmnibusCluster
+      CASSANDRA_DC: dc1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces' || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
+    ports:
+      - "9042:9042"
+
+  cassandra-init:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra-init
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    volumes:
+      - ./infra/cassandra/init.cql:/init.cql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - cqlsh cassandra 9042 -f /init.cql
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
     container_name: omnibus-keycloak
@@ -45,6 +74,21 @@ services:
       - kafka
     ports:
       - "8080:8080"
+
+  event-archive:
+    build:
+      context: ./event-archive
+    container_name: omnibus-event-archive
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      CASSANDRA_CONTACT_POINTS: cassandra
+      CASSANDRA_PORT: 9042
+      CASSANDRA_KEYSPACE: omnibus
+    depends_on:
+      - kafka
+      - cassandra-init
+    ports:
+      - "8081:8081"
 
   bff-nest:
     build:
@@ -81,7 +125,9 @@ services:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
       - bidding-engine
+      - event-archive
       - kafka
+      - cassandra
       - keycloak
     ports:
       - "9091:9090"
