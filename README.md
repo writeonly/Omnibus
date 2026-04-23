@@ -26,6 +26,8 @@ cd bidding-engine
 mvn spring-boot:run
 ```
 
+Swagger UI is available at `http://localhost:8080/swagger-ui.html`.
+
 ### Nest BFF
 
 ```bash

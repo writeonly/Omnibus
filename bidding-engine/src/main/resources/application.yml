@@ -18,3 +18,9 @@ management:
 omnibus:
   rules:
     storage-path: managed-rules
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
