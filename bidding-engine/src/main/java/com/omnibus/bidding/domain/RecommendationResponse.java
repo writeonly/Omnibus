@@ -5,7 +5,9 @@ import java.util.List;
 
 public record RecommendationResponse(
     String system,
-    String hand,
+    String evaluatedSeat,
+    String northHand,
+    String southHand,
     String auction,
     String recommendedBid,
     String explanation,

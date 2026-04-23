@@ -1,8 +1,24 @@
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: omnibus-keycloak
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      KEYCLOAK_ADMIN: kcadmin
+      KEYCLOAK_ADMIN_PASSWORD: kcadmin
+    volumes:
+      - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
+    ports:
+      - "9090:8080"
+
   bidding-engine:
     build:
       context: ./bidding-engine
     container_name: omnibus-bidding-engine
+    volumes:
+      - ./bidding-engine/managed-rules:/app/managed-rules
     ports:
       - "8080:8080"
 
@@ -12,8 +28,13 @@ services:
     container_name: omnibus-bff
     environment:
       BACKEND_BASE_URL: http://bidding-engine:8080
+      KEYCLOAK_URL: http://localhost:9090
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_REALM: omnibus
+      KEYCLOAK_CLIENT_ID: omnibus-frontend
       PORT: 3000
     depends_on:
+      - keycloak
       - bidding-engine
     ports:
       - "3000:3000"

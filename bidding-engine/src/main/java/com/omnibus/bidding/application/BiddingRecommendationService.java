@@ -23,8 +23,9 @@ public class BiddingRecommendationService {
     }
 
     public RecommendationResponse recommend(RecommendationRequest request) {
-        HandProfile handProfile = handParser.parse(request.hand());
-        BiddingFacts biddingFacts = BiddingFacts.from(handProfile, request.auction(), request.system());
+        HandProfile northHandProfile = handParser.parse(request.northHand());
+        handParser.parse(request.southHand());
+        BiddingFacts biddingFacts = BiddingFacts.from(northHandProfile, request.auction(), request.system());
         List<CandidateBid> candidates = droolsBiddingEngine.evaluate(biddingFacts);
         CandidateBid bestCandidate = candidates.stream()
             .max(Comparator.comparingInt(CandidateBid::priority))
@@ -32,10 +33,12 @@ public class BiddingRecommendationService {
 
         return new RecommendationResponse(
             request.system(),
-            handProfile.normalizedHand(),
+            "NORTH",
+            northHandProfile.normalizedHand(),
+            request.southHand().trim().toUpperCase(),
             request.auction(),
             bestCandidate.bid(),
-            bestCandidate.reason(),
+            "%s Current MVP evaluates the opening decision for North.".formatted(bestCandidate.reason()),
             candidates
         );
     }

@@ -4,7 +4,9 @@ import { catchError, Observable, throwError } from 'rxjs';
 
 export type RecommendationResponse = {
   system: string;
-  hand: string;
+  evaluatedSeat: string;
+  northHand: string;
+  southHand: string;
   auction: string;
   recommendedBid: string;
   explanation: string;
@@ -12,7 +14,8 @@ export type RecommendationResponse = {
 };
 
 type RecommendationRequest = {
-  hand: string;
+  northHand: string;
+  southHand: string;
   auction: string;
   system: string;
 };

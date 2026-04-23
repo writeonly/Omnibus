@@ -1,23 +1,53 @@
 <main class="shell">
   <section class="hero">
-    <p class="eyebrow">Omnibus</p>
-    <h1>Bridge bidding workbench with an enterprise split.</h1>
+    <div class="hero-topbar">
+      <p class="eyebrow">Omnibus</p>
+      <div class="auth-box" *ngIf="authService.ready()">
+        <span *ngIf="authService.authenticated()">
+          {{ authService.username() || 'authenticated user' }}
+        </span>
+        <button type="button" class="secondary-button" *ngIf="!authService.authenticated()" (click)="login()">
+          Login admin
+        </button>
+        <button type="button" class="secondary-button" *ngIf="authService.authenticated()" (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+    <h1>Wpisz ręce NS i uruchom licytację.</h1>
     <p class="lead">
-      Angular renders the desk, Nest orchestrates the frontend contract, and Spring with Drools
-      makes the bidding recommendation.
+      To jest pierwszy stół roboczy pod licytację brydżową. Wprowadzasz ręce North i South,
+      a silnik Drools wylicza rekomendację otwarcia dla North.
     </p>
   </section>
 
   <section class="panel">
     <form class="form" (ngSubmit)="submit()">
-      <label>
-        Hand
-        <input [ngModel]="hand()" (ngModelChange)="hand.set($event)" name="hand" />
-      </label>
+      <div class="hands-grid">
+        <label class="hand-card">
+          <span class="seat">North</span>
+          <textarea
+            [ngModel]="northHand()"
+            (ngModelChange)="northHand.set($event)"
+            name="northHand"
+            rows="3"
+            placeholder="AQJ KQ2 A43 J742"></textarea>
+        </label>
+
+        <label class="hand-card">
+          <span class="seat">South</span>
+          <textarea
+            [ngModel]="southHand()"
+            (ngModelChange)="southHand.set($event)"
+            name="southHand"
+            rows="3"
+            placeholder="T97 A854 Q76 K98"></textarea>
+        </label>
+      </div>
 
       <label>
-        Auction
-        <input [ngModel]="auction()" (ngModelChange)="auction.set($event)" name="auction" />
+        Sekwencja licytacji
+        <input [ngModel]="auction()" (ngModelChange)="auction.set($event)" name="auction" placeholder="np. 1C pass" />
       </label>
 
       <label>
@@ -29,12 +59,70 @@
       </label>
 
       <button type="submit" [disabled]="loading()">
-        {{ loading() ? 'Evaluating...' : 'Recommend bid' }}
+        {{ loading() ? 'Liczę...' : 'Licytuj' }}
       </button>
     </form>
+
+    <p class="hint">
+      Format ręki: `SPADES HEARTS DIAMONDS CLUBS`, na przykład `AQJ KQ2 A43 J742`.
+    </p>
 
     <p class="error" *ngIf="error()">{{ error() }}</p>
 
     <app-recommendation-result *ngIf="result()" [result]="result()!"></app-recommendation-result>
+  </section>
+
+  <section class="panel admin-panel" *ngIf="authService.isAdmin()">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">Admin</p>
+        <h2>Panel reguł Drools</h2>
+      </div>
+      <button type="button" class="secondary-button" (click)="loadRules()" [disabled]="adminLoading()">
+        Odśwież reguły
+      </button>
+    </div>
+
+    <div class="admin-grid">
+      <form class="form" (ngSubmit)="saveRule()">
+        <label>
+          Nazwa reguły
+          <input
+            [ngModel]="adminRuleName()"
+            (ngModelChange)="adminRuleName.set($event)"
+            name="adminRuleName" />
+        </label>
+
+        <label>
+          Zawartość DRL
+          <textarea
+            class="rule-editor"
+            [ngModel]="adminRuleContent()"
+            (ngModelChange)="adminRuleContent.set($event)"
+            name="adminRuleContent"
+            rows="16"></textarea>
+        </label>
+
+        <button type="submit" [disabled]="adminLoading()">
+          {{ adminLoading() ? 'Zapisuję...' : 'Zapisz regułę' }}
+        </button>
+      </form>
+
+      <section class="rule-list">
+        <h3>Załadowane reguły</h3>
+        <p class="hint">Reguły zarządzane są walidowane przy zapisie i trafiają do katalogu `managed-rules`.</p>
+        <p class="error" *ngIf="adminError()">{{ adminError() }}</p>
+        <p class="success" *ngIf="adminSuccess()">{{ adminSuccess() }}</p>
+
+        <article class="rule-card" *ngFor="let rule of adminRules()">
+          <div class="rule-card-top">
+            <strong>{{ rule.name }}</strong>
+            <span>{{ rule.managed ? 'managed' : 'bundled' }}</span>
+          </div>
+          <p class="rule-path">{{ rule.sourcePath }}</p>
+          <pre>{{ rule.content }}</pre>
+        </article>
+      </section>
+    </div>
   </section>
 </main>

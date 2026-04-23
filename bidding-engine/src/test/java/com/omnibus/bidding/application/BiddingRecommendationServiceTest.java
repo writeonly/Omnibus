@@ -17,7 +17,7 @@ class BiddingRecommendationServiceTest {
     @Test
     void shouldRecommendOneNoTrumpForBalancedFifteenToSeventeenHand() {
         RecommendationResponse response = biddingRecommendationService.recommend(
-            new RecommendationRequest("AQJ KQ2 A43 J742", "", "POLISH_CLUB")
+            new RecommendationRequest("AQJ KQ2 A43 J742", "T97 A854 Q76 K98", "", "POLISH_CLUB")
         );
 
         assertThat(response.recommendedBid()).isEqualTo("1NT");
@@ -26,7 +26,7 @@ class BiddingRecommendationServiceTest {
     @Test
     void shouldRecommendPassBelowOpeningThreshold() {
         RecommendationResponse response = biddingRecommendationService.recommend(
-            new RecommendationRequest("QJ4 T82 A743 942", "", "POLISH_CLUB")
+            new RecommendationRequest("QJ4 T82 A743 942", "A83 KQ54 T62 K75", "", "POLISH_CLUB")
         );
 
         assertThat(response.recommendedBid()).isEqualTo("PASS");

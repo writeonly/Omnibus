@@ -7,6 +7,7 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 - `frontend-angular` - Angular UI for entering a hand and viewing the recommended bid
 - `bff-nest` - NestJS backend-for-frontend that fronts the domain API
 - `bidding-engine` - Spring Boot `Java 21` service with `Drools`
+- `keycloak` - identity provider for administrator login
 - `infra` - shared infrastructure notes and placeholders
 
 ## Decision Flow
@@ -49,6 +50,15 @@ Use `Node 20 LTS` for both JavaScript applications. The Spring backend uses `Jav
 docker compose up --build
 ```
 
+### Keycloak
+
+- URL: `http://localhost:9090`
+- realm: `omnibus`
+- frontend client: `omnibus-frontend`
+- sample admin user: `bridge-admin / changeit`
+
+The Keycloak bootstrap admin for the server console is `kcadmin / kcadmin`.
+
 ## First Supported Scope
 
 The initial Drools ruleset handles simple opening recommendations:
@@ -60,7 +70,18 @@ The initial Drools ruleset handles simple opening recommendations:
 - `1D` with longer diamonds than clubs
 - `1C` otherwise
 
+## Admin Workflow
+
+1. Start the stack with `docker compose up --build`.
+2. Open the frontend at `http://localhost:4200`.
+3. Click `Login admin` and sign in as `bridge-admin / changeit`.
+4. Use the admin panel to list bundled and managed DRL rules.
+5. Save a new managed rule from the panel. The backend validates the rule by compiling the full Drools set before accepting it.
+
+Managed rules are loaded together with bundled rules on each recommendation request in the current MVP.
+
 ## Repo Notes
 
 - The previous Kotlin prototype is intentionally not carried forward here.
 - This scaffold favors explicit layers and service boundaries over framework shortcuts.
+- Managed rules created from the admin panel are stored in `bidding-engine/managed-rules`.

@@ -7,3 +7,7 @@ management:
     web:
       exposure:
         include: health,info
+
+omnibus:
+  rules:
+    storage-path: managed-rules

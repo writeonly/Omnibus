@@ -3,7 +3,9 @@ import { RecommendationRequestDto } from './dto/recommendation-request.dto';
 
 type RecommendationResponse = {
   system: string;
-  hand: string;
+  evaluatedSeat: string;
+  northHand: string;
+  southHand: string;
   auction: string;
   recommendedBid: string;
   explanation: string;
@@ -26,7 +28,8 @@ export class BiddingService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          hand: request.hand,
+          northHand: request.northHand,
+          southHand: request.southHand,
           auction: request.auction ?? '',
           system: request.system,
         }),

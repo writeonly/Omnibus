@@ -7,14 +7,16 @@
 
   <div class="details">
     <article>
-      <h3>Request</h3>
-      <p><strong>Hand:</strong> {{ result.hand }}</p>
-      <p><strong>Auction:</strong> {{ result.auction || 'opening position' }}</p>
+      <h3>Stół</h3>
+      <p><strong>North:</strong> {{ result.northHand }}</p>
+      <p><strong>South:</strong> {{ result.southHand }}</p>
+      <p><strong>Analizowana ręka:</strong> {{ result.evaluatedSeat }}</p>
+      <p><strong>Sekwencja:</strong> {{ result.auction || 'opening position' }}</p>
       <p><strong>System:</strong> {{ result.system }}</p>
     </article>
 
     <article>
-      <h3>Candidate bids</h3>
+      <h3>Kandydaci</h3>
       <ul>
         <li *ngFor="let candidate of result.candidates">
           <strong>{{ candidate.bid }}</strong> · {{ candidate.reason }}

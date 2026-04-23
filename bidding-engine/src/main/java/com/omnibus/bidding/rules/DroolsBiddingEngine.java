@@ -2,21 +2,27 @@ package com.omnibus.bidding.rules;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DroolsBiddingEngine {
 
-    private final KieContainer kieContainer;
+    private final RuleCatalogService ruleCatalogService;
+    private final DroolsCompilationService droolsCompilationService;
 
-    public DroolsBiddingEngine(KieContainer kieContainer) {
-        this.kieContainer = kieContainer;
+    public DroolsBiddingEngine(
+        RuleCatalogService ruleCatalogService,
+        DroolsCompilationService droolsCompilationService
+    ) {
+        this.ruleCatalogService = ruleCatalogService;
+        this.droolsCompilationService = droolsCompilationService;
     }
 
     public List<CandidateBid> evaluate(BiddingFacts biddingFacts) {
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = droolsCompilationService
+            .buildContainer(ruleCatalogService.listAllRules())
+            .newKieSession();
         List<CandidateBid> candidates = new ArrayList<>();
 
         try {

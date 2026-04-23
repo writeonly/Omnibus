@@ -3,7 +3,11 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class RecommendationRequestDto {
   @IsString()
   @IsNotEmpty()
-  hand!: string;
+  northHand!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  southHand!: string;
 
   @IsString()
   @IsOptional()

@@ -10,6 +10,13 @@
   padding: 2rem 0 1rem;
 }
 
+.hero-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
 .eyebrow {
   margin: 0 0 0.75rem;
   text-transform: uppercase;
@@ -44,6 +51,26 @@ h1 {
   gap: 1rem;
 }
 
+.hands-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.hand-card {
+  background: rgba(244, 239, 231, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1rem;
+}
+
+.seat {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18rem;
+  color: var(--accent);
+}
+
 label {
   display: grid;
   gap: 0.4rem;
@@ -51,12 +78,19 @@ label {
 }
 
 input,
+textarea,
 select,
 button {
   border-radius: 14px;
   border: 1px solid var(--line);
   padding: 0.95rem 1rem;
   font: inherit;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 7rem;
+  background: rgba(255, 253, 248, 0.96);
 }
 
 button {
@@ -66,6 +100,88 @@ button {
   cursor: pointer;
 }
 
+.hint {
+  margin: 1rem 0 0;
+  color: #5a6774;
+}
+
+.auth-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.secondary-button {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 0.75rem 1rem;
+}
+
+.admin-panel {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.admin-header h2 {
+  margin: 0;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1rem;
+}
+
+.rule-editor {
+  min-height: 22rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.rule-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.rule-card {
+  padding: 1rem;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(244, 239, 231, 0.72);
+}
+
+.rule-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.rule-path {
+  margin: 0.45rem 0 0.8rem;
+  color: #6d5f51;
+  font-size: 0.9rem;
+}
+
+.rule-card pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.success {
+  color: #24613b;
+}
+
 .error {
   color: #8f2517;
 }
@@ -73,5 +189,16 @@ button {
 @media (max-width: 720px) {
   .shell {
     padding-top: 2rem;
+  }
+
+  .hands-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-topbar,
+  .admin-header,
+  .admin-grid {
+    grid-template-columns: 1fr;
+    display: grid;
   }
 }
