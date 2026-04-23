@@ -6,11 +6,11 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 
 - `frontend-angular` - Angular UI for entering a hand and viewing the recommended bid
 - `bff-nest` - NestJS backend-for-frontend that fronts the domain API
-- `bidding-engine` - Spring Boot `Java 21` service with `Drools`
-- `workflow-orchestrator` - Spring Boot service running Camunda workflows around rule governance
+- `services/bidding-engine` - Spring Boot `Java 21` service with `Drools`
+- `services/workflow-orchestrator` - Spring Boot service running Camunda workflows around rule governance
 - `zeebe` - Camunda 8 workflow engine for BPMN process execution
 - `kafka` - event backbone for recommendation and rule update events
-- `event-archive` - Kafka consumer archiving events into Cassandra
+- `services/event-archive` - Kafka consumer archiving events into Cassandra
 - `cassandra` - durable event history store
 - `keycloak` - identity provider for administrator login
 - `nginx` - reverse proxy and single external entry point
@@ -31,8 +31,8 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 ### Spring backend
 
 ```bash
-cd bidding-engine
-mvn spring-boot:run
+cd services/bidding-engine
+gradle bootRun
 ```
 
 Swagger UI is available at `http://localhost:8080/swagger-ui.html`.
@@ -154,4 +154,4 @@ Kafka is used as an asynchronous event bus next to the bidding engine, not for s
 
 - The previous Kotlin prototype is intentionally not carried forward here.
 - This scaffold favors explicit layers and service boundaries over framework shortcuts.
-- Managed rules created from the admin panel are stored in `bidding-engine/managed-rules`.
+- Managed rules created from the admin panel are stored in `services/bidding-engine/managed-rules`.

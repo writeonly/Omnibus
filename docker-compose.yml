@@ -78,12 +78,12 @@ services:
 
   bidding-engine:
     build:
-      context: ./bidding-engine
+      context: ./services/bidding-engine
     container_name: omnibus-bidding-engine
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     volumes:
-      - ./bidding-engine/managed-rules:/app/managed-rules
+      - ./services/bidding-engine/managed-rules:/app/managed-rules
     depends_on:
       - kafka
     ports:
@@ -91,7 +91,7 @@ services:
 
   workflow-orchestrator:
     build:
-      context: ./workflow-orchestrator
+      context: ./services/workflow-orchestrator
     container_name: omnibus-workflow-orchestrator
     environment:
       CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
@@ -105,7 +105,7 @@ services:
 
   event-archive:
     build:
-      context: ./event-archive
+      context: ./services/event-archive
     container_name: omnibus-event-archive
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
