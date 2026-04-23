@@ -24,7 +24,7 @@ public class EventArchiveListener {
         }
     )
     public void onRecommendationProduced(RecommendationProducedEvent event) {
-        eventArchiveService.archiveRecommendation(event);
+        eventArchiveService.archiveRecommendation(event).block();
     }
 
     @KafkaListener(
@@ -35,6 +35,6 @@ public class EventArchiveListener {
         }
     )
     public void onRuleUpdated(RuleUpdatedEvent event) {
-        eventArchiveService.archiveRuleUpdate(event);
+        eventArchiveService.archiveRuleUpdate(event).block();
     }
 }

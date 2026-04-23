@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 public class BiddingRecommendationService {
@@ -32,39 +34,42 @@ public class BiddingRecommendationService {
         this.domainEventPublisher = domainEventPublisher;
     }
 
-    public RecommendationResponse recommend(RecommendationRequest request) {
-        HandProfile northHandProfile = handParser.parse(request.northHand());
-        handParser.parse(request.southHand());
-        BiddingFacts biddingFacts = BiddingFacts.from(northHandProfile, request.auction(), request.system());
-        List<CandidateBid> candidates = droolsBiddingEngine.evaluate(biddingFacts);
-        CandidateBid bestCandidate = candidates.stream()
-            .max(Comparator.comparingInt(CandidateBid::priority))
-            .orElseGet(() -> new CandidateBid("PASS", 0, "No matching rule found"));
+    public Mono<RecommendationResponse> recommend(RecommendationRequest request) {
+        return Mono.fromCallable(() -> {
+                HandProfile northHandProfile = handParser.parse(request.northHand());
+                handParser.parse(request.southHand());
+                BiddingFacts biddingFacts = BiddingFacts.from(northHandProfile, request.auction(), request.system());
+                List<CandidateBid> candidates = droolsBiddingEngine.evaluate(biddingFacts);
+                CandidateBid bestCandidate = candidates.stream()
+                    .max(Comparator.comparingInt(CandidateBid::priority))
+                    .orElseGet(() -> new CandidateBid("PASS", 0, "No matching rule found"));
 
-        RecommendationResponse response = new RecommendationResponse(
-            request.system(),
-            "NORTH",
-            northHandProfile.normalizedHand(),
-            request.southHand().trim().toUpperCase(),
-            request.auction(),
-            bestCandidate.bid(),
-            "%s Current MVP evaluates the opening decision for North.".formatted(bestCandidate.reason()),
-            candidates
-        );
+                RecommendationResponse response = new RecommendationResponse(
+                    request.system(),
+                    "NORTH",
+                    northHandProfile.normalizedHand(),
+                    request.southHand().trim().toUpperCase(),
+                    request.auction(),
+                    bestCandidate.bid(),
+                    "%s Current MVP evaluates the opening decision for North.".formatted(bestCandidate.reason()),
+                    candidates
+                );
 
-        domainEventPublisher.publishRecommendationProduced(new RecommendationProducedEvent(
-            UUID.randomUUID().toString(),
-            Instant.now(),
-            response.system(),
-            response.evaluatedSeat(),
-            response.northHand(),
-            response.southHand(),
-            response.auction(),
-            response.recommendedBid(),
-            response.explanation(),
-            response.candidates().stream().map(CandidateBid::bid).toList()
-        ));
+                domainEventPublisher.publishRecommendationProduced(new RecommendationProducedEvent(
+                    UUID.randomUUID().toString(),
+                    Instant.now(),
+                    response.system(),
+                    response.evaluatedSeat(),
+                    response.northHand(),
+                    response.southHand(),
+                    response.auction(),
+                    response.recommendedBid(),
+                    response.explanation(),
+                    response.candidates().stream().map(CandidateBid::bid).toList()
+                ));
 
-        return response;
+                return response;
+            })
+            .subscribeOn(Schedulers.boundedElastic());
     }
 }

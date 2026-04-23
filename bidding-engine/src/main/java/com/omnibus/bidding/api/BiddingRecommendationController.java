@@ -4,12 +4,12 @@ import com.omnibus.bidding.application.BiddingRecommendationService;
 import com.omnibus.bidding.domain.RecommendationRequest;
 import com.omnibus.bidding.domain.RecommendationResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/bidding")
@@ -22,12 +22,12 @@ public class BiddingRecommendationController {
     }
 
     @PostMapping("/recommend")
-    public ResponseEntity<RecommendationResponse> recommend(@Valid @RequestBody RecommendationRequest request) {
-        return ResponseEntity.ok(biddingRecommendationService.recommend(request));
+    public Mono<RecommendationResponse> recommend(@Valid @RequestBody RecommendationRequest request) {
+        return biddingRecommendationService.recommend(request);
     }
 
     @GetMapping("/health")
-    public ResponseEntity<String> health() {
-        return ResponseEntity.ok("OK");
+    public Mono<String> health() {
+        return Mono.just("OK");
     }
 }

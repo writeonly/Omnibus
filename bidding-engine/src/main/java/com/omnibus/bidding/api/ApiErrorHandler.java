@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.support.WebExchangeBindException;
 
 @RestControllerAdvice
 public class ApiErrorHandler {
@@ -18,6 +19,11 @@ public class ApiErrorHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException exception) {
+        return build(HttpStatus.BAD_REQUEST, "Request validation failed");
+    }
+
+    @ExceptionHandler(WebExchangeBindException.class)
+    public ResponseEntity<Map<String, Object>> handleWebFluxValidation(WebExchangeBindException exception) {
         return build(HttpStatus.BAD_REQUEST, "Request validation failed");
     }
 

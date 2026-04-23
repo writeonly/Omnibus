@@ -10,6 +10,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 public class ManagedRuleAdminService {
@@ -31,27 +34,32 @@ public class ManagedRuleAdminService {
         this.domainEventPublisher = domainEventPublisher;
     }
 
-    public List<ManagedRuleDefinition> listRules() {
-        return ruleCatalogService.listAllRules();
+    public Flux<ManagedRuleDefinition> listRules() {
+        return Mono.fromCallable(ruleCatalogService::listAllRules)
+            .flatMapMany(Flux::fromIterable)
+            .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public ManagedRuleDefinition saveRule(ManagedRuleUpsertRequest request) {
-        ManagedRuleDefinition storedRule = managedRuleStore.save(request.name(), request.content());
+    public Mono<ManagedRuleDefinition> saveRule(ManagedRuleUpsertRequest request) {
+        return Mono.fromCallable(() -> {
+                ManagedRuleDefinition storedRule = managedRuleStore.save(request.name(), request.content());
 
-        try {
-            droolsCompilationService.buildContainer(ruleCatalogService.listAllRules());
-            domainEventPublisher.publishRuleUpdated(new RuleUpdatedEvent(
-                UUID.randomUUID().toString(),
-                Instant.now(),
-                storedRule.name(),
-                storedRule.sourcePath(),
-                storedRule.managed(),
-                storedRule.content().length()
-            ));
-            return storedRule;
-        } catch (RuntimeException exception) {
-            managedRuleStore.delete(storedRule.name());
-            throw exception;
-        }
+                try {
+                    droolsCompilationService.buildContainer(ruleCatalogService.listAllRules());
+                    domainEventPublisher.publishRuleUpdated(new RuleUpdatedEvent(
+                        UUID.randomUUID().toString(),
+                        Instant.now(),
+                        storedRule.name(),
+                        storedRule.sourcePath(),
+                        storedRule.managed(),
+                        storedRule.content().length()
+                    ));
+                    return storedRule;
+                } catch (RuntimeException exception) {
+                    managedRuleStore.delete(storedRule.name());
+                    throw exception;
+                }
+            })
+            .subscribeOn(Schedulers.boundedElastic());
     }
 }
