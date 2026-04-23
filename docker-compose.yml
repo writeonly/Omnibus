@@ -1,4 +1,22 @@
 services:
+  kafka:
+    image: bitnami/kafka:3.8
+    container_name: omnibus-kafka
+    environment:
+      KAFKA_CFG_NODE_ID: 0
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:29092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_KRAFT_CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    ports:
+      - "29092:29092"
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
     container_name: omnibus-keycloak
@@ -19,8 +37,12 @@ services:
     build:
       context: ./bidding-engine
     container_name: omnibus-bidding-engine
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     volumes:
       - ./bidding-engine/managed-rules:/app/managed-rules
+    depends_on:
+      - kafka
     ports:
       - "8080:8080"
 
@@ -59,6 +81,7 @@ services:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
       - bidding-engine
+      - kafka
       - keycloak
     ports:
       - "9091:9090"

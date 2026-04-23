@@ -4,11 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.omnibus.bidding.domain.RecommendationRequest;
 import com.omnibus.bidding.domain.RecommendationResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(properties = "omnibus.kafka.enabled=false")
 class BiddingRecommendationServiceTest {
 
     @Autowired

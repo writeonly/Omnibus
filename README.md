@@ -7,6 +7,7 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 - `frontend-angular` - Angular UI for entering a hand and viewing the recommended bid
 - `bff-nest` - NestJS backend-for-frontend that fronts the domain API
 - `bidding-engine` - Spring Boot `Java 21` service with `Drools`
+- `kafka` - event backbone for recommendation and rule update events
 - `keycloak` - identity provider for administrator login
 - `infra` - shared infrastructure notes and placeholders
 
@@ -16,6 +17,7 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 2. The BFF validates and forwards the request to the Spring backend.
 3. The Spring backend computes hand facts and inserts them into Drools.
 4. Drools creates candidate bids and the backend returns the best recommendation with an explanation.
+5. The backend publishes domain events to Kafka after recommendation and rule update actions.
 
 ## Local Run
 
@@ -51,6 +53,12 @@ Use `Node 20 LTS` for both JavaScript applications. The Spring backend uses `Jav
 ```bash
 docker compose up --build
 ```
+
+### Kafka
+
+- Broker for local development: `localhost:29092`
+- recommendation topic: `omnibus.recommendation.produced`
+- rule update topic: `omnibus.rule.updated`
 
 ### Keycloak
 
@@ -94,6 +102,13 @@ Prometheus is configured in [infra/prometheus/prometheus.yml](/Users/kamilzabins
 
 - `bidding-engine` through Spring Boot Actuator Prometheus metrics
 - `keycloak` through the built-in metrics endpoint
+
+## Event Flow
+
+Kafka is used as an asynchronous event bus next to the bidding engine, not for synchronous UI requests.
+
+- `RecommendationProducedEvent` is emitted after the engine returns a bid
+- `RuleUpdatedEvent` is emitted after an admin rule is saved and validated
 
 ## Repo Notes
 
