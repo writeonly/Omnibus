@@ -8,6 +8,8 @@ services:
     environment:
       KEYCLOAK_ADMIN: kcadmin
       KEYCLOAK_ADMIN_PASSWORD: kcadmin
+      KC_METRICS_ENABLED: "true"
+      KC_HEALTH_ENABLED: "true"
     volumes:
       - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
@@ -47,3 +49,16 @@ services:
       - bff-nest
     ports:
       - "4200:80"
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: omnibus-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - bidding-engine
+      - keycloak
+    ports:
+      - "9091:9090"

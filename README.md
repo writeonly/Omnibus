@@ -59,6 +59,12 @@ docker compose up --build
 
 The Keycloak bootstrap admin for the server console is `kcadmin / kcadmin`.
 
+### Prometheus
+
+- URL: `http://localhost:9091`
+- Spring metrics: `http://localhost:8080/actuator/prometheus`
+- Keycloak metrics are scraped internally from `/metrics`
+
 ## First Supported Scope
 
 The initial Drools ruleset handles simple opening recommendations:
@@ -79,6 +85,13 @@ The initial Drools ruleset handles simple opening recommendations:
 5. Save a new managed rule from the panel. The backend validates the rule by compiling the full Drools set before accepting it.
 
 Managed rules are loaded together with bundled rules on each recommendation request in the current MVP.
+
+## Monitoring
+
+Prometheus is configured in [infra/prometheus/prometheus.yml](/Users/kamilzabinski/IdeaProjects/writeonly/Omnibus/infra/prometheus/prometheus.yml:1) and scrapes:
+
+- `bidding-engine` through Spring Boot Actuator Prometheus metrics
+- `keycloak` through the built-in metrics endpoint
 
 ## Repo Notes
 

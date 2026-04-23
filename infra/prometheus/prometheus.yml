@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: omnibus-bidding-engine
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - bidding-engine:8080
+
+  - job_name: omnibus-keycloak
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - keycloak:8080
