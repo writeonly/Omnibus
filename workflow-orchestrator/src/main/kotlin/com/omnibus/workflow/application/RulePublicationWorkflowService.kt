@@ -1,0 +1,47 @@
+package com.omnibus.workflow.application
+
+import com.omnibus.workflow.domain.RulePublicationRequest
+import com.omnibus.workflow.domain.RulePublicationSubmission
+import io.camunda.client.CamundaClient
+import io.camunda.client.api.response.ProcessInstanceEvent
+import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
+import java.time.Instant
+
+@Service
+class RulePublicationWorkflowService(
+    private val camundaClient: CamundaClient,
+) {
+    fun startPublication(request: RulePublicationRequest): Mono<RulePublicationSubmission> =
+        Mono.fromCallable {
+            val event: ProcessInstanceEvent =
+                camundaClient.newCreateInstanceCommand()
+                    .bpmnProcessId(PROCESS_ID)
+                    .latestVersion()
+                    .variables(buildVariables(request))
+                    .send()
+                    .join()
+
+            RulePublicationSubmission(
+                event.processInstanceKey.toString(),
+                PROCESS_ID,
+                "STARTED",
+                request.name,
+                request.requestedBy,
+            )
+        }.subscribeOn(Schedulers.boundedElastic())
+
+    private fun buildVariables(request: RulePublicationRequest): Map<String, Any> =
+        hashMapOf(
+            "ruleName" to request.name,
+            "ruleContent" to request.content,
+            "requestedBy" to request.requestedBy,
+            "requestedAt" to Instant.now().toString(),
+        )
+
+    companion object {
+        const val PROCESS_ID: String = "rule-publication-process"
+    }
+}
+
