@@ -104,15 +104,21 @@
         </label>
 
         <button type="submit" [disabled]="adminLoading()">
-          {{ adminLoading() ? 'Zapisuję...' : 'Zapisz regułę' }}
+          {{ adminLoading() ? 'Uruchamiam proces...' : 'Opublikuj przez Camunda' }}
         </button>
       </form>
 
       <section class="rule-list">
         <h3>Załadowane reguły</h3>
-        <p class="hint">Reguły zarządzane są walidowane przy zapisie i trafiają do katalogu `managed-rules`.</p>
+        <p class="hint">
+          Reguły zarządzane przechodzą przez proces Camunda, a dopiero potem trafiają do katalogu `managed-rules`.
+        </p>
         <p class="error" *ngIf="adminError()">{{ adminError() }}</p>
         <p class="success" *ngIf="adminSuccess()">{{ adminSuccess() }}</p>
+        <p class="hint" *ngIf="lastSubmission() as submission">
+          Ostatnia publikacja: proces `{{ submission.bpmnProcessId }}` dla `{{ submission.ruleName }}`
+          uruchomiony przez `{{ submission.requestedBy }}`.
+        </p>
 
         <article class="rule-card" *ngFor="let rule of adminRules()">
           <div class="rule-card-top">

@@ -4,7 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { RecommendationApiService, RecommendationResponse } from './services/recommendation-api.service';
 import { RecommendationResultComponent } from './components/recommendation-result/recommendation-result.component';
 import { AuthService } from './services/auth.service';
-import { AdminRulesApiService, ManagedRuleDefinition } from './services/admin-rules-api.service';
+import {
+  AdminRulesApiService,
+  ManagedRuleDefinition,
+  RulePublicationSubmission,
+} from './services/admin-rules-api.service';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +46,7 @@ end`);
   readonly adminLoading = signal(false);
   readonly adminError = signal('');
   readonly adminSuccess = signal('');
+  readonly lastSubmission = signal<RulePublicationSubmission | null>(null);
 
   ngOnInit(): void {
     void this.initializeAuth();
@@ -99,6 +104,7 @@ end`);
     this.adminLoading.set(true);
     this.adminError.set('');
     this.adminSuccess.set('');
+    this.lastSubmission.set(null);
 
     this.adminRulesApiService
       .saveRule({
@@ -106,9 +112,12 @@ end`);
         content: this.adminRuleContent(),
       })
       .subscribe({
-        next: () => {
-          this.adminSuccess.set('Reguła została zapisana i zwalidowana.');
-          this.loadRules();
+        next: (submission) => {
+          this.lastSubmission.set(submission);
+          this.adminSuccess.set(
+            `Proces Camunda wystartował dla reguły ${submission.ruleName}. Instancja: ${submission.processInstanceKey}.`,
+          );
+          window.setTimeout(() => this.loadRules(), 1500);
         },
         error: (error: Error) => {
           this.adminError.set(error.message);

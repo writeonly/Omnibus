@@ -1,4 +1,18 @@
 services:
+  zeebe:
+    image: camunda/zeebe:8.8.0
+    container_name: omnibus-zeebe
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      ZEEBE_BROKER_CLUSTER_CLUSTERSIZE: 1
+      ZEEBE_BROKER_CLUSTER_PARTITIONSCOUNT: 1
+      ZEEBE_BROKER_CLUSTER_REPLICATIONFACTOR: 1
+      ZEEBE_BROKER_THREADS_CPUTHREADCOUNT: 2
+      ZEEBE_BROKER_THREADS_IOTHREADCOUNT: 2
+    ports:
+      - "26500:26500"
+      - "8089:8080"
+
   kafka:
     image: bitnami/kafka:3.8
     container_name: omnibus-kafka
@@ -75,6 +89,20 @@ services:
     ports:
       - "8080:8080"
 
+  workflow-orchestrator:
+    build:
+      context: ./workflow-orchestrator
+    container_name: omnibus-workflow-orchestrator
+    environment:
+      CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
+      CAMUNDA_REST_ADDRESS: http://zeebe:8080
+      BIDDING_ENGINE_BASE_URL: http://bidding-engine:8080
+    depends_on:
+      - zeebe
+      - bidding-engine
+    ports:
+      - "8082:8082"
+
   event-archive:
     build:
       context: ./event-archive
@@ -96,6 +124,7 @@ services:
     container_name: omnibus-bff
     environment:
       BACKEND_BASE_URL: http://bidding-engine:8080
+      WORKFLOW_BASE_URL: http://workflow-orchestrator:8082
       KEYCLOAK_URL: http://localhost:8088/keycloak
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus
@@ -104,6 +133,7 @@ services:
     depends_on:
       - keycloak
       - bidding-engine
+      - workflow-orchestrator
     ports:
       - "3000:3000"
 
@@ -123,6 +153,7 @@ services:
       - frontend-angular
       - bff-nest
       - bidding-engine
+      - workflow-orchestrator
       - keycloak
       - prometheus
     ports:
@@ -137,6 +168,7 @@ services:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
       - bidding-engine
+      - workflow-orchestrator
       - event-archive
       - kafka
       - cassandra

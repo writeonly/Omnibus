@@ -15,6 +15,12 @@ scrape_configs:
       - targets:
           - keycloak:8080
 
+  - job_name: omnibus-workflow-orchestrator
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - workflow-orchestrator:8082
+
   - job_name: omnibus-event-archive
     metrics_path: /actuator/prometheus
     static_configs:

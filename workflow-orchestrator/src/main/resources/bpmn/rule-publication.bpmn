@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  xmlns:zeebe="http://camunda.org/schema/zeebe/1.0"
+                  id="Definitions_rule_publication"
+                  targetNamespace="http://omnibus.com/workflow">
+  <bpmn:process id="rule-publication-process" name="Rule publication process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Rule submitted" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Activity_ValidatePublish" />
+    <bpmn:serviceTask id="Activity_ValidatePublish"
+                      name="Validate and publish Drools rule">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="validate-and-publish-rule" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Activity_ValidatePublish" targetRef="Event_Published" />
+    <bpmn:endEvent id="Event_Published" name="Rule published" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_rule_publication">
+    <bpmndi:BPMNPlane id="BPMNPlane_rule_publication" bpmnElement="rule-publication-process">
+      <bpmndi:BPMNShape id="Shape_StartEvent_1" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Activity_ValidatePublish" bpmnElement="Activity_ValidatePublish">
+        <dc:Bounds x="250" y="70" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Event_Published" bpmnElement="Event_Published">
+        <dc:Bounds x="492" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_1" bpmnElement="Flow_1">
+        <di:waypoint x="188" y="110" />
+        <di:waypoint x="250" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_2" bpmnElement="Flow_2">
+        <di:waypoint x="410" y="110" />
+        <di:waypoint x="492" y="110" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

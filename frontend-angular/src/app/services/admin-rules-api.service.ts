@@ -10,6 +10,14 @@ export type ManagedRuleDefinition = {
   content: string;
 };
 
+export type RulePublicationSubmission = {
+  processInstanceKey: string;
+  bpmnProcessId: string;
+  status: string;
+  ruleName: string;
+  requestedBy: string;
+};
+
 type UpsertRuleRequest = {
   name: string;
   content: string;
@@ -30,9 +38,9 @@ export class AdminRulesApiService {
       .pipe(catchError((error) => throwError(() => new Error(this.message(error)))));
   }
 
-  saveRule(request: UpsertRuleRequest): Observable<ManagedRuleDefinition> {
+  saveRule(request: UpsertRuleRequest): Observable<RulePublicationSubmission> {
     return this.httpClient
-      .post<ManagedRuleDefinition>('/api/admin/rules', request, {
+      .post<RulePublicationSubmission>('/api/admin/rules', request, {
         headers: this.headers(),
       })
       .pipe(catchError((error) => throwError(() => new Error(this.message(error)))));

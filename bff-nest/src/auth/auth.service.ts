@@ -11,6 +11,11 @@ type KeycloakConfig = {
   clientId: string;
 };
 
+type AuthContext = {
+  username: string;
+  subject: string;
+};
+
 @Injectable()
 export class AuthService {
   private readonly keycloakUrl = process.env.KEYCLOAK_URL ?? 'http://localhost:9090';
@@ -33,6 +38,10 @@ export class AuthService {
   }
 
   async requireAdmin(authorizationHeader?: string): Promise<void> {
+    await this.requireAdminContext(authorizationHeader);
+  }
+
+  async requireAdminContext(authorizationHeader?: string): Promise<AuthContext> {
     const token = this.extractBearerToken(authorizationHeader);
 
     try {
@@ -44,6 +53,8 @@ export class AuthService {
     }
 
     const payload = decodeJwt(token) as {
+      sub?: string;
+      preferred_username?: string;
       realm_access?: { roles?: string[] };
     };
 
@@ -51,6 +62,11 @@ export class AuthService {
     if (!roles.includes('admin')) {
       throw new ForbiddenException('Administrator role is required');
     }
+
+    return {
+      username: payload.preferred_username ?? payload.sub ?? 'admin',
+      subject: payload.sub ?? 'unknown',
+    };
   }
 
   private extractBearerToken(authorizationHeader?: string): string {

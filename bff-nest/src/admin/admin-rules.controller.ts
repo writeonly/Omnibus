@@ -27,7 +27,7 @@ export class AdminRulesController {
     @Headers('authorization') authorization: string | undefined,
     @Body() request: UpsertRuleDto,
   ) {
-    await this.authService.requireAdmin(authorization);
-    return this.adminRulesService.saveRule(request);
+    const adminContext = await this.authService.requireAdminContext(authorization);
+    return this.adminRulesService.saveRule(request, adminContext.username);
   }
 }

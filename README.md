@@ -7,6 +7,8 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 - `frontend-angular` - Angular UI for entering a hand and viewing the recommended bid
 - `bff-nest` - NestJS backend-for-frontend that fronts the domain API
 - `bidding-engine` - Spring Boot `Java 21` service with `Drools`
+- `workflow-orchestrator` - Spring Boot service running Camunda workflows around rule governance
+- `zeebe` - Camunda 8 workflow engine for BPMN process execution
 - `kafka` - event backbone for recommendation and rule update events
 - `event-archive` - Kafka consumer archiving events into Cassandra
 - `cassandra` - durable event history store
@@ -21,7 +23,8 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 3. The Spring backend computes hand facts and inserts them into Drools.
 4. Drools creates candidate bids and the backend returns the best recommendation with an explanation.
 5. The backend publishes domain events to Kafka after recommendation and rule update actions.
-6. NGINX exposes the platform through one external entry point and routes traffic to the right service.
+6. Rule changes from the admin panel go through Camunda before they reach the Drools rule store.
+7. NGINX exposes the platform through one external entry point and routes traffic to the right service.
 
 ## Local Run
 
@@ -64,7 +67,9 @@ docker compose up --build
 - frontend UI: `http://localhost:8088/`
 - BFF API: `http://localhost:8088/api/...`
 - Swagger UI: `http://localhost:8088/swagger-ui.html`
+- workflow Swagger UI: `http://localhost:8088/workflow/swagger-ui.html`
 - bidding-engine actuator: `http://localhost:8088/actuator/...`
+- workflow actuator: `http://localhost:8088/workflow/actuator/...`
 - event-archive actuator: `http://localhost:8088/archive/actuator/...`
 - Keycloak via proxy: `http://localhost:8088/keycloak/`
 - Prometheus via proxy: `http://localhost:8088/prometheus/`
@@ -92,6 +97,13 @@ docker compose up --build
 
 The Keycloak bootstrap admin for the server console is `kcadmin / kcadmin`.
 
+### Camunda / Zeebe
+
+- Zeebe gRPC: `localhost:26500`
+- Zeebe REST: `http://localhost:8089`
+- workflow orchestrator API: `http://localhost:8082`
+- workflow publish endpoint: `POST /api/v1/rule-publications`
+
 ### Prometheus
 
 - URL: `http://localhost:9091`
@@ -115,7 +127,9 @@ The initial Drools ruleset handles simple opening recommendations:
 2. Open the frontend at `http://localhost:8088`.
 3. Click `Login admin` and sign in as `bridge-admin / changeit`.
 4. Use the admin panel to list bundled and managed DRL rules.
-5. Save a new managed rule from the panel. The backend validates the rule by compiling the full Drools set before accepting it.
+5. Save a new managed rule from the panel. Nest starts a Camunda BPMN process in `workflow-orchestrator`.
+6. Camunda runs the `validate-and-publish-rule` job worker, which calls `bidding-engine`.
+7. The backend validates the rule by compiling the full Drools set before accepting it.
 
 Managed rules are loaded together with bundled rules on each recommendation request in the current MVP.
 
@@ -124,6 +138,7 @@ Managed rules are loaded together with bundled rules on each recommendation requ
 Prometheus is configured in [infra/prometheus/prometheus.yml](/Users/kamilzabinski/IdeaProjects/writeonly/Omnibus/infra/prometheus/prometheus.yml:1) and scrapes:
 
 - `bidding-engine` through Spring Boot Actuator Prometheus metrics
+- `workflow-orchestrator` through Spring Boot Actuator Prometheus metrics
 - `event-archive` through Spring Boot Actuator Prometheus metrics
 - `keycloak` through the built-in metrics endpoint
 

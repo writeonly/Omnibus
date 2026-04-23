@@ -8,10 +8,20 @@ type ManagedRuleDefinition = {
   content: string;
 };
 
+type RulePublicationSubmission = {
+  processInstanceKey: string;
+  bpmnProcessId: string;
+  status: string;
+  ruleName: string;
+  requestedBy: string;
+};
+
 @Injectable()
 export class AdminRulesService {
   private readonly backendBaseUrl =
     process.env.BACKEND_BASE_URL ?? 'http://localhost:8080';
+  private readonly workflowBaseUrl =
+    process.env.WORKFLOW_BASE_URL ?? 'http://localhost:8082';
 
   async listRules(): Promise<ManagedRuleDefinition[]> {
     const response = await fetch(`${this.backendBaseUrl}/api/v1/admin/rules`);
@@ -22,20 +32,26 @@ export class AdminRulesService {
     return (await response.json()) as ManagedRuleDefinition[];
   }
 
-  async saveRule(request: UpsertRuleDto): Promise<ManagedRuleDefinition> {
-    const response = await fetch(`${this.backendBaseUrl}/api/v1/admin/rules`, {
+  async saveRule(
+    request: UpsertRuleDto,
+    requestedBy: string,
+  ): Promise<RulePublicationSubmission> {
+    const response = await fetch(`${this.workflowBaseUrl}/api/v1/rule-publications`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(request),
+      body: JSON.stringify({
+        ...request,
+        requestedBy,
+      }),
     });
 
     if (!response.ok) {
       const body = await response.text();
-      throw new Error(`Rules backend returned ${response.status}: ${body}`);
+      throw new Error(`Workflow service returned ${response.status}: ${body}`);
     }
 
-    return (await response.json()) as ManagedRuleDefinition;
+    return (await response.json()) as RulePublicationSubmission;
   }
 }
