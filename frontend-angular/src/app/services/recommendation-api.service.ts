@@ -28,7 +28,7 @@ export class RecommendationApiService {
 
   recommend(request: RecommendationRequest): Observable<RecommendationResponse> {
     return this.httpClient
-      .post<RecommendationResponse>('http://localhost:3000/api/bidding/recommend', request)
+      .post<RecommendationResponse>('/api/bidding/recommend', request)
       .pipe(
         catchError((error) =>
           throwError(() => new Error(error?.error?.message ?? 'Unable to reach BFF')),

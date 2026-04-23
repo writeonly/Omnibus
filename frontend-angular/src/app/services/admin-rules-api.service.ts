@@ -24,7 +24,7 @@ export class AdminRulesApiService {
 
   listRules(): Observable<ManagedRuleDefinition[]> {
     return this.httpClient
-      .get<ManagedRuleDefinition[]>('http://localhost:3000/api/admin/rules', {
+      .get<ManagedRuleDefinition[]>('/api/admin/rules', {
         headers: this.headers(),
       })
       .pipe(catchError((error) => throwError(() => new Error(this.message(error)))));
@@ -32,7 +32,7 @@ export class AdminRulesApiService {
 
   saveRule(request: UpsertRuleRequest): Observable<ManagedRuleDefinition> {
     return this.httpClient
-      .post<ManagedRuleDefinition>('http://localhost:3000/api/admin/rules', request, {
+      .post<ManagedRuleDefinition>('/api/admin/rules', request, {
         headers: this.headers(),
       })
       .pipe(catchError((error) => throwError(() => new Error(this.message(error)))));

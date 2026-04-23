@@ -11,6 +11,7 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 - `event-archive` - Kafka consumer archiving events into Cassandra
 - `cassandra` - durable event history store
 - `keycloak` - identity provider for administrator login
+- `nginx` - reverse proxy and single external entry point
 - `infra` - shared infrastructure notes and placeholders
 
 ## Decision Flow
@@ -20,6 +21,7 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 3. The Spring backend computes hand facts and inserts them into Drools.
 4. Drools creates candidate bids and the backend returns the best recommendation with an explanation.
 5. The backend publishes domain events to Kafka after recommendation and rule update actions.
+6. NGINX exposes the platform through one external entry point and routes traffic to the right service.
 
 ## Local Run
 
@@ -55,6 +57,17 @@ Use `Node 20 LTS` for both JavaScript applications. The Spring backend uses `Jav
 ```bash
 docker compose up --build
 ```
+
+### NGINX Gateway
+
+- main entry point: `http://localhost:8088`
+- frontend UI: `http://localhost:8088/`
+- BFF API: `http://localhost:8088/api/...`
+- Swagger UI: `http://localhost:8088/swagger-ui.html`
+- bidding-engine actuator: `http://localhost:8088/actuator/...`
+- event-archive actuator: `http://localhost:8088/archive/actuator/...`
+- Keycloak via proxy: `http://localhost:8088/keycloak/`
+- Prometheus via proxy: `http://localhost:8088/prometheus/`
 
 ### Kafka
 
@@ -99,7 +112,7 @@ The initial Drools ruleset handles simple opening recommendations:
 ## Admin Workflow
 
 1. Start the stack with `docker compose up --build`.
-2. Open the frontend at `http://localhost:4200`.
+2. Open the frontend at `http://localhost:8088`.
 3. Click `Login admin` and sign in as `bridge-admin / changeit`.
 4. Use the admin panel to list bundled and managed DRL rules.
 5. Save a new managed rule from the panel. The backend validates the rule by compiling the full Drools set before accepting it.

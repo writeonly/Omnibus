@@ -28,7 +28,7 @@ export class AuthService {
     }
 
     const config = await firstValueFrom(
-      this.httpClient.get<AuthConfig>('http://localhost:3000/api/auth/config'),
+      this.httpClient.get<AuthConfig>('/api/auth/config'),
     );
 
     this.keycloak = new Keycloak({
