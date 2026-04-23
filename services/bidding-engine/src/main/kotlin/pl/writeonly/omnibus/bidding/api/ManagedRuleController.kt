@@ -1,8 +1,8 @@
 package pl.writeonly.omnibus.bidding.api
 
-import com.omnibus.bidding.application.ManagedRuleAdminService
-import com.omnibus.bidding.domain.ManagedRuleDefinition
-import com.omnibus.bidding.domain.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.bidding.application.ManagedRuleAdminService
+import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.bidding.domain.ManagedRuleUpsertRequest
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

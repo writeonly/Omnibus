@@ -1,6 +1,6 @@
 package pl.writeonly.omnibus.bidding.rules
 
-import com.omnibus.bidding.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
 import org.kie.api.KieServices
 import org.kie.api.builder.Message
 import org.kie.api.runtime.KieContainer

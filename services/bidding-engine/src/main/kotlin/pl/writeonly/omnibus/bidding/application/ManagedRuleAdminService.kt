@@ -1,11 +1,11 @@
 package pl.writeonly.omnibus.bidding.application
 
-import com.omnibus.bidding.domain.ManagedRuleDefinition
-import com.omnibus.bidding.domain.ManagedRuleUpsertRequest
-import com.omnibus.bidding.events.DomainEventPublisher
-import com.omnibus.bidding.events.RuleUpdatedEvent
-import com.omnibus.bidding.rules.DroolsCompilationService
-import com.omnibus.bidding.rules.RuleCatalogService
+import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.bidding.domain.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.bidding.events.DomainEventPublisher
+import pl.writeonly.omnibus.bidding.events.RuleUpdatedEvent
+import pl.writeonly.omnibus.bidding.rules.DroolsCompilationService
+import pl.writeonly.omnibus.bidding.rules.RuleCatalogService
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

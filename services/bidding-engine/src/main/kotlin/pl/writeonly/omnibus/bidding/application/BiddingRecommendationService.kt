@@ -1,13 +1,13 @@
 package pl.writeonly.omnibus.bidding.application
 
-import com.omnibus.bidding.domain.RecommendationRequest
-import com.omnibus.bidding.domain.RecommendationResponse
-import com.omnibus.bidding.domain.HandParser
-import com.omnibus.bidding.events.DomainEventPublisher
-import com.omnibus.bidding.events.RecommendationProducedEvent
-import com.omnibus.bidding.rules.BiddingFacts
-import com.omnibus.bidding.rules.CandidateBid
-import com.omnibus.bidding.rules.DroolsBiddingEngine
+import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
+import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
+import pl.writeonly.omnibus.bidding.domain.HandParser
+import pl.writeonly.omnibus.bidding.events.DomainEventPublisher
+import pl.writeonly.omnibus.bidding.events.RecommendationProducedEvent
+import pl.writeonly.omnibus.bidding.rules.BiddingFacts
+import pl.writeonly.omnibus.bidding.rules.CandidateBid
+import pl.writeonly.omnibus.bidding.rules.DroolsBiddingEngine
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers

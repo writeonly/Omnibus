@@ -1,7 +1,7 @@
 package pl.writeonly.omnibus.bidding.rules
 
-import com.omnibus.bidding.application.ManagedRuleStore
-import com.omnibus.bidding.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.bidding.application.ManagedRuleStore
+import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.stereotype.Service
 import java.io.IOException

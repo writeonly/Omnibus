@@ -1,13 +1,13 @@
 package pl.writeonly.omnibus.archive.service
 
-import com.omnibus.archive.events.RecommendationProducedEvent
-import com.omnibus.archive.events.RuleUpdatedEvent
-import com.omnibus.archive.model.RecommendationByDay
-import com.omnibus.archive.model.RecommendationByDayKey
-import com.omnibus.archive.model.RuleUpdateByDay
-import com.omnibus.archive.model.RuleUpdateByDayKey
-import com.omnibus.archive.repository.RecommendationArchiveRepository
-import com.omnibus.archive.repository.RuleUpdateArchiveRepository
+import pl.writeonly.omnibus.archive.events.RecommendationProducedEvent
+import pl.writeonly.omnibus.archive.events.RuleUpdatedEvent
+import pl.writeonly.omnibus.archive.model.RecommendationByDay
+import pl.writeonly.omnibus.archive.model.RecommendationByDayKey
+import pl.writeonly.omnibus.archive.model.RuleUpdateByDay
+import pl.writeonly.omnibus.archive.model.RuleUpdateByDayKey
+import pl.writeonly.omnibus.archive.repository.RecommendationArchiveRepository
+import pl.writeonly.omnibus.archive.repository.RuleUpdateArchiveRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import java.time.ZoneOffset
