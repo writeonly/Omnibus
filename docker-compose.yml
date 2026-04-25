@@ -12,9 +12,11 @@ services:
     ports:
       - "26500:26500"
       - "8089:8080"
+    networks:
+      - omnibus
 
   kafka:
-    image: bitnami/kafka:3.8
+    image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
     environment:
       KAFKA_CFG_NODE_ID: 0
@@ -30,6 +32,8 @@ services:
       ALLOW_PLAINTEXT_LISTENER: "yes"
     ports:
       - "29092:29092"
+    networks:
+      - omnibus
 
   cassandra:
     image: cassandra:5.0
@@ -46,6 +50,8 @@ services:
       start_period: 40s
     ports:
       - "9042:9042"
+    networks:
+      - omnibus
 
   cassandra-init:
     image: cassandra:5.0
@@ -55,10 +61,9 @@ services:
         condition: service_healthy
     volumes:
       - ./infra/cassandra/init.cql:/init.cql:ro
-    entrypoint:
-      - /bin/bash
-      - -c
-      - cqlsh cassandra 9042 -f /init.cql
+    entrypoint: ["/bin/bash", "-c", "cqlsh cassandra 9042 -f /init.cql"]
+    networks:
+      - omnibus
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
@@ -75,6 +80,8 @@ services:
       - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
       - "9090:8080"
+    networks:
+      - omnibus
 
   bidding-engine:
     build:
@@ -88,6 +95,8 @@ services:
       - kafka
     ports:
       - "8080:8080"
+    networks:
+      - omnibus
 
   workflow-orchestrator:
     build:
@@ -102,6 +111,8 @@ services:
       - bidding-engine
     ports:
       - "8082:8082"
+    networks:
+      - omnibus
 
   event-archive:
     build:
@@ -117,15 +128,17 @@ services:
       - cassandra-init
     ports:
       - "8081:8081"
+    networks:
+      - omnibus
 
   bff-nest:
     build:
-      context: ./bff-nest
+      context: ./apps/bff-nest
     container_name: omnibus-bff
     environment:
       BACKEND_BASE_URL: http://bidding-engine:8080
       WORKFLOW_BASE_URL: http://workflow-orchestrator:8082
-      KEYCLOAK_URL: http://localhost:8088/keycloak
+      KEYCLOAK_URL: http://keycloak:8080
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus
       KEYCLOAK_CLIENT_ID: omnibus-frontend
@@ -136,13 +149,17 @@ services:
       - workflow-orchestrator
     ports:
       - "3000:3000"
+    networks:
+      - omnibus
 
   frontend-angular:
     build:
-      context: ./frontend-angular
+      context: ./apps/frontend-angular
     container_name: omnibus-frontend
     depends_on:
       - bff-nest
+    networks:
+      - omnibus
 
   nginx:
     image: nginx:1.27-alpine
@@ -155,9 +172,10 @@ services:
       - bidding-engine
       - workflow-orchestrator
       - keycloak
-      - prometheus
     ports:
       - "8088:80"
+    networks:
+      - omnibus
 
   prometheus:
     image: prom/prometheus:v2.54.1
@@ -175,3 +193,8 @@ services:
       - keycloak
     ports:
       - "9091:9090"
+    networks:
+      - omnibus
+
+networks:
+  omnibus:
