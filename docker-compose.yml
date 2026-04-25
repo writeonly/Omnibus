@@ -11,8 +11,7 @@ services:
     ports:
       - "26500:26500"
       - "8089:8080"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   kafka:
     image: confluentinc/cp-kafka:7.6.1
@@ -32,8 +31,7 @@ services:
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
     ports:
       - "29092:29092"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   cassandra:
     image: cassandra:5.0
@@ -47,11 +45,9 @@ services:
       interval: 20s
       timeout: 10s
       retries: 10
-      start_period: 40s
     ports:
       - "9042:9042"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   cassandra-init:
     image: cassandra:5.0
@@ -62,15 +58,12 @@ services:
     volumes:
       - ./infra/cassandra/init.cql:/init.cql:ro
     entrypoint: ["/bin/bash", "-c", "cqlsh cassandra 9042 -f /init.cql"]
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
     container_name: omnibus-keycloak
-    command:
-      - start-dev
-      - --import-realm
+    command: ["start-dev", "--import-realm"]
     environment:
       KEYCLOAK_ADMIN: kcadmin
       KEYCLOAK_ADMIN_PASSWORD: kcadmin
@@ -80,8 +73,7 @@ services:
       - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
       - "9090:8080"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   bidding-engine:
     build:
@@ -91,12 +83,10 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     volumes:
       - ./services/bidding-engine/managed-rules:/app/managed-rules
-    depends_on:
-      - kafka
+    depends_on: [kafka]
     ports:
       - "8080:8080"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   workflow-orchestrator:
     build:
@@ -106,13 +96,10 @@ services:
       CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
       CAMUNDA_REST_ADDRESS: http://zeebe:8080
       BIDDING_ENGINE_BASE_URL: http://bidding-engine:8080
-    depends_on:
-      - zeebe
-      - bidding-engine
+    depends_on: [zeebe, bidding-engine]
     ports:
       - "8082:8082"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   event-archive:
     build:
@@ -123,13 +110,10 @@ services:
       CASSANDRA_CONTACT_POINTS: cassandra
       CASSANDRA_PORT: 9042
       CASSANDRA_KEYSPACE: omnibus
-    depends_on:
-      - kafka
-      - cassandra-init
+    depends_on: [kafka, cassandra-init]
     ports:
       - "8081:8081"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   bff-nest:
     build:
@@ -149,17 +133,14 @@ services:
       - workflow-orchestrator
     ports:
       - "3000:3000"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   frontend-angular:
     build:
       context: ./presentation/frontend-angular
     container_name: omnibus-frontend
-    depends_on:
-      - bff-nest
-    networks:
-      - omnibus
+    depends_on: [bff-nest]
+    networks: [omnibus]
 
   nginx:
     image: nginx:1.27-alpine
@@ -174,27 +155,51 @@ services:
       - keycloak
     ports:
       - "8088:80"
-    networks:
-      - omnibus
+    networks: [omnibus]
 
   prometheus:
     image: prom/prometheus:v2.54.1
     container_name: omnibus-prometheus
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    depends_on:
-      - bidding-engine
-      - workflow-orchestrator
-      - event-archive
-      - kafka
-      - cassandra
-      - keycloak
     ports:
       - "9091:9090"
-    networks:
-      - omnibus
+    networks: [omnibus]
+
+  # =========================
+  # LOGGING STACK (LOKI)
+  # =========================
+
+  loki:
+    image: grafana/loki:2.9.6
+    container_name: omnibus-loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    networks: [omnibus]
+
+  promtail:
+    image: grafana/promtail:2.9.6
+    container_name: omnibus-promtail
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on: [loki]
+    networks: [omnibus]
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: omnibus-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    depends_on: [loki, prometheus]
+    networks: [omnibus]
 
 networks:
   omnibus:
+  
