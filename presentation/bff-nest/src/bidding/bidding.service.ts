@@ -39,13 +39,23 @@ export class BiddingService {
     );
 
     if (!response.ok) {
-      const body = await response.text();
+      const contentType = response.headers.get('content-type');
 
-      // lepszy kontekst błędu (zamiast "gołego throw")
-      throw new BadGatewayException({
-        message: 'Bidding backend error',
+      const errorBody = contentType?.includes('application/json')
+        ? await response.json()
+        : await response.text();
+
+      console.error('🔥 BIDDING ENGINE ERROR', {
         status: response.status,
-        details: body,
+        url: response.url,
+        payloadSent: payload,
+        errorBody,
+      });
+
+      throw new BadGatewayException({
+        message: 'Bidding backend returned error',
+        status: response.status,
+        error: errorBody,
         payloadSent: payload,
       });
     }

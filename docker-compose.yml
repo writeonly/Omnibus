@@ -1,122 +1,14 @@
 services:
-  zeebe:
-    image: camunda/zeebe:8.8.0
-    container_name: omnibus-zeebe
-    profiles: ["infra"]
-    environment:
-      ZEEBE_BROKER_CLUSTER_CLUSTERSIZE: 1
-      ZEEBE_BROKER_CLUSTER_PARTITIONSCOUNT: 1
-      ZEEBE_BROKER_CLUSTER_REPLICATIONFACTOR: 1
-      ZEEBE_BROKER_THREADS_CPUTHREADCOUNT: 2
-      ZEEBE_BROKER_THREADS_IOTHREADCOUNT: 2
-    ports:
-      - "26500:26500"
-      - "8089:8080"
-    networks: [omnibus]
-
-  kafka:
-    image: confluentinc/cp-kafka:7.6.1
-    container_name: omnibus-kafka
-    profiles: ["infra"]
-    environment:
-      KAFKA_NODE_ID: 0
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
-    ports:
-      - "29092:29092"
-    networks: [omnibus]
-
-  cassandra:
-    image: cassandra:5.0
-    container_name: omnibus-cassandra
-    profiles: ["infra"]
-    environment:
-      CASSANDRA_CLUSTER_NAME: OmnibusCluster
-      CASSANDRA_DC: dc1
-      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
-
-    healthcheck:
-      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE KEYSPACES' localhost 9042 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 15
-      start_period: 90s
-
-    ports:
-      - "9042:9042"
-    networks: [omnibus]
-
-  cassandra-init:
-    image: cassandra:5.0
-    container_name: omnibus-cassandra-init
-    profiles: ["infra"]
-    depends_on:
-      cassandra:
-        condition: service_healthy
-    volumes:
-      - ./infra/cassandra/init.cql:/init.cql:ro
-    entrypoint: ["/bin/bash", "-c", "cqlsh cassandra 9042 -f /init.cql"]
-    networks: [omnibus]
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.0
-    container_name: omnibus-keycloak
-    command: ["start-dev", "--import-realm"]
-    environment:
-      KEYCLOAK_ADMIN: kcadmin
-      KEYCLOAK_ADMIN_PASSWORD: kcadmin
-      KC_METRICS_ENABLED: "true"
-      KC_HEALTH_ENABLED: "true"
-    volumes:
-      - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
-    ports:
-      - "9090:8080"
-    networks: [omnibus]
+  # =========================
+  # CORE (DEFAULT START)
+  # =========================
 
   bidding-engine:
     build:
       context: ./services/bidding-engine
     container_name: omnibus-bidding-engine
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    volumes:
-      - ./services/bidding-engine/managed-rules:/app/managed-rules
     ports:
       - "8080:8080"
-    networks: [omnibus]
-
-  workflow-orchestrator:
-    build:
-      context: ./services/workflow-orchestrator
-    container_name: omnibus-workflow-orchestrator
-    environment:
-      CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
-      CAMUNDA_REST_ADDRESS: http://zeebe:8080
-      BIDDING_ENGINE_BASE_URL: http://bidding-engine:8080
-    ports:
-      - "8082:8082"
-    networks: [omnibus]
-
-  event-archive:
-    build:
-      context: ./services/event-archive
-    container_name: omnibus-event-archive
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      CASSANDRA_CONTACT_POINTS: cassandra
-      CASSANDRA_PORT: 9042
-      CASSANDRA_KEYSPACE: omnibus
-    ports:
-      - "8081:8081"
     networks: [omnibus]
 
   bff-nest:
@@ -134,12 +26,16 @@ services:
     ports:
       - "3000:3000"
     networks: [omnibus]
+    depends_on:
+      - bidding-engine
 
   frontend-angular:
     build:
       context: ./presentation/frontend-angular
     container_name: omnibus-frontend
     networks: [omnibus]
+    depends_on:
+      - bff-nest
 
   nginx:
     image: nginx:1.27-alpine
@@ -151,6 +47,72 @@ services:
     networks: [omnibus]
 
   # =========================
+  # INFRA (OPTIONAL)
+  # =========================
+
+  zeebe:
+    image: camunda/zeebe:8.8.0
+    container_name: omnibus-zeebe
+    profiles: ["infra"]
+    environment:
+      ZEEBE_BROKER_CLUSTER_CLUSTERSIZE: 1
+      ZEEBE_BROKER_CLUSTER_PARTITIONSCOUNT: 1
+      ZEEBE_BROKER_CLUSTER_REPLICATIONFACTOR: 1
+    ports:
+      - "26500:26500"
+      - "8089:8080"
+    networks: [omnibus]
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: omnibus-kafka
+    profiles: ["infra"]
+    ports:
+      - "29092:29092"
+    networks: [omnibus]
+
+  cassandra:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra
+    profiles: ["infra"]
+    ports:
+      - "9042:9042"
+    networks: [omnibus]
+
+  cassandra-init:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra-init
+    profiles: ["infra"]
+    networks: [omnibus]
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: omnibus-keycloak
+    profiles: ["infra"]
+    command: ["start-dev"]
+    ports:
+      - "9090:8080"
+    networks: [omnibus]
+
+  workflow-orchestrator:
+    build:
+      context: ./services/workflow-orchestrator
+    container_name: omnibus-workflow-orchestrator
+    profiles: ["infra"]
+    ports:
+      - "8082:8082"
+    networks: [omnibus]
+
+  event-archive:
+    build:
+      context: ./services/event-archive
+    container_name: omnibus-event-archive
+    profiles: ["infra"]
+    ports:
+      - "8081:8081"
+    networks: [omnibus]
+
+  # =========================
   # OBSERVABILITY (OPTIONAL)
   # =========================
 
@@ -158,9 +120,6 @@ services:
     image: prom/prometheus:v2.54.1
     container_name: omnibus-prometheus
     profiles: ["obs"]
-    command: ["--config.file=/etc/prometheus/prometheus.yml"]
-    volumes:
-      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
       - "9091:9090"
     networks: [omnibus]
@@ -169,7 +128,6 @@ services:
     image: grafana/loki:2.9.6
     container_name: omnibus-loki
     profiles: ["obs"]
-    command: -config.file=/etc/loki/local-config.yaml
     ports:
       - "3100:3100"
     networks: [omnibus]
@@ -178,10 +136,6 @@ services:
     image: grafana/promtail:2.9.6
     container_name: omnibus-promtail
     profiles: ["obs"]
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
-    command: -config.file=/etc/promtail/config.yml
     networks: [omnibus]
 
   grafana:
@@ -190,8 +144,6 @@ services:
     profiles: ["obs"]
     ports:
       - "3001:3000"
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: admin
     networks: [omnibus]
 
 networks:
