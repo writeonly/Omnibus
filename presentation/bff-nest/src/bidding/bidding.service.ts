@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadGatewayException } from '@nestjs/common';
 import { RecommendationRequestDto } from './dto/recommendation-request.dto';
 
 type RecommendationResponse = {
@@ -20,6 +20,13 @@ export class BiddingService {
   async recommend(
     request: RecommendationRequestDto,
   ): Promise<RecommendationResponse> {
+    const payload = {
+      northHand: request.northHand?.trim(),
+      southHand: request.southHand?.trim(),
+      auction: request.auction?.trim() ?? '',
+      system: request.system?.trim() ?? 'DEFAULT_SYSTEM',
+    };
+
     const response = await fetch(
       `${this.backendBaseUrl}/api/v1/bidding/recommend`,
       {
@@ -27,18 +34,20 @@ export class BiddingService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          northHand: request.northHand,
-          southHand: request.southHand,
-          auction: request.auction ?? '',
-          system: request.system,
-        }),
+        body: JSON.stringify(payload),
       },
     );
 
     if (!response.ok) {
       const body = await response.text();
-      throw new Error(`Bidding backend returned ${response.status}: ${body}`);
+
+      // lepszy kontekst błędu (zamiast "gołego throw")
+      throw new BadGatewayException({
+        message: 'Bidding backend error',
+        status: response.status,
+        details: body,
+        payloadSent: payload,
+      });
     }
 
     return (await response.json()) as RecommendationResponse;
