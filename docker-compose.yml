@@ -2,7 +2,6 @@ services:
   zeebe:
     image: camunda/zeebe:8.8.0
     container_name: omnibus-zeebe
-    profiles: ["infra"]
     environment:
       ZEEBE_BROKER_CLUSTER_CLUSTERSIZE: 1
       ZEEBE_BROKER_CLUSTER_PARTITIONSCOUNT: 1
@@ -17,7 +16,6 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
-    profiles: ["infra"]
     environment:
       KAFKA_NODE_ID: 0
       KAFKA_PROCESS_ROLES: broker,controller
@@ -38,19 +36,15 @@ services:
   cassandra:
     image: cassandra:5.0
     container_name: omnibus-cassandra
-    profiles: ["infra"]
     environment:
       CASSANDRA_CLUSTER_NAME: OmnibusCluster
       CASSANDRA_DC: dc1
       CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
-
     healthcheck:
-      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE KEYSPACES' localhost 9042 || exit 1"]
-      interval: 30s
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces' || exit 1"]
+      interval: 20s
       timeout: 10s
-      retries: 15
-      start_period: 90s
-
+      retries: 10
     ports:
       - "9042:9042"
     networks: [omnibus]
@@ -58,7 +52,6 @@ services:
   cassandra-init:
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
-    profiles: ["infra"]
     depends_on:
       cassandra:
         condition: service_healthy
@@ -90,6 +83,7 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     volumes:
       - ./services/bidding-engine/managed-rules:/app/managed-rules
+    depends_on: [kafka]
     ports:
       - "8080:8080"
     networks: [omnibus]
@@ -102,6 +96,7 @@ services:
       CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
       CAMUNDA_REST_ADDRESS: http://zeebe:8080
       BIDDING_ENGINE_BASE_URL: http://bidding-engine:8080
+    depends_on: [zeebe, bidding-engine]
     ports:
       - "8082:8082"
     networks: [omnibus]
@@ -115,6 +110,7 @@ services:
       CASSANDRA_CONTACT_POINTS: cassandra
       CASSANDRA_PORT: 9042
       CASSANDRA_KEYSPACE: omnibus
+    depends_on: [kafka, cassandra-init]
     ports:
       - "8081:8081"
     networks: [omnibus]
@@ -131,6 +127,10 @@ services:
       KEYCLOAK_REALM: omnibus
       KEYCLOAK_CLIENT_ID: omnibus-frontend
       PORT: 3000
+    depends_on:
+      - keycloak
+      - bidding-engine
+      - workflow-orchestrator
     ports:
       - "3000:3000"
     networks: [omnibus]
@@ -139,6 +139,7 @@ services:
     build:
       context: ./presentation/frontend-angular
     container_name: omnibus-frontend
+    depends_on: [bff-nest]
     networks: [omnibus]
 
   nginx:
@@ -146,18 +147,19 @@ services:
     container_name: omnibus-nginx
     volumes:
       - ./infra/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend-angular
+      - bff-nest
+      - bidding-engine
+      - workflow-orchestrator
+      - keycloak
     ports:
       - "8088:80"
     networks: [omnibus]
 
-  # =========================
-  # OBSERVABILITY (OPTIONAL)
-  # =========================
-
   prometheus:
     image: prom/prometheus:v2.54.1
     container_name: omnibus-prometheus
-    profiles: ["obs"]
     command: ["--config.file=/etc/prometheus/prometheus.yml"]
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
@@ -165,10 +167,13 @@ services:
       - "9091:9090"
     networks: [omnibus]
 
+  # =========================
+  # LOGGING STACK (LOKI)
+  # =========================
+
   loki:
     image: grafana/loki:2.9.6
     container_name: omnibus-loki
-    profiles: ["obs"]
     command: -config.file=/etc/loki/local-config.yaml
     ports:
       - "3100:3100"
@@ -177,22 +182,24 @@ services:
   promtail:
     image: grafana/promtail:2.9.6
     container_name: omnibus-promtail
-    profiles: ["obs"]
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
+    depends_on: [loki]
     networks: [omnibus]
 
   grafana:
     image: grafana/grafana:10.4.2
     container_name: omnibus-grafana
-    profiles: ["obs"]
     ports:
       - "3001:3000"
     environment:
       GF_SECURITY_ADMIN_PASSWORD: admin
+    depends_on: [loki, prometheus]
     networks: [omnibus]
 
 networks:
   omnibus:
+  
