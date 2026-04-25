@@ -60,13 +60,12 @@ spotless {
     kotlin {
         target("src/**/*.kt")
         ktlint("1.0.1")
-            .setUseExperimental(true)
         licenseHeaderFile(rootProject.file("LICENSE_HEADER"))
     }
+
     kotlinGradle {
         target("*.gradle.kts")
         ktlint("1.0.1")
-            .setUseExperimental(true)
     }
 }
 
