@@ -26,6 +26,63 @@ Omnibus is a bank-style monorepo for a bridge bidding platform built around a ru
 6. Rule changes from the admin panel go through Camunda before they reach the Drools rule store.
 7. NGINX exposes the platform through one external entry point and routes traffic to the right service.
 
+## Code Quality & Formatting
+
+### Kotlin (Using Gradle)
+
+Run all formatters and linters:
+```bash
+./gradlew format
+```
+
+Check formatting without modifying files:
+```bash
+./gradlew formatCheck
+```
+
+Run only Detekt linter:
+```bash
+./gradlew lint
+```
+
+Run all code quality checks (format + lint):
+```bash
+./gradlew codeQuality
+```
+
+### TypeScript (Using npm)
+
+Run linter:
+```bash
+npm run lint
+```
+
+Auto-fix linting issues:
+```bash
+npm run lint:fix
+```
+
+Format code:
+```bash
+npm run format
+```
+
+Check formatting without modifying:
+```bash
+npm run format:check
+```
+
+Run type checking:
+```bash
+npm run typecheck
+```
+
+Run all checks (lint + format + typecheck):
+```bash
+cd bff-nest
+npm run lint:all
+```
+
 ## Local Run
 
 ### Spring backend
@@ -135,7 +192,7 @@ Managed rules are loaded together with bundled rules on each recommendation requ
 
 ## Monitoring
 
-Prometheus is configured in [infra/prometheus/prometheus.yml](/Users/kamilzabinski/IdeaProjects/writeonly/Omnibus/infra/prometheus/prometheus.yml:1) and scrapes:
+Prometheus is configured in [infra/prometheus/prometheus.yml](/infra/prometheus/prometheus.yml) and scrapes:
 
 - `bidding-engine` through Spring Boot Actuator Prometheus metrics
 - `workflow-orchestrator` through Spring Boot Actuator Prometheus metrics

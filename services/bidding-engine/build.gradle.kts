@@ -5,6 +5,8 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
+    id("com.diffplug.spotless") version "6.25.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.7"
 }
 
 group = "com.omnibus"
@@ -40,6 +42,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
 }
 
 tasks.withType<Test> {
@@ -52,3 +56,28 @@ kotlin {
     }
 }
 
+spotless {
+    kotlin {
+        target("src/**/*.kt")
+        ktlint("1.0.1")
+            .setUseExperimental(true)
+        licenseHeaderFile(rootProject.file("LICENSE_HEADER"))
+    }
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint("1.0.1")
+            .setUseExperimental(true)
+    }
+}
+
+detekt {
+    config.setFrom("$rootDir/detekt.yml")
+    buildUponDefaultConfig = true
+    ignoreFailures = false
+}
+
+tasks.register("codeQuality") {
+    dependsOn("spotlessApply")
+    dependsOn("detekt")
+    description = "Run all code quality checks (format + lint)"
+}

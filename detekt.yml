@@ -1,0 +1,1813 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+  weights:
+    complexity: 2
+    LongParameterList: 1
+    LongMethod: 1
+    LargeClass: 1
+
+config:
+  validation: true
+  warningsAsErrors: false
+  checkBuildUponDefaultConfig: false
+  detekt:
+    maxIssues: 0
+    excludeCorrectable: false
+
+input:
+  useDefaultFilters: true
+  excludeTest: false
+  excludePaths:
+    - '**/test/**'
+    - '**/androidTest/**'
+    - '**/.git/**'
+    - '**/.gradle/**'
+    - '**/build/**'
+    - '**/node_modules/**'
+
+output:
+  currentDir: false
+  outputFormats:
+    - 'txt'
+    - 'xml'
+  reports:
+    txt:
+      active: true
+    xml:
+      active: true
+    html:
+      active: true
+    sarif:
+      active: true
+
+comments:
+  active: true
+  excludeDeclarationsWithAnnotations:
+    - 'Deprecated'
+  excludeDeclarationsWithDocs: false
+  excludeDeclarationsWithSingleLineComments: false
+  requireUndocumentedPublicFunction: false
+  requireUndocumentedPublicProperty: false
+  requireUndocumentedPublicClass: false
+  requireUndocumentedPublicInterface: false
+  requireUndocumentedPublicMethod: false
+  requireUndocumentedPublicEnum: false
+  requireUndocumentedPublicEnumEntry: false
+  requireUndocumentedPublicTypeAlias: false
+  abusiveShortName:
+    active: true
+    threshold: 1
+  dangling:
+    active: true
+  deprecatedBlockTag:
+    active: true
+  endOfSentenceFormat:
+    active: true
+    endOfSentenceFormat: '([.?!]|$)'
+  kDoc:
+    active: true
+    excludeTagless: false
+
+complexity:
+  active: true
+  ComplexCondition:
+    active: true
+    threshold: 4
+  ComplexInterface:
+    active: true
+    threshold: 10
+    includeStaticDeclarations: false
+    includePrivateDeclarations: false
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 15
+  LongMethod:
+    active: true
+    threshold: 60
+  LongParameterList:
+    active: true
+    functionThreshold: 6
+    constructorThreshold: 7
+    ignoreDefaultParameters: false
+    ignoreDataClasses: true
+    ignoreAnnotatedParameter:
+      - 'Inject'
+      - 'PersistenceContext'
+  MethodOverloading:
+    active: true
+    threshold: 6
+  NamedArguments:
+    active: true
+    threshold: 3
+    ignoreArgumentsOfAnnotatedParameter:
+      - 'Test'
+      - 'SpyBean'
+  NestedBlockDepth:
+    active: true
+    threshold: 4
+  NestedScopeFunctions:
+    active: true
+    threshold: 1
+    includeNesting: false
+  ReplaceSafeCallChainWithRun:
+    active: true
+  StringLiteralDuplication:
+    active: true
+    threshold: 3
+    ignoreAnnotation: true
+    excludeStringsWithLessThan5Characters: true
+    ignoreStringsRegex: '^(a|i)$'
+  TooManyFunctions:
+    active: true
+    thresholdInClasses: 11
+    thresholdInInterfaces: 11
+    thresholdInObjects: 11
+    thresholdInEnums: 11
+    ignoreDeprecated: false
+    ignorePrivate: false
+    ignoreOverridden: false
+
+coroutines:
+  active: true
+  GlobalCoroutineUsage:
+    active: true
+  RedundantSuspendModifier:
+    active: true
+  SuspendFunWithFlowReturnType:
+    active: true
+
+errors:
+  active: true
+  DataClassContainsFunctions:
+    active: true
+    conversionFunctionPrefix: 'to'
+  DataClassShouldBeImmutable:
+    active: true
+  EqualsAlwaysReturnsTrueOrFalse:
+    active: true
+  EqualsWithHashCodeExist:
+    active: true
+  ExceptionRaisedInUnexpectedLocation:
+    active: true
+    methodNames:
+      - 'equals'
+      - 'finalize'
+      - 'hashCode'
+      - 'toString'
+  ExitOutsideMain:
+    active: true
+  ExplicitlyThrowsExceptions:
+    active: true
+  IllegalStateException:
+    active: true
+  InvalidRange:
+    active: true
+  IteratorHasNextCallsNextMethod:
+    active: true
+  IteratorNotThrowingNoSuchElementException:
+    active: true
+  NullGetOrElse:
+    active: true
+  NullInsteadOfElvis:
+    active: true
+  NullPointerException:
+    active: true
+  PropertyUsedBeforeDeclaration:
+    active: true
+  ReplaceArrayOfWithLiteral:
+    active: true
+  ReplaceAssertBooleanWithAssertEquality:
+    active: true
+  ReplaceGetOrImplicitDefaultWithElvis:
+    active: true
+  ReturnFromFinally:
+    active: true
+  ReturnValueFromCatch:
+    active: true
+  SwallowedException:
+    active: true
+  ThrowingExceptionFromFinally:
+    active: true
+  ThrowingExceptionInMain:
+    active: true
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: true
+    exceptions:
+      - 'IllegalArgumentException'
+      - 'IllegalStateException'
+      - 'IOException'
+  UnconditionalJumpStatementInLoop:
+    active: true
+  UnnecessaryNotNullOperator:
+    active: true
+  UnnecessarySafeCall:
+    active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
+  UselessPostfixExpression:
+    active: true
+
+formatting:
+  active: true
+  AnnotationOnSeparateLine:
+    active: true
+    autoCorrect: true
+  AnnotationSpacing:
+    active: true
+    autoCorrect: true
+  ArgumentListWrapping:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  ArrayContentAlignment:
+    active: true
+    autoCorrect: true
+  BracesOnIfStatements:
+    active: true
+    autoCorrect: true
+  ChainMethodContinuation:
+    active: true
+    autoCorrect: true
+  CommaSpacing:
+    active: true
+    autoCorrect: true
+  CommentSpacing:
+    active: true
+    autoCorrect: true
+  CurlySpacing:
+    active: true
+    autoCorrect: true
+  DiscouragedCommentLocation:
+    active: true
+    autoCorrect: true
+  EnumEntryNameCase:
+    active: true
+    autoCorrect: true
+  EnumWrapping:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  FilenameNamingConvention:
+    active: true
+  FinalNewline:
+    active: true
+    autoCorrect: true
+    insertFinalNewline: true
+  FunctionBodyExpressionWrapping:
+    active: true
+    autoCorrect: true
+    functionBodyExpressionWrappingLength: 80
+  FunctionExpressionBodyWrapping:
+    active: true
+    autoCorrect: true
+    functionExpressionBodyWrappingLength: 80
+  FunctionName:
+    active: true
+    autoCorrect: false
+  FunctionStartOfBodySpacing:
+    active: true
+    autoCorrect: true
+  FunctionTypeReferenceSpacing:
+    active: true
+    autoCorrect: true
+  IfElseWrapping:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  ImportOrdering:
+    active: true
+    autoCorrect: true
+  Indentation:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+    continuationIndentSize: 4
+  KdocWrapping:
+    active: true
+    autoCorrect: true
+  MaximumLineLength:
+    active: true
+    maxLineLength: 120
+    ignoreBacktickedIdentifier: false
+    ignoreAnnotatedProperty: false
+    ignoreAnnotation: false
+    ignoreFunction: false
+    ignoreComment: false
+  ModifierListSpacing:
+    active: true
+    autoCorrect: true
+  ModifierOrder:
+    active: true
+    autoCorrect: true
+  MultilineIfThenWrapping:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  MultilineLoopJumpStatementSpacing:
+    active: true
+    autoCorrect: true
+  MultilineRawStringIndentation:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  NativeTypeReferenceToBoxedTypeReference:
+    active: true
+    autoCorrect: true
+  NoBlankLineBeforeRbrace:
+    active: true
+    autoCorrect: true
+  NoBlankLineBeforeRbracket:
+    active: true
+    autoCorrect: true
+  NoBlankLines:
+    active: true
+    autoCorrect: true
+  NoConsecutiveBlankLines:
+    active: true
+    autoCorrect: true
+  NoConsecutiveComments:
+    active: true
+    autoCorrect: true
+  NoEmptyClassBody:
+    active: true
+    autoCorrect: true
+  NoEmptyFirstLineInClassBody:
+    active: true
+    autoCorrect: true
+  NoEmptyFirstLineInMethodBody:
+    active: true
+    autoCorrect: true
+  NoLineBreakAfterElse:
+    active: true
+    autoCorrect: true
+  NoLineBreakBeforeAssignment:
+    active: true
+    autoCorrect: true
+  NoMultipleSpaces:
+    active: true
+    autoCorrect: true
+  NoSemicolons:
+    active: true
+    autoCorrect: true
+  NoSpaceAfterUnaryOperator:
+    active: true
+    autoCorrect: true
+  NoSpaceBeforeColon:
+    active: true
+    autoCorrect: true
+  NoSpaceBeforeDot:
+    active: true
+    autoCorrect: true
+  NoTrailingComma:
+    active: true
+    autoCorrect: true
+  NoTrailingSpaces:
+    active: true
+    autoCorrect: true
+  NoUnusedImports:
+    active: true
+    autoCorrect: true
+  NoWildcardImports:
+    active: true
+    autoCorrect: true
+  NullableTypeSpacing:
+    active: true
+    autoCorrect: true
+  OperatorInfixSpacing:
+    active: true
+    autoCorrect: true
+  OperatorSpacing:
+    active: true
+    autoCorrect: true
+  ParamListWrapping:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  ParameterListSpacing:
+    active: true
+    autoCorrect: true
+  PackageName:
+    active: true
+    autoCorrect: false
+  PropertyName:
+    active: true
+    autoCorrect: false
+  PropertyWrapping:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  RawMultilineString:
+    active: true
+    autoCorrect: true
+  SafeCastSpacing:
+    active: true
+    autoCorrect: true
+  SemicolonSpacing:
+    active: true
+    autoCorrect: true
+  SpacingAroundAngleBrackets:
+    active: true
+    autoCorrect: true
+  SpacingAroundCurlyBraces:
+    active: true
+    autoCorrect: true
+  SpacingAroundDotOperator:
+    active: true
+    autoCorrect: true
+  SpacingAroundDoubleColon:
+    active: true
+    autoCorrect: true
+  SpacingAroundKeyword:
+    active: true
+    autoCorrect: true
+  SpacingAroundOperators:
+    active: true
+    autoCorrect: true
+  SpacingAroundParens:
+    active: true
+    autoCorrect: true
+  SpacingAroundRangeOperator:
+    active: true
+    autoCorrect: true
+  SpacingBeforeBracketInClassReference:
+    active: true
+    autoCorrect: true
+  SpacingBetweenDeclarationsWithAnnotations:
+    active: true
+    autoCorrect: true
+  SpacingBetweenDeclarationsWithComments:
+    active: true
+    autoCorrect: true
+  StringTemplateIndentation:
+    active: true
+    autoCorrect: true
+    indentSize: 4
+  TrailingCommaOnCallSite:
+    active: true
+    autoCorrect: true
+    useTrailingCommaOnCallSite: true
+  TrailingCommaOnDeclarationSite:
+    active: true
+    autoCorrect: true
+    useTrailingCommaOnDeclarationSite: true
+  TrimIndentation:
+    active: true
+    autoCorrect: true
+  TypeArgumentListSpacing:
+    active: true
+    autoCorrect: true
+  TypeCastSpacing:
+    active: true
+    autoCorrect: true
+  TypeParameterListSpacing:
+    active: true
+    autoCorrect: true
+  UnnecessaryAbstractClassCreation:
+    active: true
+    autoCorrect: true
+  UnnecessaryAnnotationUseSiteTarget:
+    active: true
+    autoCorrect: true
+  UnnecessaryImport:
+    active: true
+    autoCorrect: true
+  UnnecessaryInterpolationBraces:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInAnnotationUseSiteTarget:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInFunctionCall:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInFunctionDeclaration:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInIfStatement:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInIfWhileAndWhenWithoutElse:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInLoopStatements:
+    active: true
+    autoCorrect: true
+  UnnecessaryParenthesesInWhenWithoutElse:
+    active: true
+    autoCorrect: true
+  UnnecessaryRawStringPrefix:
+    active: true
+    autoCorrect: true
+  WildcardImport:
+    active: true
+    autoCorrect: true
+
+idiomatic:
+  active: true
+  BooleanPropertyNaming:
+    active: true
+    allowedPrefixes:
+      - 'is'
+      - 'has'
+      - 'are'
+  ChainWrapping:
+    active: true
+    autoCorrect: true
+  ClassNamedParameter:
+    active: true
+  CollectionMutableAccessor:
+    active: true
+  CollapsibleIfStatements:
+    active: true
+    autoCorrect: true
+  ComparableRange:
+    active: true
+  EqualsNullCall:
+    active: true
+    autoCorrect: true
+  EqualsOnSignatureLine:
+    active: true
+    autoCorrect: true
+  ExplicitCollectionElementAccessMethod:
+    active: true
+    autoCorrect: true
+  ExplicitItLambdaParameter:
+    active: true
+    autoCorrect: true
+  ExplicitReturnInExpressionBodiedProperty:
+    active: true
+    autoCorrect: true
+  FoldInitializerAndIfToEarlyReturn:
+    active: true
+    autoCorrect: true
+  ForEachOnRange:
+    active: true
+    autoCorrect: true
+  FunctionInitializerWrapping:
+    active: true
+    autoCorrect: true
+  IfThenToElvis:
+    active: true
+    autoCorrect: true
+  IfThenToSafeAccess:
+    active: true
+    autoCorrect: true
+  IfToWhen:
+    active: true
+  IntegerDivisionDetected:
+    active: true
+  IsEmptyOrIsNotEmpty:
+    active: true
+    autoCorrect: true
+  IsNullOrNullCheck:
+    active: true
+    autoCorrect: true
+  LambdaArgumentAndReturnTypeDetection:
+    active: true
+  LambdaMultilineLambda:
+    active: true
+  LambdaOrAnonymousFunction:
+    active: true
+  LongMethod:
+    active: true
+  LongParameterList:
+    active: true
+  LongVariable:
+    active: true
+  LoopWithTooManyJumpStatements:
+    active: true
+    maxJumpCount: 1
+  MagicNumber:
+    active: true
+    ignoreNumbers:
+      - '-1'
+      - '0'
+      - '1'
+      - '2'
+    ignoreHashCodeFunction: true
+    ignorePropertyDeclaration: false
+    ignoreLocalVariableDeclaration: false
+    ignoreConstantDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotation: false
+    ignoreNamedArgument: true
+    ignoreEnumEntry: true
+  MethodOverloading:
+    active: true
+  MissingWhenCase:
+    active: true
+  ModifierOrder:
+    active: true
+  MultilineRawStringIndentation:
+    active: true
+  MultilineLambdaItParameterInspection:
+    active: true
+    autoCorrect: true
+  NestedBlockDepth:
+    active: true
+    threshold: 4
+  NestedClassesVisibility:
+    active: true
+  NestedLambdas:
+    active: true
+    threshold: 1
+  NullableToStringCall:
+    active: true
+  ObjectLiteralToLambda:
+    active: true
+    autoCorrect: true
+  OptionalAbstractKeyword:
+    active: true
+    autoCorrect: true
+  OptionalBoolean:
+    active: true
+    autoCorrect: true
+  OptionalChainWrapping:
+    active: true
+    autoCorrect: true
+  OptionalUnit:
+    active: true
+    autoCorrect: true
+  OptionalWhenBraces:
+    active: true
+    autoCorrect: true
+  PreferToOverPairSyntax:
+    active: true
+    autoCorrect: true
+  PrintStacktrace:
+    active: true
+  PropertyName:
+    active: true
+  RangeToRange:
+    active: true
+    autoCorrect: true
+  RangeUntilInstead:
+    active: true
+    autoCorrect: true
+  RedundantAsync:
+    active: true
+    autoCorrect: true
+  RedundantContinue:
+    active: true
+    autoCorrect: true
+  RedundantElseInWhen:
+    active: true
+    autoCorrect: true
+  RedundantExplicitType:
+    active: true
+    autoCorrect: true
+  RedundantHigherOrderMapUsage:
+    active: true
+    autoCorrect: true
+  RedundantIfElseBlock:
+    active: true
+    autoCorrect: true
+  RedundantLabeledExpression:
+    active: true
+    autoCorrect: true
+  RedundantNullableReturnType:
+    active: true
+    autoCorrect: true
+  RedundantNullCheck:
+    active: true
+    autoCorrect: true
+  RedundantNullCheckBeforeUsage:
+    active: true
+    autoCorrect: true
+  RedundantReturn:
+    active: true
+    autoCorrect: true
+  RedundantSamWithLambda:
+    active: true
+    autoCorrect: true
+  RedundantSetterParameterType:
+    active: true
+    autoCorrect: true
+  RedundantUnitExpression:
+    active: true
+    autoCorrect: true
+  RedundantUnitReturnType:
+    active: true
+    autoCorrect: true
+  RedundantVisibility:
+    active: true
+    autoCorrect: true
+  RemoveEmptySecondaryConstructorBody:
+    active: true
+    autoCorrect: true
+  RemoveRedundantQualifierName:
+    active: true
+    autoCorrect: true
+  RemoveRedundantSpreadOperator:
+    active: true
+    autoCorrect: true
+  RemoveUselessSupertype:
+    active: true
+    autoCorrect: true
+  RemoveUselessCallsToSuper:
+    active: true
+  RemoveUselessConstructorKeyword:
+    active: true
+    autoCorrect: true
+  ReplaceBooleanExpressionWithWhenExpression:
+    active: true
+  ReplaceCallVariableWithIt:
+    active: true
+    autoCorrect: true
+  ReplaceCollectionCountWithSize:
+    active: true
+    autoCorrect: true
+  ReplaceGetOrDefaultWithIfThenElse:
+    active: true
+    autoCorrect: true
+  ReplaceIfElseWithAndOperator:
+    active: true
+    autoCorrect: true
+  ReplaceIfElseWithOrOperator:
+    active: true
+    autoCorrect: true
+  ReplaceIfElseWithWhen:
+    active: true
+    autoCorrect: true
+  ReplaceIfWithWhen:
+    active: true
+  ReplaceIsEmptyWithIfThenElse:
+    active: true
+    autoCorrect: true
+  ReplaceNegatedIsEmptyWithIsNotEmpty:
+    active: true
+    autoCorrect: true
+  ReplaceNotNullAssertionWithElvisReturn:
+    active: true
+    autoCorrect: true
+  ReplaceNotNullAssertionWithIfThenNullCheck:
+    active: true
+  ReplacePrivateVisibilityWithAnonymousObject:
+    active: true
+  ReplaceRangeToRangeUntil:
+    active: true
+    autoCorrect: true
+  ReplaceRangeWithUntil:
+    active: true
+    autoCorrect: true
+  ReplaceReadLineWithReadln:
+    active: true
+    autoCorrect: true
+  ReplaceReturnWithExpressionBody:
+    active: true
+    autoCorrect: true
+  ReplaceSimpleUseFoldWithForeach:
+    active: true
+    autoCorrect: true
+  ReplaceStringInterpolationWithRawString:
+    active: true
+    autoCorrect: true
+  ReplaceToWithInfixForm:
+    active: true
+    autoCorrect: true
+  ReplaceUntilWithRangeUntil:
+    active: true
+    autoCorrect: true
+  ReplaceUntilWithRangeUntil:
+    active: true
+    autoCorrect: true
+  ReplaceWhenWithIf:
+    active: true
+  ReplaceWhenWithTryExpression:
+    active: true
+    autoCorrect: true
+  ReplaceWithEnumMap:
+    active: true
+  ReplaceWithFirstOrLastWhenUsingSinglePredicateFilter:
+    active: true
+    autoCorrect: true
+  ReplaceWithFlatMap:
+    active: true
+    autoCorrect: true
+  ReplaceWithMapGetOrDefault:
+    active: true
+    autoCorrect: true
+  ReplaceWithRun:
+    active: true
+    autoCorrect: true
+  SafeCastAfterInstanceOf:
+    active: true
+    autoCorrect: true
+  SerializableChangedSerializationId:
+    active: true
+  SerializableHasSerialVersionUIDField:
+    active: true
+  SimplifyBooleanWithConstants:
+    active: true
+    autoCorrect: true
+  SimplifyBooleanWithNotNot:
+    active: true
+    autoCorrect: true
+  SimplifyNestedFirstOrLastCallChains:
+    active: true
+    autoCorrect: true
+  SimplifyNestedMapOfSequence:
+    active: true
+    autoCorrect: true
+  SimplifyNestedMapOfNotNull:
+    active: true
+    autoCorrect: true
+  SimplifyNegatedBooleanExpression:
+    active: true
+    autoCorrect: true
+  SimplifyNotNullCheck:
+    active: true
+    autoCorrect: true
+  SimplifySequenceOfMapNotNull:
+    active: true
+    autoCorrect: true
+  SimplifyWhenWithBooleanConstantInCondition:
+    active: true
+    autoCorrect: true
+  SimplifyWhenWithComparable:
+    active: true
+  SimplifyWhenWithEnumOrSealedClass:
+    active: true
+    autoCorrect: true
+  SortedFirstAndLast:
+    active: true
+    autoCorrect: true
+  SpreadOperatorCanBeReplaced:
+    active: true
+    autoCorrect: true
+  StringShouldBeRawString:
+    active: true
+  TestFunctionName:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
+  TrimMultilineRawString:
+    active: true
+    autoCorrect: true
+  TrimTrailingWhitespace:
+    active: true
+    autoCorrect: true
+  TrivialPropertyAccessor:
+    active: true
+    autoCorrect: true
+  TrivialPropertyGetterBody:
+    active: true
+    autoCorrect: true
+  TrivialPropertySetterBody:
+    active: true
+    autoCorrect: true
+  TryCatchIdentifier:
+    active: true
+  TypealiasToTypeReference:
+    active: true
+  UnnecessaryAbstractClass:
+    active: true
+  UnnecessaryAnnotation:
+    active: true
+  UnnecessaryApply:
+    active: true
+    autoCorrect: true
+  UnnecessaryBackticks:
+    active: true
+    autoCorrect: true
+  UnnecessaryBracesAroundTrailingLambda:
+    active: true
+    autoCorrect: true
+  UnnecessaryFilter:
+    active: true
+    autoCorrect: true
+  UnnecessaryInheritance:
+    active: true
+    autoCorrect: true
+  UnnecessaryInnerClass:
+    active: true
+  UnnecessaryInvoke:
+    active: true
+    autoCorrect: true
+  UnnecessaryLet:
+    active: true
+    autoCorrect: true
+  UnnecessaryNot:
+    active: true
+    autoCorrect: true
+  UnnecessaryNothing:
+    active: true
+    autoCorrect: true
+  UnnecessaryNumberNegation:
+    active: true
+    autoCorrect: true
+  UnnecessaryObjectInstantiation:
+    active: true
+    autoCorrect: true
+  UnnecessaryParentheses:
+    active: true
+    autoCorrect: true
+  UnnecessaryPartOfBinaryExpression:
+    active: true
+    autoCorrect: true
+  UnnecessarySafeCallForNonNullType:
+    active: true
+    autoCorrect: true
+  UnnecessaryTemporaryInstantiation:
+    active: true
+    autoCorrect: true
+  UnnecessaryTypeParameterInVariableDeclaration:
+    active: true
+    autoCorrect: true
+  UnnecessaryWhen:
+    active: true
+    autoCorrect: true
+  UnnecessaryWhenExpression:
+    active: true
+    autoCorrect: true
+  UnnecessaryWildcard:
+    active: true
+    autoCorrect: true
+  UnnecessaryWildcardAroundAllAsterisks:
+    active: true
+    autoCorrect: true
+  UnnecessaryWithObjectAllArguments:
+    active: true
+    autoCorrect: true
+  UnreachableCode:
+    active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCastFromDynamic:
+    active: true
+    autoCorrect: true
+  UnsafeCastToMutableCollection:
+    active: true
+    autoCorrect: true
+  UnusedImports:
+    active: true
+  UnusedParameter:
+    active: true
+  UnusedPrivateClass:
+    active: true
+  UnusedPrivateMember:
+    active: true
+  UnusedPrivateProperty:
+    active: true
+  UseAndInsteadOfIfThenElse:
+    active: true
+    autoCorrect: true
+  UseArrayLiteralsInAnnotations:
+    active: true
+    autoCorrect: true
+  UseCheckNotNull:
+    active: true
+    autoCorrect: true
+  UseCheckOrError:
+    active: true
+    autoCorrect: true
+  UseDataClass:
+    active: true
+  UseEmptyCounterpart:
+    active: true
+    autoCorrect: true
+  UseExpressionBody:
+    active: true
+  UseFloatingPointLiteralForFloat:
+    active: true
+    autoCorrect: true
+  UseIfEmptyOrIfBlank:
+    active: true
+    autoCorrect: true
+  UseIfInsteadOfWhen:
+    active: true
+  UseIfNotEmpty:
+    active: true
+    autoCorrect: true
+  UseIfNotEmptyOrIfEmpty:
+    active: true
+    autoCorrect: true
+  UseIfNullOrEmpty:
+    active: true
+    autoCorrect: true
+  UseInvokeWith:
+    active: true
+    autoCorrect: true
+  UseIsEven:
+    active: true
+    autoCorrect: true
+  UseIsOdd:
+    active: true
+    autoCorrect: true
+  UseKeyword:
+    active: true
+    autoCorrect: true
+  UseLetInsteadOfApply:
+    active: true
+  UseLet:
+    active: true
+    autoCorrect: true
+  UseMap:
+    active: true
+    autoCorrect: true
+  UseMerge:
+    active: true
+    autoCorrect: true
+  UseNotNull:
+    active: true
+    autoCorrect: true
+  UseNumericLiterals:
+    active: true
+    autoCorrect: true
+  UseOrEmpty:
+    active: true
+    autoCorrect: true
+  UseRangeUntil:
+    active: true
+    autoCorrect: true
+  UseRequire:
+    active: true
+    autoCorrect: true
+  UseRequireNotNull:
+    active: true
+    autoCorrect: true
+  UseRunCatching:
+    active: true
+    autoCorrect: true
+  UseSamWithLambda:
+    active: true
+    autoCorrect: true
+  UseSingleConditionInsteadOfNot:
+    active: true
+    autoCorrect: true
+  UseSinglePredicateFilter:
+    active: true
+    autoCorrect: true
+  UseStdlibAssert:
+    active: true
+  UseStringBuilderAppend:
+    active: true
+    autoCorrect: true
+  UseTestTags:
+    active: true
+  UseToSet:
+    active: true
+    autoCorrect: true
+  UseUntilInsteadOfRangeTo:
+    active: true
+    autoCorrect: true
+  UseWhenWithoutElse:
+    active: true
+  UseWithIndex:
+    active: true
+    autoCorrect: true
+  UseWithoutLet:
+    active: true
+    autoCorrect: true
+  UselessComparison:
+    active: true
+  UselessMacro:
+    active: true
+  UsesUnsafeExpression:
+    active: true
+  UtilityClassWithPublicConstructor:
+    active: true
+    autoCorrect: true
+  VarCouldBeVal:
+    active: true
+    autoCorrect: true
+  WhenAllBranchesSameModifierOrder:
+    active: true
+  WhenBranchIsSimplifiable:
+    active: true
+    autoCorrect: true
+  WhenCheckedExceptionCaught:
+    active: true
+  WhenObjectExpressionToIfThenElse:
+    active: true
+  WhenOnBooleanConstant:
+    active: true
+  WhenOnSingleLine:
+    active: true
+    autoCorrect: true
+  WhenRedundantElse:
+    active: true
+    autoCorrect: true
+  WhenWithoutElse:
+    active: true
+  WildcardImport:
+    active: true
+  ZeroLengthCountComparison:
+    active: true
+    autoCorrect: true
+
+logging:
+  active: true
+  ConsoleSlf4j:
+    active: true
+  LoggerBackingFieldNaming:
+    active: true
+    loggingClassNames:
+      - org.slf4j.Logger
+      - org.apache.log4j.Logger
+      - java.util.logging.Logger
+      - org.apache.commons.logging.Log
+  LoggerInitializedWithClassName:
+    active: true
+    loggingClassNames:
+      - org.slf4j.Logger
+      - org.apache.log4j.Logger
+      - java.util.logging.Logger
+      - org.apache.commons.logging.Log
+  Println:
+    active: true
+  StringLiteralAsLogMessageArgument:
+    active: true
+  ThrowingExceptionInMain:
+    active: true
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: true
+  TooGenericExceptionCaught:
+    active: true
+    exceptionNames:
+      - ArrayIndexOutOfBoundsException
+      - Error
+      - Exception
+      - IllegalMonitorStateException
+      - NullPointerException
+      - RuntimeException
+      - Throwable
+    allowedExceptionNameRegex: '^(_|(ignore|expected).*|.*Exception|.*Error|.*Throwable)$'
+  UnspecifiedIoExceptionCaught:
+    active: true
+
+multithreading:
+  active: true
+  ActiveField:
+    active: true
+  DoNotMockMutableSharedData:
+    active: true
+  DoNotUseThreadGroups:
+    active: true
+  DoNotUseThreads:
+    active: true
+  IsReferenceCounting:
+    active: true
+  SyncOnThis:
+    active: true
+  SyncOnVariable:
+    active: true
+  SyncedMethod:
+    active: true
+  ThreadSafeDataInitialization:
+    active: true
+  ThreadSafetyCommented:
+    active: true
+  UseCheckNotNullInstead:
+    active: true
+
+name-naming:
+  active: true
+  BooleanPropertyNaming:
+    active: true
+    allowedPrefixes:
+      - 'is'
+      - 'has'
+      - 'are'
+    allowedSuffixes:
+      - 'Flag'
+      - 'Enabled'
+      - 'Visible'
+  ClassNaming:
+    active: true
+    classPattern: '^([A-Z$][a-zA-Z0-9$]*|`.*`)$'
+  ConstructorParameterNaming:
+    active: true
+    parameterPattern: '^[a-z]([a-zA-Z0-9]*)?$'
+    privateParameterPattern: '^[a-z]([a-zA-Z0-9]*)?$'
+    excludeClassPattern: '^$'
+    ignoreOverridden: true
+  EnumNaming:
+    active: true
+    enumEntryPattern: '^[A-Z]([a-zA-Z0-9_]*)?$'
+  ForbiddenClassName:
+    active: true
+    forbiddenName:
+      - 'Test'
+  FunctionMaxLength:
+    active: true
+    maximumFunctionNameLength: 30
+  FunctionMinLength:
+    active: true
+    minimumFunctionNameLength: 3
+  FunctionNaming:
+    active: true
+    functionPattern: '^([a-z$][a-zA-Z$0-9]*|test|`.*`)$'
+    excludeClassPattern: '^(*.Test$|*.Spec$)'
+    ignoreAnnotated:
+      - 'Composable'
+      - 'Test'
+  FunctionParameterNaming:
+    active: true
+    parameterPattern: '^[a-z]([a-zA-Z0-9]*)?$'
+    excludeClassPattern: '^$'
+    ignoreOverridden: true
+  InvalidPackageDeclaration:
+    active: true
+    rootPackage: ''
+  LambdaParameterNaming:
+    active: true
+    parameterPattern: '^[a-z]([a-zA-Z0-9]*)?$|^_$'
+  MatchingDeclarationName:
+    active: true
+    mustBeFirst: true
+  MemberNameEqualsClassName:
+    active: true
+    ignoreOverridden: true
+  MethodNaming:
+    active: true
+    methodPattern: '^([a-z$][a-zA-Z$0-9]*|`.*`)$'
+    excludeClassPattern: '^(*.Test$|*.Spec$)'
+    ignoreAnnotated:
+      - 'Composable'
+      - 'Test'
+  MissingPackageDeclaration:
+    active: true
+    excludePrivatePackages: true
+  NoNameShadowing:
+    active: true
+  NonBooleanPropertyPrefixedWithIs:
+    active: true
+  ObjectPropertyNaming:
+    active: true
+    constantPattern: '^[A-Za-z]([A-Za-z0-9_]*)?$'
+    propertyPattern: '^[A-Za-z]([A-Za-z0-9_]*)?$'
+    privatePropertyPattern: '^(_)?[A-Za-z]([A-Za-z0-9_]*)?$'
+  PackageNaming:
+    active: true
+    packagePattern: '^[a-z]+(\.[a-z][a-z0-9_]*)*$'
+  ParameterNaming:
+    active: true
+    parameterPattern: '^[a-z]([a-zA-Z0-9]*)?$'
+    excludeClassPattern: '^$'
+    ignoreOverridden: true
+  PrivatePropertyNaming:
+    active: true
+    privatePropertyPattern: '^(_)?[a-z]([a-zA-Z0-9_]*)?$'
+  PropertyMaxLength:
+    active: true
+    maximumPropertyNameLength: 32
+  PropertyMinLength:
+    active: true
+    minimumPropertyNameLength: 1
+  PropertyNaming:
+    active: true
+    propertyPattern: '^[a-z]([a-zA-Z0-9_]*)?$'
+    privatePropertyPattern: '^(_)?[a-z]([a-zA-Z0-9_]*)?$'
+    excludeClassPattern: '^$'
+    ignoreOverridden: true
+  TopLevelPropertyNaming:
+    active: true
+    constantPattern: '^[A-Z]([A-Z0-9_]*)?$'
+    propertyPattern: '^[a-z]([a-zA-Z0-9_]*)?$'
+    privatePropertyPattern: '^_?[a-z]([a-zA-Z0-9_]*)?$'
+  VariableMaxLength:
+    active: true
+    maximumVariableNameLength: 64
+  VariableMinLength:
+    active: true
+    minimumVariableNameLength: 1
+  VariableNaming:
+    active: true
+    variablePattern: '^[a-z]([a-zA-Z0-9_]*)?$'
+    privateVariablePattern: '^(_)?[a-z]([a-zA-Z0-9_]*)?$'
+    excludeClassPattern: '^$'
+    ignoreOverridden: true
+
+nullability:
+  active: true
+  NullableToStringCall:
+    active: true
+  NullCheckOnMutableProperty:
+    active: true
+  NullablePropertyLateInitialization:
+    active: true
+  NullableBooleanCheck:
+    active: true
+  NullableReferenceEquality:
+    active: true
+
+potential-bugs:
+  active: true
+  ArrayEqualityOperator:
+    active: true
+  CastToNullableType:
+    active: true
+  CastNullableToNonNullableType:
+    active: true
+  DeferredClosureSpecs:
+    active: true
+  DuplicateCaseInWhenExpression:
+    active: true
+  ElseCaseInsteadOfExhaustiveWhen:
+    active: true
+  EqualsAlwaysReturnsTrueOrFalse:
+    active: true
+  EqualsWithHashCodeExist:
+    active: true
+  ExitOutsideMain:
+    active: true
+  ExplicitlyThrowsExceptions:
+    active: true
+  HasPlatformType:
+    active: true
+  IgnoredReturnValue:
+    active: true
+    restrictToConfig: true
+    returnValueAnnotations:
+      - 'CheckResult'
+      - 'CheckReturnValue'
+  ImplicitDefaultLocale:
+    active: true
+  ImplicitUnitReturnType:
+    active: true
+    allowExplicitReturnType: true
+  InvalidRange:
+    active: true
+  IteratorHasNextCallsNextMethod:
+    active: true
+  IteratorImplementation:
+    active: true
+  IteratorNotThrowingNoSuchElementException:
+    active: true
+  LateinitUsage:
+    active: true
+    excludeAnnotatedProperties:
+      - 'Inject'
+      - 'PersistenceContext'
+    ignoreOnClassesPattern: ''
+  MapGetWithNotNullAssertionOperator:
+    active: true
+  MissingPackageDeclaration:
+    active: true
+    excludePrivatePackages: true
+  MissingWhenCase:
+    active: true
+    allowElseExpression: true
+  NullCheckOnMutableProperty:
+    active: true
+  NullInsteadOfElvis:
+    active: true
+  NullPointerException:
+    active: true
+  NullableToStringCall:
+    active: true
+  PropertyUsedBeforeDeclaration:
+    active: true
+  RedundantElseInWhen:
+    active: true
+  ReplaceArrayOfWithLiteral:
+    active: true
+  ReplaceAssertBooleanWithAssertEquality:
+    active: true
+  ReplaceGetOrImplicitDefaultWithElvis:
+    active: true
+  ReturnFromFinally:
+    active: true
+  ReturnValueFromCatch:
+    active: true
+  SwallowedException:
+    active: true
+    ignoredExceptionTypes:
+      - 'NumberFormatException'
+  ThrowingExceptionFromFinally:
+    active: true
+  ThrowingExceptionInMain:
+    active: true
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: true
+    exceptions:
+      - 'IllegalArgumentException'
+      - 'IllegalStateException'
+      - 'IOException'
+  ThrowingNew:
+    active: true
+  UnconditionalJumpStatementInLoop:
+    active: true
+  UnnecessaryNotNullCheck:
+    active: true
+  UnnecessaryNotNullOperator:
+    active: true
+  UnnecessarySafeCall:
+    active: true
+  UnreachableCode:
+    active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
+  UnusedUnboxedSAMParameter:
+    active: true
+  UsageOfUnsealedClass:
+    active: true
+  UselessPostfixExpression:
+    active: true
+  WrongEqualsTypeParameter:
+    active: true
+
+performance:
+  active: true
+  ArrayPrimitive:
+    active: true
+  CouldBeSequence:
+    active: true
+    threshold: 2
+  ForEachOnRange:
+    active: true
+    arrayLoopThreshold: 10000
+    rangeLoopThreshold: 10000
+  SpreadOperator:
+    active: true
+  UnnecessaryPartOfBinaryExpression:
+    active: true
+  UnnecessaryTemporaryInstantiation:
+    active: true
+  UnusedParameter:
+    active: true
+  UnusedPrivateMember:
+    active: true
+    allowedNames: '(_|ignore|expected|serialVersionUID)'
+  UnusedVariable:
+    active: true
+  UseArrayLiteralsInAnnotations:
+    active: true
+  UseSpreadOperator:
+    active: true
+  UselessCallOnNotNull:
+    active: true
+
+style:
+  active: true
+  BracesOnIfStatements:
+    active: true
+  BracesOnWhenStatements:
+    active: true
+  CanBeNonNullable:
+    active: true
+  CascadingCallWrapping:
+    active: true
+  ClassOrderingRules:
+    active: true
+  CollapsibleIfStatements:
+    active: true
+  DataClassContainsFunctions:
+    active: true
+    conversionFunctionPrefix: 'to'
+  DataClassShouldBeImmutable:
+    active: true
+  DestructuringAssignmentWithTooManyEntries:
+    active: true
+    maxDestructuringEntries: 3
+  DoubleNegativeLambda:
+    active: true
+  EqualsNullCall:
+    active: true
+  EqualsOnSignatureLine:
+    active: true
+  ExpressionBodySyntax:
+    active: true
+    includeLineWrapping: false
+  ForbiddenComment:
+    active: true
+    values:
+      - 'TODO'
+      - 'FIXME'
+      - 'STOPSHIP'
+      - 'deprecated'
+    allowedPatterns: ''
+  ForbiddenImport:
+    active: true
+    imports: []
+    forbiddenPatterns: ''
+  ForbiddenVoid:
+    active: true
+    ignoreAnnotated:
+      - 'Composable'
+  FunctionOnlyReturningConstant:
+    active: true
+    ignoreAnnotated:
+      - 'Composable'
+    ignoreOverridden: false
+  LoopWithTooManyJumpStatements:
+    active: true
+    maxJumpCount: 1
+  MagicNumber:
+    active: true
+    ignoreNumbers:
+      - '-1'
+      - '0'
+      - '1'
+      - '2'
+    ignoreHashCodeFunction: true
+    ignorePropertyDeclaration: false
+    ignoreLocalVariableDeclaration: false
+    ignoreConstantDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotation: false
+    ignoreNamedArgument: true
+    ignoreEnumEntry: true
+  MandatoryBracesLoops:
+    active: true
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+    excludePackageStatements: true
+    excludeImportStatements: true
+    excludeCommentStatements: false
+    excludeRawStrings: false
+  MayBeConst:
+    active: true
+  ModifierOrder:
+    active: true
+  MultilineRawStringIndentation:
+    active: true
+    indentSize: 4
+  MultilineLambdaItParameterInspection:
+    active: true
+  NestedClassesVisibility:
+    active: true
+  NewLineAtEndOfFile:
+    active: true
+  NoTabs:
+    active: true
+  NullableTypeReferenceToBoxedType:
+    active: true
+  NullableBooleanCheck:
+    active: true
+  ObjectLiteralToLambda:
+    active: true
+  OptionalAbstractKeyword:
+    active: true
+  OptionalBoolean:
+    active: true
+  OptionalChainWrapping:
+    active: true
+  OptionalUnit:
+    active: true
+  OptionalWhenBraces:
+    active: true
+  PackageNaming:
+    active: true
+    packagePattern: '^[a-z]+(\.[a-z][a-z0-9_]*)*$'
+  PreferToOverPairSyntax:
+    active: true
+  PrintStacktrace:
+    active: true
+  PropertyName:
+    active: true
+  RangeToRange:
+    active: true
+  RangeUntilInstead:
+    active: true
+  RedundantAsync:
+    active: true
+  RedundantContinue:
+    active: true
+  RedundantElseInWhen:
+    active: true
+  RedundantExplicitType:
+    active: true
+  RedundantHigherOrderMapUsage:
+    active: true
+  RedundantIfElseBlock:
+    active: true
+  RedundantLabeledExpression:
+    active: true
+  RedundantNullableReturnType:
+    active: true
+  RedundantNullCheck:
+    active: true
+  RedundantReturn:
+    active: true
+  RedundantSamWithLambda:
+    active: true
+  RedundantSetterParameterType:
+    active: true
+  RedundantUnitExpression:
+    active: true
+  RedundantUnitReturnType:
+    active: true
+  RedundantVisibility:
+    active: true
+  RemoveEmptySecondaryConstructorBody:
+    active: true
+  RemoveRedundantQualifierName:
+    active: true
+  RemoveRedundantSpreadOperator:
+    active: true
+  RemoveUselessSupertype:
+    active: true
+  RemoveUselessCallsToSuper:
+    active: true
+  RemoveUselessConstructorKeyword:
+    active: true
+  ReplaceBooleanExpressionWithWhenExpression:
+    active: true
+  ReplaceCallVariableWithIt:
+    active: true
+  ReplaceCollectionCountWithSize:
+    active: true
+  ReplaceIfElseWithAndOperator:
+    active: true
+  ReplaceIfElseWithOrOperator:
+    active: true
+  ReplaceIfElseWithWhen:
+    active: true
+  ReplaceIfWithWhen:
+    active: true
+  ReplaceNegatedIsEmptyWithIsNotEmpty:
+    active: true
+  ReplaceNotNullAssertionWithElvisReturn:
+    active: true
+  ReplaceNotNullAssertionWithIfThenNullCheck:
+    active: true
+  ReplacePrivateVisibilityWithAnonymousObject:
+    active: true
+  ReplaceRangeToRangeUntil:
+    active: true
+  ReplaceRangeWithUntil:
+    active: true
+  ReplaceReadLineWithReadln:
+    active: true
+  ReplaceReturnWithExpressionBody:
+    active: true
+  ReplaceStringInterpolationWithRawString:
+    active: true
+  ReplaceToWithInfixForm:
+    active: true
+  ReplaceUntilWithRangeUntil:
+    active: true
+  ReplaceWhenWithIf:
+    active: true
+  ReplaceWhenWithTryExpression:
+    active: true
+  ReplaceWithEnumMap:
+    active: true
+  ReplaceWithFirstOrLastWhenUsingSinglePredicateFilter:
+    active: true
+  ReplaceWithFlatMap:
+    active: true
+  ReplaceWithMapGetOrDefault:
+    active: true
+  ReplaceWithRun:
+    active: true
+  SafeCastAfterInstanceOf:
+    active: true
+  SerializableHasSerialVersionUIDField:
+    active: true
+  SimplifyBooleanWithConstants:
+    active: true
+  SimplifyBooleanWithNotNot:
+    active: true
+  SimplifyNestedFirstOrLastCallChains:
+    active: true
+  SimplifyNestedMapOfSequence:
+    active: true
+  SimplifyNestedMapOfNotNull:
+    active: true
+  SimplifyNegatedBooleanExpression:
+    active: true
+  SimplifyNotNullCheck:
+    active: true
+  SimplifySequenceOfMapNotNull:
+    active: true
+  SimplifyWhenWithBooleanConstantInCondition:
+    active: true
+  SimplifyWhenWithComparable:
+    active: true
+  SimplifyWhenWithEnumOrSealedClass:
+    active: true
+  SortedFirstAndLast:
+    active: true
+  SpreadOperatorCanBeReplaced:
+    active: true
+  StringShouldBeRawString:
+    active: true
+  TestFunctionName:
+    active: true
+  ThrowsCount:
+    active: true
+    max: 2
+  TooManyFunctions:
+    active: true
+    thresholdInClasses: 11
+    thresholdInInterfaces: 11
+    thresholdInObjects: 11
+    thresholdInEnums: 11
+    ignoreDeprecated: false
+    ignorePrivate: false
+    ignoreOverridden: false
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
+  TrimMultilineRawString:
+    active: true
+  TrimTrailingWhitespace:
+    active: true
+  TrivialPropertyAccessor:
+    active: true
+  TrivialPropertyGetterBody:
+    active: true
+  TrivialPropertySetterBody:
+    active: true
+  TryCatchIdentifier:
+    active: true
+  TryFinallyBlock:
+    active: true
+  TypealiasToTypeReference:
+    active: true
+  UnnecessaryAbstractClass:
+    active: true
+  UnnecessaryAnnotation:
+    active: true
+  UnnecessaryApply:
+    active: true
+  UnnecessaryBackticks:
+    active: true
+  UnnecessaryBracesAroundTrailingLambda:
+    active: true
+  UnnecessaryFilter:
+    active: true
+  UnnecessaryInheritance:
+    active: true
+  UnnecessaryInnerClass:
+    active: true
+  UnnecessaryInvoke:
+    active: true
+  UnnecessaryLet:
+    active: true
+  UnnecessaryNot:
+    active: true
+  UnnecessaryNothing:
+    active: true
+  UnnecessaryNumberNegation:
+    active: true
+  UnnecessaryObjectInstantiation:
+    active: true
+  UnnecessaryParentheses:
+    active: true
+  UnnecessaryPartOfBinaryExpression:
+    active: true
+  UnnecessarySafeCallForNonNullType:
+    active: true
+  UnnecessaryTemporaryInstantiation:
+    active: true
+  UnnecessaryTypeParameterInVariableDeclaration:
+    active: true
+  UnnecessaryWhen:
+    active: true
+  UnnecessaryWhenExpression:
+    active: true
+  UnnecessaryWildcard:
+    active: true
+  UnnecessaryWildcardAroundAllAsterisks:
+    active: true
+  UnnecessaryWith:
+    active: true
+  UnnecessaryWithObjectAllArguments:
+    active: true
+  UnusedImports:
+    active: true
+  UnusedParameter:
+    active: true
+  UnusedPrivateClass:
+    active: true
+  UnusedPrivateMember:
+    active: true
+  UnusedPrivateProperty:
+    active: true
+  UtilityClassWithPublicConstructor:
+    active: true
+  VarCouldBeVal:
+    active: true
+  VarFieldTrailingComment:
+    active: true
+  WhenAllBranchesSameModifierOrder:
+    active: true
+  WhenBranchIsSimplifiable:
+    active: true
+  WhenCheckedExceptionCaught:
+    active: true
+  WhenObjectExpressionToIfThenElse:
+    active: true
+  WhenOnBooleanConstant:
+    active: true
+  WhenOnSingleLine:
+    active: true
+  WhenRedundantElse:
+    active: true
+  WhenWithoutElse:
+    active: true
+  WildcardImport:
+    active: true
+  ZeroLengthCountComparison:
+    active: true
