@@ -21,6 +21,9 @@ services:
     build:
       context: ./presentation/frontend-angular
     container_name: omnibus-frontend
+    ports:
+      - "4200:4200"
+    command: npm start
     networks: [omnibus]
 
   bff-nest:
