@@ -20,9 +20,7 @@ services:
   frontend-angular:
     build:
       context: ./presentation/frontend-angular
-    ports:
-      - "4200:4200"
-    command: npm start
+    container_name: omnibus-frontend
     networks: [omnibus]
 
   bff-nest:
@@ -168,41 +166,57 @@ services:
   cassandra:
     image: cassandra:5.0
     container_name: omnibus-cassandra
+
     environment:
       CASSANDRA_CLUSTER_NAME: OmnibusCluster
       CASSANDRA_DC: dc1
       CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+
+      # 🚀 SPEED TUNING
+      MAX_HEAP_SIZE: 1G
+      HEAP_NEWSIZE: 256M
+
     ports:
       - "9042:9042"
+
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+
     networks: [omnibus]
+
     healthcheck:
-      test: ["CMD-SHELL", "cqlsh localhost 9042 -e 'describe keyspaces' || exit 1"]
+      test: ["CMD-SHELL", "cqlsh localhost 9042 -e 'SELECT now() FROM system.local'"]
       interval: 10s
       timeout: 5s
-      retries: 15
+      retries: 20
       start_period: 60s
 
   cassandra-init:
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
+
     depends_on:
       cassandra:
         condition: service_healthy
+
     volumes:
       - ./infra/cassandra/init.cql:/init.cql:ro
+
     entrypoint:
       [
         "/bin/bash",
         "-c",
         "
         echo 'Waiting for Cassandra...';
-        until cqlsh cassandra 9042 -e 'describe keyspaces'; do
-          sleep 5;
+        until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do
+          sleep 3;
         done;
+
         echo 'Running init script...';
         cqlsh cassandra 9042 -f /init.cql;
         "
       ]
+
     networks: [omnibus]
 
   # =========================
@@ -254,3 +268,4 @@ networks:
 
 volumes:
   postgres_data:
+  cassandra_data:
