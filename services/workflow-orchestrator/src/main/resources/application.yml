@@ -28,7 +28,7 @@ camunda:
 
 omnibus:
   workflow:
-    bidding-engine-base-url: ${BIDDING_ENGINE_BASE_URL:http://localhost:8080}
+    bidding-engine-base-url: ${BIDDING_ENGINE_BASE_URL:http://localhost:8081}
 
 springdoc:
   api-docs:
