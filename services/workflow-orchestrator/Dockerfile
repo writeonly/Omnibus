@@ -17,7 +17,7 @@ RUN chmod +x gradlew
 # =========================
 # WARMUP (tylko dependency graph)
 # =========================
-RUN ./gradlew :services:bidding-engine:dependencies --no-daemon
+RUN ./gradlew :bidding-engine:dependencies --no-daemon
 
 # =========================
 # SOURCE (minimal required)
