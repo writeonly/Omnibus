@@ -7,10 +7,11 @@ services:
   nginx:
     image: nginx:1.27-alpine
     container_name: omnibus-nginx
+    profiles: ["infra"]
     volumes:
       - ./infra/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - "8080:80"
+      - "8000:80"
     networks: [omnibus]
 
   # =========================
@@ -22,8 +23,7 @@ services:
       context: ./presentation/frontend-angular
     container_name: omnibus-frontend
     ports:
-      - "4200:4200"
-    command: npm start
+      - "8080:80"
     networks: [omnibus]
 
   bff-nest:
