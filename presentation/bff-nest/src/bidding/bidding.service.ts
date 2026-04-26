@@ -15,7 +15,7 @@ type RecommendationResponse = {
 @Injectable()
 export class BiddingService {
   private readonly backendBaseUrl =
-    process.env.BACKEND_BASE_URL ?? 'http://localhost:8080';
+    process.env.ENGINE_BASE_URL ?? 'http://localhost:8081';
 
   async recommend(
     request: RecommendationRequestDto,
