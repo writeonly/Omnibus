@@ -19,7 +19,7 @@ type RulePublicationSubmission = {
 @Injectable()
 export class AdminRulesService {
   private readonly backendBaseUrl =
-    process.env.ENGINE_BASE_URL ?? 'http://localhost:8081';
+    process.env.BIDDING_ENGINE_BASE_URL ?? 'http://localhost:8081';
   private readonly workflowBaseUrl =
     process.env.WORKFLOW_BASE_URL ?? 'http://localhost:8082';
 

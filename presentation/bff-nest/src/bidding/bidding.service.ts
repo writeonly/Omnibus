@@ -4,7 +4,7 @@ import { RecommendationRequestDto } from './dto/recommendation-request.dto';
 @Injectable()
 export class BiddingService {
   private readonly backendBaseUrl =
-    process.env.ENGINE_BASE_URL ?? 'http://localhost:8081';
+    process.env.BIDDING_ENGINE_BASE_URL ?? 'http://localhost:8081';
 
   async recommend(request: any) {
     const payload = {
