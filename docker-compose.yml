@@ -1,9 +1,5 @@
 services:
 
-  # =========================
-  # ENTRYPOINT
-  # =========================
-
   nginx:
     image: nginx:1.27-alpine
     container_name: omnibus-nginx
@@ -21,6 +17,7 @@ services:
   frontend-angular:
     build:
       context: ./presentation/frontend-angular
+      dockerfile: Dockerfile
     container_name: omnibus-frontend
     ports:
       - "8080:80"
@@ -29,9 +26,10 @@ services:
   bff-nest:
     build:
       context: ./presentation/bff-nest
+      dockerfile: Dockerfile
     container_name: omnibus-bff
     environment:
-      BIDDING_ENGINE_BASE_URL: http://bidding-engine:8081
+      ENGINE_BASE_URL: http://bidding-engine:8081
       WORKFLOW_ORCHESTRATOR_BASE_URL: http://workflow-orchestrator:8082
       KEYCLOAK_URL: http://keycloak:8080
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
@@ -48,7 +46,8 @@ services:
 
   bidding-engine:
     build:
-      context: ./services/bidding-engine
+      context: .
+      dockerfile: ./services/bidding-engine/Dockerfile
     container_name: omnibus-bidding-engine
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -60,7 +59,8 @@ services:
 
   workflow-orchestrator:
     build:
-      context: ./services/workflow-orchestrator
+      context: .
+      dockerfile: ./services/workflow-orchestrator/Dockerfile
     container_name: omnibus-workflow-orchestrator
     environment:
       CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
@@ -73,7 +73,8 @@ services:
   event-archive:
     profiles: ["archive"]
     build:
-      context: ./services/event-archive
+      context: .
+      dockerfile: ./services/event-archive/Dockerfile
     container_name: omnibus-event-archive
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -176,8 +177,6 @@ services:
       CASSANDRA_CLUSTER_NAME: OmnibusCluster
       CASSANDRA_DC: dc1
       CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
-
-      # 🚀 SPEED TUNING
       MAX_HEAP_SIZE: 1G
       HEAP_NEWSIZE: 256M
 
@@ -194,7 +193,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
-      start_period: 60s
+      start_period: 90s
 
   cassandra-init:
     profiles: ["archive"]
@@ -215,7 +214,7 @@ services:
         "
         echo 'Waiting for Cassandra...';
         until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do
-          sleep 3;
+          sleep 5;
         done;
 
         echo 'Running init script...';

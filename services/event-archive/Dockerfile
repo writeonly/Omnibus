@@ -3,19 +3,33 @@ FROM gradle:8.10-jdk21 AS build
 
 WORKDIR /app
 
-# Gradle wrapper + config (CACHE LAYER)
-COPY gradle gradle
-COPY gradlew build.gradle.kts settings.gradle.kts gradle.properties ./
+# =========================
+# ROOT GRADLE (MONOREPO)
+# =========================
+COPY gradle ./gradle
+COPY gradlew ./
+COPY build.gradle.kts ./
+COPY settings.gradle.kts ./
+COPY gradle.properties ./
 
 RUN chmod +x gradlew
 
-# cache dependencies first
-RUN ./gradlew dependencies --no-daemon
+# =========================
+# CACHE DEPENDENCIES
+# =========================
+RUN ./gradlew :services:event-archive:dependencies --no-daemon
 
-# source code last
-COPY src ./src
+# =========================
+# MODULE SOURCE
+# =========================
+COPY services/event-archive/src ./services/event-archive/src
+COPY services/event-archive/build.gradle.kts ./services/event-archive/
+COPY services/event-archive/settings.gradle.kts ./services/event-archive/
 
-RUN ./gradlew bootJar --no-daemon
+# =========================
+# BUILD ONLY MODULE
+# =========================
+RUN ./gradlew :services:event-archive:bootJar --no-daemon
 
 
 # ---------- RUNTIME STAGE ----------
@@ -23,7 +37,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/services/event-archive/build/libs/*.jar app.jar
 
 EXPOSE 8083
 
