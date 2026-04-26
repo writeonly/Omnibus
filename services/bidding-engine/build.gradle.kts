@@ -1,31 +1,61 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    kotlin("jvm") version "1.9.25" apply false
-    kotlin("plugin.spring") version "1.9.25" apply false
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 
-    id("org.springframework.boot") version "3.3.5" apply false
-    id("io.spring.dependency-management") version "1.1.6" apply false
+    kotlin("jvm")
+    kotlin("plugin.spring")
 }
 
-allprojects {
-    group = "com.omnibus"
-    version = "0.0.1-SNAPSHOT"
-
-    repositories {
-        mavenCentral()
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
-subprojects {
-    apply(plugin = "java-library")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
+repositories {
+    mavenCentral()
+}
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
-        }
-    }
+val droolsVersion = "8.44.0.Final"
 
-    tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+dependencies {
+    // Spring
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    // Kafka
+    implementation("org.springframework.kafka:spring-kafka")
+
+    // Observability
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
+    // OpenAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.6")
+
+    // Kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    // DROOLS / KIE
+    implementation("org.kie:kie-api:$droolsVersion")
+    implementation("org.kie:kie-internal:$droolsVersion")
+    implementation("org.drools:drools-engine:$droolsVersion")
+    implementation("org.drools:drools-mvel:$droolsVersion")
+    implementation("org.drools:drools-decisiontables:$droolsVersion")
+
+    // Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
