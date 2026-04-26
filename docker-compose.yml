@@ -31,8 +31,8 @@ services:
       context: ./presentation/bff-nest
     container_name: omnibus-bff
     environment:
-      ENGINE_BASE_URL: http://bidding-engine:8081
-      WORKFLOW_BASE_URL: http://workflow-orchestrator:8082
+      BIDDING_ENGINE_BASE_URL: http://bidding-engine:8081
+      WORKFLOW_ORCHESTRATOR_BASE_URL: http://workflow-orchestrator:8082
       KEYCLOAK_URL: http://keycloak:8080
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus

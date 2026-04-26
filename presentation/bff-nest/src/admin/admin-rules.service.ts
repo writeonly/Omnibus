@@ -21,7 +21,7 @@ export class AdminRulesService {
   private readonly backendBaseUrl =
     process.env.BIDDING_ENGINE_BASE_URL ?? 'http://localhost:8081';
   private readonly workflowBaseUrl =
-    process.env.WORKFLOW_BASE_URL ?? 'http://localhost:8082';
+    process.env.WORKFLOW_ORCHESTRATOR_BASE_URL ?? 'http://localhost:8082';
 
   async listRules(): Promise<ManagedRuleDefinition[]> {
     const response = await fetch(`${this.backendBaseUrl}/api/v1/admin/rules`);
