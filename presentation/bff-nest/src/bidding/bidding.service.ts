@@ -1,5 +1,4 @@
 import { Injectable, BadGatewayException } from '@nestjs/common';
-import { RecommendationRequestDto } from './dto/recommendation-request.dto';
 
 @Injectable()
 export class BiddingService {

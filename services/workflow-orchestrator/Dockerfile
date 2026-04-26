@@ -29,7 +29,7 @@ COPY services/bidding-engine/settings.gradle.kts ./services/bidding-engine/
 # =========================
 # BUILD MODULE ONLY
 # =========================
-RUN ./gradlew :services:bidding-engine:bootJar --no-daemon
+RUN ./gradlew :bidding-engine:bootJar --no-daemon
 
 
 # ---------- RUNTIME ----------

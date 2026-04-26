@@ -14,7 +14,7 @@ RUN ./gradlew dependencies --no-daemon
 
 COPY services/bidding-engine ./services/bidding-engine
 
-RUN ./gradlew :services:bidding-engine:bootJar --no-daemon
+RUN ./gradlew :bidding-engine:bootJar --no-daemon
 
 
 FROM eclipse-temurin:21-jre
