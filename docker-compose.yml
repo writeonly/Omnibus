@@ -71,6 +71,7 @@ services:
     networks: [omnibus]
 
   event-archive:
+    profiles: ["archive"]
     build:
       context: ./services/event-archive
     container_name: omnibus-event-archive
@@ -167,6 +168,7 @@ services:
     networks: [omnibus]
 
   cassandra:
+    profiles: ["archive"]
     image: cassandra:5.0
     container_name: omnibus-cassandra
 
@@ -195,6 +197,7 @@ services:
       start_period: 60s
 
   cassandra-init:
+    profiles: ["archive"]
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
 
