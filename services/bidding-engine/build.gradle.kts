@@ -26,15 +26,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    // Kafka
-    implementation("org.springframework.kafka:spring-kafka")
-
     // Observability
     implementation("io.micrometer:micrometer-registry-prometheus")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.6")
-
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0")
+ 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
