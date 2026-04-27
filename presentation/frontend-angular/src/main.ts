@@ -1,8 +1,12 @@
 import 'zone.js';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient()],
-}).catch((error) => console.error(error));
+  providers: [
+    provideHttpClient(
+      withInterceptorsFromDi()
+    ),
+  ],
+}).catch((error) => console.error('[Bootstrap Error]', error));

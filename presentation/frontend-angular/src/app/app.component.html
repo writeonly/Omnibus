@@ -2,27 +2,39 @@
   <section class="hero">
     <div class="hero-topbar">
       <p class="eyebrow">Omnibus</p>
+
       <div class="auth-box" *ngIf="authService.ready()">
         <span *ngIf="authService.authenticated()">
           {{ authService.username() || 'authenticated user' }}
         </span>
-        <button type="button" class="secondary-button" *ngIf="!authService.authenticated()" (click)="login()">
+
+        <button type="button"
+                class="secondary-button"
+                *ngIf="!authService.authenticated()"
+                (click)="login()">
           Login admin
         </button>
-        <button type="button" class="secondary-button" *ngIf="authService.authenticated()" (click)="logout()">
+
+        <button type="button"
+                class="secondary-button"
+                *ngIf="authService.authenticated()"
+                (click)="logout()">
           Logout
         </button>
       </div>
     </div>
+
     <h1>Wpisz ręce NS i uruchom licytację.</h1>
+
     <p class="lead">
-      To jest pierwszy stół roboczy pod licytację brydżową. Wprowadzasz ręce North i South,
-      a silnik Drools wylicza rekomendację otwarcia dla North.
+      Wprowadzasz ręce North i South,
+      a backend (BFF + engine) wylicza rekomendację licytacji.
     </p>
   </section>
 
   <section class="panel">
     <form class="form" (ngSubmit)="submit()">
+
       <div class="hands-grid">
         <label class="hand-card">
           <span class="seat">North</span>
@@ -47,88 +59,39 @@
 
       <label>
         Sekwencja licytacji
-        <input [ngModel]="auction()" (ngModelChange)="auction.set($event)" name="auction" placeholder="np. 1C pass" />
+        <input
+          [ngModel]="auction()"
+          (ngModelChange)="auction.set($event)"
+          name="auction"
+          placeholder="np. 1C pass" />
       </label>
 
       <label>
         System
-        <select [ngModel]="system()" (ngModelChange)="system.set($event)" name="system">
+        <select
+          [ngModel]="system()"
+          (ngModelChange)="system.set($event)"
+          name="system">
           <option value="POLISH_CLUB">Polish Club</option>
           <option value="STANDARD_AMERICAN">Standard American</option>
         </select>
       </label>
 
       <button type="submit" [disabled]="loading()">
-        {{ loading() ? 'Liczę...' : 'Licytuj' }}
+        {{ loading() ? 'Liczenie...' : 'Licytuj' }}
       </button>
     </form>
 
     <p class="hint">
-      Format ręki: `SPADES HEARTS DIAMONDS CLUBS`, na przykład `AQJ KQ2 A43 J742`.
+      Format: SPADES HEARTS DIAMONDS CLUBS, np. AQJ KQ2 A43 J742
     </p>
 
     <p class="error" *ngIf="error()">{{ error() }}</p>
 
-    <app-recommendation-result *ngIf="result()" [result]="result()!"></app-recommendation-result>
-  </section>
+    <app-full-bidding-calculator
+      *ngIf="result()"
+      [result]="result()!">
+    </app-full-bidding-calculator>
 
-  <section class="panel admin-panel" *ngIf="authService.isAdmin()">
-    <div class="admin-header">
-      <div>
-        <p class="eyebrow">Admin</p>
-        <h2>Panel reguł Drools</h2>
-      </div>
-      <button type="button" class="secondary-button" (click)="loadRules()" [disabled]="adminLoading()">
-        Odśwież reguły
-      </button>
-    </div>
-
-    <div class="admin-grid">
-      <form class="form" (ngSubmit)="saveRule()">
-        <label>
-          Nazwa reguły
-          <input
-            [ngModel]="adminRuleName()"
-            (ngModelChange)="adminRuleName.set($event)"
-            name="adminRuleName" />
-        </label>
-
-        <label>
-          Zawartość DRL
-          <textarea
-            class="rule-editor"
-            [ngModel]="adminRuleContent()"
-            (ngModelChange)="adminRuleContent.set($event)"
-            name="adminRuleContent"
-            rows="16"></textarea>
-        </label>
-
-        <button type="submit" [disabled]="adminLoading()">
-          {{ adminLoading() ? 'Uruchamiam proces...' : 'Opublikuj przez Camunda' }}
-        </button>
-      </form>
-
-      <section class="rule-list">
-        <h3>Załadowane reguły</h3>
-        <p class="hint">
-          Reguły zarządzane przechodzą przez proces Camunda, a dopiero potem trafiają do katalogu `managed-rules`.
-        </p>
-        <p class="error" *ngIf="adminError()">{{ adminError() }}</p>
-        <p class="success" *ngIf="adminSuccess()">{{ adminSuccess() }}</p>
-        <p class="hint" *ngIf="lastSubmission() as submission">
-          Ostatnia publikacja: proces `{{ submission.bpmnProcessId }}` dla `{{ submission.ruleName }}`
-          uruchomiony przez `{{ submission.requestedBy }}`.
-        </p>
-
-        <article class="rule-card" *ngFor="let rule of adminRules()">
-          <div class="rule-card-top">
-            <strong>{{ rule.name }}</strong>
-            <span>{{ rule.managed ? 'managed' : 'bundled' }}</span>
-          </div>
-          <p class="rule-path">{{ rule.sourcePath }}</p>
-          <pre>{{ rule.content }}</pre>
-        </article>
-      </section>
-    </div>
   </section>
 </main>

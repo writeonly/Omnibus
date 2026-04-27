@@ -1,0 +1,137 @@
+:host {
+  display: block;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  background: #f6f8fa;
+}
+
+/* ===== Container ===== */
+.calculator {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+/* ===== Header ===== */
+.calculator__header {
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2a37;
+  }
+
+  p {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+}
+
+/* ===== Form ===== */
+.calculator__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.calculator__field {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 12px;
+    color: #374151;
+    margin-bottom: 6px;
+  }
+
+  input,
+  select {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+
+    &:focus {
+      border-color: #2563eb;
+    }
+  }
+}
+
+/* ===== Actions ===== */
+.calculator__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+
+  button {
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .btn-primary {
+    background: #1f3a5f;
+    color: white;
+
+    &:hover {
+      background: #162c47;
+    }
+  }
+
+  .btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+
+    &:hover {
+      background: #d1d5db;
+    }
+  }
+}
+
+/* ===== Result ===== */
+.calculator__result {
+  margin-top: 20px;
+  padding: 16px;
+  border-left: 4px solid #1f3a5f;
+  background: #f9fafb;
+
+  h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #111827;
+  }
+
+  .bid {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1f3a5f;
+  }
+
+  .explanation {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #4b5563;
+  }
+}
+
+/* ===== States ===== */
+.calculator__error {
+  margin-top: 12px;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.calculator__loading {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #6b7280;
+}
