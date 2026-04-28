@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BffApiService } from '@core/api/bff-api.service';
 import { BidRecommendResponse } from '@core/models/bid.dto';
 
@@ -12,6 +13,8 @@ type BidFormValue = {
 
 @Component({
   selector: 'app-next-bid-calculator',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './next-bid-calculator.component.html',
 })
 export class NextBidCalculatorComponent {

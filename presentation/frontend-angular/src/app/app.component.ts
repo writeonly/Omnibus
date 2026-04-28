@@ -6,6 +6,7 @@ import { BffApiService } from './core/api/bff-api.service';
 import { AuthService } from './core/services/auth.service';
 import { AuctionAnalyzeResponse } from '@core/models/auction.dto';
 
+import { NextBidCalculatorComponent } from './features/bidding/components/next-bid-calculator/next-bid-calculator.component';
 import { FullBiddingCalculatorComponent } from './features/bidding/components/full-bidding-calculator/full-bidding-calculator.component';
 
 @Component({
@@ -14,6 +15,7 @@ import { FullBiddingCalculatorComponent } from './features/bidding/components/fu
   imports: [
     CommonModule,
     FormsModule,
+    NextBidCalculatorComponent,
     FullBiddingCalculatorComponent
   ],
   templateUrl: './app.component.html',
