@@ -1,70 +1,71 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { BffApiService } from '@core/api/bff-api.service';
 import { BidRecommendResponse } from '@core/models/bid.dto';
+import { FormsModule } from '@angular/forms';
 
-type BidFormValue = {
+type Seat = 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+type System = 'POLISH_CLUB' | 'STANDARD_AMERICAN';
+
+interface BidFormState {
   hand: string;
   auction: string;
-  seat: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
-  system: string;
+  seat: Seat;
+  system: System;
+}
+
+const INITIAL_STATE: BidFormState = {
+  hand: '',
+  auction: '',
+  seat: 'NORTH',
+  system: 'POLISH_CLUB',
 };
 
 @Component({
   selector: 'app-bid-recommender',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './bid-recommender.component.html',
 })
 export class BidRecommenderComponent {
+  private readonly bffApi = inject(BffApiService);
 
-  form: FormGroup;
-  result: BidRecommendResponse | null = null;
-  
-  loading = false;
-  error: string | null = null;
+  // UI state
+  readonly form = signal<BidFormState>({ ...INITIAL_STATE });
+  readonly result = signal<BidRecommendResponse | null>(null);
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
 
-  constructor(
-    private fb: FormBuilder,
-    private bffApi: BffApiService
-  ) {
-    this.form = this.fb.group({
-      hand: [''],
-      auction: [''],
-      seat: ['NORTH'],
-      system: ['SAYC'],
-    });
+  // --- actions ---
+  update<K extends keyof BidFormState>(key: K, value: BidFormState[K]) {
+    this.form.update(current => ({
+      ...current,
+      [key]: value,
+    }));
   }
 
   submit(): void {
-    this.loading = true;
-    this.error = null;
-    this.result = null;
+    this.loading.set(true);
+    this.error.set(null);
+    this.result.set(null);
 
-    const payload: BidFormValue = this.form.getRawValue();
+    const payload = this.form();
 
     this.bffApi.recommendBid(payload).subscribe({
-      next: (response: BidRecommendResponse) => {
-        this.result = response;
-        this.loading = false;
+      next: (res) => {
+        this.result.set(res);
+        this.loading.set(false);
       },
       error: () => {
-        this.error = 'Failed to calculate bid';
-        this.loading = false;
+        this.error.set('Failed to calculate bid');
+        this.loading.set(false);
       },
     });
   }
 
   reset(): void {
-    this.form.reset({
-      hand: '',
-      auction: '',
-      seat: 'NORTH',
-      system: 'SAYC',
-    });
-
-    this.result = null;
-    this.error = null;
+    this.form.set({ ...INITIAL_STATE });
+    this.result.set(null);
+    this.error.set(null);
   }
 }

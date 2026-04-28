@@ -1,20 +1,32 @@
 <div class="panel">
 
-  <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <form class="form" (ngSubmit)="submit()">
 
     <div class="field">
       <label>Hand</label>
-      <input formControlName="hand" />
+      <input
+        [ngModel]="form().hand"
+        (ngModelChange)="update('hand', $event)"
+        name="hand"
+      />
     </div>
 
     <div class="field">
       <label>Auction</label>
-      <input formControlName="auction" />
+      <input
+        [ngModel]="form().auction"
+        (ngModelChange)="update('auction', $event)"
+        name="auction"
+      />
     </div>
 
     <div class="field">
       <label>Seat</label>
-      <select formControlName="seat">
+      <select
+        [ngModel]="form().seat"
+        (ngModelChange)="update('seat', $event)"
+        name="seat"
+      >
         <option value="NORTH">North</option>
         <option value="SOUTH">South</option>
         <option value="EAST">East</option>
@@ -24,18 +36,22 @@
 
     <div class="field">
       <label>System</label>
-      <select formControlName="system">
+      <select
+        [ngModel]="form().system"
+        (ngModelChange)="update('system', $event)"
+        name="system"
+      >
         <option value="POLISH_CLUB">Polish Club</option>
         <option value="STANDARD_AMERICAN">Standard American</option>
       </select>
     </div>
 
     <div style="grid-column: 1 / -1; display: flex; gap: 12px;">
-      <button class="btn--primary" type="submit">
+      <button type="submit" class="btn--primary">
         Calculate
       </button>
 
-      <button class="btn--secondary" type="button" (click)="reset()">
+      <button type="button" class="btn--secondary" (click)="reset()">
         Reset
       </button>
     </div>
