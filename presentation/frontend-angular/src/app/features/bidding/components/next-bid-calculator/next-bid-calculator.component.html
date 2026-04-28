@@ -1,25 +1,33 @@
-<div class="calculator">
+<div class="panel">
 
-  <div class="calculator__header">
-    <h2>Bid Calculator</h2>
-    <p>Calculate next bid from hand + auction</p>
-  </div>
+  <form class="grid grid--2" [formGroup]="form" (ngSubmit)="submit()">
 
-  <form class="calculator__form">
-    <div class="calculator__field">
+    <div class="field">
       <label>Hand</label>
-      <input />
+      <input formControlName="hand" />
     </div>
 
-    <div class="calculator__field">
+    <div class="field">
       <label>Auction</label>
-      <input />
+      <input formControlName="auction" />
     </div>
 
-    <div class="calculator__actions">
-      <button class="btn-primary">Calculate</button>
-      <button class="btn-secondary">Reset</button>
+    <div class="field">
+      <label>Seat</label>
+      <select formControlName="seat"></select>
     </div>
+
+    <div class="field">
+      <label>System</label>
+      <select formControlName="system"></select>
+    </div>
+
+    <div class="grid" style="grid-column: 1 / -1;">
+      <button class="btn btn--primary">Calculate</button>
+      <button type="button" class="btn btn--secondary">Reset</button>
+    </div>
+
   </form>
 
 </div>
+

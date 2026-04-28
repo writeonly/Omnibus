@@ -7,7 +7,7 @@ import { BidRecommendResponse } from '@core/models/bid.dto';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './full-bidding-calculator.component.html',
-  styleUrls: ['./full-bidding-calculator.component.css'],
+  styleUrls: ['./full-bidding-calculator.component.scss'],
 })
 export class FullBiddingCalculatorComponent {
   @Input({ required: true }) result!: any;

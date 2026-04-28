@@ -1,27 +1,29 @@
-<section class="result">
-  <div class="headline">
-    <p>Recommended call</p>
-    <h2>{{ result.recommendedBid }}</h2>
-    <span>{{ result.explanation }}</span>
+<div class="panel">
+
+  <div class="panel__header">
+    <h2>Full bidding result</h2>
   </div>
 
-  <div class="details">
-    <article>
-      <h3>Stół</h3>
-      <p><strong>North:</strong> {{ result.northHand }}</p>
-      <p><strong>South:</strong> {{ result.southHand }}</p>
-      <p><strong>Analizowana ręka:</strong> {{ result.evaluatedSeat }}</p>
-      <p><strong>Sekwencja:</strong> {{ result.auction || 'opening position' }}</p>
-      <p><strong>System:</strong> {{ result.system }}</p>
-    </article>
+  <div class="card">
+    <h3>Final Contract</h3>
+    <div class="bid">4♠</div>
+    <p class="text-muted">Strong fit in spades...</p>
+  </div>
 
-    <article>
-      <h3>Kandydaci</h3>
+  <div class="grid grid--auto">
+    <div class="card">
+      <h3>North</h3>
       <ul>
-        <li *ngFor="let candidate of result.candidates">
-          <strong>{{ candidate.bid }}</strong> · {{ candidate.reason }}
-        </li>
+        <li>Opening: 1♠</li>
       </ul>
-    </article>
+    </div>
+
+    <div class="card">
+      <h3>South</h3>
+      <ul>
+        <li>Response: 4♠</li>
+      </ul>
+    </div>
   </div>
-</section>
+
+</div>
