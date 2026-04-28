@@ -12,12 +12,12 @@ type BidFormValue = {
 };
 
 @Component({
-  selector: 'app-next-bid-calculator',
+  selector: 'app-bid-recommender',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './next-bid-calculator.component.html',
+  templateUrl: './bid-recommender.component.html',
 })
-export class NextBidCalculatorComponent {
+export class BidRecommenderComponent {
 
   form: FormGroup;
   result: BidRecommendResponse | null = null;

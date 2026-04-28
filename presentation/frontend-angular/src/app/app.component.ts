@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { FullBiddingComponent } from '@features/bidding/components/full-bidding/full-bidding.component';
-import { NextBidCalculatorComponent } from '@features/bidding/components/next-bid-calculator/next-bid-calculator.component';
+import { BiddingRecommenderComponent } from '@features/bidding/components/bidding-recommender/bidding-recommender.component';
+import { BidRecommenderComponent } from '@features/bidding/components/bid-recommender/bid-recommender.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    NextBidCalculatorComponent,
-    FullBiddingComponent
+    BidRecommenderComponent,
+    BiddingRecommenderComponent
   ],
   templateUrl: './app.component.html',
 })

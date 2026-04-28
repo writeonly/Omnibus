@@ -6,12 +6,12 @@ import { BiddingRecommendResponse } from '@core/models/auction.dto';
 
 
 @Component({
-  selector: 'app-full-bidding',
+  selector: 'app-bidding-recommender',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './full-bidding.component.html',
+  templateUrl: './bidding-recommender.component.html',
 })
-export class FullBiddingComponent {
+export class BiddingRecommenderComponent {
 
   northHand = signal('');
   southHand = signal('');

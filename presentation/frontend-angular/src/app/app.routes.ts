@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { NextBidCalculatorComponent } from './features/bidding/components/next-bid-calculator/next-bid-calculator.component';
-import { FullBiddingComponent } from './features/bidding/components/full-bidding/full-bidding.component';
+import { BidRecommenderComponent } from './features/bidding/components/bid-recommender/bid-recommender.component';
+import { BiddingRecommenderComponent } from './features/bidding/components/bidding-recommender/bidding-recommender.component';
 
 export const routes: Routes = [
   {
@@ -14,11 +14,11 @@ export const routes: Routes = [
     children: [
       {
         path: 'next-bid',
-        component: NextBidCalculatorComponent,
+        component: BidRecommenderComponent,
       },
       {
         path: 'full',
-        component: FullBiddingComponent,
+        component: BiddingRecommenderComponent,
       },
     ],
   },
