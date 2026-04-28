@@ -1,19 +1,35 @@
-
 import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
 import { NextBidService } from './next-bid.service';
 import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
 import { System } from './next-bid.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-next-bid',
-    imports: [ReactiveFormsModule, FeaturePanelComponent],
-    providers: [NextBidService],
-    templateUrl: './next-bid.component.html'
+  selector: 'app-next-bid',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+
+    // 🔥 MATERIAL IMPORTS
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    CommonModule
+  ],
+  providers: [NextBidService],
+  templateUrl: './next-bid.component.html'
 })
 export class NextBidComponent {
 

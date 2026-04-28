@@ -202,3 +202,31 @@ button {
     display: grid;
   }
 }
+
+
+.shell {
+  max-width: 900px;
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-card {
+  padding: 16px;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.8;
+}

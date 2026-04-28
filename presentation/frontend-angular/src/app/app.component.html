@@ -1,21 +1,19 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span>Omnibus</span>
+  <span class="spacer"></span>
+  <span class="subtitle">Bridge bidding engine</span>
+</mat-toolbar>
+
 <main class="shell">
 
-  <!-- HERO -->
-  <section class="panel">
-    <div class="panel__header">
-      <h1>Omnibus</h1>
-      <p>Bridge bidding engine</p>
-    </div>
-  </section>
-
   <!-- NEXT BID -->
-  <section class="panel">
+  <mat-card class="section-card">
     <app-next-bid></app-next-bid>
-  </section>
+  </mat-card>
 
   <!-- FULL BIDDING -->
-  <section class="panel">
+  <mat-card class="section-card">
     <app-rest-bidding></app-rest-bidding>
-  </section>
+  </mat-card>
 
 </main>

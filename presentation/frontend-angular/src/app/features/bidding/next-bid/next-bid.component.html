@@ -1,59 +1,79 @@
 <form class="form" [formGroup]="form" (ngSubmit)="submit()">
 
-  <app-feature-panel
-    [title]="'Bid recommender'"
-    [subtitle]="'Enter hand and bidding'"
-    [loading]="loading()"
-    [error]="error()"
-    [hasResult]="!!result()"
-  >
+  <mat-card class="bid-card">
 
-    <!-- FORM FIELDS -->
-    <div form-fields>
-      <div class="field">
-        <label>Hand</label>
-        <textarea rows="4" formControlName="hand"></textarea>
+    <mat-card-header>
+      <mat-card-title>Bid recommender</mat-card-title>
+      <mat-card-subtitle>Enter hand and bidding</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="form-layout">
+
+      <!-- Hand -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Hand</mat-label>
+        <textarea
+          matInput
+          rows="4"
+          formControlName="hand">
+        </textarea>
+      </mat-form-field>
+
+      <!-- Auction -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Auction</mat-label>
+        <input
+          matInput
+          formControlName="bidding">
+      </mat-form-field>
+
+      <!-- System -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>System</mat-label>
+
+        <mat-select formControlName="system">
+          <mat-option value="POLISH_CLUB">Polish Club</mat-option>
+          <mat-option value="STANDARD_AMERICAN">Standard American</mat-option>
+        </mat-select>
+
+      </mat-form-field>
+
+      <!-- RESULT -->
+      <div class="result" *ngIf="result() as r">
+
+        <div class="bid">
+          {{ r.bid }}
+        </div>
+
+        <p class="text-muted">
+          {{ r.explanation }}
+        </p>
+
       </div>
 
-      <div class="field">
-        <label>Auction</label>
-        <input formControlName="bidding" />
-      </div>
+    </mat-card-content>
 
-      <div class="field">
-        <label>System</label>
-        <select formControlName="system">
-          <option value="POLISH_CLUB">Polish Club</option>
-          <option value="STANDARD_AMERICAN">Standard American</option>
-        </select>
-      </div>
-    </div>
+    <mat-card-actions align="end">
 
-    <!-- ACTIONS -->
-    <div actions>
       <button
+        mat-raised-button
+        color="primary"
         type="submit"
-        class="btn--primary"
         [disabled]="loading()"
       >
         {{ loading() ? 'Calculating...' : 'Calculate' }}
       </button>
 
       <button
+        mat-button
         type="button"
-        class="btn--secondary"
         (click)="reset()"
       >
         Reset
       </button>
-    </div>
 
-    <!-- RESULT -->
-    <div result>
-      <div class="bid">{{ result()?.bid }}</div>
-      <p class="text-muted">{{ result()?.explanation }}</p>
-    </div>
+    </mat-card-actions>
 
-  </app-feature-panel>
+  </mat-card>
 
 </form>

@@ -8,10 +8,22 @@ import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.co
 import { RestBiddingService } from './rest-bidding.service';
 import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
 import { System } from './rest-bidding.model';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
     selector: 'app-rest-bidding',
-    imports: [ReactiveFormsModule, FeaturePanelComponent],
+    imports: [
+      ReactiveFormsModule,  
+      ReactiveFormsModule,
+      MatCardModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSelectModule,
+      MatButtonModule],
     providers: [RestBiddingService],
     templateUrl: './rest-bidding.component.html'
 })
