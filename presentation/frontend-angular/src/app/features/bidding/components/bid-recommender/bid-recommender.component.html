@@ -1,54 +1,64 @@
-<div class="panel">
+<form class="form" (ngSubmit)="submit()">
 
-  <form class="form" (ngSubmit)="submit()">
+  <app-feature-panel
+    [title]="'Bid recommender'"
+    [subtitle]="'Enter hand and auction'"
+    [loading]="loading()"
+    [error]="error()"
+    [hasResult]="!!result()"
+  >
 
-    <div class="field">
-      <label>Hand</label>
-      <input
-        [ngModel]="form().hand"
-        (ngModelChange)="update('hand', $event)"
-        name="hand"
-      />
+    <div form-fields="">
+
+      <div class="field">
+        <label>Hand</label>
+        <input
+          [ngModel]="form().hand"
+          (ngModelChange)="update('hand', $event)"
+          name="hand"
+        />
+      </div>
+
+      <div class="field">
+        <label>Auction</label>
+        <input
+          [ngModel]="form().auction"
+          (ngModelChange)="update('auction', $event)"
+          name="auction"
+        />
+      </div>
+
+      <div class="field">
+        <label>Seat</label>
+        <select
+          [ngModel]="form().seat"
+          (ngModelChange)="update('seat', $event)"
+          name="seat"
+        >
+          <option value="NORTH">North</option>
+          <option value="SOUTH">South</option>
+          <option value="EAST">East</option>
+          <option value="WEST">West</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>System</label>
+        <select
+          [ngModel]="form().system"
+          (ngModelChange)="update('system', $event)"
+          name="system"
+        >
+          <option value="POLISH_CLUB">Polish Club</option>
+          <option value="STANDARD_AMERICAN">Standard American</option>
+        </select>
+      </div>
+
     </div>
 
-    <div class="field">
-      <label>Auction</label>
-      <input
-        [ngModel]="form().auction"
-        (ngModelChange)="update('auction', $event)"
-        name="auction"
-      />
-    </div>
-
-    <div class="field">
-      <label>Seat</label>
-      <select
-        [ngModel]="form().seat"
-        (ngModelChange)="update('seat', $event)"
-        name="seat"
-      >
-        <option value="NORTH">North</option>
-        <option value="SOUTH">South</option>
-        <option value="EAST">East</option>
-        <option value="WEST">West</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>System</label>
-      <select
-        [ngModel]="form().system"
-        (ngModelChange)="update('system', $event)"
-        name="system"
-      >
-        <option value="POLISH_CLUB">Polish Club</option>
-        <option value="STANDARD_AMERICAN">Standard American</option>
-      </select>
-    </div>
-
-    <div style="grid-column: 1 / -1; display: flex; gap: 12px;">
-      <button type="submit" class="btn--primary">
-        Calculate
+    <div actions="">
+      <button type="submit" class="btn--primary" [disabled]="loading()">
+        {{ loading() ? 'Calculating...' : 'Calculate' }}
       </button>
 
       <button type="button" class="btn--secondary" (click)="reset()">
@@ -56,6 +66,11 @@
       </button>
     </div>
 
-  </form>
+    <div result="">
+      <div class="bid">{{ result()?.bid }}</div>
+      <p class="text-muted">{{ result()?.explanation }}</p>
+    </div>
 
-</div>
+  </app-feature-panel>
+
+</form>

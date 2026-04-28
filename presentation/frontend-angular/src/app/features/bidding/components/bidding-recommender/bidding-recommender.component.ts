@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BffApiService } from '@core/api/bff-api.service';
 import { BiddingRecommendResponse } from '@core/models/auction.dto';
 import { BaseFeatureComponent } from '@shared/feature/base-feature.component';
+import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
 
 type System = 'POLISH_CLUB' | 'STANDARD_AMERICAN';
 
@@ -24,7 +25,7 @@ const INITIAL_STATE: BiddingFormState = {
 @Component({
   selector: 'app-bidding-recommender',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FeaturePanelComponent],
   templateUrl: './bidding-recommender.component.html',
 })
 export class BiddingRecommenderComponent extends BaseFeatureComponent<

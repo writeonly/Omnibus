@@ -1,0 +1,23 @@
+<div class="panel">
+
+  <div class="panel__header">
+    <h2>{{ title }}</h2>
+    <p class="text-muted">{{ subtitle }}</p>
+  </div>
+
+  <!-- CONTENT SLOT -->
+  <ng-content select="[form-fields]"></ng-content>
+
+  <!-- ACTIONS SLOT (opcjonalnie, ale nadal kontrolowane przez feature) -->
+  <ng-content select="[actions]"></ng-content>
+
+  <!-- ERROR -->
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <!-- RESULT -->
+  <div class="panel panel--result" *ngIf="hasResult">
+    <h3>Result</h3>
+    <ng-content select="[result]"></ng-content>
+  </div>
+
+</div>

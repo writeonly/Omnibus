@@ -1,65 +1,67 @@
-<div class="panel__header">
-  <h2>Full bidding calculator</h2>
-  <p class="text-muted">Enter hands and bidding sequence</p>
-</div>
-
 <form class="form" (ngSubmit)="submit()">
 
-  <div class="form-grid">
+  <app-feature-panel
+    [title]="'Full bidding calculator'"
+    [subtitle]="'Enter hands and bidding sequence'"
+    [loading]="loading()"
+    [error]="error()"
+    [hasResult]="!!result()"
+  >
 
-    <div class="field">
-      <label>North</label>
-      <textarea rows="3"
-        [ngModel]="form().northHand"
-        (ngModelChange)="update('northHand', $event)"
-        name="northHand"></textarea>
+    <div form-fields="">
+
+      <div class="field">
+        <label>North</label>
+        <textarea rows="3"
+          [ngModel]="form().northHand"
+          (ngModelChange)="update('northHand', $event)"
+          name="northHand"></textarea>
+      </div>
+
+      <div class="field">
+        <label>South</label>
+        <textarea rows="3"
+          [ngModel]="form().southHand"
+          (ngModelChange)="update('southHand', $event)"
+          name="southHand"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Bidding</label>
+        <input
+          [ngModel]="form().bidding"
+          (ngModelChange)="update('bidding', $event)"
+          name="bidding" />
+      </div>
+
+      <div class="field">
+        <label>System</label>
+        <select
+          [ngModel]="form().system"
+          (ngModelChange)="update('system', $event)"
+          name="system">
+          <option value="POLISH_CLUB">Polish Club</option>
+          <option value="STANDARD_AMERICAN">Standard American</option>
+        </select>
+      </div>
+
     </div>
 
-    <div class="field">
-      <label>South</label>
-      <textarea rows="3"
-        [ngModel]="form().southHand"
-        (ngModelChange)="update('southHand', $event)"
-        name="southHand"></textarea>
-    </div>
-
-    <div class="field">
-      <label>Bidding</label>
-      <input
-        [ngModel]="form().bidding"
-        (ngModelChange)="update('bidding', $event)"
-        name="bidding" />
-    </div>
-
-    <div class="field">
-      <label>System</label>
-      <select
-        [ngModel]="form().system"
-        (ngModelChange)="update('system', $event)"
-        name="system">
-        <option value="POLISH_CLUB">Polish Club</option>
-        <option value="STANDARD_AMERICAN">Standard American</option>
-      </select>
-    </div>
-
-    <div class="actions">
-      <button class="btn--primary" type="submit" [disabled]="loading()">
+    <div actions="">
+      <button type="submit" class="btn--primary" [disabled]="loading()">
         {{ loading() ? 'Calculating...' : 'Calculate' }}
       </button>
 
-      <button class="btn--secondary" type="button" (click)="reset()">
+      <button type="button" class="btn--secondary" (click)="reset()">
         Reset
       </button>
     </div>
 
-  </div>
+    <div result="">
+      <div class="bid">{{ result()?.bidding }}</div>
+      <p class="text-muted">{{ result()?.explanation }}</p>
+    </div>
+
+  </app-feature-panel>
 
 </form>
-
-<p class="error" *ngIf="error()">{{ error() }}</p>
-
-<div class="panel" *ngIf="result()">
-  <h3>Final bid</h3>
-  <div class="bid">{{ result()?.bidding }}</div>
-  <p class="text-muted">{{ result()?.explanation }}</p>
-</div>
