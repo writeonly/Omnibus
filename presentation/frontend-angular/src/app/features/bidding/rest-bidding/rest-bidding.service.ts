@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BffApiService } from '@core/api/bff-api.service';
+import { BffApiService } from '@core/api/bff/bff-api.service';
 import { BiddingFormState } from './rest-bidding.model';
 
 @Injectable()
