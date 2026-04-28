@@ -13,7 +13,7 @@ import {
 } from '../dto/rest-bidding.dto';
 
 @Injectable({ providedIn: 'root' })
-export class BffApiService {
+export class BffApiClient {
 
   private readonly baseUrl = '/api';
 
