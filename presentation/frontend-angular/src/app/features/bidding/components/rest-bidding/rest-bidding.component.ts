@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { RestBiddingResponse } from '@core/models/rest-bidding.dto';
+import { RestBiddingResponse } from '@core/api/dto/rest-bidding.dto';
 
 import { RestBiddingService } from './rest-bidding.service';
 import { BiddingFormState, System } from './rest-bidding.model';

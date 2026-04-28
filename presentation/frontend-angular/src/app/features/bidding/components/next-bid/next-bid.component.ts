@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { NextBidResponse } from '@core/models/next-bid.dto';
+import { NextBidResponse } from '@core/api/dto/next-bid.dto';
 
 import { NextBidService } from './next-bid.service';
 import { BidFormState, System } from './next-bid.model';

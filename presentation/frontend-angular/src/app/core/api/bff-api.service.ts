@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import {
   NextBidRequest,
   NextBidResponse,
-} from '../models/next-bid.dto';
+} from './dto/next-bid.dto';
 
 import {
   RestBiddingRequest,
   RestBiddingResponse
-} from '../models/rest-bidding.dto';
+} from './dto/rest-bidding.dto';
 
 @Injectable({ providedIn: 'root' })
 export class BffApiService {
