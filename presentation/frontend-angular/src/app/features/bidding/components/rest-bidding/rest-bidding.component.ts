@@ -1,31 +1,32 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { BidRecommendResponse } from '@core/models/bid.dto';
+import { BiddingRecommendResponse } from '@core/models/bidding.dto';
 
-import { BidRecommenderService } from './bid-recommender.service';
-import { BidFormState, System } from './bid-recommender.model';
+import { RestBiddingService } from './rest-bidding.service';
+import { BiddingFormState, System } from './rest-bidding.model';
 
 @Component({
-  selector: 'app-bid-recommender',
+  selector: 'app-rest-bidding',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
-  providers: [BidRecommenderService],
-  templateUrl: './bid-recommender.component.html',
+  providers: [RestBiddingService],
+  templateUrl: './rest-bidding.component.html',
 })
-export class BidRecommenderComponent {
+export class RestBiddingComponent {
 
-  private readonly service = inject(BidRecommenderService);
+  private readonly service = inject(RestBiddingService);
 
-  // UI state (ONLY UI)
+  // UI state only
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
-  readonly result = signal<BidRecommendResponse | null>(null);
+  readonly result = signal<BiddingRecommendResponse | null>(null);
 
   readonly form = new FormGroup({
-    hand: new FormControl<string>('', { nonNullable: true }),
+    northHand: new FormControl<string>('', { nonNullable: true }),
+    southHand: new FormControl<string>('', { nonNullable: true }),
     bidding: new FormControl<string>('', { nonNullable: true }),
     system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
   });
@@ -37,7 +38,7 @@ export class BidRecommenderComponent {
     this.error.set(null);
     this.result.set(null);
 
-    this.service.recommendBid(this.form.getRawValue())
+    this.service.recommendBidding(this.form.getRawValue())
       .subscribe({
         next: (res) => {
           this.result.set(res);

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BffApiService } from '@core/api/bff-api.service';
-import { BidFormState } from './bid-recommender.model';
+import { BidFormState } from './next-bid.model';
 
 @Injectable()
-export class BidRecommenderService {
+export class NextBidService {
 
   constructor(private api: BffApiService) {}
 
