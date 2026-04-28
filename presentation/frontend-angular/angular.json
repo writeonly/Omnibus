@@ -16,7 +16,7 @@
             "index": "src/index.html",
             "tsConfig": "tsconfig.app.json",
             "assets": [],
-            "styles": ["src/styles/styles.scss", "src/styles/theme.scss"]
+            "styles": ["src/styles.scss"]
           }
         },
         "serve": {
