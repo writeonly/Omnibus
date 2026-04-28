@@ -1,4 +1,4 @@
-<form class="form" (ngSubmit)="submit()">
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
 
   <app-feature-panel
     [title]="'Bid recommender'"
@@ -12,29 +12,17 @@
 
       <div class="field">
         <label>Hand</label>
-        <textarea rows="4"
-          [ngModel]="form().hand"
-          (ngModelChange)="update('hand', $event)"
-          name="hand"
-        ></textarea>
+        <textarea rows="4" formControlName="hand"></textarea>
       </div>
 
       <div class="field">
         <label>Auction</label>
-        <input
-          [ngModel]="form().bidding"
-          (ngModelChange)="update('bidding', $event)"
-          name="bidding"
-        />
+        <input formControlName="bidding" />
       </div>
 
       <div class="field">
         <label>System</label>
-        <select
-          [ngModel]="form().system"
-          (ngModelChange)="update('system', $event)"
-          name="system"
-        >
+        <select formControlName="system">
           <option value="POLISH_CLUB">Polish Club</option>
           <option value="STANDARD_AMERICAN">Standard American</option>
         </select>
