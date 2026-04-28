@@ -10,32 +10,32 @@
     <div class="field">
       <label>North</label>
       <textarea rows="3"
-        [ngModel]="northHand()"
-        (ngModelChange)="northHand.set($event)"
+        [ngModel]="form().northHand"
+        (ngModelChange)="update('northHand', $event)"
         name="northHand"></textarea>
     </div>
 
     <div class="field">
       <label>South</label>
       <textarea rows="3"
-        [ngModel]="southHand()"
-        (ngModelChange)="southHand.set($event)"
+        [ngModel]="form().southHand"
+        (ngModelChange)="update('southHand', $event)"
         name="southHand"></textarea>
     </div>
 
     <div class="field">
       <label>Bidding</label>
       <input
-        [ngModel]="bidding()"
-        (ngModelChange)="bidding.set($event)"
+        [ngModel]="form().bidding"
+        (ngModelChange)="update('bidding', $event)"
         name="bidding" />
     </div>
 
     <div class="field">
       <label>System</label>
       <select
-        [ngModel]="system()"
-        (ngModelChange)="system.set($event)"
+        [ngModel]="form().system"
+        (ngModelChange)="update('system', $event)"
         name="system">
         <option value="POLISH_CLUB">Polish Club</option>
         <option value="STANDARD_AMERICAN">Standard American</option>
