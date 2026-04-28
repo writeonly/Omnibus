@@ -28,8 +28,6 @@
 
     "useDefineForClassFields": false,
 
-    "lib": ["ES2022", "dom"],
-
     "resolveJsonModule": true,
 
     "paths": {
