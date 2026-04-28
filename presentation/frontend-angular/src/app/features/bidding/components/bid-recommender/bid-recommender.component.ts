@@ -12,14 +12,12 @@ type System = 'POLISH_CLUB' | 'STANDARD_AMERICAN';
 interface BidFormState {
   hand: string;
   bidding: string;
-  seat: Seat;
   system: System;
 }
 
 const INITIAL_STATE: BidFormState = {
   hand: '',
   bidding: '',
-  seat: 'NORTH',
   system: 'POLISH_CLUB',
 };
 
@@ -39,7 +37,6 @@ export class BidRecommenderComponent extends BaseFeatureComponent<
     return {
       hand: '',
       bidding: '',
-      seat: 'NORTH',
       system: 'POLISH_CLUB',
     };
   }
