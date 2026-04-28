@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BffApiService } from '@core/api/bff-api.service';
 import { BiddingRecommendResponse } from '@core/models/auction.dto';
+import { BaseFeatureComponent } from '@shared/feature/base-feature.component';
 
 type System = 'POLISH_CLUB' | 'STANDARD_AMERICAN';
 
@@ -26,43 +27,23 @@ const INITIAL_STATE: BiddingFormState = {
   imports: [CommonModule, FormsModule],
   templateUrl: './bidding-recommender.component.html',
 })
-export class BiddingRecommenderComponent {
+export class BiddingRecommenderComponent extends BaseFeatureComponent<
+  BiddingFormState,
+  BiddingRecommendResponse
+> {
 
   private readonly bffApi = inject(BffApiService);
 
-  readonly form = signal<BiddingFormState>({ ...INITIAL_STATE });
-
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
-  readonly result = signal<BiddingRecommendResponse | null>(null);
-
-  update<K extends keyof BiddingFormState>(key: K, value: BiddingFormState[K]) {
-    this.form.update(state => ({
-      ...state,
-      [key]: value,
-    }));
+  protected override getInitialForm(): BiddingFormState {
+    return {
+      northHand: '',
+      southHand: '',
+      bidding: '',
+      system: 'POLISH_CLUB',
+    };
   }
 
-  submit(): void {
-    this.loading.set(true);
-    this.error.set(null);
-    this.result.set(null);
-
-    this.bffApi.recommendBidding(this.form()).subscribe({
-      next: (res) => {
-        this.result.set(res);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('Failed to calculate bid');
-        this.loading.set(false);
-      }
-    });
-  }
-
-  reset(): void {
-    this.form.set({ ...INITIAL_STATE });
-    this.result.set(null);
-    this.error.set(null);
+  protected override apiCall(payload: BiddingFormState) {
+    return this.bffApi.recommendBidding(payload);
   }
 }
