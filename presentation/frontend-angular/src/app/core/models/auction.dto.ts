@@ -1,14 +1,14 @@
-export interface AuctionAnalyzeRequest {
+export interface BiddingRecommendRequest {
   northHand: string;
   southHand: string;
-  auction: string;
+  bidding: string;
   system: string;
 }
 
-export interface AuctionAnalyzeResponse {
+export interface BiddingRecommendResponse {
   summary: string;
   bestLine: string[];
   explanation: string;
   system: string;
-  auction: string;
+  bidding: string;
 }

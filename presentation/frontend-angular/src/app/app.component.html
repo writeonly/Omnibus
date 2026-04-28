@@ -1,111 +1,21 @@
 <main class="shell">
-  <section class="hero">
-    <div class="hero-topbar">
-      <p class="eyebrow">Omnibus</p>
 
-      <div class="auth-box" *ngIf="authService.ready()">
-        <span *ngIf="authService.authenticated()">
-          {{ authService.username() || 'authenticated user' }}
-        </span>
-
-        <button type="button"
-                class="secondary-button"
-                *ngIf="!authService.authenticated()"
-                (click)="login()">
-          Login admin
-        </button>
-
-        <button type="button"
-                class="secondary-button"
-                *ngIf="authService.authenticated()"
-                (click)="logout()">
-          Logout
-        </button>
-      </div>
+  <!-- HERO -->
+  <section class="panel">
+    <div class="panel__header">
+      <h1>Omnibus</h1>
+      <p>Bridge bidding engine</p>
     </div>
-
-    <h1>Wpisz ręce NS i uruchom licytację.</h1>
-
-    <p class="lead">
-      Wprowadzasz ręce North i South,
-      a backend (BFF + engine) wylicza rekomendację licytacji.
-    </p>
   </section>
 
-  <!-- =========================
-       NEXT BID COMPONENT (NOWY)
-  ========================== -->
+  <!-- NEXT BID -->
   <section class="panel">
-    <h2>Next bid calculator</h2>
-
     <app-next-bid-calculator></app-next-bid-calculator>
   </section>
 
-  <!-- =========================
-       FULL BIDDING COMPONENT
-  ========================== -->
+  <!-- FULL BIDDING -->
   <section class="panel">
-    <h2>Full bidding calculator</h2>
-
-    <form class="form" (ngSubmit)="submit()">
-
-      <div class="hands-grid">
-        <label class="hand-card">
-          <span class="seat">North</span>
-          <textarea
-            [ngModel]="northHand()"
-            (ngModelChange)="northHand.set($event)"
-            name="northHand"
-            rows="3"
-            placeholder="AQJ KQ2 A43 J742"></textarea>
-        </label>
-
-        <label class="hand-card">
-          <span class="seat">South</span>
-          <textarea
-            [ngModel]="southHand()"
-            (ngModelChange)="southHand.set($event)"
-            name="southHand"
-            rows="3"
-            placeholder="T97 A854 Q76 K98"></textarea>
-        </label>
-      </div>
-
-      <label>
-        Sekwencja licytacji
-        <input
-          [ngModel]="auction()"
-          (ngModelChange)="auction.set($event)"
-          name="auction"
-          placeholder="np. 1C pass" />
-      </label>
-
-      <label>
-        System
-        <select
-          [ngModel]="system()"
-          (ngModelChange)="system.set($event)"
-          name="system">
-          <option value="POLISH_CLUB">Polish Club</option>
-          <option value="STANDARD_AMERICAN">Standard American</option>
-        </select>
-      </label>
-
-      <button type="submit" [disabled]="loading()">
-        {{ loading() ? 'Liczenie...' : 'Licytuj' }}
-      </button>
-    </form>
-
-    <p class="hint">
-      Format: SPADES HEARTS DIAMONDS CLUBS, np. AQJ KQ2 A43 J742
-    </p>
-
-    <p class="error" *ngIf="error()">{{ error() }}</p>
-
-    <app-full-bidding-calculator
-      *ngIf="result()"
-      [result]="result()!">
-    </app-full-bidding-calculator>
-
+    <app-full-bidding></app-full-bidding>
   </section>
+
 </main>

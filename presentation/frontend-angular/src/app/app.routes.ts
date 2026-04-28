@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { NextBidCalculatorComponent } from './features/bidding/components/next-bid-calculator/next-bid-calculator.component';
-import { FullBiddingCalculatorComponent } from './features/bidding/components/full-bidding-calculator/full-bidding-calculator.component';
+import { FullBiddingComponent } from './features/bidding/components/full-bidding/full-bidding.component';
 
 export const routes: Routes = [
   {
@@ -18,7 +18,7 @@ export const routes: Routes = [
       },
       {
         path: 'full',
-        component: FullBiddingCalculatorComponent,
+        component: FullBiddingComponent,
       },
     ],
   },

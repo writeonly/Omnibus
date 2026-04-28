@@ -8,8 +8,8 @@ import {
 } from '../models/bid.dto';
 
 import {
-  AuctionAnalyzeRequest,
-  AuctionAnalyzeResponse
+  BiddingRecommendRequest,
+  BiddingRecommendResponse
 } from '../models/auction.dto';
 
 @Injectable({ providedIn: 'root' })
@@ -26,8 +26,8 @@ export class BffApiService {
     );
   }
 
-  analyzeAuction(req: AuctionAnalyzeRequest): Observable<AuctionAnalyzeResponse> {
-    return this.http.post<AuctionAnalyzeResponse>(
+  recommendBidding(req: BiddingRecommendRequest): Observable<BiddingRecommendResponse> {
+    return this.http.post<BiddingRecommendResponse>(
       `${this.baseUrl}/auction/analyze`,
       req
     );
