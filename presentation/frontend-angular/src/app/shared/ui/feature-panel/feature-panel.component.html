@@ -12,12 +12,16 @@
   <ng-content select="[actions]"></ng-content>
 
   <!-- ERROR -->
-  <p class="error" *ngIf="error">{{ error }}</p>
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
 
   <!-- RESULT -->
-  <div class="panel panel--result" *ngIf="hasResult">
-    <h3>Result</h3>
-    <ng-content select="[result]"></ng-content>
-  </div>
+  @if (hasResult) {
+    <div class="panel panel--result">
+      <h3>Result</h3>
+      <ng-content select="[result]"></ng-content>
+    </div>
+  }
 
 </div>

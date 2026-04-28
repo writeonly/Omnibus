@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { DestroyRef } from '@angular/core';
@@ -11,7 +11,7 @@ import { System } from './next-bid.model';
 
 @Component({
     selector: 'app-next-bid',
-    imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
+    imports: [ReactiveFormsModule, FeaturePanelComponent],
     providers: [NextBidService],
     templateUrl: './next-bid.component.html'
 })

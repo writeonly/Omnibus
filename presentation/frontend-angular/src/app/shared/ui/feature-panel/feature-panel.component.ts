@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-feature-panel',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './feature-panel.component.html'
 })
 export class FeaturePanelComponent {
