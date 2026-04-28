@@ -7,6 +7,9 @@ import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
 
 import { RestBiddingService } from './rest-bidding.service';
 import { BiddingFormState, System } from './rest-bidding.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DestroyRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-rest-bidding',
@@ -18,6 +21,7 @@ import { BiddingFormState, System } from './rest-bidding.model';
 export class RestBiddingComponent {
 
   private readonly service = inject(RestBiddingService);
+  private readonly destroyRef = inject(DestroyRef);
 
   // UI state only
   readonly loading = signal(false);
@@ -31,30 +35,36 @@ export class RestBiddingComponent {
     system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
   });
 
-  submit() {
-    if (this.form.invalid) return;
+submit(): void {
+  if (this.form.invalid) return;
 
-    this.loading.set(true);
-    this.error.set(null);
-    this.result.set(null);
+  this.loading.set(true);
+  this.error.set(null);
+  this.result.set(null);
 
-    this.service.recommendBidding(this.form.getRawValue())
-      .subscribe({
-        next: (res) => {
-          this.result.set(res);
-          this.loading.set(false);
-        },
-        error: () => {
-          this.error.set('Request failed');
-          this.loading.set(false);
-        }
-      });
-  }
+  this.service.recommendBidding(this.form.getRawValue())
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (res) => {
+        this.result.set(res);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Request failed');
+        this.loading.set(false);
+      }
+    });
+}
 
-  reset() {
-    this.form.reset(this.service.resetForm());
+reset(): void {
+  this.form.reset({
+    northHand: '',
+    southHand: '',
+    bidding: '',
+    system: 'POLISH_CLUB',
+  });
 
-    this.result.set(null);
-    this.error.set(null);
+  this.result.set(null);
+  this.error.set(null);
   }
 }

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
 import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
 
 import { NextBidService } from './next-bid.service';
-import { BidFormState, System } from './next-bid.model';
+import { System } from './next-bid.model';
 
 @Component({
   selector: 'app-next-bid',
@@ -19,18 +19,36 @@ export class NextBidComponent {
 
   private readonly service = inject(NextBidService);
 
-  // UI state (ONLY UI)
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
-  readonly result = signal<NextBidResponse | null>(null);
-
+  // =========================
+  // FORM (Reactive Forms)
+  // =========================
   readonly form = new FormGroup({
     hand: new FormControl<string>('', { nonNullable: true }),
     bidding: new FormControl<string>('', { nonNullable: true }),
     system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
   });
 
-  submit() {
+  // =========================
+  // UI STATE (Signals)
+  // =========================
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly result = signal<NextBidResponse | null>(null);
+
+  // =========================
+  // VIEW MODEL (UI aggregation)
+  // =========================
+  readonly vm = computed(() => ({
+    loading: this.loading(),
+    error: this.error(),
+    result: this.result(),
+    formValid: this.form.valid,
+  }));
+
+  // =========================
+  // ACTIONS
+  // =========================
+  submit(): void {
     if (this.form.invalid) return;
 
     this.loading.set(true);
@@ -50,8 +68,12 @@ export class NextBidComponent {
       });
   }
 
-  reset() {
-    this.form.reset(this.service.resetForm());
+  reset(): void {
+    this.form.reset({
+      hand: '',
+      bidding: '',
+      system: 'POLISH_CLUB',
+    });
 
     this.result.set(null);
     this.error.set(null);
