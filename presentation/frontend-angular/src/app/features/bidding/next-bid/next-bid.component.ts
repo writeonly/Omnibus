@@ -10,11 +10,10 @@ import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
 import { System } from './next-bid.model';
 
 @Component({
-  selector: 'app-next-bid',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
-  providers: [NextBidService],
-  templateUrl: './next-bid.component.html',
+    selector: 'app-next-bid',
+    imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
+    providers: [NextBidService],
+    templateUrl: './next-bid.component.html'
 })
 export class NextBidComponent {
 

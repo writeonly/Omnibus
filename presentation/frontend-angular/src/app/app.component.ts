@@ -4,12 +4,11 @@ import { NextBidComponent } from '@features/bidding/next-bid/next-bid.component'
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    NextBidComponent,
-    RestBiddingComponent
-  ],
-  templateUrl: './app.component.html',
+    selector: 'app-root',
+    imports: [
+        NextBidComponent,
+        RestBiddingComponent
+    ],
+    templateUrl: './app.component.html'
 })
 export class AppComponent {}

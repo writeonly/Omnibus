@@ -10,11 +10,10 @@ import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
 import { System } from './rest-bidding.model';
 
 @Component({
-  selector: 'app-rest-bidding',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
-  providers: [RestBiddingService],
-  templateUrl: './rest-bidding.component.html',
+    selector: 'app-rest-bidding',
+    imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
+    providers: [RestBiddingService],
+    templateUrl: './rest-bidding.component.html'
 })
 export class RestBiddingComponent {
 
