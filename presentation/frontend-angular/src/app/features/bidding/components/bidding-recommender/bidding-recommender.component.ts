@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BffApiService } from '@core/api/bff-api.service';
-import { BiddingRecommendResponse } from '@core/models/auction.dto';
+import { BiddingRecommendResponse } from '@core/models/bidding.dto';
 import { BaseFeatureComponent } from '@shared/feature/base-feature.component';
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
 

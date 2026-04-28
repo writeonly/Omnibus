@@ -9,7 +9,7 @@ export class BiddingService {
     const payload = {
       northHand: request.northHand?.trim(),
       southHand: request.southHand?.trim(),
-      auction: request.auction?.trim() ?? '',
+      bidding: request.bidding?.trim() ?? '',
       system: request.system?.trim() ?? 'DEFAULT_SYSTEM',
     };
 

@@ -2,7 +2,7 @@
 
   <app-feature-panel
     [title]="'Bid recommender'"
-    [subtitle]="'Enter hand and auction'"
+    [subtitle]="'Enter hand and bidding'"
     [loading]="loading()"
     [error]="error()"
     [hasResult]="!!result()"
@@ -22,9 +22,9 @@
       <div class="field">
         <label>Auction</label>
         <input
-          [ngModel]="form().auction"
-          (ngModelChange)="update('auction', $event)"
-          name="auction"
+          [ngModel]="form().bidding"
+          (ngModelChange)="update('bidding', $event)"
+          name="bidding"
         />
       </div>
 

@@ -11,7 +11,7 @@ export class RecommendationRequestDto {
 
   @IsString()
   @IsOptional()
-  auction?: string;
+  bidding?: string;
 
   @IsString()
   @IsNotEmpty()

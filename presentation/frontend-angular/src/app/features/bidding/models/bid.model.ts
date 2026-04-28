@@ -1,6 +1,6 @@
 export interface BidRecommendRequest {
   hand: string;
-  auction: string;
+  bidding: string;
   seat: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
   system?: string;
 }
