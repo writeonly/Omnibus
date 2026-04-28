@@ -8,8 +8,8 @@
     [hasResult]="!!result()"
   >
 
-    <div form-fields="">
-
+    <!-- FORM FIELDS -->
+    <div form-fields>
       <div class="field">
         <label>North</label>
         <textarea rows="4" formControlName="northHand"></textarea>
@@ -32,20 +32,29 @@
           <option value="STANDARD_AMERICAN">Standard American</option>
         </select>
       </div>
-
     </div>
 
-    <div actions="">
-      <button type="submit" class="btn--primary" [disabled]="loading()">
+    <!-- ACTIONS -->
+    <div actions>
+      <button
+        type="submit"
+        class="btn--primary"
+        [disabled]="loading()"
+      >
         {{ loading() ? 'Calculating...' : 'Calculate' }}
       </button>
 
-      <button type="button" class="btn--secondary" (click)="reset()">
+      <button
+        type="button"
+        class="btn--secondary"
+        (click)="reset()"
+      >
         Reset
       </button>
     </div>
 
-    <div result="">
+    <!-- RESULT -->
+    <div result>
       <div class="bid">{{ result()?.bidding }}</div>
       <p class="text-muted">{{ result()?.explanation }}</p>
     </div>
