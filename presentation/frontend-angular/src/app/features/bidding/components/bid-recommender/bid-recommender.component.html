@@ -12,11 +12,11 @@
 
       <div class="field">
         <label>Hand</label>
-        <input
+        <textarea rows="4"
           [ngModel]="form().hand"
           (ngModelChange)="update('hand', $event)"
           name="hand"
-        />
+        ></textarea>
       </div>
 
       <div class="field">
@@ -26,20 +26,6 @@
           (ngModelChange)="update('bidding', $event)"
           name="bidding"
         />
-      </div>
-
-      <div class="field">
-        <label>Seat</label>
-        <select
-          [ngModel]="form().seat"
-          (ngModelChange)="update('seat', $event)"
-          name="seat"
-        >
-          <option value="NORTH">North</option>
-          <option value="SOUTH">South</option>
-          <option value="EAST">East</option>
-          <option value="WEST">West</option>
-        </select>
       </div>
 
       <div class="field">
