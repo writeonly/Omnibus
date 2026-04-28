@@ -1,44 +1,35 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
-import { BffApiService } from '@core/api/bff-api.service';
-import { BidRecommendResponse } from '@core/models/bid.dto';
-import { BaseFeatureComponent } from '@shared/feature/base-feature.component';
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
+import { BidRecommendResponse } from '@core/models/bid.dto';
 
-type System = 'POLISH_CLUB' | 'STANDARD_AMERICAN';
-
-interface BidFormState {
-  hand: string;
-  bidding: string;
-  system: System;
-}
+import { BidRecommenderService } from './bid-recommender.service';
+import { BidFormState, System } from './bid-recommender.model';
 
 @Component({
   selector: 'app-bid-recommender',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FeaturePanelComponent],
+  providers: [BidRecommenderService],
   templateUrl: './bid-recommender.component.html',
 })
-export class BidRecommenderComponent extends BaseFeatureComponent<
-  BidRecommendResponse
-> {
-  private readonly bffApi = inject(BffApiService);
+export class BidRecommenderComponent {
 
-  // ✅ Reactive Form = single source of truth
+  private readonly service = inject(BidRecommenderService);
+
+  // UI state (ONLY UI)
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly result = signal<BidRecommendResponse | null>(null);
+
   readonly form = new FormGroup({
     hand: new FormControl<string>('', { nonNullable: true }),
     bidding: new FormControl<string>('', { nonNullable: true }),
     system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
   });
 
-  // ✅ API call
-  protected override apiCall(payload: BidFormState) {
-    return this.bffApi.recommendBid(payload);
-  }
-
-  // ✅ submit using Reactive Forms
   submit() {
     if (this.form.invalid) return;
 
@@ -46,7 +37,7 @@ export class BidRecommenderComponent extends BaseFeatureComponent<
     this.error.set(null);
     this.result.set(null);
 
-    this.apiCall(this.form.getRawValue())
+    this.service.recommendBid(this.form.getRawValue())
       .subscribe({
         next: (res) => {
           this.result.set(res);
@@ -59,13 +50,8 @@ export class BidRecommenderComponent extends BaseFeatureComponent<
       });
   }
 
-  // ✅ reset form + state
   reset() {
-    this.form.reset({
-      hand: '',
-      bidding: '',
-      system: 'POLISH_CLUB',
-    });
+    this.form.reset(this.service.resetForm());
 
     this.result.set(null);
     this.error.set(null);
