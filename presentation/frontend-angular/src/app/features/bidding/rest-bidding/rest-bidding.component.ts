@@ -1,15 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
-
 import { RestBiddingService } from './rest-bidding.service';
-import { BiddingFormState, System } from './rest-bidding.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DestroyRef } from '@angular/core';
-
+import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
+import { System } from './rest-bidding.model';
 
 @Component({
   selector: 'app-rest-bidding',
@@ -23,11 +21,9 @@ export class RestBiddingComponent {
   private readonly service = inject(RestBiddingService);
   private readonly destroyRef = inject(DestroyRef);
 
-  // UI state only
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
-  readonly result = signal<RestBiddingResponse | null>(null);
-
+  // =========================
+  // FORM
+  // =========================
   readonly form = new FormGroup({
     northHand: new FormControl<string>('', { nonNullable: true }),
     southHand: new FormControl<string>('', { nonNullable: true }),
@@ -35,36 +31,56 @@ export class RestBiddingComponent {
     system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
   });
 
-submit(): void {
-  if (this.form.invalid) return;
+  // =========================
+  // UI STATE
+  // =========================
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly result = signal<RestBiddingResponse | null>(null);
 
-  this.loading.set(true);
-  this.error.set(null);
-  this.result.set(null);
+  // =========================
+  // VIEW MODEL
+  // =========================
+  readonly vm = computed(() => ({
+    loading: this.loading(),
+    error: this.error(),
+    result: this.result(),
+    formValid: this.form.valid,
+  }));
 
-  this.service.recommendBidding(this.form.getRawValue())
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: (res) => {
-        this.result.set(res);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('Request failed');
-        this.loading.set(false);
-      }
+  // =========================
+  // ACTIONS
+  // =========================
+  submit(): void {
+    if (this.form.invalid) return;
+
+    this.loading.set(true);
+    this.error.set(null);
+    this.result.set(null);
+
+    this.service.recommendBidding(this.form.getRawValue())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.result.set(res);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.error.set('Request failed');
+          this.loading.set(false);
+        }
+      });
+  }
+
+  reset(): void {
+    this.form.reset({
+      northHand: '',
+      southHand: '',
+      bidding: '',
+      system: 'POLISH_CLUB',
     });
-}
 
-reset(): void {
-  this.form.reset({
-    northHand: '',
-    southHand: '',
-    bidding: '',
-    system: 'POLISH_CLUB',
-  });
-
-  this.result.set(null);
-  this.error.set(null);
+    this.result.set(null);
+    this.error.set(null);
   }
 }

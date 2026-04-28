@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
-
 import { NextBidService } from './next-bid.service';
+import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
 import { System } from './next-bid.model';
 
 @Component({
@@ -18,9 +19,10 @@ import { System } from './next-bid.model';
 export class NextBidComponent {
 
   private readonly service = inject(NextBidService);
+  private readonly destroyRef = inject(DestroyRef);
 
   // =========================
-  // FORM (Reactive Forms)
+  // FORM
   // =========================
   readonly form = new FormGroup({
     hand: new FormControl<string>('', { nonNullable: true }),
@@ -29,14 +31,14 @@ export class NextBidComponent {
   });
 
   // =========================
-  // UI STATE (Signals)
+  // UI STATE
   // =========================
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly result = signal<NextBidResponse | null>(null);
 
   // =========================
-  // VIEW MODEL (UI aggregation)
+  // VIEW MODEL
   // =========================
   readonly vm = computed(() => ({
     loading: this.loading(),
@@ -56,6 +58,7 @@ export class NextBidComponent {
     this.result.set(null);
 
     this.service.recommendBid(this.form.getRawValue())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.result.set(res);
