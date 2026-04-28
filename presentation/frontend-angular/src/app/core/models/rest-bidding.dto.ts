@@ -1,11 +1,11 @@
-export interface BiddingRecommendRequest {
+export interface RestBiddingRequest {
   northHand: string;
   southHand: string;
   bidding: string;
   system: string;
 }
 
-export interface BiddingRecommendResponse {
+export interface RestBiddingResponse {
   summary: string;
   bestLine: string[];
   explanation: string;

@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
-  BidRecommendRequest,
-  BidRecommendResponse,
-} from '../models/bid.dto';
+  NextBidRequest,
+  NextBidResponse,
+} from '../models/next-bid.dto';
 
 import {
-  BiddingRecommendRequest,
-  BiddingRecommendResponse
-} from '../models/bidding.dto';
+  RestBiddingRequest,
+  RestBiddingResponse
+} from '../models/rest-bidding.dto';
 
 @Injectable({ providedIn: 'root' })
 export class BffApiService {
@@ -19,16 +19,16 @@ export class BffApiService {
 
   constructor(private http: HttpClient) {}
 
-  recommendBid(req: BidRecommendRequest): Observable<BidRecommendResponse> {
-    return this.http.post<BidRecommendResponse>(
-      `${this.baseUrl}/bid/recommend`,
+  recommendBid(req: NextBidRequest): Observable<NextBidResponse> {
+    return this.http.post<NextBidResponse>(
+      `${this.baseUrl}/next-bid`,
       req
     );
   }
 
-  recommendBidding(req: BiddingRecommendRequest): Observable<BiddingRecommendResponse> {
-    return this.http.post<BiddingRecommendResponse>(
-      `${this.baseUrl}/bidding/analyze`,
+  recommendBidding(req: RestBiddingRequest): Observable<RestBiddingResponse> {
+    return this.http.post<RestBiddingResponse>(
+      `${this.baseUrl}/rest-bidding`,
       req
     );
   }

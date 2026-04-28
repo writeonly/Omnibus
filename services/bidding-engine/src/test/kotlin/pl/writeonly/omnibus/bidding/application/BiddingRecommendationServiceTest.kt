@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(properties = ["omnibus.kafka.enabled=false"])
-class BiddingRecommendationServiceTest {
+class RestBiddingationServiceTest {
     @Autowired
-    private lateinit var biddingRecommendationService: BiddingRecommendationService
+    private lateinit var biddingRecommendationService: RestBiddingationService
 
     @Test
     fun shouldRecommendOneNoTrumpForBalancedFifteenToSeventeenHand() {

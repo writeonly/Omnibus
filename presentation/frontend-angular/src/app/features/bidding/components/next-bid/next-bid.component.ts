@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { BidRecommendResponse } from '@core/models/bid.dto';
+import { NextBidResponse } from '@core/models/next-bid.dto';
 
 import { NextBidService } from './next-bid.service';
 import { BidFormState, System } from './next-bid.model';
@@ -22,7 +22,7 @@ export class NextBidComponent {
   // UI state (ONLY UI)
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
-  readonly result = signal<BidRecommendResponse | null>(null);
+  readonly result = signal<NextBidResponse | null>(null);
 
   readonly form = new FormGroup({
     hand: new FormControl<string>('', { nonNullable: true }),

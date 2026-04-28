@@ -1,6 +1,6 @@
 package pl.writeonly.omnibus.bidding.api
 
-import pl.writeonly.omnibus.bidding.application.BiddingRecommendationService
+import pl.writeonly.omnibus.bidding.application.RestBiddingationService
 import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
 import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
 import jakarta.validation.Valid
@@ -13,8 +13,8 @@ import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/api/v1/bidding")
-class BiddingRecommendationController(
-    private val biddingRecommendationService: BiddingRecommendationService,
+class RestBiddingationController(
+    private val biddingRecommendationService: RestBiddingationService,
 ) {
     @PostMapping("/recommend")
     fun recommend(@Valid @RequestBody request: RecommendationRequest): Mono<RecommendationResponse> =

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
-import { BiddingRecommendResponse } from '@core/models/bidding.dto';
+import { RestBiddingResponse } from '@core/models/rest-bidding.dto';
 
 import { RestBiddingService } from './rest-bidding.service';
 import { BiddingFormState, System } from './rest-bidding.model';
@@ -22,7 +22,7 @@ export class RestBiddingComponent {
   // UI state only
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
-  readonly result = signal<BiddingRecommendResponse | null>(null);
+  readonly result = signal<RestBiddingResponse | null>(null);
 
   readonly form = new FormGroup({
     northHand: new FormControl<string>('', { nonNullable: true }),

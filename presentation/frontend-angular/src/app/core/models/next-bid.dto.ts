@@ -1,10 +1,10 @@
-export interface BidRecommendRequest {
+export interface NextBidRequest {
   hand: string;
   bidding?: string;
   system?: string;
 }
 
-export interface BidRecommendResponse {
+export interface NextBidResponse {
   recommendedBid: string;
   explanation: string;
 
