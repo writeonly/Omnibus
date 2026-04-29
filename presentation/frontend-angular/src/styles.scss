@@ -1,22 +1,32 @@
 @use '@angular/material' as mat;
 
-/* =========================
-   MATERIAL 3 THEME
-========================= */
-html {
-  @include mat.theme((
-    color: (
-      theme-type: dark,
-      primary: mat.$spring-green-palette,
-      tertiary: mat.$green-palette,
-      // theme-type: light,
-      // primary: mat.$rose-palette,
-      // tertiary: mat.$magenta-palette,
-    ),
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$rose-palette,
+    tertiary: mat.$magenta-palette,
+  ),
+));
 
-    typography: Roboto,
-    density: 0,
-  ));
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$spring-green-palette,
+    tertiary: mat.$green-palette,
+  ),
+));
+
+html {
+  @include mat.all-component-themes($light-theme);
+}
+
+html.dark-theme {
+  @include mat.all-component-themes($dark-theme);
+}
+
+body {
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }
 
 /* =========================
