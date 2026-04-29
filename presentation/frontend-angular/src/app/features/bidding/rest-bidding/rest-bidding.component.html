@@ -1,71 +1,73 @@
-<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+<mat-card class="section-card">
+  <form class="form" [formGroup]="form" (ngSubmit)="submit()">
 
-  <mat-card class="bid-card">
+    <mat-card class="bid-card">
 
-    <!-- HEADER -->
-    <mat-card-header>
-      <mat-card-title>Full bidding calculator</mat-card-title>
-      <mat-card-subtitle>Enter hands and bidding sequence</mat-card-subtitle>
-    </mat-card-header>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>Full bidding calculator</mat-card-title>
+        <mat-card-subtitle>Enter hands and bidding sequence</mat-card-subtitle>
+      </mat-card-header>
 
-    <!-- CONTENT -->
-    <mat-card-content class="form-layout">
+      <!-- CONTENT -->
+      <mat-card-content class="form-layout">
 
-      <!-- North -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>North</mat-label>
-        <textarea matInput rows="4" formControlName="northHand">
+        <!-- North -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>North</mat-label>
+          <textarea matInput rows="4" formControlName="northHand">
         </textarea>
-      </mat-form-field>
+        </mat-form-field>
 
-      <!-- South -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>South</mat-label>
-        <textarea matInput rows="4" formControlName="southHand">
+        <!-- South -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>South</mat-label>
+          <textarea matInput rows="4" formControlName="southHand">
         </textarea>
-      </mat-form-field>
+        </mat-form-field>
 
-      <!-- Bidding -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Bidding</mat-label>
-        <textarea matInput rows="4" formControlName="bidding">
+        <!-- Bidding -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Bidding</mat-label>
+          <textarea matInput rows="4" formControlName="bidding">
           </textarea>
-      </mat-form-field>
+        </mat-form-field>
 
-      <!-- System -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>System</mat-label>
+        <!-- System -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>System</mat-label>
 
-        <mat-select formControlName="system">
-          <mat-option value="POLISH_CLUB">Polish Club</mat-option>
-          <mat-option value="STANDARD_AMERICAN">Standard American</mat-option>
-        </mat-select>
+          <mat-select formControlName="system">
+            <mat-option value="POLISH_CLUB">Polish Club</mat-option>
+            <mat-option value="STANDARD_AMERICAN">Standard American</mat-option>
+          </mat-select>
 
-      </mat-form-field>
+        </mat-form-field>
 
-      <!-- RESULT -->
-      @if (result(); as r) {
-      <div class="result">
-        <div class="bid">{{ r.bidding }}</div>
-        <p class="text-muted">{{ r.explanation }}</p>
-      </div>
-      }
+        <!-- RESULT -->
+        @if (result(); as r) {
+        <div class="result">
+          <div class="bid">{{ r.bidding }}</div>
+          <p class="text-muted">{{ r.explanation }}</p>
+        </div>
+        }
 
-    </mat-card-content>
+      </mat-card-content>
 
-    <!-- ACTIONS -->
-    <mat-card-actions>
+      <!-- ACTIONS -->
+      <mat-card-actions>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
-        {{ loading() ? 'Calculating...' : 'Calculate' }}
-      </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
+          {{ loading() ? 'Calculating...' : 'Calculate' }}
+        </button>
 
-      <button mat-button type="button" (click)="reset()">
-        Reset
-      </button>
+        <button mat-button type="button" (click)="reset()">
+          Reset
+        </button>
 
-    </mat-card-actions>
+      </mat-card-actions>
 
-  </mat-card>
+    </mat-card>
 
-</form>
+  </form>
+</mat-card>
