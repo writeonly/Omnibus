@@ -10,17 +10,12 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'bidding',
-    children: [
-      {
-        path: 'next-bid',
-        component: NextBidComponent,
-      },
-      {
-        path: 'full',
-        component: RestBiddingComponent,
-      },
-    ],
+    path: 'bidding/next-bid',
+    component: NextBidComponent,
+  },
+  {
+    path: 'bidding/rest-bidding',
+    component: RestBiddingComponent,
   },
   {
     path: '**',

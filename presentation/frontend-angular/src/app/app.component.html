@@ -1,6 +1,22 @@
 <mat-toolbar color="primary" class="toolbar">
-  <span>Omnibus</span>
+
+  <span class="logo">Omnibus</span>
   <span class="subtitle">Bridge bidding engine</span>
+
+  <span class="spacer"></span>
+
+  <mat-button-toggle-group [value]="activeRoute" (change)="onRouteChange($event.value)">
+
+    <mat-button-toggle value="/bidding/next-bid">
+      Next bid
+    </mat-button-toggle>
+
+    <mat-button-toggle value="/bidding/rest-bidding">
+      Rest bidding
+    </mat-button-toggle>
+
+  </mat-button-toggle-group>
+
   <span class="spacer"></span>
 
   <mat-slide-toggle [checked]="theme.isDark()" (change)="theme.toggle()">
@@ -10,6 +26,5 @@
 </mat-toolbar>
 
 <main class="shell">
-  <app-next-bid></app-next-bid>
-  <app-rest-bidding></app-rest-bidding>
+  <router-outlet></router-outlet>
 </main>
