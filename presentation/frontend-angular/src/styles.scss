@@ -24,14 +24,14 @@ html.dark-theme {
   @include mat.all-component-themes($dark-theme);
 }
 
-mat-form-field {
-  width: 100%;
-}
-
 html {
   background: var(--mat-toolbar-container-background-color, var(--mat-sys-surface));
 }
 
 .mat-mdc-card-title {
   color: var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));
+}
+
+mat-form-field {
+  width: 100%;
 }
