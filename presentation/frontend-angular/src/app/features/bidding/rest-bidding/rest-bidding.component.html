@@ -14,29 +14,22 @@
       <!-- North -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>North</mat-label>
-        <textarea
-          matInput
-          rows="4"
-          formControlName="northHand">
+        <textarea matInput rows="4" formControlName="northHand">
         </textarea>
       </mat-form-field>
 
       <!-- South -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>South</mat-label>
-        <textarea
-          matInput
-          rows="4"
-          formControlName="southHand">
+        <textarea matInput rows="4" formControlName="southHand">
         </textarea>
       </mat-form-field>
 
       <!-- Bidding -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Bidding</mat-label>
-        <input
-          matInput
-          formControlName="bidding">
+        <textarea matInput rows="4" formControlName="bidding">
+          </textarea>
       </mat-form-field>
 
       <!-- System -->
@@ -52,10 +45,10 @@
 
       <!-- RESULT -->
       @if (result(); as r) {
-        <div class="result">
-          <div class="bid">{{ r.bidding }}</div>
-          <p class="text-muted">{{ r.explanation }}</p>
-        </div>
+      <div class="result">
+        <div class="bid">{{ r.bidding }}</div>
+        <p class="text-muted">{{ r.explanation }}</p>
+      </div>
       }
 
     </mat-card-content>
@@ -63,20 +56,11 @@
     <!-- ACTIONS -->
     <mat-card-actions>
 
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="loading()"
-      >
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
         {{ loading() ? 'Calculating...' : 'Calculate' }}
       </button>
 
-      <button
-        mat-button
-        type="button"
-        (click)="reset()"
-      >
+      <button mat-button type="button" (click)="reset()">
         Reset
       </button>
 

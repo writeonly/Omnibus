@@ -13,15 +13,15 @@
 
   <!-- ERROR -->
   @if (error) {
-    <p class="error">{{ error }}</p>
+  <p class="error">{{ error }}</p>
   }
 
   <!-- RESULT -->
   @if (hasResult) {
-    <div class="panel panel--result">
-      <h3>Result</h3>
-      <ng-content select="[result]"></ng-content>
-    </div>
+  <div class="panel panel--result">
+    <h3>Result</h3>
+    <ng-content select="[result]"></ng-content>
+  </div>
   }
 
 </div>

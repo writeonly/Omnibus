@@ -17,7 +17,7 @@ export class BffApiClient {
 
   private readonly baseUrl = '/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   recommendBid(req: NextBidRequest): Observable<NextBidResponse> {
     return this.http.post<NextBidResponse>(

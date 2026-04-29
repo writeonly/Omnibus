@@ -15,17 +15,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-    selector: 'app-rest-bidding',
-    imports: [
-      ReactiveFormsModule,  
-      ReactiveFormsModule,
-      MatCardModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatSelectModule,
-      MatButtonModule],
-    providers: [RestBiddingService],
-    templateUrl: './rest-bidding.component.html'
+  selector: 'app-rest-bidding',
+  imports: [
+    ReactiveFormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule],
+  providers: [RestBiddingService],
+  templateUrl: './rest-bidding.component.html'
 })
 export class RestBiddingComponent {
 

@@ -1,8 +1,5 @@
 <header class="toolbar">
-  <mat-slide-toggle
-    [checked]="theme.isDark()"
-    (change)="theme.toggle()"
-  >
+  <mat-slide-toggle [checked]="theme.isDark()" (change)="theme.toggle()">
     {{ theme.isDark() ? '🌙 Dark' : '☀️ Light' }}
   </mat-slide-toggle>
 </header>

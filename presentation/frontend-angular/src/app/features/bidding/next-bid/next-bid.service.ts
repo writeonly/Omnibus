@@ -5,7 +5,7 @@ import { BidFormState } from './next-bid.model';
 @Injectable()
 export class NextBidService {
 
-  constructor(private api: BffApiClient) {}
+  constructor(private api: BffApiClient) { }
 
   recommendBid(payload: BidFormState) {
     return this.api.recommendBid(payload);

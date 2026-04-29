@@ -5,7 +5,7 @@ import { BiddingFormState } from './rest-bidding.model';
 @Injectable()
 export class RestBiddingService {
 
-  constructor(private api: BffApiClient) {}
+  constructor(private api: BffApiClient) { }
 
   recommendBidding(payload: BiddingFormState) {
     return this.api.recommendBidding(payload);

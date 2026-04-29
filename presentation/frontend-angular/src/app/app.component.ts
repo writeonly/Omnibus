@@ -7,15 +7,15 @@ import { ThemeService } from './core/theme/theme.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-    selector: 'app-root',
-    imports: [
-      NextBidComponent,
-      RestBiddingComponent,
-      MatToolbarModule,
-      MatCardModule,
-      MatSlideToggleModule
-    ],
-    templateUrl: './app.component.html'
+  selector: 'app-root',
+  imports: [
+    NextBidComponent,
+    RestBiddingComponent,
+    MatToolbarModule,
+    MatCardModule,
+    MatSlideToggleModule
+  ],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   readonly theme = inject(ThemeService);

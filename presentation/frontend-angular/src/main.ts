@@ -6,7 +6,7 @@ import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),provideHttpClient(
+    provideZoneChangeDetection(), provideHttpClient(
       withInterceptorsFromDi()
     ),
   ],

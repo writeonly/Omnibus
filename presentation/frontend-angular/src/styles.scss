@@ -1,20 +1,16 @@
 @use '@angular/material' as mat;
 
-$light-theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$rose-palette,
-    tertiary: mat.$magenta-palette,
-  ),
-));
+$light-theme: mat.define-theme((color: (theme-type: light,
+        primary: mat.$rose-palette,
+        tertiary: mat.$magenta-palette,
+      ),
+    ));
 
-$dark-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-    primary: mat.$green-palette,
-    tertiary: mat.$spring-green-palette,
-  ),
-));
+$dark-theme: mat.define-theme((color: (theme-type: dark,
+        primary: mat.$green-palette,
+        tertiary: mat.$spring-green-palette,
+      ),
+    ));
 
 html {
   @include mat.all-component-themes($light-theme);
