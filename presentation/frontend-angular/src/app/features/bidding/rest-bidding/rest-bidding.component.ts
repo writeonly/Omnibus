@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-rest-bidding',
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     ReactiveFormsModule,
