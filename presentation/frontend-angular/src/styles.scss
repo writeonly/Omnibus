@@ -11,8 +11,8 @@ $light-theme: mat.define-theme((
 $dark-theme: mat.define-theme((
   color: (
     theme-type: dark,
-    primary: mat.$spring-green-palette,
-    tertiary: mat.$green-palette,
+    primary: mat.$green-palette,
+    tertiary: mat.$spring-green-palette,
   ),
 ));
 
@@ -24,55 +24,14 @@ html.dark-theme {
   @include mat.all-component-themes($dark-theme);
 }
 
-body {
-  background: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-}
-
-/* =========================
-   BASE LAYOUT
-========================= */
-body {
-  margin: 0;
-  min-height: 100vh;
-
-  background: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-}
-
-/* =========================
-   FORM LAYOUT
-========================= */
-.form-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* =========================
-   MATERIAL OVERRIDES (SAFE)
-========================= */
 mat-form-field {
   width: 100%;
 }
 
-/* =========================
-   CARD LAYOUT
-========================= */
-.bid-card {
-  max-width: 800px;
-  margin: 24px auto;
-  border-radius: 16px;
+html {
+  background: var(--mat-toolbar-container-background-color, var(--mat-sys-surface));
 }
 
-/* =========================
-   RESULT BLOCK
-========================= */
-.result {
-  padding: 12px 0;
-}
-
-.bid {
-  font: var(--mat-sys-headline-small);
-  font-weight: 600;
+.mat-mdc-card-title {
+  color: var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));
 }

@@ -2,9 +2,10 @@
 
   <mat-card class="bid-card">
 
+    <!-- HEADER -->
     <mat-card-header>
       <mat-card-title>Bid recommender</mat-card-title>
-      <mat-card-subtitle>Enter hand and bidding</mat-card-subtitle>
+      <mat-card-subtitle>Enter hand and bidding sequence</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content class="form-layout">
@@ -19,9 +20,9 @@
         </textarea>
       </mat-form-field>
 
-      <!-- Auction -->
+      <!-- Bidding -->
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Auction</mat-label>
+        <mat-label>Bidding</mat-label>
         <input
           matInput
           formControlName="bidding">
@@ -39,21 +40,17 @@
       </mat-form-field>
 
       <!-- RESULT -->
-      <div class="result" *ngIf="result() as r">
-
-        <div class="bid">
-          {{ r.bid }}
+      @if (result(); as r) {
+        <div class="result">
+          <div class="bid">{{ r.bid }}</div>
+          <p class="text-muted">{{ r.explanation }}</p>
         </div>
-
-        <p class="text-muted">
-          {{ r.explanation }}
-        </p>
-
-      </div>
+      }
 
     </mat-card-content>
 
-    <mat-card-actions align="end">
+    <!-- ACTIONS -->
+    <mat-card-actions>
 
       <button
         mat-raised-button
