@@ -22,4 +22,8 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '**',
+    redirectTo: 'bidding/next-bid',
+  },
 ];
