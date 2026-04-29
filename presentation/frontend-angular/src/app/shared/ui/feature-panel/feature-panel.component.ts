@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-
-
 @Component({
-    selector: 'app-feature-panel',
-    imports: [],
-    templateUrl: './feature-panel.component.html'
+  selector: 'app-feature-panel',
+  standalone: true,
+  imports: [],
+  templateUrl: './feature-panel.component.html'
 })
 export class FeaturePanelComponent {
   @Input() title = '';
