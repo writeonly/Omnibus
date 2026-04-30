@@ -1,7 +1,7 @@
 import { Injectable, BadGatewayException } from '@nestjs/common';
 
 @Injectable()
-export class BiddingService {
+export class NextBidService {
   private readonly backendBaseUrl =
     process.env.BIDDING_ENGINE_BASE_URL ?? 'http://localhost:8081';
 

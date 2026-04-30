@@ -24,7 +24,8 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "buildTarget": "omnibus-frontend:build"
+            "buildTarget": "omnibus-frontend:build",
+            "proxyConfig": "proxy.conf.json"
           }
         }
       }
