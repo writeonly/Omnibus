@@ -3,7 +3,6 @@
 
     <mat-card class="bid-card">
 
-      <!-- HEADER -->
       <mat-card-header>
         <mat-card-title>Bid recommender</mat-card-title>
         <mat-card-subtitle>Enter hand and bidding sequence</mat-card-subtitle>
@@ -11,21 +10,25 @@
 
       <mat-card-content class="form-layout">
 
-        <!-- Hand -->
+        <!-- HAND -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Hand</mat-label>
-          <textarea matInput rows="4" formControlName="hand">
-        </textarea>
+
+          <textarea matInput rows="4" formControlName="hand"></textarea>
+
+          @if (form.controls.hand.touched && form.controls.hand.hasError('required')) {
+          <mat-error>Hand is required</mat-error>
+          }
         </mat-form-field>
 
-        <!-- Bidding -->
+        <!-- BIDDING -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Bidding</mat-label>
-          <textarea matInput rows="4" formControlName="bidding">
-          </textarea>
+
+          <textarea matInput rows="4" formControlName="bidding"></textarea>
         </mat-form-field>
 
-        <!-- System -->
+        <!-- SYSTEM -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>System</mat-label>
 
@@ -46,10 +49,9 @@
 
       </mat-card-content>
 
-      <!-- ACTIONS -->
       <mat-card-actions>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading() || form.invalid">
           {{ loading() ? 'Calculating...' : 'Calculate' }}
         </button>
 

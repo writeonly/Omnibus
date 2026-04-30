@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -35,12 +35,19 @@ export class NextBidComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   // =========================
-  // FORM
+  // FORM (VALIDATION ADDED)
   // =========================
   readonly form = new FormGroup({
-    hand: new FormControl<string>('', { nonNullable: true }),
-    bidding: new FormControl<string>('', { nonNullable: true }),
-    system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
+    hand: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    bidding: new FormControl<string>('', {
+      nonNullable: true
+    }),
+    system: new FormControl<System>('POLISH_CLUB', {
+      nonNullable: true
+    }),
   });
 
   // =========================
@@ -64,7 +71,10 @@ export class NextBidComponent {
   // ACTIONS
   // =========================
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     this.loading.set(true);
     this.error.set(null);

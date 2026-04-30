@@ -1,13 +1,12 @@
-
 import { Component, computed, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { FeaturePanelComponent } from '@shared/ui/feature-panel/feature-panel.component';
 import { RestBiddingService } from './rest-bidding.service';
 import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
 import { System } from './rest-bidding.model';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -19,12 +18,12 @@ import { MatSelectModule } from '@angular/material/select';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule],
+    MatButtonModule
+  ],
   providers: [RestBiddingService],
   templateUrl: './rest-bidding.component.html'
 })
@@ -34,13 +33,23 @@ export class RestBiddingComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   // =========================
-  // FORM
+  // FORM (VALIDATION ADDED)
   // =========================
   readonly form = new FormGroup({
-    northHand: new FormControl<string>('', { nonNullable: true }),
-    southHand: new FormControl<string>('', { nonNullable: true }),
-    bidding: new FormControl<string>('', { nonNullable: true }),
-    system: new FormControl<System>('POLISH_CLUB', { nonNullable: true }),
+    northHand: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    southHand: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    bidding: new FormControl<string>('', {
+      nonNullable: true,
+    }),
+    system: new FormControl<System>('POLISH_CLUB', {
+      nonNullable: true,
+    }),
   });
 
   // =========================
@@ -64,7 +73,10 @@ export class RestBiddingComponent {
   // ACTIONS
   // =========================
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched(); // 👈 UX: pokaż błędy od razu
+      return;
+    }
 
     this.loading.set(true);
     this.error.set(null);

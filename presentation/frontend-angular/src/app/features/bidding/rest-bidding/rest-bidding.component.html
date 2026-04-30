@@ -12,28 +12,36 @@
       <!-- CONTENT -->
       <mat-card-content class="form-layout">
 
-        <!-- North -->
+        <!-- NORTH -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>North</mat-label>
-          <textarea matInput rows="4" formControlName="northHand">
-        </textarea>
+
+          <textarea matInput rows="4" formControlName="northHand"></textarea>
+
+          @if (form.controls.northHand.touched && form.controls.northHand.hasError('required')) {
+            <mat-error>North hand is required</mat-error>
+          }
         </mat-form-field>
 
-        <!-- South -->
+        <!-- SOUTH -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>South</mat-label>
-          <textarea matInput rows="4" formControlName="southHand">
-        </textarea>
+
+          <textarea matInput rows="4" formControlName="southHand"></textarea>
+
+          @if (form.controls.southHand.touched && form.controls.southHand.hasError('required')) {
+            <mat-error>South hand is required</mat-error>
+          }
         </mat-form-field>
 
-        <!-- Bidding -->
+        <!-- BIDDING -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Bidding</mat-label>
-          <textarea matInput rows="4" formControlName="bidding">
-          </textarea>
+
+          <textarea matInput rows="4" formControlName="bidding"></textarea>
         </mat-form-field>
 
-        <!-- System -->
+        <!-- SYSTEM -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>System</mat-label>
 
@@ -41,15 +49,14 @@
             <mat-option value="POLISH_CLUB">Polish Club</mat-option>
             <mat-option value="STANDARD_AMERICAN">Standard American</mat-option>
           </mat-select>
-
         </mat-form-field>
 
         <!-- RESULT -->
         @if (result(); as r) {
-        <div class="result">
-          <div class="bid">{{ r.bidding }}</div>
-          <p class="text-muted">{{ r.explanation }}</p>
-        </div>
+          <div class="result">
+            <div class="bid">{{ r.bidding }}</div>
+            <p class="text-muted">{{ r.explanation }}</p>
+          </div>
         }
 
       </mat-card-content>
@@ -57,7 +64,12 @@
       <!-- ACTIONS -->
       <mat-card-actions>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading() || form.invalid"
+        >
           {{ loading() ? 'Calculating...' : 'Calculate' }}
         </button>
 
