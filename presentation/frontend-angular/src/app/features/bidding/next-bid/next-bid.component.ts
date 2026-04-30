@@ -13,6 +13,7 @@ import { NextBidService } from './next-bid.service';
 import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
 import { System } from './next-bid.model';
 import { CommonModule } from '@angular/common';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-next-bid',
@@ -24,7 +25,8 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    CommonModule
+    CommonModule,
+    MatExpansionModule
   ],
   providers: [NextBidService],
   templateUrl: './next-bid.component.html'

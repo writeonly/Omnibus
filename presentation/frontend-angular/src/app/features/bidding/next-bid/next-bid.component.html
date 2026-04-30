@@ -41,10 +41,17 @@
 
         <!-- RESULT -->
         @if (result(); as r) {
-        <div class="result">
-          <div class="bid">{{ r.bid }}</div>
-          <p class="text-muted">{{ r.explanation }}</p>
-        </div>
+        <mat-expansion-panel expanded>
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ r.bid }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{ r.explanation }}</p>
+
+        </mat-expansion-panel>
         }
 
       </mat-card-content>
