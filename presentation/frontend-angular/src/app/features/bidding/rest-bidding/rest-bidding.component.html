@@ -19,7 +19,7 @@
           <textarea matInput rows="4" formControlName="northHand"></textarea>
 
           @if (form.controls.northHand.touched && form.controls.northHand.hasError('required')) {
-            <mat-error>North hand is required</mat-error>
+          <mat-error>North hand is required</mat-error>
           }
         </mat-form-field>
 
@@ -30,7 +30,7 @@
           <textarea matInput rows="4" formControlName="southHand"></textarea>
 
           @if (form.controls.southHand.touched && form.controls.southHand.hasError('required')) {
-            <mat-error>South hand is required</mat-error>
+          <mat-error>South hand is required</mat-error>
           }
         </mat-form-field>
 
@@ -53,10 +53,17 @@
 
         <!-- RESULT -->
         @if (result(); as r) {
-          <div class="result">
-            <div class="bid">{{ r.bidding }}</div>
-            <p class="text-muted">{{ r.explanation }}</p>
-          </div>
+        <mat-expansion-panel expanded>
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ r.bidding }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{ r.explanation }}</p>
+
+        </mat-expansion-panel>
         }
 
       </mat-card-content>
@@ -64,12 +71,7 @@
       <!-- ACTIONS -->
       <mat-card-actions>
 
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="loading() || form.invalid"
-        >
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading() || form.invalid">
           {{ loading() ? 'Calculating...' : 'Calculate' }}
         </button>
 
