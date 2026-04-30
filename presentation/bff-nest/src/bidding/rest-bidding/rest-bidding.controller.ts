@@ -1,6 +1,7 @@
 import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { RestBiddingRequestDto } from './rest-bidding-request.dto';
 import { RestBiddingService } from './rest-bidding.service';
+import { RestBiddingResponseDto } from './rest-bidding-response.dto';
 
 @Controller('rest-bidding')
 export class RestBiddingController {
@@ -8,9 +9,8 @@ export class RestBiddingController {
   constructor(private readonly biddingService: RestBiddingService) { }
 
   @Post()
-  recommend(@Body() request: RestBiddingRequestDto) {
-    this.logger.log('Received recommendation request');
-    this.logger.debug(JSON.stringify(request));
-    return this.biddingService.recommend(request);
+  recommend(@Body() dto: RestBiddingRequestDto): RestBiddingResponseDto {
+    this.logger.log(`Input received: ${JSON.stringify(dto)}`);
+    return this.biddingService.recommend(dto);
   }
 }

@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
-export class RestBiddingRequestDtoDto {
+export class RestBiddingResponseDto {
   @IsString()
   @IsNotEmpty()
   bidding!: string;
