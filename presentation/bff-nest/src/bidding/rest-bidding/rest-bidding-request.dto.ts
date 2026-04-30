@@ -7,7 +7,7 @@ export class RestBiddingRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  souhHand!: string;
+  southHand!: string;
 
   @IsString()
   @IsNotEmpty()
