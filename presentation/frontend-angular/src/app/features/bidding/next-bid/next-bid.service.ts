@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BffApiClient } from '@core/api/bff/client/bff-api.client';
+import { BffApiClient } from '@core/api/bff-api.client';
 import { BidFormState } from './next-bid.model';
 
 @Injectable()

@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { NextBidService } from './next-bid.service';
-import { NextBidResponse } from '@core/api/bff/dto/next-bid.dto';
+import { NextBidResponse } from '@core/api/dto/next-bid.dto';
 import { System } from './next-bid.model';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';

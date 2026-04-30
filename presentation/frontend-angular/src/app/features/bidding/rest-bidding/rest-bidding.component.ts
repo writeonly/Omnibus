@@ -4,7 +4,7 @@ import { DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { RestBiddingService } from './rest-bidding.service';
-import { RestBiddingResponse } from '@core/api/bff/dto/rest-bidding.dto';
+import { RestBiddingResponse } from '@core/api/dto/rest-bidding.dto';
 import { System } from './rest-bidding.model';
 
 import { MatCardModule } from '@angular/material/card';
