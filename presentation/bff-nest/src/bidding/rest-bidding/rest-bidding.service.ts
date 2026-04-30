@@ -1,14 +1,14 @@
 import { Injectable, BadGatewayException } from '@nestjs/common';
-import { NextBidRequestDtoDto } from './next-bid-request.dto';
 
 @Injectable()
-export class NextBidService {
+export class RestBiddingService {
   private readonly backendBaseUrl =
     process.env.BIDDING_ENGINE_BASE_URL ?? 'http://localhost:8081';
 
-  async recommend(request: NextBidRequestDtoDto) {
+  async recommend(request: any) {
     const payload = {
-      hand: request.hand?.trim(),
+      northHand: request.northHand?.trim(),
+      southHand: request.southHand?.trim(),
       bidding: request.bidding?.trim() ?? '',
       system: request.system?.trim() ?? 'DEFAULT_SYSTEM',
     };
