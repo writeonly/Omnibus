@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class RestBiddingRequestDto {
   @IsString()
@@ -10,7 +10,7 @@ export class RestBiddingRequestDto {
   southHand!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   bidding!: string;
 
   @IsString()

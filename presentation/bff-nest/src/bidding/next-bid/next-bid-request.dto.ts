@@ -1,13 +1,13 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class NextBidRequestDtoDto {
+export class NextBidRequestDto {
   @IsString()
   @IsNotEmpty()
   hand!: string;
 
   @IsString()
-  @IsNotEmpty()
-  bidding!: string;
+  @IsOptional()
+  bidding?: string;
 
   @IsString()
   @IsNotEmpty()

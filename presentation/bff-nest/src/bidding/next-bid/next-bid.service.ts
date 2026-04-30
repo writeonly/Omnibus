@@ -1,59 +1,16 @@
-import { Injectable, BadGatewayException } from '@nestjs/common';
-import { NextBidRequestDtoDto } from './next-bid-request.dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { NextBidRequestDto } from './next-bid-request.dto';
+import { NextBidResponseDto } from './next-bid-response.dto';
 
 @Injectable()
 export class NextBidService {
-  private readonly backendBaseUrl =
-    process.env.BIDDING_ENGINE_BASE_URL ?? 'http://localhost:8081';
+  private readonly logger = new Logger(NextBidService.name);
 
-  async recommend(request: NextBidRequestDtoDto) {
-    const payload = {
-      hand: request.hand?.trim(),
-      bidding: request.bidding?.trim() ?? '',
-      system: request.system?.trim() ?? 'DEFAULT_SYSTEM',
+  recommend(dto: NextBidRequestDto): NextBidResponseDto {
+    this.logger.log(`Input received: ${JSON.stringify(dto)}`);
+
+    return {
+      bid: 'pass',
     };
-
-    const url = `${this.backendBaseUrl}/api/v1/bidding/recommend`;
-
-    try {
-      console.log('[BIDDING] calling:', url);
-      console.log('[BIDDING] payload:', JSON.stringify(payload));
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const body = await response.text();
-
-        throw new BadGatewayException({
-          message: 'Bidding backend error',
-          status: response.status,
-          url,
-          details: body,
-          payloadSent: payload,
-        });
-      }
-
-      return await response.json();
-    } catch (err: any) {
-      console.error('[BIDDING] FETCH FAILED ❌');
-      console.error('URL:', url);
-      console.error('ERROR NAME:', err?.name);
-      console.error('ERROR MESSAGE:', err?.message);
-      console.error('CAUSE:', err?.cause);
-
-      throw new BadGatewayException({
-        message: 'Fetch failed to backend',
-        url,
-        error: err?.message,
-        cause: err?.cause,
-        payloadSent: payload,
-      });
-    }
   }
 }
