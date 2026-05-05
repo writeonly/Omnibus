@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
+    id("com.google.protobuf") version "0.9.4"
 
     kotlin("jvm")
     kotlin("plugin.spring")
@@ -20,6 +21,8 @@ repositories {
 
 val droolsVersion = "8.44.0.Final"
 val springCloudVersion = "2023.0.5"
+val grpcVersion = "1.66.0"
+val protobufVersion = "3.25.5"
 
 dependencyManagement {
     imports {
@@ -33,6 +36,11 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-function-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("io.grpc:grpc-stub:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
+    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 
     // Kafka
     implementation("org.springframework.kafka:spring-kafka")
@@ -65,5 +73,23 @@ tasks.withType<Test>().configureEach {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                id("grpc")
+            }
+        }
     }
 }

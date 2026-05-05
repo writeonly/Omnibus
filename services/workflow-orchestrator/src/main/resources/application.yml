@@ -26,12 +26,16 @@ camunda:
     grpc-address: ${CAMUNDA_GRPC_ADDRESS:http://localhost:26500}
     rest-address: ${CAMUNDA_REST_ADDRESS:http://localhost:8089}
 
-omnibus:
-  workflow:
-    bidding-engine-base-url: ${BIDDING_ENGINE_BASE_URL:http://localhost:8081}
-
 springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+grpc:
+  server:
+    port: ${GRPC_PORT:9082}
+  client:
+    bidding-engine:
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+      negotiation-type: plaintext

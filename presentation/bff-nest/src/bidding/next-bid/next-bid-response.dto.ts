@@ -1,7 +1,11 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class NextBidResponseDto {
   @IsString()
   @IsNotEmpty()
   bid!: string;
+
+  @IsString()
+  @IsOptional()
+  explanation?: string;
 }

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package omnibus.v1;
+
+option java_multiple_files = true;
+option java_package = "pl.writeonly.omnibus.grpc.workflow.v1";
+option java_outer_classname = "WorkflowProto";
+
+service WorkflowService {
+  rpc StartRulePublication(RulePublicationRequest) returns (RulePublicationSubmission);
+}
+
+message RulePublicationRequest {
+  string name = 1;
+  string content = 2;
+  string requested_by = 3;
+}
+
+message RulePublicationSubmission {
+  string process_instance_key = 1;
+  string bpmn_process_id = 2;
+  string status = 3;
+  string rule_name = 4;
+  string requested_by = 5;
+}

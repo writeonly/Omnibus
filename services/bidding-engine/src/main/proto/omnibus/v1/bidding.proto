@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package omnibus.v1;
+
+option java_multiple_files = true;
+option java_package = "pl.writeonly.omnibus.grpc.bidding.v1";
+option java_outer_classname = "BiddingProto";
+
+service BiddingService {
+  rpc RecommendBid(RecommendationRequest) returns (RecommendationResponse);
+  rpc ListManagedRules(ListManagedRulesRequest) returns (ListManagedRulesResponse);
+  rpc SaveManagedRule(ManagedRuleUpsertRequest) returns (ManagedRuleDefinition);
+}
+
+message RecommendationRequest {
+  string north_hand = 1;
+  string south_hand = 2;
+  string auction = 3;
+  string system = 4;
+}
+
+message RecommendationResponse {
+  string system = 1;
+  string evaluated_seat = 2;
+  string north_hand = 3;
+  string south_hand = 4;
+  string auction = 5;
+  string recommended_bid = 6;
+  string explanation = 7;
+  repeated CandidateBid candidates = 8;
+}
+
+message CandidateBid {
+  string bid = 1;
+  int32 priority = 2;
+  string reason = 3;
+}
+
+message ListManagedRulesRequest {}
+
+message ListManagedRulesResponse {
+  repeated ManagedRuleDefinition rules = 1;
+}
+
+message ManagedRuleUpsertRequest {
+  string name = 1;
+  string content = 2;
+}
+
+message ManagedRuleDefinition {
+  string name = 1;
+  string source_path = 2;
+  bool managed = 3;
+  string content = 4;
+}

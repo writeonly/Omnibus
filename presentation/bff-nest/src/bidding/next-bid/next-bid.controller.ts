@@ -9,7 +9,7 @@ export class NextBidController {
   constructor(private readonly service: NextBidService) {}
 
   @Post()
-  recommend(@Body() dto: NextBidRequestDto): NextBidResponseDto {
+  recommend(@Body() dto: NextBidRequestDto): Promise<NextBidResponseDto> {
     this.logger.log(`Input received: ${JSON.stringify(dto)}`);
     return this.service.recommend(dto);
   }

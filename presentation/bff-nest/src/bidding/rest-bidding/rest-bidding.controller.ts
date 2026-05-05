@@ -6,10 +6,10 @@ import { RestBiddingResponseDto } from './rest-bidding-response.dto';
 @Controller('rest-bidding')
 export class RestBiddingController {
   private readonly logger = new Logger(RestBiddingController.name);
-  constructor(private readonly biddingService: RestBiddingService) { }
+  constructor(private readonly biddingService: RestBiddingService) {}
 
   @Post()
-  recommend(@Body() dto: RestBiddingRequestDto): RestBiddingResponseDto {
+  recommend(@Body() dto: RestBiddingRequestDto): Promise<RestBiddingResponseDto> {
     this.logger.log(`Input received: ${JSON.stringify(dto)}`);
     return this.biddingService.recommend(dto);
   }

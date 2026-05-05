@@ -29,8 +29,8 @@ services:
       dockerfile: Dockerfile
     container_name: omnibus-bff
     environment:
-      ENGINE_BASE_URL: http://bidding-engine:8081
-      WORKFLOW_ORCHESTRATOR_BASE_URL: http://workflow-orchestrator:8082
+      BIDDING_ENGINE_GRPC_TARGET: http://bidding-engine:9081
+      WORKFLOW_ORCHESTRATOR_GRPC_TARGET: http://workflow-orchestrator:9082
       KEYCLOAK_URL: http://keycloak:8080
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus
@@ -56,10 +56,12 @@ services:
     container_name: omnibus-bidding-engine
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      GRPC_PORT: 9081
     volumes:
       - ./services/bidding-engine/managed-rules:/app/managed-rules
     ports:
       - "8081:8081"
+      - "9081:9081"
     networks: [omnibus]
     depends_on:
       kafka:
@@ -73,10 +75,15 @@ services:
     environment:
       CAMUNDA_GRPC_ADDRESS: http://zeebe:26500
       CAMUNDA_REST_ADDRESS: http://zeebe:8080
-      BIDDING_ENGINE_BASE_URL: http://bidding-engine:8081
+      BIDDING_ENGINE_GRPC_ADDRESS: static://bidding-engine:9081
+      GRPC_PORT: 9082
     ports:
       - "8082:8082"
+      - "9082:9082"
     networks: [omnibus]
+    depends_on:
+      bidding-engine:
+        condition: service_started
 
   event-archive:
     profiles: ["archive"]
