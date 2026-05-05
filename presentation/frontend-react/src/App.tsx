@@ -4,7 +4,7 @@ import { Shell } from "./components/Shell";
 import type { RouteKey } from "./components/Shell";
 
 import { NextBid } from "./features/bidding/nextBid/NextBidView";
-import { RestBidding } from "./features/bidding/RestBidding";
+import { RestBidding } from "./features/bidding/restBidding/RestBiddingView";
 
 const routeByPath: Record<string, RouteKey> = {
   "/bidding/next-bid": "next-bid",
