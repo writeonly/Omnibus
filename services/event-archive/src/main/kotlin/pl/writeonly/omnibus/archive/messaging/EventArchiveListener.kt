@@ -1,5 +1,6 @@
 package pl.writeonly.omnibus.archive.messaging
 
+import pl.writeonly.omnibus.archive.events.BffHttpOutboxEvent
 import pl.writeonly.omnibus.archive.events.RecommendationProducedEvent
 import pl.writeonly.omnibus.archive.events.RuleUpdatedEvent
 import pl.writeonly.omnibus.archive.service.EventArchiveService
@@ -27,5 +28,13 @@ class EventArchiveListener(
     fun onRuleUpdated(event: RuleUpdatedEvent) {
         eventArchiveService.archiveRuleUpdate(event).block()
     }
-}
 
+    @KafkaListener(
+        topics = ["\${omnibus.kafka.topics.bff-outbox-events}"],
+        groupId = "event-archive-bff-outbox",
+        properties = ["spring.json.value.default.type=pl.writeonly.omnibus.archive.events.BffHttpOutboxEvent"],
+    )
+    fun onBffOutboxEvent(event: BffHttpOutboxEvent) {
+        eventArchiveService.archiveBffHttpEvent(event).block()
+    }
+}

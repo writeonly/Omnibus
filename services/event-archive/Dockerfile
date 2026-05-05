@@ -12,12 +12,10 @@ COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY gradle.properties ./
 
-RUN chmod +x gradlew
-
 # =========================
 # CACHE DEPENDENCIES
 # =========================
-RUN ./gradlew :event-archive:dependencies --no-daemon
+RUN gradle :event-archive:dependencies --no-daemon
 
 # =========================
 # MODULE SOURCE
@@ -29,7 +27,7 @@ COPY services/event-archive/settings.gradle.kts ./services/event-archive/
 # =========================
 # BUILD ONLY MODULE
 # =========================
-RUN ./gradlew :event-archive:bootJar --no-daemon
+RUN gradle :event-archive:bootJar --no-daemon
 
 
 # ---------- RUNTIME STAGE ----------

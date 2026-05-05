@@ -10,7 +10,7 @@ server:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: com.omnibus.archive.events
+        spring.json.trusted.packages: pl.writeonly.omnibus.archive.events,java.util,java.lang
         spring.json.use.type.headers: false
   cassandra:
     contact-points: ${CASSANDRA_CONTACT_POINTS:localhost}
@@ -30,3 +30,4 @@ omnibus:
     topics:
       recommendation-produced: omnibus.recommendation.produced
       rule-updated: omnibus.rule.updated
+      bff-outbox-events: ${BFF_OUTBOX_KAFKA_TOPIC:bff.outbox.events}

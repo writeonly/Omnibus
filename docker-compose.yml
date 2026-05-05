@@ -89,9 +89,15 @@ services:
       CASSANDRA_CONTACT_POINTS: cassandra
       CASSANDRA_PORT: 9042
       CASSANDRA_KEYSPACE: omnibus
+      BFF_OUTBOX_KAFKA_TOPIC: bff.outbox.events
     ports:
       - "8083:8083"
     networks: [omnibus]
+    depends_on:
+      kafka:
+        condition: service_healthy
+      cassandra-init:
+        condition: service_completed_successfully
 
   # =========================
   # INFRA

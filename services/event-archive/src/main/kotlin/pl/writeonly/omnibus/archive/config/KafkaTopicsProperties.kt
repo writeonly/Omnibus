@@ -6,5 +6,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class KafkaTopicsProperties(
     val recommendationProduced: String,
     val ruleUpdated: String,
+    val bffOutboxEvents: String,
 )
-
