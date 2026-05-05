@@ -1,45 +1,43 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 
-import type { System } from "../../../core/api/bffApiClient";
-import type { RestBiddingForm } from "./restBidding.types";
-import { useRestBidding } from "./useRestBidding";
+import { useRecommendBiddingMutation } from "./restBiddingApi";
 
-const initialForm: RestBiddingForm = {
+const initialForm = {
   northHand: "",
   southHand: "",
   bidding: "",
-  system: "POLISH_CLUB"
+  system: "POLISH_CLUB" as const
 };
 
-export function RestBidding() {
-  const [form, setForm] = useState<RestBiddingForm>(initialForm);
+export function RestBiddingView() {
+  const [form, setForm] = useState(initialForm);
   const [touched, setTouched] = useState(false);
 
-  const { submit, loading, error, result, reset } = useRestBidding();
+  const [recommendBidding, { data, error, isLoading }] =
+    useRecommendBiddingMutation();
 
   const northValid = form.northHand.trim().length > 0;
   const southValid = form.southHand.trim().length > 0;
   const formValid = northValid && southValid;
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setTouched(true);
 
     if (!formValid) return;
 
-    await submit(form);
+    await recommendBidding(form);
   }
 
-  function handleReset() {
+  function reset() {
     setForm(initialForm);
     setTouched(false);
-    reset();
   }
 
   return (
     <section className="section-card">
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={submit}>
         <article className="bid-card">
           <header className="card-header">
             <h1>Full bidding calculator</h1>
@@ -99,7 +97,7 @@ export function RestBidding() {
                 onChange={(e) =>
                   setForm({
                     ...form,
-                    system: e.target.value as System
+                    system: e.target.value as typeof form.system
                   })
                 }
               >
@@ -111,13 +109,15 @@ export function RestBidding() {
             </label>
 
             {error && (
-              <div className="result-panel error-panel">{error}</div>
+              <div className="result-panel error-panel">
+                Request failed
+              </div>
             )}
 
-            {result && (
+            {data && (
               <details className="result-panel" open>
-                <summary>{result.bidding}</summary>
-                <p>{result.explanation}</p>
+                <summary>{data.bidding}</summary>
+                <p>{data.explanation}</p>
               </details>
             )}
           </div>
@@ -126,15 +126,15 @@ export function RestBidding() {
             <button
               className="primary-action"
               type="submit"
-              disabled={loading || !formValid}
+              disabled={isLoading || !formValid}
             >
-              {loading ? "Calculating..." : "Calculate"}
+              {isLoading ? "Calculating..." : "Calculate"}
             </button>
 
             <button
               className="secondary-action"
               type="button"
-              onClick={handleReset}
+              onClick={reset}
             >
               Reset
             </button>

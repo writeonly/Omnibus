@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+
 import { useRecommendBidMutation } from "./nextBidApi";
 import { nextBidSchema } from "./nextBid.schema";
 
@@ -9,7 +10,7 @@ const initialForm = {
   system: "POLISH_CLUB" as const
 };
 
-export function NextBid() {
+export function NextBidView() {
   const [form, setForm] = useState(initialForm);
   const [touched, setTouched] = useState(false);
 
@@ -23,7 +24,6 @@ export function NextBid() {
     setTouched(true);
 
     const validation = nextBidSchema.safeParse(form);
-
     if (!validation.success) return;
 
     await recommendBid(form);
@@ -54,9 +54,11 @@ export function NextBid() {
                   setForm({ ...form, hand: e.target.value })
                 }
               />
-              {touched && !formValid ? (
-                <small className="field-error">Hand is required</small>
-              ) : null}
+              {touched && !formValid && (
+                <small className="field-error">
+                  Hand is required
+                </small>
+              )}
             </label>
 
             <label className="field">
@@ -82,22 +84,24 @@ export function NextBid() {
                 }
               >
                 <option value="POLISH_CLUB">Polish Club</option>
-                <option value="STANDARD_AMERICAN">Standard American</option>
+                <option value="STANDARD_AMERICAN">
+                  Standard American
+                </option>
               </select>
             </label>
 
-            {error ? (
+            {error && (
               <div className="result-panel error-panel">
                 Request failed
               </div>
-            ) : null}
+            )}
 
-            {data ? (
+            {data && (
               <details className="result-panel" open>
                 <summary>{data.bid}</summary>
                 <p>{data.explanation}</p>
               </details>
-            ) : null}
+            )}
           </div>
 
           <footer className="card-actions">
