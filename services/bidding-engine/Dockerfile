@@ -7,14 +7,11 @@ COPY gradlew ./
 COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY gradle.properties ./
+COPY services ./services
 
-RUN chmod +x gradlew
+RUN gradle :bidding-engine:dependencies --no-daemon
 
-RUN ./gradlew dependencies --no-daemon
-
-COPY services/bidding-engine ./services/bidding-engine
-
-RUN ./gradlew :bidding-engine:bootJar --no-daemon
+RUN gradle :bidding-engine:bootJar --no-daemon
 
 
 FROM eclipse-temurin:21-jre

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController
 import pl.writeonly.omnibus.workflow.application.RulePublicationWorkflowService
 import pl.writeonly.omnibus.workflow.domain.RulePublicationRequest
 import pl.writeonly.omnibus.workflow.domain.RulePublicationSubmission
-import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/api/v1/rule-publications")
@@ -19,7 +18,6 @@ class RulePublicationController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    fun startPublication(@Valid @RequestBody request: RulePublicationRequest): Mono<RulePublicationSubmission> =
+    fun startPublication(@Valid @RequestBody request: RulePublicationRequest): RulePublicationSubmission =
         rulePublicationWorkflowService.startPublication(request)
 }
-

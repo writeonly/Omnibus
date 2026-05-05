@@ -11,25 +11,17 @@ COPY gradlew ./
 COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY gradle.properties ./
-
-RUN chmod +x gradlew
+COPY services ./services
 
 # =========================
 # WARMUP (tylko dependency graph)
 # =========================
-RUN ./gradlew :bidding-engine:dependencies --no-daemon
-
-# =========================
-# SOURCE (minimal required)
-# =========================
-COPY services/bidding-engine/src ./services/bidding-engine/src
-COPY services/bidding-engine/build.gradle.kts ./services/bidding-engine/
-COPY services/bidding-engine/settings.gradle.kts ./services/bidding-engine/
+RUN gradle :workflow-orchestrator:dependencies --no-daemon
 
 # =========================
 # BUILD MODULE ONLY
 # =========================
-RUN ./gradlew :bidding-engine:bootJar --no-daemon
+RUN gradle :workflow-orchestrator:bootJar --no-daemon
 
 
 # ---------- RUNTIME ----------
@@ -37,8 +29,8 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/services/bidding-engine/build/libs/*.jar app.jar
+COPY --from=build /app/services/workflow-orchestrator/build/libs/*.jar app.jar
 
-EXPOSE 8081
+EXPOSE 8082
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

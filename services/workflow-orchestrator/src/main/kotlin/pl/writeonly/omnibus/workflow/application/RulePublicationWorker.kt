@@ -4,16 +4,15 @@ import io.camunda.client.api.response.ActivatedJob
 import io.camunda.client.annotation.JobWorker
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.client.WebClient
-import java.time.Duration
+import org.springframework.web.client.RestClient
 
 @Component
 class RulePublicationWorker(
-    webClientBuilder: WebClient.Builder,
+    restClientBuilder: RestClient.Builder,
     workflowProperties: WorkflowProperties,
 ) {
-    private val webClient: WebClient =
-        webClientBuilder
+    private val restClient: RestClient =
+        restClientBuilder
             .baseUrl(workflowProperties.biddingEngineBaseUrl)
             .build()
 
@@ -23,14 +22,12 @@ class RulePublicationWorker(
         val ruleName = requiredString(variables, "ruleName")
         val ruleContent = requiredString(variables, "ruleContent")
 
-        webClient.post()
+        restClient.post()
             .uri("/api/v1/admin/rules")
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(mapOf("name" to ruleName, "content" to ruleContent))
             .retrieve()
             .toBodilessEntity()
-            .timeout(Duration.ofSeconds(15))
-            .block()
     }
 
     private fun requiredString(variables: Map<String, Any>, key: String): String {
@@ -39,4 +36,3 @@ class RulePublicationWorker(
         throw IllegalArgumentException("Missing workflow variable: $key")
     }
 }
-

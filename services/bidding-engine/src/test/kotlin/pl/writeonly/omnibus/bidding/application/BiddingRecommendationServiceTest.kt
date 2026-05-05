@@ -15,7 +15,7 @@ class RestBiddingationServiceTest {
     fun shouldRecommendOneNoTrumpForBalancedFifteenToSeventeenHand() {
         val response = biddingRecommendationService.recommend(
             RecommendationRequest("AQJ KQ2 A43 J742", "T97 A854 Q76 K98", "", "POLISH_CLUB"),
-        ).block()
+        )
 
         requireNotNull(response)
         assertThat(response.recommendedBid).isEqualTo("1NT")
@@ -25,10 +25,9 @@ class RestBiddingationServiceTest {
     fun shouldRecommendPassBelowOpeningThreshold() {
         val response = biddingRecommendationService.recommend(
             RecommendationRequest("QJ4 T82 A743 942", "A83 KQ54 T62 K75", "", "POLISH_CLUB"),
-        ).block()
+        )
 
         requireNotNull(response)
         assertThat(response.recommendedBid).isEqualTo("PASS")
     }
 }
-

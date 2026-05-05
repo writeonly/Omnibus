@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import org.springframework.web.server.ServerWebInputException
+import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.http.converter.HttpMessageNotReadableException
 import java.time.Instant
 
 @RestControllerAdvice
@@ -14,7 +15,8 @@ class ApiErrorHandler {
         value = [
             IllegalArgumentException::class,
             ConstraintViolationException::class,
-            ServerWebInputException::class,
+            MethodArgumentNotValidException::class,
+            HttpMessageNotReadableException::class,
         ],
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -32,4 +34,3 @@ class ApiErrorHandler {
             "message" to exception.message,
         )
 }
-

@@ -19,10 +19,18 @@ repositories {
 }
 
 val droolsVersion = "8.44.0.Final"
+val springCloudVersion = "2023.0.5"
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    }
+}
 
 dependencies {
     // Spring
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.cloud:spring-cloud-starter-function-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
@@ -33,7 +41,7 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
  
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

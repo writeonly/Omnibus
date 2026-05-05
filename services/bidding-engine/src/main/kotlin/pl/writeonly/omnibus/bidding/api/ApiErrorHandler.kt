@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import org.springframework.web.bind.support.WebExchangeBindException
 import java.time.OffsetDateTime
 
 @RestControllerAdvice
@@ -18,10 +17,6 @@ class ApiErrorHandler {
     fun handleValidation(@Suppress("UNUSED_PARAMETER") exception: MethodArgumentNotValidException): ResponseEntity<Map<String, Any?>> =
         build(HttpStatus.BAD_REQUEST, "Request validation failed")
 
-    @ExceptionHandler(WebExchangeBindException::class)
-    fun handleWebFluxValidation(@Suppress("UNUSED_PARAMETER") exception: WebExchangeBindException): ResponseEntity<Map<String, Any?>> =
-        build(HttpStatus.BAD_REQUEST, "Request validation failed")
-
     private fun build(status: HttpStatus, message: String?): ResponseEntity<Map<String, Any?>> =
         ResponseEntity.status(status).body(
             mapOf(
@@ -32,4 +27,3 @@ class ApiErrorHandler {
             ),
         )
 }
-

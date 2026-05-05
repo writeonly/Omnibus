@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/api/v1/bidding")
@@ -17,10 +16,9 @@ class RestBiddingationController(
     private val biddingRecommendationService: RestBiddingationService,
 ) {
     @PostMapping("/recommend")
-    fun recommend(@Valid @RequestBody request: RecommendationRequest): Mono<RecommendationResponse> =
+    fun recommend(@Valid @RequestBody request: RecommendationRequest): RecommendationResponse =
         biddingRecommendationService.recommend(request)
 
     @GetMapping("/health")
-    fun health(): Mono<String> = Mono.just("OK")
+    fun health(): String = "OK"
 }
-

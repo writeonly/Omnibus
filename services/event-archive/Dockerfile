@@ -11,18 +11,12 @@ COPY gradlew ./
 COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY gradle.properties ./
+COPY services ./services
 
 # =========================
 # CACHE DEPENDENCIES
 # =========================
 RUN gradle :event-archive:dependencies --no-daemon
-
-# =========================
-# MODULE SOURCE
-# =========================
-COPY services/event-archive/src ./services/event-archive/src
-COPY services/event-archive/build.gradle.kts ./services/event-archive/
-COPY services/event-archive/settings.gradle.kts ./services/event-archive/
 
 # =========================
 # BUILD ONLY MODULE

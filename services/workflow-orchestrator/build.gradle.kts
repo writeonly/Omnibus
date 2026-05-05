@@ -21,11 +21,20 @@ java {
     }
 }
 
+val springCloudVersion = "2025.0.0"
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    }
+}
+
 dependencies {
     // ======================
     // SPRING BOOT STACK
     // ======================
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.cloud:spring-cloud-starter-function-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
@@ -42,7 +51,7 @@ dependencies {
     // ======================
     // OPENAPI
     // ======================
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.6")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
 
     // ======================
     // KOTLIN
