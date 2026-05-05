@@ -188,7 +188,6 @@ services:
     networks: [omnibus]
 
   cassandra:
-    profiles: ["archive"]
     image: cassandra:5.0
     container_name: omnibus-cassandra
 
@@ -215,7 +214,6 @@ services:
       start_period: 90s
 
   cassandra-init:
-    profiles: ["archive"]
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
 
@@ -241,54 +239,6 @@ services:
         "
       ]
 
-    networks: [omnibus]
-
-  zeebe:
-    image: camunda/zeebe:8.8.0
-    container_name: omnibus-zeebe
-    environment:
-      ZEEBE_BROKER_CLUSTER_CLUSTERSIZE: 1
-      ZEEBE_BROKER_CLUSTER_PARTITIONSCOUNT: 1
-      ZEEBE_BROKER_CLUSTER_REPLICATIONFACTOR: 1
-      ZEEBE_BROKER_THREADS_CPUTHREADCOUNT: 2
-      ZEEBE_BROKER_THREADS_IOTHREADCOUNT: 2
-    ports:
-      - "8181:8080"
-      - "26500:26500"
-    networks: [omnibus]
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.0
-    container_name: omnibus-keycloak
-    command: ["start-dev", "--import-realm"]
-    environment:
-      KEYCLOAK_ADMIN: kcadmin
-      KEYCLOAK_ADMIN_PASSWORD: kcadmin
-      KC_METRICS_ENABLED: "true"
-      KC_HEALTH_ENABLED: "true"
-    volumes:
-      - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
-    ports:
-      - "8182:8080"
-    networks: [omnibus]
-
-  redis:
-    image: redis:7-alpine
-    container_name: omnibus-redis
-    command: ["redis-server", "--appendonly", "yes"]
-    ports:
-      - "6379:6379"
-    networks: [omnibus]
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: omnibus-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     networks: [omnibus]
 
   # =========================
