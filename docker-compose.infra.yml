@@ -1,5 +1,17 @@
 services:
 
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: omnibus-nginx
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./infra/nginx/index.html:/usr/share/nginx/html/index.html:ro
+    ports:
+      - "8000:80"
+    networks: [omnibus]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   postgres:
     image: postgres:16-alpine
     container_name: omnibus-postgres
@@ -51,6 +63,16 @@ services:
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
     ports:
       - "29092:29092"
+    networks: [omnibus]
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: omnibus-kafka-ui
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    ports:
+      - "8085:8080"
     networks: [omnibus]
 
   cassandra:
