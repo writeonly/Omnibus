@@ -1,0 +1,30 @@
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks: [omnibus]
+
+  loki:
+    image: grafana/loki:2.9.6
+    ports:
+      - "3100:3100"
+    networks: [omnibus]
+
+  promtail:
+    image: grafana/promtail:2.9.6
+    volumes:
+      - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
+    networks: [omnibus]
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    ports:
+      - "3001:3000"
+    networks: [omnibus]
+
+networks:
+  omnibus:

@@ -1,0 +1,136 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: omnibus-postgres
+    environment:
+      POSTGRES_DB: omnibus
+      POSTGRES_USER: omnibus
+      POSTGRES_PASSWORD: omnibus
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres:/docker-entrypoint-initdb.d:ro
+    networks: [omnibus]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U omnibus -d omnibus"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  postgres-init:
+    image: postgres:16-alpine
+    container_name: omnibus-postgres-init
+    environment:
+      PGPASSWORD: omnibus
+    volumes:
+      - ./infra/postgres:/init:ro
+    entrypoint:
+      - /bin/sh
+      - -c
+      - psql -h postgres -U omnibus -d omnibus -v ON_ERROR_STOP=1 -f /init/001-outbox.sql
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [omnibus]
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: omnibus-kafka
+    environment:
+      KAFKA_NODE_ID: 0
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    ports:
+      - "29092:29092"
+    networks: [omnibus]
+
+  cassandra:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    networks: [omnibus]
+
+  cassandra-init:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra-init
+    depends_on:
+      cassandra:
+        condition: service_started
+    volumes:
+      - ./infra/cassandra/init.cql:/init.cql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo 'Waiting for Cassandra...';
+        until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do sleep 5; done;
+        echo 'Init...';
+        cqlsh cassandra 9042 -f /init.cql;
+    networks: [omnibus]
+
+  redis:
+    image: redis:7-alpine
+    container_name: omnibus-redis
+    ports:
+      - "6379:6379"
+    networks: [omnibus]
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: omnibus-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: [omnibus]
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: omnibus-keycloak
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KEYCLOAK_ADMIN: kcadmin
+      KEYCLOAK_ADMIN_PASSWORD: kcadmin
+    volumes:
+      - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
+    ports:
+      - "8182:8080"
+    networks: [omnibus]
+
+  zeebe:
+    image: camunda/zeebe:8.8.0
+    container_name: omnibus-zeebe
+    ports:
+      - "26500:26500"
+      - "8181:8080"
+    networks: [omnibus]
+
+  outbox-relay:
+    build:
+      context: ./infra/outbox-relay
+    container_name: omnibus-outbox-relay
+    environment:
+      OUTBOX_DATABASE_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres-init:
+        condition: service_completed_successfully
+    networks: [omnibus]
+
+networks:
+  omnibus:
+
+volumes:
+  postgres_data:
+  cassandra_data:

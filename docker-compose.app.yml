@@ -1,0 +1,46 @@
+services:
+
+  frontend-angular:
+    build:
+      context: ./presentation/frontend-angular
+    ports:
+      - "4200:80"
+    networks: [omnibus]
+
+  frontend-react:
+    build:
+      context: ./presentation/frontend-react
+    ports:
+      - "4300:80"
+    networks: [omnibus]
+
+  bff-nest:
+    build:
+      context: ./presentation/bff-nest
+    environment:
+      KEYCLOAK_URL: http://keycloak:8080
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    networks: [omnibus]
+
+  bidding-engine:
+    build:
+      context: .
+      dockerfile: ./services/bidding-engine/Dockerfile
+    networks: [omnibus]
+
+  workflow-orchestrator:
+    build:
+      context: .
+      dockerfile: ./services/workflow-orchestrator/Dockerfile
+    networks: [omnibus]
+
+  event-archive:
+    build:
+      context: .
+      dockerfile: ./services/event-archive/Dockerfile
+    networks: [omnibus]
+
+networks:
+  omnibus:
