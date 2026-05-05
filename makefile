@@ -1,91 +1,78 @@
-.PHONY: help up down build backend frontend infra clean logs
-
-help:
-	@echo "Available commands:"
-	@echo "  make up         - start full system (docker-compose)"
-	@echo "  make down       - stop system"
-	@echo "  make build      - build all services"
-	@echo "  make backend    - build all JVM services"
-	@echo "  make frontend   - build Angular"
-	@echo "  make infra      - start infra only"
-	@echo "  make clean      - clean builds"
-	@echo "  make logs       - follow logs"
-
 # =========================
-# FULL SYSTEM
+# CONFIG
 # =========================
 
-up:
-	docker-compose up --build
+COMPOSE_INFRA = docker compose -f docker-compose.infra.yml
+COMPOSE_APP   = docker compose -f docker-compose.app.yml
+COMPOSE_OBS   = docker compose -f docker-compose.obs.yml
 
-down:
-	docker-compose down
-
-# =========================
-# BUILD ALL
-# =========================
-
-build: backend frontend
+COMPOSE_ALL   = docker compose \
+	-f docker-compose.infra.yml \
+	-f docker-compose.app.yml \
+	-f docker-compose.obs.yml
 
 # =========================
-# BACKEND (Gradle JVM services)
+# INFRA
 # =========================
 
-backend:
-	./gradlew clean build
+infra-up:
+	$(COMPOSE_INFRA) up -d
 
-# optionally per-service builds:
-bidding-engine:
-	./gradlew :services:bidding-engine:build
+infra-down:
+	$(COMPOSE_INFRA) down
 
-event-archive:
-	./gradlew :services:event-archive:build
+infra-logs:
+	$(COMPOSE_INFRA) logs -f
 
-workflow-orchestrator:
-	./gradlew :services:workflow-orchestrator:build
-
-# =========================
-# FRONTEND (Angular)
-# =========================
-
-frontend:
-	cd presentation/frontend-angular && npm run build
-
-frontend-dev:
-	cd presentation/frontend-angular && npm start
-
-frontend-install:
-	cd presentation/frontend-angular && npm install
-
-frontend-clean-install:
-	cd presentation/frontend-angular && \
-	rm -rf node_modules package-lock.json .angular dist && \
-	npm cache clean --force && \
-	npm install
-
-frontend-fix:
-	cd presentation/frontend-angular && \
-	rm -rf node_modules .angular && \
-	npm install
+infra-restart:
+	$(COMPOSE_INFRA) down
+	$(COMPOSE_INFRA) up -d
 
 # =========================
-# INFRA ONLY
+# OBSERVABILITY
 # =========================
 
-infra:
-	docker-compose up prometheus grafana keycloak
+obs-up:
+	$(COMPOSE_INFRA) -f docker-compose.obs.yml up -d
+
+obs-down:
+	docker compose -f docker-compose.obs.yml down
+
+obs-logs:
+	docker compose -f docker-compose.obs.yml logs -f
+
+# =========================
+# FULL STACK (DOCKER)
+# =========================
+
+app-up:
+	$(COMPOSE_INFRA) -f docker-compose.app.yml up -d
+
+app-down:
+	docker compose \
+		-f docker-compose.infra.yml \
+		-f docker-compose.app.yml down
+
+# =========================
+# EVERYTHING
+# =========================
+
+all-up:
+	$(COMPOSE_ALL) up -d
+
+all-down:
+	$(COMPOSE_ALL) down
+
+# =========================
+# DEV MODE (TWÓJ GŁÓWNY CASE)
+# =========================
+
+dev: infra-up
+	@echo "Infra is up. Run your services locally 🚀"
 
 # =========================
 # CLEAN
 # =========================
 
 clean:
-	./clean-gradle.sh
-	cd presentation/frontend-angular && rm -rf node_modules dist
-
-# =========================
-# LOGS
-# =========================
-
-logs:
-	docker-compose logs -f
+	docker compose down -v --remove-orphans
