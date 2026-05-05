@@ -1,34 +1,44 @@
 # Omnibus
 
-Omnibus is a bank-style monorepo for a bridge bidding platform built around a rule engine.
+Omnibus is a monorepo for a bridge bidding platform built around a rule engine and event-driven architecture.
 
 ## Architecture
 
-- `frontend-angular` - Angular UI for entering a hand and viewing the recommended bid
-- `bff-nest` - NestJS backend-for-frontend that fronts the domain API
-- `services/bidding-engine` - Spring Boot `Java 21` service with `Drools`
-- `services/workflow-orchestrator` - Spring Boot service running Camunda workflows around rule governance
-- `zeebe` - Camunda 8 workflow engine for BPMN process execution
-- `kafka` - event backbone for recommendation and rule update events
-- `services/event-archive` - Kafka consumer archiving events into Cassandra
-- `cassandra` - durable event history store
-- `keycloak` - identity provider for administrator login
-- `nginx` - reverse proxy and single external entry point
-- `infra` - shared infrastructure notes and placeholders
+### Applications (presentation layer)
+
+- `presentation/frontend-angular` – Angular UI for entering a hand and viewing bid recommendations
+- `presentation/frontend-react` – React UI (experimental / alternative frontend)
+- `presentation/bff-nest` – NestJS backend-for-frontend aggregating domain APIs
+
+### Backend services
+
+- `services/event-archive` – Kafka consumer persisting domain events into Cassandra
+- `services/bidding-engine` – Spring Boot (Java 21) service with Drools rule engine
+- `services/workflow-orchestrator` – Spring Boot service orchestrating rule governance workflows (Camunda / Zeebe style)
+
+### Infrastructure / integration
+
+- Docker Compose – local orchestration of the full stack
+- Outbox relay (`infra/outbox-relay`) – bridges local outbox events to Kafka (if enabled)
+- Kafka – event backbone for recommendations and rule updates
+- Cassandra – durable event storage for archived domain events
+- Keycloak – identity provider for admin authentication
+- Prometheus – metrics scraping and monitoring
+- Promtail – log shipping to observability stack
 
 ## Decision Flow
 
-1. The Angular client sends a recommendation request to the Nest BFF.
-2. The BFF validates and forwards the request to the Spring backend.
-3. The Spring backend computes hand facts and inserts them into Drools.
-4. Drools creates candidate bids and the backend returns the best recommendation with an explanation.
-5. The backend publishes domain events to Kafka after recommendation and rule update actions.
-6. Rule changes from the admin panel go through Camunda before they reach the Drools rule store.
-7. NGINX exposes the platform through one external entry point and routes traffic to the right service.
+1. Angular frontend sends a recommendation request to the Nest BFF.
+2. BFF validates and forwards the request to `bidding-engine`.
+3. `bidding-engine` builds hand facts and evaluates rules in Drools.
+4. Drools produces candidate bids and returns the best recommendation with explanation.
+5. Domain events are published to Kafka (recommendation + rule updates).
+6. Rule changes go through `workflow-orchestrator` before being applied to the rule set.
+7. `event-archive` consumes Kafka events and persists them in Cassandra.
 
 ## Code Quality & Formatting
 
-### Kotlin (Using Gradle)
+### Kotlin (Gradle)
 
 Run all formatters and linters:
 ```bash
@@ -79,7 +89,7 @@ npm run typecheck
 
 Run all checks (lint + format + typecheck):
 ```bash
-cd bff-nest
+cd presentation/bff-nest
 npm run lint:all
 ```
 
@@ -97,7 +107,7 @@ Swagger UI is available at `http://localhost:8080/swagger-ui.html`.
 ### Nest BFF
 
 ```bash
-cd bff-nest
+cd presentation/bff-nest
 npm install
 npm run start:dev
 ```
@@ -105,7 +115,7 @@ npm run start:dev
 ### Angular frontend
 
 ```bash
-cd frontend-angular
+cd presentation/frontend-angular
 npm install
 npm start
 ```
