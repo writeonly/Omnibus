@@ -1,0 +1,13 @@
+{
+  "name": "omnibus-outbox-relay",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "pg": "^8.16.3"
+  }
+}

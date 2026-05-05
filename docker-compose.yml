@@ -35,10 +35,15 @@ services:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus
       KEYCLOAK_CLIENT_ID: omnibus-frontend
+      BFF_OUTBOX_DATABASE_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
+      BFF_OUTBOX_ENABLED: "true"
       PORT: 3000
     ports:
       - "3000:3000"
     networks: [omnibus]
+    depends_on:
+      postgres-init:
+        condition: service_completed_successfully
 
   # =========================
   # CORE MICROSERVICES
@@ -151,7 +156,46 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres:/docker-entrypoint-initdb.d:ro
     networks: [omnibus]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U omnibus -d omnibus"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  postgres-init:
+    image: postgres:16-alpine
+    container_name: omnibus-postgres-init
+    environment:
+      PGPASSWORD: omnibus
+    volumes:
+      - ./infra/postgres:/init:ro
+    entrypoint:
+      - /bin/sh
+      - -c
+      - psql -h postgres -U omnibus -d omnibus -v ON_ERROR_STOP=1 -f /init/001-outbox.sql
+    networks: [omnibus]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  outbox-relay:
+    build:
+      context: ./infra/outbox-relay
+      dockerfile: Dockerfile
+    container_name: omnibus-outbox-relay
+    environment:
+      OUTBOX_DATABASE_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      OUTBOX_KAFKA_TOPIC: bff.outbox.events
+    networks: [omnibus]
+    depends_on:
+      postgres-init:
+        condition: service_completed_successfully
+      kafka:
+        condition: service_healthy
 
   kafka:
     image: confluentinc/cp-kafka:7.6.1
