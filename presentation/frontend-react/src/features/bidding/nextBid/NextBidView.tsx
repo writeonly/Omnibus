@@ -1,7 +1,5 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
-
-import { useRecommendBidMutation } from "./nextBidApi";
+import { useRecommendBidMutation } from "./nextBid.api";
 import { nextBidSchema } from "./nextBid.schema";
 
 const initialForm = {
@@ -19,109 +17,39 @@ export function NextBidView() {
 
   const formValid = form.hand.trim().length > 0;
 
-  async function submit(e: FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     setTouched(true);
 
-    const validation = nextBidSchema.safeParse(form);
-    if (!validation.success) return;
+    const parsed = nextBidSchema.safeParse(form);
 
-    await recommendBid(form);
-  }
+    if (!parsed.success) return;
 
-  function reset() {
-    setForm(initialForm);
-    setTouched(false);
+    await recommendBid(parsed.data);
   }
 
   return (
-    <section className="section-card">
-      <form className="form" onSubmit={submit}>
-        <article className="bid-card">
-          <header className="card-header">
-            <h1>Bid recommender</h1>
-            <p>Enter hand and bidding sequence</p>
-          </header>
+    <section>
+      <form onSubmit={submit}>
+        <textarea
+          value={form.hand}
+          onChange={(e) =>
+            setForm({ ...form, hand: e.target.value })
+          }
+        />
 
-          <div className="form-layout">
-            <label className="field">
-              <span>Hand</span>
-              <textarea
-                rows={4}
-                value={form.hand}
-                onBlur={() => setTouched(true)}
-                onChange={(e) =>
-                  setForm({ ...form, hand: e.target.value })
-                }
-              />
-              {touched && !formValid && (
-                <small className="field-error">
-                  Hand is required
-                </small>
-              )}
-            </label>
+        {error && <p>Validation/API error</p>}
 
-            <label className="field">
-              <span>Bidding</span>
-              <textarea
-                rows={4}
-                value={form.bidding}
-                onChange={(e) =>
-                  setForm({ ...form, bidding: e.target.value })
-                }
-              />
-            </label>
-
-            <label className="field">
-              <span>System</span>
-              <select
-                value={form.system}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    system: e.target.value as typeof form.system
-                  })
-                }
-              >
-                <option value="POLISH_CLUB">Polish Club</option>
-                <option value="STANDARD_AMERICAN">
-                  Standard American
-                </option>
-              </select>
-            </label>
-
-            {error && (
-              <div className="result-panel error-panel">
-                Request failed
-              </div>
-            )}
-
-            {data && (
-              <details className="result-panel" open>
-                <summary>{data.bid}</summary>
-                <p>{data.explanation}</p>
-              </details>
-            )}
+        {data && (
+          <div>
+            <b>{data.bid}</b>
+            <p>{data.explanation}</p>
           </div>
+        )}
 
-          <footer className="card-actions">
-            <button
-              className="primary-action"
-              type="submit"
-              disabled={isLoading || !formValid}
-            >
-              {isLoading ? "Calculating..." : "Calculate"}
-            </button>
-
-            <button
-              className="secondary-action"
-              type="button"
-              onClick={reset}
-            >
-              Reset
-            </button>
-          </footer>
-        </article>
+        <button disabled={isLoading || !formValid}>
+          Submit
+        </button>
       </form>
     </section>
   );

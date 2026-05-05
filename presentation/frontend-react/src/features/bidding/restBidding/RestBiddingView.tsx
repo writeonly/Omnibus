@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 
-import { useRecommendBiddingMutation } from "./restBiddingApi";
+import { useRecommendBiddingMutation } from "./restBidding.api";
 
 const initialForm = {
   northHand: "",

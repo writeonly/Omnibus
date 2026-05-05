@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Shell } from "./components/Shell";
 import type { RouteKey } from "./components/Shell";
 
-import { NextBid } from "./features/bidding/nextBid/NextBidView";
-import { RestBidding } from "./features/bidding/restBidding/RestBiddingView";
+import { NextBid } from "./features/bidding/nextBid/NextBid";
+import { RestBidding } from "./features/bidding/restBidding/RestBidding";
 
 const routeByPath: Record<string, RouteKey> = {
   "/bidding/next-bid": "next-bid",
