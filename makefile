@@ -16,10 +16,10 @@ COMPOSE_ALL   = docker compose \
 # =========================
 
 infra-up:
-	$(COMPOSE_INFRA) up -d
+	$(COMPOSE_INFRA) up -d --build
 
 infra-down:
-	$(COMPOSE_INFRA) down
+	$(COMPOSE_INFRA) down -v
 
 infra-logs:
 	$(COMPOSE_INFRA) logs -f

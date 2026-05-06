@@ -1,4 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-npm install
+set -e
+
+if [ ! -d "node_modules" ]; then
+  npm install
+fi
+
 npx nest start --watch --verbose

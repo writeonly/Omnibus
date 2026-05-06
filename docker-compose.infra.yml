@@ -103,6 +103,8 @@ services:
     networks: [omnibus]
 
   redis:
+    profiles:
+      - profileName
     image: redis:7-alpine
     container_name: omnibus-redis
     ports:
@@ -110,6 +112,8 @@ services:
     networks: [omnibus]
 
   rabbitmq:
+    profiles:
+      - profileName
     image: rabbitmq:3-management
     container_name: omnibus-rabbitmq
     ports:
@@ -118,7 +122,7 @@ services:
     networks: [omnibus]
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0
+    image: quay.io/keycloak/keycloak:26.0.0
     container_name: omnibus-keycloak
     command: ["start-dev", "--import-realm"]
     environment:
@@ -127,7 +131,7 @@ services:
     volumes:
       - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
-      - "8182:8080"
+      - "8181:8080"
     networks: [omnibus]
 
   zeebe:
@@ -135,7 +139,7 @@ services:
     container_name: omnibus-zeebe
     ports:
       - "26500:26500"
-      - "8181:8080"
+      - "8182:8080"
     networks: [omnibus]
 
   outbox-relay:

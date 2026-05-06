@@ -1,4 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-npm install
-npx ng serve --proxy-config proxy.conf.json --verbose
+set -e
+
+if [ ! -d "node_modules" ]; then
+  npm install
+fi
+
+if [ ! -f "proxy.conf.json" ]; then
+  echo "Warning: proxy.conf.json not found"
+fi
+
+ng serve --proxy-config proxy.conf.json --verbose

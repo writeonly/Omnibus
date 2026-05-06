@@ -39,6 +39,7 @@
     {
       "username": "bridge-admin",
       "enabled": true,
+      "email": "kamil.adam.zabinski+admin@gmail.com",
       "emailVerified": true,
       "firstName": "Bridge",
       "lastName": "Admin",

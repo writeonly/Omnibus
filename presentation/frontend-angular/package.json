@@ -20,7 +20,8 @@
     "@angular/platform-browser": "^21.2.10",
     "@angular/platform-browser-dynamic": "^21.2.10",
     "@angular/router": "^21.2.10",
-    "keycloak-js": "^26.0.5",
+    "keycloak-angular": "^21.0.0",
+    "keycloak-js": "^26.2.4",
     "rxjs": "^7.8.1",
     "tslib": "^2.7.0",
     "zone.js": "^0.15.1"
