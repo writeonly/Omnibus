@@ -2,7 +2,7 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-COPY package.json package-lock.json angular.json tsconfig.json tsconfig.app.json ./
+COPY package.json package-lock.json angular.json tsconfig*.json ./
 RUN npm ci
 
 COPY src ./src
@@ -13,4 +13,11 @@ FROM nginx:1.27-alpine
 
 COPY --from=build /app/dist/omnibus-frontend/browser /usr/share/nginx/html
 
-EXPOSE 80
+# 👇 dodaj assets
+COPY src/assets/env.template.js /usr/share/nginx/html/assets/env.template.js
+
+# 👇 entrypoint
+COPY nginx/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

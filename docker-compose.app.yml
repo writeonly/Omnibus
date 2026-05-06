@@ -1,11 +1,14 @@
 services:
 
-  frontend-angular:
+  frontend:
     build:
-      context: ./presentation/frontend-angular
+      context: ./presentation/frontend-react
+      args:
+        KEYCLOAK_URL: http://keycloak:8080
+        KEYCLOAK_REALM: omnibus
+        KEYCLOAK_CLIENT: omnibus-frontend
     ports:
       - "4200:80"
-    networks: [omnibus]
 
   frontend-react:
     build:
