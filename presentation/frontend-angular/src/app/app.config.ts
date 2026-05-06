@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
           clientId: 'omnibus-frontend',
         },
         initOptions: {
-          onLoad: 'login-required',
+          onLoad: 'check-sso',
           pkceMethod: 'S256',
           checkLoginIframe: false,
         },
