@@ -19,6 +19,27 @@
 
   <span class="spacer"></span>
 
+  <!-- 🔐 AUTH SECTION -->
+
+  <button *ngIf="!isLoggedIn"
+          mat-raised-button
+          color="accent"
+          (click)="login()">
+    Login
+  </button>
+
+  <div *ngIf="isLoggedIn" class="user-section">
+    <span class="username">{{ username }}</span>
+
+    <button mat-button (click)="logout()">
+      Logout
+    </button>
+  </div>
+
+  <span class="spacer"></span>
+
+  <!-- 🌙 THEME -->
+
   <mat-slide-toggle [checked]="theme.isDark()" (change)="theme.toggle()">
     {{ theme.isDark() ? '🌙 Dark' : '☀️ Light' }}
   </mat-slide-toggle>
