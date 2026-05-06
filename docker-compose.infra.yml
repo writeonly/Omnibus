@@ -89,6 +89,8 @@ services:
     networks: [omnibus]
 
   cassandra:
+    profiles:
+      - profileName
     image: cassandra:5.0
     container_name: omnibus-cassandra
     ports:
@@ -98,6 +100,8 @@ services:
     networks: [omnibus]
 
   cassandra-init:
+    profiles:
+      - profileName
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
     depends_on:
@@ -116,6 +120,8 @@ services:
     networks: [omnibus]
 
   zeebe:
+    profiles:
+      - profileName
     image: camunda/zeebe:8.8.0
     container_name: omnibus-zeebe
     ports:
