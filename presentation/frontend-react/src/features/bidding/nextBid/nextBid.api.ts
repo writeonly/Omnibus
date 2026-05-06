@@ -14,7 +14,6 @@ export const nextBidApi = baseApi.injectEndpoints({
         body
       }),
 
-      // 🔥 ZOD ATTACHED HERE
       extraOptions: {
         meta: {
           schema: nextBidSchema
