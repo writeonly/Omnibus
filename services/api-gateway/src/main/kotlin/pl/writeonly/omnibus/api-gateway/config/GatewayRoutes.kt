@@ -10,7 +10,6 @@ class GatewayRoutes {
     fun routes(builder: RouteLocatorBuilder): RouteLocator {
         return builder.routes()
 
-            // 👤 USER SERVICE
             .route("user-service") { r ->
                 r.path("/users/**")
                     .filters { f ->
@@ -20,7 +19,6 @@ class GatewayRoutes {
                     .uri("http://localhost:8081")
             }
 
-            // 📦 ORDER SERVICE
             .route("order-service") { r ->
                 r.path("/orders/**")
                     .filters { f ->
@@ -30,7 +28,6 @@ class GatewayRoutes {
                     .uri("http://localhost:8082")
             }
 
-            // 💳 PAYMENT SERVICE
             .route("payment-service") { r ->
                 r.path("/payments/**")
                     .filters { f ->

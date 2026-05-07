@@ -1,19 +1,25 @@
 FROM gradle:8.10-jdk21 AS build
+
 WORKDIR /app
 
-COPY build.gradle.kts settings.gradle.kts gradle.properties* ./
 COPY gradle ./gradle
+COPY gradlew ./
+COPY build.gradle.kts ./
+COPY settings.gradle.kts ./
+COPY gradle.properties ./
 
-RUN gradle dependencies --no-daemon || true
+COPY services ./services
 
-COPY src ./src
-RUN gradle bootJar --no-daemon
+RUN gradle :api-gateway:dependencies --no-daemon
 
+RUN gradle :api-gateway:bootJar --no-daemon
 
 FROM eclipse-temurin:21-jre
+
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/services/api-gateway/build/libs/*.jar app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

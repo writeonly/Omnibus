@@ -19,8 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
 
-    "importsNotUsedAsValues": "error",
-
     "useDefineForClassFields": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

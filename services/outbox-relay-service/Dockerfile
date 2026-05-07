@@ -16,7 +16,6 @@ WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# domyślny port Spring Boot (jeśli kiedykolwiek wystawisz HTTP)
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -13,7 +13,6 @@ RUN gradle :bidding-engine:dependencies --no-daemon
 
 RUN gradle :bidding-engine:bootJar --no-daemon
 
-
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
