@@ -45,6 +45,8 @@ services:
       retries: 20
 
   postgres-init:
+    profiles:
+      - profileName
     image: postgres:16-alpine
     container_name: omnibus-postgres-init
     environment:
@@ -61,6 +63,8 @@ services:
     networks: [omnibus]
 
   kafka:
+    profiles:
+      - profileName
     image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
     environment:
@@ -79,6 +83,8 @@ services:
     networks: [omnibus]
 
   kafka-ui:
+    profiles:
+      - profileName
     image: provectuslabs/kafka-ui:latest
     container_name: omnibus-kafka-ui
     environment:
@@ -86,20 +92,6 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     ports:
       - "9000:8080"
-    networks: [omnibus]
-
-  outbox-relay:
-    profiles:
-      - profileName
-    build:
-      context: ./infra/outbox-relay
-    container_name: omnibus-outbox-relay
-    environment:
-      OUTBOX_DATABASE_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      postgres-init:
-        condition: service_completed_successfully
     networks: [omnibus]
 
   cassandra:
@@ -151,8 +143,6 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks: [omnibus]
-
-
 
 networks:
   omnibus:

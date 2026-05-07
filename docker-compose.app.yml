@@ -51,5 +51,17 @@ services:
       dockerfile: ./services/event-archive/Dockerfile
     networks: [omnibus]
 
+  outbox-relay-service:
+    build:
+      context: .
+      dockerfile: ./services/outbox-relay-service/Dockerfile
+    networks: [omnibus]
+
+  cassandra-projection-service:
+    build:
+      context: .
+      dockerfile: ./services/cassandra-projection-service/Dockerfile
+    networks: [omnibus]
+
 networks:
   omnibus:
