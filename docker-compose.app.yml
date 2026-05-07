@@ -40,24 +40,32 @@ services:
     networks: [omnibus]
 
   workflow-orchestrator:
+    profiles:
+      - profileName
     build:
       context: .
       dockerfile: ./services/workflow-orchestrator/Dockerfile
     networks: [omnibus]
 
   event-archive:
+    profiles:
+      - profileName
     build:
       context: .
       dockerfile: ./services/event-archive/Dockerfile
     networks: [omnibus]
 
   outbox-relay-service:
+    profiles:
+      - profileName
     build:
       context: .
       dockerfile: ./services/outbox-relay-service/Dockerfile
     networks: [omnibus]
 
   cassandra-projection-service:
+    profiles:
+      - profileName
     build:
       context: .
       dockerfile: ./services/cassandra-projection-service/Dockerfile
