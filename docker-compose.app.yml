@@ -10,13 +10,6 @@ services:
     ports:
       - "4200:80"
 
-  frontend-react:
-    build:
-      context: ./presentation/frontend-react
-    ports:
-      - "4300:80"
-    networks: [omnibus]
-
   bff-nest:
     build:
       context: ./presentation/bff-nest
