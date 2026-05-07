@@ -22,7 +22,7 @@ services:
     volumes:
       - ./infra/keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
-      - "8081:8080"
+      - "8180:8080"
     networks: [omnibus]
 
   postgres:
@@ -85,7 +85,21 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     ports:
-      - "8082:8080"
+      - "9000:8080"
+    networks: [omnibus]
+
+  outbox-relay:
+    profiles:
+      - profileName
+    build:
+      context: ./infra/outbox-relay
+    container_name: omnibus-outbox-relay
+    environment:
+      OUTBOX_DATABASE_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres-init:
+        condition: service_completed_successfully
     networks: [omnibus]
 
   cassandra:
@@ -119,16 +133,6 @@ services:
         cqlsh cassandra 9042 -f /init.cql;
     networks: [omnibus]
 
-  zeebe:
-    profiles:
-      - profileName
-    image: camunda/zeebe:8.8.0
-    container_name: omnibus-zeebe
-    ports:
-      - "26500:26500"
-      - "8083:8080"
-    networks: [omnibus]
-
   redis:
     profiles:
       - profileName
@@ -148,19 +152,7 @@ services:
       - "15672:15672"
     networks: [omnibus]
 
-  outbox-relay:
-    profiles:
-      - profileName
-    build:
-      context: ./infra/outbox-relay
-    container_name: omnibus-outbox-relay
-    environment:
-      OUTBOX_DATABASE_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      postgres-init:
-        condition: service_completed_successfully
-    networks: [omnibus]
+
 
 networks:
   omnibus:
