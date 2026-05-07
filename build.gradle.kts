@@ -22,3 +22,11 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+extra["springCloudVersion"] = "2025.0.0"
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
+}

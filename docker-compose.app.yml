@@ -27,6 +27,19 @@ services:
       - "3000:3000"
     networks: [omnibus]
 
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - bff-nest
+      - bidding-engine
+      - workflow-orchestrator
+      - keycloak
+    networks: [omnibus]
+
   bidding-engine:
     build:
       context: .

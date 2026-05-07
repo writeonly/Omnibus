@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/omnibus
+
+  cloud:
+    gateway:
+      routes:
+
+        - id: bff
+          uri: http://bff-nest:3000
+          predicates:
+            - Path=/api/**
+
+        - id: bidding-engine
+          uri: http://bidding-engine:8080
+          predicates:
+            - Path=/internal/bidding/**
+
+        - id: workflow
+          uri: http://workflow-orchestrator:8080
+          predicates:
+            - Path=/internal/workflow/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,metrics
