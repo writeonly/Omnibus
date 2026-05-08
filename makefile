@@ -2,23 +2,18 @@
 # CONFIG
 # =========================
 
-COMPOSE_INFRA = docker compose -f docker-compose.infra.yml
-COMPOSE_APP   = docker compose -f docker-compose.app.yml
-COMPOSE_OBS   = docker compose -f docker-compose.obs.yml
+COMPOSE_INFRA = docker compose -f infra/docker-compose.yml
+COMPOSE_SERVICES   = docker compose -f services/docker-compose.yml
+COMPOSE_PRESENTATION   = docker compose -f presentation/docker-compose.yml
+COMPOSE_OBS   = docker compose -f obs/docker-compose.yml
 
 COMPOSE_ALL   = docker compose \
-	-f docker-compose.infra.yml \
-	-f docker-compose.app.yml \
-	-f docker-compose.obs.yml
+	-f infra/docker-compose.yml \
+	-f services/docker-compose.yml \
+	-f presentation/docker-compose.yml \
+	-f obs/docker-compose.yml
 
-# =========================
-# PATHS
-# =========================
-
-ANGULAR_DIR      = presentation/frontend-angular
-REACT_DIR        = presentation/frontend-react
-DEV_DASHBOARD_DIR= presentation/dev-dashboard
-BFF_NEST_DIR     = presentation/bff-nest
+BFF_NEST_DIR = presentation/bff-nest
 
 # =========================
 # INFRA
@@ -35,60 +30,87 @@ infra-logs:
 
 infra-restart:
 	$(COMPOSE_INFRA) down
-	$(COMPOSE_INFRA) up -d
+	$(COMPOSE_INFRA) up -d --build
+
+infra-ps:
+	$(COMPOSE_INFRA) ps
+
+# =========================
+# SERVICES
+# =========================
+
+services-up:
+	$(COMPOSE_SERVICES) up -d --build
+
+services-down:
+	$(COMPOSE_SERVICES) down -v
+
+services-logs:
+	$(COMPOSE_SERVICES) logs -f
+
+services-restart:
+	$(COMPOSE_SERVICES) down
+	$(COMPOSE_SERVICES) up -d --build
+
+services-build:
+	cd services && ./gradlew build
+
+services-clean:
+	cd services && ./gradlew clean
+
+services-test:
+	cd services && ./gradlew test
+
+services-coverage:
+	cd services && ./gradlew jacocoTestReport
+
+services-coverage-html:
+	cd services && ./gradlew jacocoTestReport && open build/reports/jacoco/test/html/index.html
+
+# =========================
+# PRESENTATION
+# =========================
+
+presentation-up:
+	$(COMPOSE_PRESENTATION) up -d --build
+
+presentation-down:
+	$(COMPOSE_PRESENTATION) down -v
+
+presentation-logs:
+	$(COMPOSE_PRESENTATION) logs -f
+
+presentation-restart:
+	$(COMPOSE_PRESENTATION) down
+	$(COMPOSE_PRESENTATION) up -d --build
+
+bff-nest-build:
+	cd $(BFF_NEST_DIR) && npm install && npm run build
+
+bff-nest-dev:
+	cd $(BFF_NEST_DIR) && npm run start:dev
+
+frontend-angular-build:
+	cd presentation/frontend-angular && npm install && npm run build
+
+frontend-react-build:
+	cd presentation/frontend-react && npm install && npm run build	
+
+dev-dashboard-build:
+	cd presentation/dev-dashboard && npm install && npm run build
 
 # =========================
 # OBSERVABILITY
 # =========================
 
 obs-up:
-	$(COMPOSE_OBS) up -d
+	$(COMPOSE_OBS) up -d --build
 
 obs-down:
-	$(COMPOSE_OBS) down
+	$(COMPOSE_OBS) down -v
 
 obs-logs:
 	$(COMPOSE_OBS) logs -f
-
-# =========================
-# DOCKER APP STACK
-# =========================
-
-app-up:
-	$(COMPOSE_APP) up -d --build
-
-app-down:
-	$(COMPOSE_APP) down -v
-
-# =========================
-# KOTLIN SERVICES (GRADLE)
-# =========================
-
-services-build:
-	gradle build
-
-services-clean:
-	gradle clean
-
-# =========================
-# FRONTENDS
-# =========================
-
-frontend-angular-build:
-	cd $(ANGULAR_DIR) && npm install && npm run build
-
-frontend-react-build:
-	cd $(REACT_DIR) && npm install && npm run build
-
-dev-dashboard-build:
-	cd $(DEV_DASHBOARD_DIR) && npm install && npm run build
-
-# =========================
-# BFF (NESTJS)
-# =========================
-
-bff-nest-build:
-	cd $(BFF_NEST_DIR) && npm install && npm run build
 
 # =========================
 # FULL BUILD
@@ -96,26 +118,30 @@ bff-nest-build:
 
 build-all:
 	$(MAKE) services-build
+	$(MAKE) bff-nest-build
 	$(MAKE) frontend-angular-build
 	$(MAKE) frontend-react-build
 	$(MAKE) dev-dashboard-build
-	$(MAKE) bff-nest-build
 	@echo "🔥 FULL BUILD DONE"
 
-# parallel version (faster on CI / powerful machines)
 build-all-parallel:
-	$(MAKE) -j 5 services-build frontend-angular-build frontend-react-build dev-dashboard-build bff-nest-build
+	$(MAKE) -j 5 \
+		services-build \
+		bff-nest-build \
+		frontend-angular-build \
+		frontend-react-build \
+		dev-dashboard-build 
 	@echo "🔥 FULL PARALLEL BUILD DONE"
 
 # =========================
 # DEV MODE
 # =========================
 
-dev: infra-up
-	@echo "Infra is up. Run services locally 🚀"
+dev: infra-up obs-up
+	@echo "Infra + Observability running 🚀"
 
-dev-all: infra-up build-all
-	@echo "System ready 🚀"
+dev-all: infra-up app-up obs-up build-all
+	@echo "FULL SYSTEM READY 🚀"
 
 # =========================
 # CLEAN
@@ -123,4 +149,4 @@ dev-all: infra-up build-all
 
 clean:
 	docker compose down -v --remove-orphans
-	./gradlew clean
+	cd services && ./gradlew clean
