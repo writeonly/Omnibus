@@ -1,11 +1,20 @@
 rootProject.name = "omnibus"
 
 include(
+    "api-gateway",
+    "config-server",
     "bidding-engine",
     "workflow-orchestrator",
-    "event-archive"
+    "event-archive",
+    "outbox-relay-service",
+    "cassandra-projection-service"
+
 )
 
-project(":bidding-engine").projectDir = file("services/bidding-engine")
-project(":workflow-orchestrator").projectDir = file("services/workflow-orchestrator")
-project(":event-archive").projectDir = file("services/event-archive")
+project(":api-gateway").projectDir = file("api-gateway")
+project(":config-server").projectDir = file("config-server")
+project(":bidding-engine").projectDir = file("bidding-engine")
+project(":workflow-orchestrator").projectDir = file("workflow-orchestrator")
+project(":event-archive").projectDir = file("event-archive")
+project(":outbox-relay-service").projectDir = file("outbox-relay-service")
+project(":cassandra-projection-service").projectDir = file("cassandra-projection-service")
