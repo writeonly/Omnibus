@@ -1,0 +1,80 @@
+services:
+
+  frontend-angular:
+    build:
+      context: ./presentation/frontend-angular
+      args:
+        KEYCLOAK_URL: http://keycloak:8180
+        KEYCLOAK_REALM: omnibus
+        KEYCLOAK_CLIENT: omnibus-frontend
+    ports:
+      - "4300:80"
+    depends_on:
+      - keycloak
+      - bff-nest
+    networks: [omnibus]
+
+  bff-nest:
+    build:
+      context: ./presentation/bff-nest
+    environment:
+      KEYCLOAK_URL: http://keycloak:8180
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - keycloak
+      - api-gateway
+    networks: [omnibus]
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - bidding-engine
+      # - workflow-orchestrator
+    networks: [omnibus]
+
+  bidding-engine:
+    build:
+      context: .
+      dockerfile: ./services/bidding-engine/Dockerfile
+    networks: [omnibus]
+
+  workflow-orchestrator:
+    profiles:
+      - profileName
+    build:
+      context: .
+      dockerfile: ./services/workflow-orchestrator/Dockerfile
+    networks: [omnibus]
+
+  event-archive:
+    profiles:
+      - profileName
+    build:
+      context: .
+      dockerfile: ./services/event-archive/Dockerfile
+    networks: [omnibus]
+
+  outbox-relay-service:
+    profiles:
+      - profileName
+    build:
+      context: .
+      dockerfile: ./services/outbox-relay-service/Dockerfile
+    networks: [omnibus]
+
+  cassandra-projection-service:
+    profiles:
+      - profileName
+    build:
+      context: .
+      dockerfile: ./services/cassandra-projection-service/Dockerfile
+    networks: [omnibus]
+
+networks:
+  omnibus:
