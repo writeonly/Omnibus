@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("org.springframework.boot") version "3.3.5"
+    id("org.springframework.boot") version "3.5.0"
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
@@ -59,7 +59,6 @@ spotless {
     kotlin {
         target("src/**/*.kt")
         ktlint("1.0.1")
-        licenseHeaderFile(rootProject.file("LICENSE_HEADER"))
     }
 
     kotlinGradle {

@@ -12,6 +12,15 @@ COMPOSE_ALL   = docker compose \
 	-f docker-compose.obs.yml
 
 # =========================
+# PATHS
+# =========================
+
+ANGULAR_DIR      = presentation/frontend-angular
+REACT_DIR        = presentation/frontend-react
+DEV_DASHBOARD_DIR= presentation/dev-dashboard
+BFF_NEST_DIR     = presentation/bff-nest
+
+# =========================
 # INFRA
 # =========================
 
@@ -33,42 +42,80 @@ infra-restart:
 # =========================
 
 obs-up:
-	$(COMPOSE_INFRA) -f docker-compose.obs.yml up -d
+	$(COMPOSE_OBS) up -d
 
 obs-down:
-	docker compose -f docker-compose.obs.yml down
+	$(COMPOSE_OBS) down
 
 obs-logs:
-	docker compose -f docker-compose.obs.yml logs -f
+	$(COMPOSE_OBS) logs -f
 
 # =========================
-# FULL STACK (DOCKER)
+# DOCKER APP STACK
 # =========================
 
 app-up:
-	$(COMPOSE_INFRA) -f docker-compose.app.yml up -d
+	$(COMPOSE_APP) up -d --build
 
 app-down:
-	docker compose \
-		-f docker-compose.infra.yml \
-		-f docker-compose.app.yml down
+	$(COMPOSE_APP) down -v
 
 # =========================
-# EVERYTHING
+# KOTLIN SERVICES (GRADLE)
 # =========================
 
-all-up:
-	$(COMPOSE_ALL) up -d
+services-build:
+	gradle build
 
-all-down:
-	$(COMPOSE_ALL) down
+services-clean:
+	gradle clean
 
 # =========================
-# DEV MODE (TWÓJ GŁÓWNY CASE)
+# FRONTENDS
+# =========================
+
+frontend-angular-build:
+	cd $(ANGULAR_DIR) && npm install && npm run build
+
+frontend-react-build:
+	cd $(REACT_DIR) && npm install && npm run build
+
+dev-dashboard-build:
+	cd $(DEV_DASHBOARD_DIR) && npm install && npm run build
+
+# =========================
+# BFF (NESTJS)
+# =========================
+
+bff-nest-build:
+	cd $(BFF_NEST_DIR) && npm install && npm run build
+
+# =========================
+# FULL BUILD
+# =========================
+
+build-all:
+	$(MAKE) services-build
+	$(MAKE) frontend-angular-build
+	$(MAKE) frontend-react-build
+	$(MAKE) dev-dashboard-build
+	$(MAKE) bff-nest-build
+	@echo "🔥 FULL BUILD DONE"
+
+# parallel version (faster on CI / powerful machines)
+build-all-parallel:
+	$(MAKE) -j 5 services-build frontend-angular-build frontend-react-build dev-dashboard-build bff-nest-build
+	@echo "🔥 FULL PARALLEL BUILD DONE"
+
+# =========================
+# DEV MODE
 # =========================
 
 dev: infra-up
-	@echo "Infra is up. Run your services locally 🚀"
+	@echo "Infra is up. Run services locally 🚀"
+
+dev-all: infra-up build-all
+	@echo "System ready 🚀"
 
 # =========================
 # CLEAN
@@ -76,3 +123,4 @@ dev: infra-up
 
 clean:
 	docker compose down -v --remove-orphans
+	./gradlew clean
