@@ -1,8 +1,8 @@
 plugins {
-    id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.6"
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
 group = "com.example"
@@ -21,6 +21,8 @@ repositories {
 extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
     // Spring Cloud Stream + Kafka binder
@@ -37,4 +39,8 @@ dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
+}
+
+springBoot {
+    mainClass.set("pl.writeonly.omnibus.outboxrelay.OutboxRelayServiceApplication")
 }

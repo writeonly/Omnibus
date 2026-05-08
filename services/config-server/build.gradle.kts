@@ -39,3 +39,7 @@ dependencyManagement {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClass.set("pl.writeonly.omnibus.configserver.ConfigServerApplication")
+}

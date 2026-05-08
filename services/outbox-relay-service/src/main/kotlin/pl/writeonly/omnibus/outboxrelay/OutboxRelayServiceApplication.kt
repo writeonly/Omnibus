@@ -1,11 +1,11 @@
-package pl.writeonly.omnibus.api.gateway
+package pl.writeonly.omnibus.outboxrelay
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ApiGatewayApplication
+class OutboxRelayServiceApplication
 
 fun main(args: Array<String>) {
-    runApplication<ApiGatewayApplication>(*args)
+    runApplication<OutboxRelayServiceApplication>(*args)
 }

@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.6"
-    id("com.google.protobuf") version "0.9.4"
+    id("org.springframework.boot")
+    id("io.spring.dependency-management") 
+    id("com.google.protobuf") 
 
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    kotlin("jvm")
+    kotlin("plugin.spring")
 }
 
 group = "com.omnibus"
