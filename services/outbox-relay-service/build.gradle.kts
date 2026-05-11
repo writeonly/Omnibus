@@ -22,10 +22,8 @@ extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
-    
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
-
-    // Spring Cloud Stream + Kafka binder
+    
     implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")

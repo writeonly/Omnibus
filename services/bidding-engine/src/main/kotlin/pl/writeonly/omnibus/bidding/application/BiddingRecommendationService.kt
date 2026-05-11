@@ -13,7 +13,7 @@ import java.time.Instant
 import java.util.UUID
 
 @Service
-class RestBiddingationService(
+class RestBiddingService(
     private val handParser: HandParser,
     private val droolsBiddingEngine: DroolsBiddingEngine,
     private val domainEventPublisher: DomainEventPublisher,

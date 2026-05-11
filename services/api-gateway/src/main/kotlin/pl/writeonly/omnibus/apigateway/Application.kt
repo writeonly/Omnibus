@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.api.gateway
+package pl.writeonly.omnibus.apigateway
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

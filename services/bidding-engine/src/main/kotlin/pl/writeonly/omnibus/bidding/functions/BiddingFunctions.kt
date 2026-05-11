@@ -1,7 +1,7 @@
 package pl.writeonly.omnibus.bidding.functions
 
 import pl.writeonly.omnibus.bidding.application.ManagedRuleAdminService
-import pl.writeonly.omnibus.bidding.application.RestBiddingationService
+import pl.writeonly.omnibus.bidding.application.RestBiddingService
 import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
 import pl.writeonly.omnibus.bidding.domain.ManagedRuleUpsertRequest
 import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
@@ -15,7 +15,7 @@ import java.util.function.Supplier
 class BiddingFunctions {
     @Bean
     fun recommendBid(
-        biddingRecommendationService: RestBiddingationService,
+        biddingRecommendationService: RestBiddingService,
     ): Function<RecommendationRequest, RecommendationResponse> =
         Function { request -> biddingRecommendationService.recommend(request) }
 

@@ -3,7 +3,7 @@ package pl.writeonly.omnibus.bidding.grpc
 import io.grpc.stub.StreamObserver
 import net.devh.boot.grpc.server.service.GrpcService
 import pl.writeonly.omnibus.bidding.application.ManagedRuleAdminService
-import pl.writeonly.omnibus.bidding.application.RestBiddingationService
+import pl.writeonly.omnibus.bidding.application.RestBiddingService
 import pl.writeonly.omnibus.grpc.bidding.v1.BiddingServiceGrpc
 import pl.writeonly.omnibus.grpc.bidding.v1.ListManagedRulesRequest
 import pl.writeonly.omnibus.grpc.bidding.v1.ListManagedRulesResponse
@@ -14,7 +14,7 @@ import pl.writeonly.omnibus.grpc.bidding.v1.RecommendationResponse
 
 @GrpcService
 class BiddingGrpcService(
-    private val biddingRecommendationService: RestBiddingationService,
+    private val biddingRecommendationService: RestBiddingService,
     private val managedRuleAdminService: ManagedRuleAdminService,
 ) : BiddingServiceGrpc.BiddingServiceImplBase() {
     override fun recommendBid(

@@ -1,6 +1,6 @@
 package pl.writeonly.omnibus.bidding.api
 
-import pl.writeonly.omnibus.bidding.application.RestBiddingationService
+import pl.writeonly.omnibus.bidding.application.RestBiddingService
 import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
 import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
 import jakarta.validation.Valid
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/bidding")
-class RestBiddingationController(
-    private val biddingRecommendationService: RestBiddingationService,
+class RestBiddingController(
+    private val biddingRecommendationService: RestBiddingService,
 ) {
     @PostMapping("/recommend")
     fun recommend(@Valid @RequestBody request: RecommendationRequest): RecommendationResponse =

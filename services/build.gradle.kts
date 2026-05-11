@@ -92,3 +92,7 @@ subprojects {
         enabled = false
     }
 }
+
+repositories {
+    mavenCentral()
+}

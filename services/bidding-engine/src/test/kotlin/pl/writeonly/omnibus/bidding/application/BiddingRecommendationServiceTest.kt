@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Disabled
 
 @SpringBootTest(properties = ["omnibus.kafka.enabled=false"])
 @Disabled("This test is not working after refactor, needs to be fixed")
-class RestBiddingationServiceTest {
+class RestBiddingServiceTest {
     @Autowired
-    private lateinit var biddingRecommendationService: RestBiddingationService
+    private lateinit var biddingRecommendationService: RestBiddingService
 
     @Test
     fun shouldRecommendOneNoTrumpForBalancedFifteenToSeventeenHand() {

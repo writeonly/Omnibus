@@ -1,5 +1,6 @@
-package pl.writeonly.omnibus.api.gateway.filter
+package pl.writeonly.omnibus.apigateway.filter
 
+import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
 import org.springframework.http.HttpHeaders
@@ -13,7 +14,7 @@ class AuthFilter : GlobalFilter, Ordered {
 
     override fun filter(
         exchange: ServerWebExchange,
-        chain: org.springframework.cloud.gateway.filter.GatewayFilterChain
+        chain: GatewayFilterChain
     ): Mono<Void> {
 
         val request = exchange.request
