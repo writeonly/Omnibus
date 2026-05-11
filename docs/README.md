@@ -1,110 +1,145 @@
-# Omnibus
+# Omnibus – Bridge Bidding Platform with Rule Engine
 
-Omnibus is a monorepo for a bridge bidding platform built around a rule engine and event-driven architecture.
+**Omnibus** is a sophisticated monorepo for a bridge bidding platform built around a Drools rule engine and event-driven architecture. It provides AI-powered opening bid recommendations using an extensible rule system managed through an admin workflow.
 
-## Architecture
+## 🎯 Project Overview
 
-### Applications (presentation layer)
+- **Domain**: Bridge bidding recommendation system
+- **Architecture**: Event-driven microservices with rule engine orchestration
+- **Tech Stack**: Spring Boot 3.4.3, Kotlin, TypeScript, NestJS, Angular
+- **Database**: Cassandra (events), H2 (dev)
+- **Messaging**: Kafka (event bus)
+- **Orchestration**: Zeebe (workflow management)
+- **License**: MIT
 
-- `presentation/frontend-angular` – Angular UI for entering a hand and viewing bid recommendations
-- `presentation/frontend-react` – React UI (experimental / alternative frontend)
-- `presentation/bff-nest` – NestJS backend-for-frontend aggregating domain APIs
+---
 
-### Backend services
+## 🏗️ Architecture
 
-- `services/event-archive` – Kafka consumer persisting domain events into Cassandra
-- `services/bidding-engine` – Spring Boot (Java 21) service with Drools rule engine
-- `services/workflow-orchestrator` – Spring Boot service orchestrating rule governance workflows (Camunda / Zeebe style)
+### Applications (Presentation Layer)
 
-### Infrastructure / integration
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| `presentation/frontend-angular` | Angular | Primary UI for entering hands and viewing bid recommendations |
+| `presentation/frontend-react` | React | Experimental alternative frontend |
+| `presentation/bff-nest` | NestJS | Backend-for-frontend aggregating domain APIs with validation |
 
-- Docker Compose – local orchestration of the full stack
-- Outbox relay (`infra/outbox-relay`) – bridges local outbox events to Kafka (if enabled)
-- Kafka – event backbone for recommendations and rule updates
-- Cassandra – durable event storage for archived domain events
-- Keycloak – identity provider for admin authentication
-- Prometheus – metrics scraping and monitoring
-- Promtail – log shipping to observability stack
+### Backend Services (Business Logic)
 
-## Decision Flow
+| Service | Technology | Responsibility |
+|---------|-----------|-----------------|
+| `services/bidding-engine` | Spring Boot + Drools | Core rule engine evaluating hands and producing bids |
+| `services/workflow-orchestrator` | Spring Boot + Zeebe | Manages admin rule creation/validation workflows |
+| `services/event-archive` | Spring Boot + Kafka | Kafka consumer persisting domain events into Cassandra |
 
-1. Angular frontend sends a recommendation request to the Nest BFF.
-2. BFF validates and forwards the request to `bidding-engine`.
-3. `bidding-engine` builds hand facts and evaluates rules in Drools.
-4. Drools produces candidate bids and returns the best recommendation with explanation.
-5. Domain events are published to Kafka (recommendation + rule updates).
-6. Rule changes go through `workflow-orchestrator` before being applied to the rule set.
-7. `event-archive` consumes Kafka events and persists them in Cassandra.
+### Infrastructure & Integration
 
-## Code Quality & Formatting
+| Component | Role |
+|-----------|------|
+| **Kafka** | Event backbone for recommendations and rule updates |
+| **Cassandra** | Durable storage for archived domain events |
+| **Keycloak** | Identity provider for admin authentication |
+| **Zeebe** | Workflow orchestration (Camunda BPMN style) |
+| **Prometheus** | Metrics collection and monitoring |
+| **Promtail** | Log shipping to observability stack |
+| **Docker Compose** | Local orchestration of full stack |
+| **Outbox Relay** | Bridges local outbox events to Kafka (optional) |
 
-### Kotlin (Gradle)
+---
 
-Run all formatters and linters:
-```bash
-./gradlew format
+## 🔄 Decision Flow
+
+### Typical Recommendation Request
+
+```
+1. User enters hand in Angular UI
+   ↓
+2. Angular → Nest BFF (HTTP/REST)
+   ↓
+3. BFF validates input & forwards to bidding-engine
+   ↓
+4. Bidding-engine extracts hand facts
+   ↓
+5. Drools rule engine evaluates facts
+   ↓
+6. Engine produces candidate bids + explanation
+   ↓
+7. Recommendation → Kafka → RecommendationProducedEvent
+   ↓
+8. event-archive consumes & persists to Cassandra
+   ↓
+9. Response flows back to frontend
 ```
 
-Check formatting without modifying files:
-```bash
-./gradlew formatCheck
+### Admin Rule Publication Workflow
+
+```
+1. Admin logs in (bridge-admin/changeit via Keycloak)
+   ↓
+2. Admin panel lists bundled & managed DRL rules
+   ↓
+3. Admin saves new rule → POST /api/v1/rule-publications
+   ↓
+4. Nest BFF triggers Zeebe BPMN process
+   ↓
+5. Zeebe orchestrates: validate-and-publish-rule job
+   ↓
+6. Job worker calls bidding-engine with full ruleset
+   ↓
+7. Bidding-engine validates by compiling Drools
+   ↓
+8. If valid → RuleUpdatedEvent to Kafka → Cassandra
+   ↓
+9. New rule loaded on next recommendation request
 ```
 
-Run only Detekt linter:
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Java**: JDK 21+
+- **Node.js**: 20 LTS
+- **Docker & Docker Compose**: Latest
+- **Gradle**: 8.x (included via wrapper)
+
+### Option 1: Docker Compose (Recommended)
+
 ```bash
-./gradlew lint
+# Start entire stack (frontend, all services, infra)
+docker compose up --build
+
+# Access services via NGINX gateway at http://localhost:8088
 ```
 
-Run all code quality checks (format + lint):
-```bash
-./gradlew codeQuality
-```
+**Service URLs** (via NGINX reverse proxy `http://localhost:8088`):
 
-### TypeScript (Using npm)
+| Service | URL |
+|---------|-----|
+| Frontend UI | `http://localhost:8088/` |
+| BFF API | `http://localhost:8088/api/...` |
+| Bidding Engine Swagger | `http://localhost:8088/swagger-ui.html` |
+| Workflow Swagger | `http://localhost:8088/workflow/swagger-ui.html` |
+| Bidding Engine Actuator | `http://localhost:8088/actuator/...` |
+| Workflow Actuator | `http://localhost:8088/workflow/actuator/...` |
+| Event Archive Actuator | `http://localhost:8088/archive/actuator/...` |
+| Keycloak Admin | `http://localhost:8088/keycloak/` |
+| Prometheus Metrics | `http://localhost:8088/prometheus/` |
 
-Run linter:
-```bash
-npm run lint
-```
+### Option 2: Local Development (Individual Services)
 
-Auto-fix linting issues:
-```bash
-npm run lint:fix
-```
-
-Format code:
-```bash
-npm run format
-```
-
-Check formatting without modifying:
-```bash
-npm run format:check
-```
-
-Run type checking:
-```bash
-npm run typecheck
-```
-
-Run all checks (lint + format + typecheck):
-```bash
-cd presentation/bff-nest
-npm run lint:all
-```
-
-## Local Run
-
-### Spring backend
+#### 2a. Bidding Engine (Spring Boot)
 
 ```bash
 cd services/bidding-engine
-gradle bootRun
+./gradlew bootRun
 ```
 
-Swagger UI is available at `http://localhost:8080/swagger-ui.html`.
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- Actuator: `http://localhost:8080/actuator/health`
 
-### Nest BFF
+#### 2b. Nest BFF
 
 ```bash
 cd presentation/bff-nest
@@ -112,113 +147,397 @@ npm install
 npm run start:dev
 ```
 
-### Angular frontend
+- API: `http://localhost:3000`
+- Hot reload enabled
+
+#### 2c. Angular Frontend
 
 ```bash
 cd presentation/frontend-angular
 npm install
 npm start
+
+# Alternative (with proxy config):
+ng serve --proxy-config proxy.conf.json --verbose
 ```
 
-Use `Node 20 LTS` for both JavaScript applications. The Spring backend uses `Java 21`.
+- App: `http://localhost:4200`
+- Development server with live reload
 
-### Docker Compose
+#### 2d. React Frontend (Experimental)
 
 ```bash
-docker compose up --build
+cd presentation/frontend-react
+npm install
+npm start
 ```
 
-### NGINX Gateway
+---
 
-- main entry point: `http://localhost:8088`
-- frontend UI: `http://localhost:8088/`
-- BFF API: `http://localhost:8088/api/...`
-- Swagger UI: `http://localhost:8088/swagger-ui.html`
-- workflow Swagger UI: `http://localhost:8088/workflow/swagger-ui.html`
-- bidding-engine actuator: `http://localhost:8088/actuator/...`
-- workflow actuator: `http://localhost:8088/workflow/actuator/...`
-- event-archive actuator: `http://localhost:8088/archive/actuator/...`
-- Keycloak via proxy: `http://localhost:8088/keycloak/`
-- Prometheus via proxy: `http://localhost:8088/prometheus/`
+## 🔧 Infrastructure Services (Docker)
 
 ### Kafka
 
-- Broker for local development: `localhost:29092`
-- recommendation topic: `omnibus.recommendation.produced`
-- rule update topic: `omnibus.rule.updated`
+```
+- Broker: localhost:29092
+- Topics:
+  - omnibus.recommendation.produced
+  - omnibus.rule.updated
+```
 
 ### Cassandra
 
-- CQL port: `localhost:9042`
-- keyspace: `omnibus`
-- archived tables:
-  - `recommendations_by_day`
-  - `rule_updates_by_day`
+```
+- CQL Port: localhost:9042
+- Keyspace: omnibus
+- Tables:
+  - recommendations_by_day
+  - rule_updates_by_day
+```
 
 ### Keycloak
 
-- URL: `http://localhost:9090`
-- realm: `omnibus`
-- frontend client: `omnibus-frontend`
-- sample admin user: `bridge-admin / changeit`
+```
+- URL: http://localhost:9090
+- Realm: omnibus
+- Frontend Client: omnibus-frontend
+- Sample Admin: bridge-admin / changeit
+- Server Admin: kcadmin / kcadmin
+```
 
-The Keycloak bootstrap admin for the server console is `kcadmin / kcadmin`.
+### Zeebe Orchestration
 
-### Camunda / Zeebe
-
-- Zeebe gRPC: `localhost:26500`
-- Zeebe REST: `http://localhost:8089`
-- workflow orchestrator API: `http://localhost:8082`
-- workflow publish endpoint: `POST /api/v1/rule-publications`
+```
+- gRPC: localhost:26500
+- REST: http://localhost:8089
+- Workflow Orchestrator: http://localhost:8082
+- Rule Publication: POST /api/v1/rule-publications
+```
 
 ### Prometheus
 
-- URL: `http://localhost:9091`
-- Spring metrics: `http://localhost:8080/actuator/prometheus`
-- Keycloak metrics are scraped internally from `/metrics`
+```
+- URL: http://localhost:9091
+- Scrapes:
+  - bidding-engine: /actuator/prometheus
+  - workflow-orchestrator: /actuator/prometheus
+  - event-archive: /actuator/prometheus
+  - keycloak: /metrics
+```
 
-## First Supported Scope
+---
 
-The initial Drools ruleset handles simple opening recommendations:
+## 🎓 Supported Bid Scope (MVP)
 
-- `PASS` with fewer than 12 HCP
-- `1NT` with balanced 15-17 HCP
-- `1S` with 5+ spades
-- `1H` with 5+ hearts
-- `1D` with longer diamonds than clubs
-- `1C` otherwise
+The initial Drools ruleset handles opening recommendations for:
 
-## Admin Workflow
+```
+Fewer than 12 HCP      → PASS
+Balanced 15-17 HCP     → 1NT
+5+ Spades              → 1S
+5+ Hearts              → 1H
+Longer Diamonds        → 1D
+Otherwise              → 1C
+```
 
-1. Start the stack with `docker compose up --build`.
-2. Open the frontend at `http://localhost:8088`.
-3. Click `Login admin` and sign in as `bridge-admin / changeit`.
-4. Use the admin panel to list bundled and managed DRL rules.
-5. Save a new managed rule from the panel. Nest starts a Camunda BPMN process in `workflow-orchestrator`.
-6. Camunda runs the `validate-and-publish-rule` job worker, which calls `bidding-engine`.
-7. The backend validates the rule by compiling the full Drools set before accepting it.
+Future releases will expand to intermediate/advanced bidding conventions.
 
-Managed rules are loaded together with bundled rules on each recommendation request in the current MVP.
+---
 
-## Monitoring
+## 👨‍💼 Admin Workflow
 
-Prometheus is configured in [infra/prometheus/prometheus.yml](/infra/prometheus/prometheus.yml) and scrapes:
+### Setup
 
-- `bidding-engine` through Spring Boot Actuator Prometheus metrics
-- `workflow-orchestrator` through Spring Boot Actuator Prometheus metrics
-- `event-archive` through Spring Boot Actuator Prometheus metrics
-- `keycloak` through the built-in metrics endpoint
+1. Start stack: `docker compose up --build`
+2. Open frontend: `http://localhost:8088`
+3. Click "Login admin"
+4. Sign in: `bridge-admin / changeit`
 
-## Event Flow
+### Creating Custom Rules
 
-Kafka is used as an asynchronous event bus next to the bidding engine, not for synchronous UI requests.
+1. Navigate to admin panel
+2. View bundled rules and previously saved managed rules
+3. Write or modify a DRL rule
+4. Save rule → Zeebe BPMN process triggered
+5. Workflow validates rule in full Drools context
+6. If valid → deployed and available immediately
 
-- `RecommendationProducedEvent` is emitted after the engine returns a bid
-- `RuleUpdatedEvent` is emitted after an admin rule is saved and validated
-- `event-archive` consumes both topics and writes a durable history to Cassandra
+### Current Limitations
 
-## Repo Notes
+- Managed rules stored in `services/bidding-engine/managed-rules`
+- Rules loaded per request (not cached server-side yet)
+- Future: hot-reload and rule versioning
 
-- The previous Kotlin prototype is intentionally not carried forward here.
-- This scaffold favors explicit layers and service boundaries over framework shortcuts.
-- Managed rules created from the admin panel are stored in `services/bidding-engine/managed-rules`.
+---
+
+## 📊 Code Quality & Formatting
+
+### Backend (Kotlin + Gradle)
+
+```bash
+# Format all Kotlin code
+./gradlew format
+
+# Check formatting without changes
+./gradlew formatCheck
+
+# Run Detekt linter
+./gradlew lint
+
+# Run all quality checks
+./gradlew codeQuality
+
+# Build with tests
+./gradlew clean build
+
+# Run tests with coverage
+./gradlew test jacocoTestReport
+```
+
+### Frontend (TypeScript + npm)
+
+```bash
+cd presentation/bff-nest
+
+# Lint
+npm run lint
+
+# Auto-fix linting issues
+npm run lint:fix
+
+# Format code
+npm run format
+
+# Check formatting without changes
+npm run format:check
+
+# Type checking
+npm run typecheck
+
+# Run all checks
+npm run lint:all
+```
+
+---
+
+## 📈 Monitoring & Observability
+
+### Metrics
+
+Prometheus scrapes from all Spring Boot services via Actuator endpoints:
+
+```yaml
+# View metrics
+GET http://localhost:8088/actuator/prometheus
+```
+
+### Logging
+
+Promtail ships logs to observability stack. Configure log levels in:
+
+- `services/bidding-engine/src/main/resources/application.yml`
+- `services/workflow-orchestrator/src/main/resources/application.yml`
+- `services/event-archive/src/main/resources/application.yml`
+
+### Health Checks
+
+```bash
+# Bidding Engine
+curl http://localhost:8080/actuator/health
+
+# Workflow Orchestrator
+curl http://localhost:8082/actuator/health
+
+# Event Archive
+curl http://localhost:8081/actuator/health
+```
+
+---
+
+## 🔄 Event Architecture
+
+### Event Types
+
+| Event | Topic | Producer | Consumer |
+|-------|-------|----------|----------|
+| `RecommendationProducedEvent` | `omnibus.recommendation.produced` | bidding-engine | event-archive |
+| `RuleUpdatedEvent` | `omnibus.rule.updated` | bidding-engine | event-archive |
+
+### Event Flow
+
+```
+Synchronous (HTTP):
+  Frontend → BFF → Bidding Engine → Response
+
+Asynchronous (Kafka):
+  Bidding Engine → RecommendationProducedEvent → event-archive → Cassandra
+  Workflow Orchestrator → RuleUpdatedEvent → event-archive → Cassandra
+```
+
+---
+
+## 📂 Repository Structure
+
+```
+Omnibus/
+├── docker-compose.yml                  # Full stack orchestration
+├── build.gradle.kts                    # Root Gradle config
+├── settings.gradle.kts                 # Multi-module setup
+│
+├── services/
+│   ├── bidding-engine/                 # Spring Boot + Drools rule engine
+│   │   ├── src/main/kotlin/
+│   │   ├── src/main/resources/rules/   # DRL rule definitions
+│   │   └── managed-rules/              # Admin-created rules
+│   ├── workflow-orchestrator/          # Spring Boot + Zeebe
+│   └── event-archive/                  # Spring Boot + Cassandra consumer
+│
+├── presentation/
+│   ├── frontend-angular/               # Angular SPA
+│   ├── frontend-react/                 # React experimental frontend
+│   └── bff-nest/                       # NestJS backend-for-frontend
+│
+├── infra/
+│   ├── prometheus/                     # Prometheus config
+│   ├── keycloak/                       # Keycloak realm + users
+│   ├── cassandra/                      # Cassandra schema
+│   ├── kafka/                          # Kafka topics
+│   └── outbox-relay/                   # Optional local-to-Kafka bridge
+│
+└── docs/
+    ├── README.md                       # This file (comprehensive guide)
+    ├── ARCHITECTURE.md                 # Deep-dive architecture
+    └── LICENSE                         # MIT License
+```
+
+---
+
+## 🔐 Security
+
+- **Authentication**: Keycloak OAuth2/OpenID Connect
+- **Admin Role**: Required for rule management (`bridge-admin`)
+- **API Signing**: Web commit signoff required on main branch
+- **API Keys**: (Future) service-to-service authentication
+
+---
+
+## 🧪 Testing Strategy
+
+### Unit Tests (Kotest)
+
+```bash
+./gradlew test
+```
+
+### Integration Tests
+
+Services include Spring integration tests with embedded H2 database.
+
+### Architecture Tests (ArchUnit)
+
+Enforces layering rules and prevents circular dependencies.
+
+### Code Coverage (JaCoCo)
+
+```bash
+./gradlew jacocoTestReport
+# Report: build/reports/jacoco/test/html/index.html
+```
+
+---
+
+## 🛠️ Development Tips
+
+### Hot Reload
+
+- **Angular**: Built-in live reload on `ng serve`
+- **NestJS**: Enabled with `npm run start:dev`
+- **Spring Boot**: Use DevTools (included)
+
+### Debugging
+
+- **Bidding Engine**: Access Swagger UI at `http://localhost:8080/swagger-ui.html`
+- **Workflow Orchestrator**: REST API at `http://localhost:8082`
+- **Frontend**: Browser DevTools (F12)
+
+### Database Reset
+
+```bash
+# Reset Cassandra (in docker-compose)
+docker compose down -v
+docker compose up
+
+# Or manually:
+docker exec omnibus-cassandra-1 cqlsh -e "DROP KEYSPACE omnibus;"
+```
+
+### Kafka Debugging
+
+```bash
+# Consume from topic
+docker exec omnibus-kafka-1 kafka-console-consumer \
+  --bootstrap-server localhost:29092 \
+  --topic omnibus.recommendation.produced \
+  --from-beginning
+```
+
+---
+
+## 📝 Design Principles
+
+- **Event-Driven**: Asynchronous communication via Kafka
+- **Layered Architecture**: Clear separation of concerns (API → Service → Rules → Data)
+- **Rule Engine Agnostic**: Extensible to multiple rule engines
+- **API-First**: REST, GraphQL, and HATEOAS support
+- **Observable**: Prometheus metrics, request logging, health checks
+- **Testable**: Unit, integration, and architecture tests
+- **Explicit Over Implicit**: Favors clear interfaces over framework magic
+
+---
+
+## 🚧 Future Roadmap
+
+- [ ] Intermediate/advanced bidding conventions
+- [ ] Conventional 2/1 game forcing
+- [ ] Slam bidding logic
+- [ ] Rule versioning and deployment strategies
+- [ ] Machine learning integration for bid prediction
+- [ ] Kubernetes deployment manifests
+- [ ] GraphQL API expansion
+- [ ] Real-time collaborative bidding
+
+---
+
+## 📚 Documentation
+
+- **Architecture Deep-Dive**: See [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Admin Guide**: See admin workflow section above
+- **API Reference**: Swagger UI available after startup
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Ensure code quality: `./gradlew codeQuality && npm run lint:all`
+4. Submit a pull request
+
+Web commit signoff is required on the main branch.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** – see [LICENSE](LICENSE) for details.
+
+---
+
+## 📞 Support & Questions
+
+For issues, questions, or contributions, please open a GitHub issue in the [writeonly/Omnibus](https://github.com/writeonly/Omnibus) repository.
+
+---
+
+**Last Updated**: May 2026  
+**Status**: Active Development (MVP Phase)
