@@ -110,22 +110,22 @@
 # Start entire stack (frontend, all services, infra)
 docker compose up --build
 
-# Access services via NGINX gateway at http://localhost:8088
+# Access services via NGINX gateway at http://localhost:8000
 ```
 
-**Service URLs** (via NGINX reverse proxy `http://localhost:8088`):
+**Service URLs** (via NGINX reverse proxy `http://localhost:8000`):
 
 | Service | URL |
 |---------|-----|
-| Frontend UI | `http://localhost:8088/` |
-| BFF API | `http://localhost:8088/api/...` |
-| Bidding Engine Swagger | `http://localhost:8088/swagger-ui.html` |
-| Workflow Swagger | `http://localhost:8088/workflow/swagger-ui.html` |
-| Bidding Engine Actuator | `http://localhost:8088/actuator/...` |
-| Workflow Actuator | `http://localhost:8088/workflow/actuator/...` |
-| Event Archive Actuator | `http://localhost:8088/archive/actuator/...` |
-| Keycloak Admin | `http://localhost:8088/keycloak/` |
-| Prometheus Metrics | `http://localhost:8088/prometheus/` |
+| Frontend UI | `http://localhost:8000/` |
+| BFF API | `http://localhost:8000/api/...` |
+| Bidding Engine Swagger | `http://localhost:8000/swagger-ui.html` |
+| Workflow Swagger | `http://localhost:8000/workflow/swagger-ui.html` |
+| Bidding Engine Actuator | `http://localhost:8000/actuator/...` |
+| Workflow Actuator | `http://localhost:8000/workflow/actuator/...` |
+| Event Archive Actuator | `http://localhost:8000/archive/actuator/...` |
+| Keycloak Admin | `http://localhost:8000/keycloak/` |
+| Prometheus Metrics | `http://localhost:8000/prometheus/` |
 
 ### Option 2: Local Development (Individual Services)
 
@@ -176,10 +176,28 @@ npm start
 
 ## 🔧 Infrastructure Services (Docker)
 
+### NGINX Gateway
+
+```
+- Main Entry Point: http://localhost:8000
+- Proxy for all internal services
+```
+
+### Keycloak
+
+```
+- Direct URL: http://localhost:8180/auth
+- Realm: omnibus
+- Frontend Client: omnibus-frontend
+- Sample Admin: bridge-admin / changeit
+- Server Admin: kcadmin / kcadmin
+```
+
 ### Kafka
 
 ```
-- Broker: localhost:29092
+- External Broker: localhost:29092
+- Internal Broker (container): kafka:9092
 - Topics:
   - omnibus.recommendation.produced
   - omnibus.rule.updated
@@ -195,34 +213,43 @@ npm start
   - rule_updates_by_day
 ```
 
-### Keycloak
+### Observability Stack
 
 ```
+Prometheus:
 - URL: http://localhost:9090
-- Realm: omnibus
-- Frontend Client: omnibus-frontend
-- Sample Admin: bridge-admin / changeit
-- Server Admin: kcadmin / kcadmin
+- Scrapes metrics from all services
+
+Grafana:
+- URL: http://localhost:3001
+- Data source: Prometheus
+
+Loki:
+- Port: 3100
+- Log aggregation
+
+Kafka UI:
+- URL: http://localhost:9000
+- Kafka cluster monitoring
 ```
 
-### Zeebe Orchestration
+### Additional Services
 
 ```
-- gRPC: localhost:26500
-- REST: http://localhost:8089
-- Workflow Orchestrator: http://localhost:8082
-- Rule Publication: POST /api/v1/rule-publications
-```
+PostgreSQL:
+- Port: 5432
+- User: omnibus
+- Password: omnibus
+- Database: omnibus
 
-### Prometheus
+Redis:
+- Port: 6379
+- Cache layer (optional)
 
-```
-- URL: http://localhost:9091
-- Scrapes:
-  - bidding-engine: /actuator/prometheus
-  - workflow-orchestrator: /actuator/prometheus
-  - event-archive: /actuator/prometheus
-  - keycloak: /metrics
+RabbitMQ:
+- AMQP: localhost:5672
+- Management UI: http://localhost:15672
+- User: guest / password: guest
 ```
 
 ---
@@ -249,7 +276,7 @@ Future releases will expand to intermediate/advanced bidding conventions.
 ### Setup
 
 1. Start stack: `docker compose up --build`
-2. Open frontend: `http://localhost:8088`
+2. Open frontend: `http://localhost:8000`
 3. Click "Login admin"
 4. Sign in: `bridge-admin / changeit`
 
@@ -328,7 +355,10 @@ Prometheus scrapes from all Spring Boot services via Actuator endpoints:
 
 ```yaml
 # View metrics
-GET http://localhost:8088/actuator/prometheus
+GET http://localhost:8000/actuator/prometheus
+
+# Direct Prometheus UI
+http://localhost:9090
 ```
 
 ### Logging
@@ -338,6 +368,8 @@ Promtail ships logs to observability stack. Configure log levels in:
 - `services/bidding-engine/src/main/resources/application.yml`
 - `services/workflow-orchestrator/src/main/resources/application.yml`
 - `services/event-archive/src/main/resources/application.yml`
+
+View logs in Grafana (http://localhost:3001) with Loki data source.
 
 ### Health Checks
 
@@ -350,6 +382,9 @@ curl http://localhost:8082/actuator/health
 
 # Event Archive
 curl http://localhost:8081/actuator/health
+
+# Kafka UI
+http://localhost:9000
 ```
 
 ---
@@ -380,7 +415,7 @@ Asynchronous (Kafka):
 
 ```
 Omnibus/
-├── docker-compose.yml                  # Full stack orchestration
+├── docker-compose.yml                  # Main orchestration (placeholder)
 ├── build.gradle.kts                    # Root Gradle config
 ├── settings.gradle.kts                 # Multi-module setup
 │
@@ -394,15 +429,22 @@ Omnibus/
 │
 ├── presentation/
 │   ├── frontend-angular/               # Angular SPA
+│   │   └── docker-compose.yml          # Frontend services
 │   ├── frontend-react/                 # React experimental frontend
 │   └── bff-nest/                       # NestJS backend-for-frontend
 │
 ├── infra/
+│   ├── docker-compose.yml              # Infrastructure services (NGINX, Keycloak, Kafka, etc.)
+│   ├── nginx/                          # NGINX config & reverse proxy
 │   ├── prometheus/                     # Prometheus config
 │   ├── keycloak/                       # Keycloak realm + users
 │   ├── cassandra/                      # Cassandra schema
 │   ├── kafka/                          # Kafka topics
-│   └── outbox-relay/                   # Optional local-to-Kafka bridge
+│   ├── promtail/                       # Log shipping config
+│   └── postgres/                       # PostgreSQL init scripts
+│
+├── obs/
+│   └── docker-compose.yml              # Observability stack (Prometheus, Loki, Grafana)
 │
 └── docs/
     ├── README.md                       # This file (comprehensive guide)
@@ -459,26 +501,42 @@ Enforces layering rules and prevents circular dependencies.
 - **Bidding Engine**: Access Swagger UI at `http://localhost:8080/swagger-ui.html`
 - **Workflow Orchestrator**: REST API at `http://localhost:8082`
 - **Frontend**: Browser DevTools (F12)
+- **Kafka UI**: Monitor topics at `http://localhost:9000`
+- **Prometheus**: Query metrics at `http://localhost:9090`
 
 ### Database Reset
 
 ```bash
-# Reset Cassandra (in docker-compose)
+# Reset entire stack
 docker compose down -v
 docker compose up
 
-# Or manually:
-docker exec omnibus-cassandra-1 cqlsh -e "DROP KEYSPACE omnibus;"
+# Or reset specific service
+docker volume rm omnibus_postgres_data
+docker volume rm omnibus_cassandra_data
 ```
 
 ### Kafka Debugging
 
 ```bash
-# Consume from topic
+# Access Kafka UI
+http://localhost:9000
+
+# Or via CLI
 docker exec omnibus-kafka-1 kafka-console-consumer \
   --bootstrap-server localhost:29092 \
   --topic omnibus.recommendation.produced \
   --from-beginning
+```
+
+### PostgreSQL Access
+
+```bash
+# Connect to PostgreSQL
+psql -h localhost -p 5432 -U omnibus -d omnibus
+
+# Or via Docker
+docker exec -it omnibus-postgres-1 psql -U omnibus -d omnibus
 ```
 
 ---
