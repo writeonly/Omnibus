@@ -14,6 +14,37 @@ COMPOSE_ALL   = docker compose \
 	-f obs/docker-compose.yml
 
 BFF_NEST_DIR = presentation/bff-nest
+# =========================
+# FULL BUILD
+# =========================
+
+build-all:
+	$(MAKE) services-build
+	$(MAKE) bff-nest-build
+	$(MAKE) frontend-angular-build
+# 	$(MAKE) frontend-react-build
+# 	$(MAKE) dev-dashboard-build
+	@echo "🔥 FULL BUILD DONE"
+
+build-all-parallel:
+	$(MAKE) -j 5 \
+		services-build \
+		bff-nest-build \
+		frontend-angular-build \
+		frontend-react-build \
+		dev-dashboard-build 
+	@echo "🔥 FULL PARALLEL BUILD DONE"
+
+# =========================
+# DEV MODE
+# =========================
+
+dev: infra-up obs-up
+	@echo "Infra + Observability running 🚀"
+
+dev-all: infra-up app-up obs-up build-all
+	@echo "FULL SYSTEM READY 🚀"
+
 
 # =========================
 # INFRA
@@ -111,37 +142,6 @@ obs-down:
 
 obs-logs:
 	$(COMPOSE_OBS) logs -f
-
-# =========================
-# FULL BUILD
-# =========================
-
-build-all:
-	$(MAKE) services-build
-	$(MAKE) bff-nest-build
-	$(MAKE) frontend-angular-build
-	$(MAKE) frontend-react-build
-	$(MAKE) dev-dashboard-build
-	@echo "🔥 FULL BUILD DONE"
-
-build-all-parallel:
-	$(MAKE) -j 5 \
-		services-build \
-		bff-nest-build \
-		frontend-angular-build \
-		frontend-react-build \
-		dev-dashboard-build 
-	@echo "🔥 FULL PARALLEL BUILD DONE"
-
-# =========================
-# DEV MODE
-# =========================
-
-dev: infra-up obs-up
-	@echo "Infra + Observability running 🚀"
-
-dev-all: infra-up app-up obs-up build-all
-	@echo "FULL SYSTEM READY 🚀"
 
 # =========================
 # CLEAN
