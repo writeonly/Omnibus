@@ -19,6 +19,8 @@ springdoc = "2.6.0"
 grpcSpringBootStarter = "3.1.0.RELEASE"
 javaxAnnotation = "1.3.2"
 
+camunda = "8.8.0"
+
 
 [libraries]
 
@@ -27,9 +29,11 @@ spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-start
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 
-# Spring Cloud
+# ---------------- Spring Cloud ----------------
 spring-cloud-starter-function-web = { module = "org.springframework.cloud:spring-cloud-starter-function-web" }
+spring-cloud-config-server = { module = "org.springframework.cloud:spring-cloud-config-server" }
 spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
 
 # ---------------- Kafka ----------------
@@ -48,9 +52,11 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 # ---------------- gRPC / Protobuf ----------------
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+grpc-netty = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc" }
+
 protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
 
-grpc-spring-boot-starter = { module = "net.devh:grpc-server-spring-boot-starter", version.ref = "grpcSpringBootStarter" }
+grpc-spring-boot-server = { module = "net.devh:grpc-server-spring-boot-starter", version.ref = "grpcSpringBootStarter" }
 grpc-spring-boot-client = { module = "net.devh:grpc-client-spring-boot-starter", version.ref = "grpcSpringBootStarter" }
 
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotation" }
@@ -62,8 +68,8 @@ drools-engine = { module = "org.drools:drools-engine", version.ref = "drools" }
 drools-mvel = { module = "org.drools:drools-mvel", version.ref = "drools" }
 drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
 
-# ---------------- Test ----------------
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+# ---------------- Camunda ----------------
+camunda-spring-boot = { module = "io.camunda:camunda-spring-boot-starter", version.ref = "camunda" }
 
 
 [plugins]

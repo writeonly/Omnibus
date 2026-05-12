@@ -20,7 +20,6 @@ repositories {
     mavenCentral()
 }
 
-
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}")
@@ -37,7 +36,7 @@ dependencies {
     implementation(libs.spring.boot.starter.jdbc)
 
     // ---------------- gRPC ----------------
-    implementation(libs.grpc.spring.boot.starter)
+    implementation(libs.grpc.spring.boot.server)
     implementation(libs.grpc.spring.boot.client)
     implementation(libs.grpc.protobuf)
     implementation(libs.grpc.stub)
