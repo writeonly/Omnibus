@@ -10,16 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.spring)
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}")
@@ -28,14 +18,14 @@ dependencyManagement {
 
 dependencies {
 
-    // ---------------- Spring ----------------
+    // Spring
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.cloud.starter.function.web)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.jdbc)
 
-    // ---------------- gRPC ----------------
+    // gRPC
     implementation(libs.grpc.spring.server)
     implementation(libs.grpc.spring.client)
     implementation(libs.grpc.protobuf)
@@ -43,23 +33,23 @@ dependencies {
     implementation(libs.protobuf.java.util)
     compileOnly(libs.javax.annotation.api)
 
-    // ---------------- Kafka ----------------
+    // Kafka
     implementation(libs.spring.kafka)
 
-    // ---------------- Observability ----------------
+    // Observability
     implementation(libs.micrometer.registry.prometheus)
 
-    // ---------------- OpenAPI ----------------
+    // OpenAPI
     implementation(libs.springdoc.openapi)
 
-    // ---------------- Kotlin ----------------
+    // Kotlin
     implementation(libs.jackson.kotlin)
     implementation(libs.kotlin.reflect)
 
-    // ---------------- CAMUNDA 8 (ZEEBE) ----------------
+    // CAMUNDA 8 (ZEEBE)
     implementation("io.camunda:camunda-spring-boot-starter:8.8.0")
 
-    // ---------------- Test ----------------
+    // Test
     testImplementation(libs.spring.boot.starter.test)
 }
 

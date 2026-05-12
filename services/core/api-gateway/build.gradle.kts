@@ -14,15 +14,15 @@ dependencyManagement {
 
 dependencies {
 
-    // ---------------- Gateway ----------------
+    // Gateway
     implementation(libs.spring.cloud.starter.gateway)
 
-    // ---------------- Security ----------------
+    // Security
     implementation(libs.spring.boot.starter.oauth2.resource.server)
 
-    // ---------------- Actuator ----------------
+    // Actuator
     implementation(libs.spring.boot.starter.actuator)
 
-    // ---------------- Observability ----------------
+    // Observability
     implementation(libs.micrometer.registry.prometheus)
 }

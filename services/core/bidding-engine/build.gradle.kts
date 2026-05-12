@@ -10,16 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.spring)
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}")
@@ -28,41 +18,41 @@ dependencyManagement {
 
 dependencies {
 
-    // ---------------- Spring ----------------
+    // Spring
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.cloud.starter.function.web)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.jdbc)
 
-    // ---------------- gRPC ----------------
+    // gRPC
     implementation(libs.grpc.spring.server)
     implementation(libs.grpc.protobuf)
     implementation(libs.grpc.stub)
     implementation(libs.protobuf.java.util)
     compileOnly(libs.javax.annotation.api)
 
-    // ---------------- Kafka ----------------
+    // Kafka
     implementation(libs.spring.kafka)
 
-    // ---------------- Observability ----------------
+    // Observability
     implementation(libs.micrometer.registry.prometheus)
 
-    // ---------------- OpenAPI ----------------
+    // OpenAPI
     implementation(libs.springdoc.openapi)
 
-    // ---------------- Kotlin ----------------
+    // Kotlin
     implementation(libs.jackson.kotlin)
     implementation(libs.kotlin.reflect)
 
-    // ---------------- DROOLS / KIE ----------------
+    // DROOLS / KIE
     implementation(libs.kie.api)
     implementation(libs.kie.internal)
     implementation(libs.drools.engine)
     implementation(libs.drools.mvel)
     implementation(libs.drools.decisiontables)
 
-    // ---------------- Test ----------------
+    // Test
     testImplementation(libs.spring.boot.starter.test)
 }
 
