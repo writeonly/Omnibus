@@ -53,16 +53,6 @@ dependencies {
     testImplementation(libs.spring.boot.starter.test)
 }
 
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_21)
-    }
-}
-
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
