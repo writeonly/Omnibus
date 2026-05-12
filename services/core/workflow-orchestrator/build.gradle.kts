@@ -1,19 +1,13 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management") 
-    id("com.google.protobuf") 
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.deps)
 
-    kotlin("jvm")
-    kotlin("plugin.spring")
-}
+    alias(libs.plugins.protobuf)
 
-group = "com.omnibus"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
 }
 
 java {
@@ -22,58 +16,52 @@ java {
     }
 }
 
-val springCloudVersion = "2025.0.0"
-val grpcVersion = "1.66.0"
-val protobufVersion = "3.25.5"
+repositories {
+    mavenCentral()
+}
+
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}")
     }
 }
 
 dependencies {
-    // ======================
-    // SPRING BOOT STACK
-    // ======================
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.cloud:spring-cloud-starter-function-web")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
-    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
+    // ---------------- Spring ----------------
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.cloud.starter.function.web)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.jdbc)
 
-    implementation("io.grpc:grpc-protobuf:$grpcVersion")
-    implementation("io.grpc:grpc-stub:$grpcVersion")
-    implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
-    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
+    // ---------------- gRPC ----------------
+    implementation(libs.grpc.spring.boot.starter)
+    implementation(libs.grpc.spring.boot.client)
+    implementation(libs.grpc.protobuf)
+    implementation(libs.grpc.stub)
+    implementation(libs.protobuf.java.util)
+    compileOnly(libs.javax.annotation.api)
 
-    // ======================
-    // CAMUNDA 8 (ZEEBE)
-    // ======================
+    // ---------------- Kafka ----------------
+    implementation(libs.spring.kafka)
+
+    // ---------------- Observability ----------------
+    implementation(libs.micrometer.registry.prometheus)
+
+    // ---------------- OpenAPI ----------------
+    implementation(libs.springdoc.openapi)
+
+    // ---------------- Kotlin ----------------
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+
+    // ---------------- CAMUNDA 8 (ZEEBE) ----------------
     implementation("io.camunda:camunda-spring-boot-starter:8.8.0")
 
-    // ======================
-    // OBSERVABILITY
-    // ======================
-    implementation("io.micrometer:micrometer-registry-prometheus")
-
-    // ======================
-    // OPENAPI
-    // ======================
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
-
-    // ======================
-    // KOTLIN
-    // ======================
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-    // ======================
-    // TESTS
-    // ======================
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // ---------------- Test ----------------
+    testImplementation(libs.spring.boot.starter.test)
 }
 
 tasks.withType<Test>().configureEach {
@@ -88,12 +76,12 @@ kotlin {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:$protobufVersion"
+        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
 
     plugins {
         create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
         }
     }
 

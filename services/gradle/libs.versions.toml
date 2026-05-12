@@ -30,6 +30,7 @@ spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-star
 
 # Spring Cloud
 spring-cloud-starter-function-web = { module = "org.springframework.cloud:spring-cloud-starter-function-web" }
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
 
 # ---------------- Kafka ----------------
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
@@ -50,6 +51,7 @@ grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
 protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
 
 grpc-spring-boot-starter = { module = "net.devh:grpc-server-spring-boot-starter", version.ref = "grpcSpringBootStarter" }
+grpc-spring-boot-client = { module = "net.devh:grpc-client-spring-boot-starter", version.ref = "grpcSpringBootStarter" }
 
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotation" }
 
