@@ -1,12 +1,9 @@
 plugins {
-    id("java")
-    id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.6"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.deps)
+
     kotlin("plugin.spring")
 }
-
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
@@ -18,30 +15,28 @@ repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2023.0.3"
-
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-
-    // CONFIG SERVER
-    implementation("org.springframework.cloud:spring-cloud-config-server")
-
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation(kotlin("stdlib"))
-}
-
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}")
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+dependencies {
+
+    // Spring Boot
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.actuator)
+
+    // Spring Cloud Config Server
+    implementation(libs.spring.cloud.config.server)
+
+    // Kotlin
+    implementation(kotlin("stdlib"))
+
+    // Tests
+    testImplementation(libs.spring.boot.starter.test)
 }
 
-springBoot {
-    mainClass.set("pl.writeonly.omnibus.configserver.ConfigServerApplication")
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
