@@ -36,8 +36,8 @@ dependencies {
     implementation(libs.spring.boot.starter.jdbc)
 
     // ---------------- gRPC ----------------
-    implementation(libs.grpc.spring.boot.server)
-    implementation(libs.grpc.spring.boot.client)
+    implementation(libs.grpc.spring.server)
+    implementation(libs.grpc.spring.client)
     implementation(libs.grpc.protobuf)
     implementation(libs.grpc.stub)
     implementation(libs.protobuf.java.util)

@@ -1,6 +1,6 @@
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.deps)
 
     kotlin("jvm")
     kotlin("plugin.spring")
@@ -14,17 +14,15 @@ dependencyManagement {
 
 dependencies {
 
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+    // ---------------- Gateway ----------------
+    implementation(libs.spring.cloud.starter.gateway)
 
-    implementation(
-        "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
-    )
+    // ---------------- Security ----------------
+    implementation(libs.spring.boot.starter.oauth2.resource.server)
 
-    implementation(
-        "org.springframework.boot:spring-boot-starter-actuator"
-    )
+    // ---------------- Actuator ----------------
+    implementation(libs.spring.boot.starter.actuator)
 
-    implementation(
-        "io.micrometer:micrometer-registry-prometheus"
-    )
+    // ---------------- Observability ----------------
+    implementation(libs.micrometer.registry.prometheus)
 }
