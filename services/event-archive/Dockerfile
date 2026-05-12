@@ -16,12 +16,12 @@ COPY services ./services
 # =========================
 # CACHE DEPENDENCIES
 # =========================
-RUN gradle :event-archive:dependencies --no-daemon
+RUN ./gradlew :event-archive:dependencies --no-daemon
 
 # =========================
 # BUILD ONLY MODULE
 # =========================
-RUN gradle :event-archive:bootJar --no-daemon
+RUN ./gradlew :event-archive:bootJar --no-daemon
 
 
 # ---------- RUNTIME STAGE ----------

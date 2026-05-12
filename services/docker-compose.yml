@@ -2,43 +2,52 @@ services:
 
   config-server:
     build:
-      context: ./config-server
+      context: .
+      dockerfile: config-server/Dockerfile
     container_name: config-server
     ports:
       - "8888:8888"
     environment:
       CONFIG_ENV: local
     volumes:
-      - ../config:/workspace/config
+      - ./config-server/config:/workspace/config
 
   api-gateway:
     build:
       context: .
-      dockerfile: services/api-gateway/Dockerfile
+      dockerfile: api-gateway/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
+      - config-server
       - bidding-engine
-      # - workflow-orchestrator
+      - workflow-orchestrator
     networks: [omnibus]
 
   bidding-engine:
     build:
       context: .
-      dockerfile: ./services/bidding-engine/Dockerfile
+      dockerfile: ./bidding-engine/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on: 
+      - config-server
     networks: [omnibus]
 
   workflow-orchestrator:
-    profiles:
-      - profileName
     build:
       context: .
-      dockerfile: ./services/workflow-orchestrator/Dockerfile
+      dockerfile: ./workflow-orchestrator/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - config-server
+      - bidding-engine
     networks: [omnibus]
 
   event-archive:
     profiles:
-      - profileName
+      - legacy
     build:
       context: .
       dockerfile: ./services/event-archive/Dockerfile
@@ -46,18 +55,18 @@ services:
 
   outbox-relay-service:
     profiles:
-      - profileName
+      - legacy
     build:
       context: .
-      dockerfile: ./services/outbox-relay-service/Dockerfile
+      dockerfile: ./outbox-relay-service/Dockerfile
     networks: [omnibus]
 
   cassandra-projection-service:
     profiles:
-      - profileName
+      - legacy
     build:
       context: .
-      dockerfile: ./services/cassandra-projection-service/Dockerfile
+      dockerfile: ./cassandra-projection-service/Dockerfile
     networks: [omnibus]
 
 networks:

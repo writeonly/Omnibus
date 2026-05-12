@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.config
+package pl.writeonly.omnibus.configserver
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
