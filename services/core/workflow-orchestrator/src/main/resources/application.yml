@@ -18,14 +18,6 @@ management:
       export:
         enabled: true
 
-camunda:
-  client:
-    mode: self-managed
-    auth:
-      method: none
-    grpc-address: ${CAMUNDA_GRPC_ADDRESS:http://localhost:26500}
-    rest-address: ${CAMUNDA_REST_ADDRESS:http://localhost:8089}
-
 springdoc:
   api-docs:
     path: /api-docs

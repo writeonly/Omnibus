@@ -23,7 +23,6 @@ dependencies {
     implementation(libs.spring.cloud.starter.function.web)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.actuator)
-    implementation(libs.spring.boot.starter.jdbc)
 
     // gRPC
     implementation(libs.grpc.spring.server)
