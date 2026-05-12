@@ -2,7 +2,7 @@ services:
 
   frontend-angular:
     build:
-      context: ./presentation/frontend-angular
+      context: ./frontend-angular
       args:
         KEYCLOAK_URL: http://keycloak:8180
         KEYCLOAK_REALM: omnibus
@@ -10,21 +10,17 @@ services:
     ports:
       - "4300:80"
     depends_on:
-      - keycloak
       - bff-nest
     networks: [omnibus]
 
   bff-nest:
     build:
-      context: ./presentation/bff-nest
+      context: ./bff-nest
     environment:
       KEYCLOAK_URL: http://keycloak:8180
       PORT: 3000
     ports:
       - "3000:3000"
-    depends_on:
-      - keycloak
-      - api-gateway
     networks: [omnibus]
 
 networks:
