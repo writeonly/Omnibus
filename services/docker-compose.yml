@@ -1,5 +1,16 @@
 services:
 
+  config-server:
+    build:
+      context: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      CONFIG_ENV: local
+    volumes:
+      - ../config:/workspace/config
+
   api-gateway:
     build:
       context: .

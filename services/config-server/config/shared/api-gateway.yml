@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: bidding-engine
+          uri: http://bidding-engine:8081
+          predicates:
+            - Path=/api/bidding/**
+
+        - id: workflow-orchestrator
+          uri: http://workflow-orchestrator:8082
+          predicates:
+            - Path=/api/workflow/**

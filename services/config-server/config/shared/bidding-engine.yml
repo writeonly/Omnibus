@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+grpc:
+  server:
+    port: 9091
+
+topics:
+  recommendation-produced: bidding.recommendation-produced.v1
+  rule-updated: bidding.rule-updated.v1

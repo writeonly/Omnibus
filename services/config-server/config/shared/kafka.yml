@@ -1,0 +1,9 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+
+    producer:
+      acks: all
+
+    consumer:
+      auto-offset-reset: earliest
