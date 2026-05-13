@@ -13,4 +13,17 @@ spring:
           default-label: main
           clone-on-start: true
           search-paths:
-            - services/core/config-server/config/shared
+            - services/core/config-server/config
+    stream:
+      default-binder: kafka
+
+  security:
+    user:
+      name: name
+      password: password
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

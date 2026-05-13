@@ -46,7 +46,7 @@ services:
 
   postgres-init:
     profiles:
-      - profileName
+      - legacy
     image: postgres:16-alpine
     container_name: omnibus-postgres-init
     environment:
@@ -63,8 +63,6 @@ services:
     networks: [omnibus]
 
   kafka:
-    profiles:
-      - profileName
     image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
     environment:
@@ -83,8 +81,6 @@ services:
     networks: [omnibus]
 
   kafka-ui:
-    profiles:
-      - profileName
     image: provectuslabs/kafka-ui:latest
     container_name: omnibus-kafka-ui
     environment:
@@ -96,7 +92,7 @@ services:
 
   cassandra:
     profiles:
-      - profileName
+      - legacy
     image: cassandra:5.0
     container_name: omnibus-cassandra
     ports:
@@ -107,7 +103,7 @@ services:
 
   cassandra-init:
     profiles:
-      - profileName
+      - legacy
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
     depends_on:
@@ -127,7 +123,7 @@ services:
 
   redis:
     profiles:
-      - profileName
+      - legacy
     image: redis:7-alpine
     container_name: omnibus-redis
     ports:
@@ -135,8 +131,6 @@ services:
     networks: [omnibus]
 
   rabbitmq:
-    profiles:
-      - profileName
     image: rabbitmq:3-management
     container_name: omnibus-rabbitmq
     ports:

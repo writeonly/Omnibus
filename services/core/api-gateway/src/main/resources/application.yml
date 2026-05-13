@@ -13,11 +13,8 @@ grpc:
       negotiation-type: plaintext
 
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://keycloak:8180/realms/omnibus
+  config:
+    import: optional:configserver:http://localhost:8888
 
   cloud:
     gateway:
@@ -34,6 +31,11 @@ spring:
               uri: http://workflow-engine:8082
               predicates:
                 - Path=/internal/workflow/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8180/realms/omnibus
 
 management:
   endpoints:

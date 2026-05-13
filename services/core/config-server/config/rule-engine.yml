@@ -3,7 +3,7 @@ server:
 
 grpc:
   server:
-    port: 9091
+    port: 9081
 
 topics:
   recommendation-produced: rule.recommendation-produced.v1
