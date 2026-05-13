@@ -28,6 +28,12 @@ all:
 	$(MAKE) services-up
 	$(MAKE) presentation-up
 
+down:
+	$(MAKE) presentation-down
+	$(MAKE) infra-down
+	$(MAKE) services-down
+	$(MAKE) obs-down
+
 build-all:
 	$(MAKE) services-build
 	$(MAKE) bff-nest-build
