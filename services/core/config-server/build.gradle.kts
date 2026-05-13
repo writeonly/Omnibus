@@ -12,16 +12,17 @@ dependencyManagement {
 }
 
 dependencies {
-
-    // Spring Boot
-    implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.actuator)
-
-    // Spring Cloud Config Server
-    implementation(libs.spring.cloud.config.server)
-
     // Kotlin
-    implementation(kotlin("stdlib"))
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.logging)
+
+    // Spring
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.oauth2.resource.server)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.cloud.config.server)
 
     // Tests
     testImplementation(libs.spring.boot.starter.test)

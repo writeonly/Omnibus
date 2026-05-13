@@ -13,15 +13,15 @@ dependencyManagement {
 }
 
 dependencies {
+    // Kotlin
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.logging)
 
-    // Gateway
-    implementation(libs.spring.cloud.starter.gateway.server.webflux)
-
-    // Security
-    implementation(libs.spring.boot.starter.oauth2.resource.server)
-
-    // Actuator
+    // Spring
     implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.oauth2.resource.server)
+    implementation(libs.spring.cloud.starter.gateway.server.webflux)
 
     // Observability
     implementation(libs.micrometer.registry.prometheus)

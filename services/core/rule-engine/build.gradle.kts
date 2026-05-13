@@ -23,11 +23,12 @@ dependencies {
     implementation(libs.kotlin.logging)
 
     // Spring
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.oauth2.resource.server)
+    implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.cloud.starter.function.web)
-    implementation(libs.spring.boot.starter.validation)
-    implementation(libs.spring.boot.starter.actuator)
-
+    
     // Kafka
     implementation(libs.spring.kafka)
 
