@@ -1,6 +1,14 @@
 server:
   port: 8082
 
+grpc:
+  server:
+    port: ${GRPC_PORT:9082}
+  client:
+    bidding-engine:
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+      negotiation-type: plaintext
+
 spring:
   application:
     name: workflow-orchestrator
@@ -23,11 +31,3 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-
-grpc:
-  server:
-    port: ${GRPC_PORT:9082}
-  client:
-    bidding-engine:
-      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
-      negotiation-type: plaintext

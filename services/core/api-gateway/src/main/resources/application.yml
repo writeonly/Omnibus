@@ -1,6 +1,18 @@
 server:
   port: 8080
 
+grpc:
+  server:
+    port: ${GRPC_PORT:9080}
+  client:
+    bidding-engine:
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+      negotiation-type: plaintext
+  client:
+    workflow-orchestrator:
+      address: ${WORKFLOW_ORCHESTRATOR_GRPC_ADDRESS:static://localhost:9082}
+      negotiation-type: plaintext
+
 spring:
   security:
     oauth2:
@@ -13,11 +25,6 @@ spring:
       server:
         webflux:
           routes:
-
-            - id: bff
-              uri: http://bff-nest:3000
-              predicates:
-                - Path=/api/**
 
             - id: bidding-engine
               uri: http://bidding-engine:8081

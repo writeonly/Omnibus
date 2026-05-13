@@ -10,6 +10,10 @@ server:
       properties:
         spring.json.add.type.headers: false
 
+grpc:
+  server:
+    port: ${GRPC_PORT:9081}
+
 management:
   endpoints:
     web:
@@ -38,6 +42,3 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
-grpc:
-  server:
-    port: ${GRPC_PORT:9081}
