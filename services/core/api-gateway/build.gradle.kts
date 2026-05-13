@@ -15,7 +15,6 @@ dependencyManagement {
 dependencies {
 
     // Gateway
-    implementation(libs.spring.cloud.starter.gateway)
     implementation(libs.spring.cloud.starter.gateway.server.webflux)
 
     // Security
