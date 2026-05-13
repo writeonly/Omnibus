@@ -8,7 +8,6 @@ grpc:
     bidding-engine:
       address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
       negotiation-type: plaintext
-  client:
     workflow-orchestrator:
       address: ${WORKFLOW_ORCHESTRATOR_GRPC_ADDRESS:static://localhost:9082}
       negotiation-type: plaintext
@@ -31,7 +30,7 @@ spring:
               predicates:
                 - Path=/internal/bidding/**
 
-            - id: workflow
+            - id: workflow-orchestrator
               uri: http://workflow-orchestrator:8082
               predicates:
                 - Path=/internal/workflow/**
