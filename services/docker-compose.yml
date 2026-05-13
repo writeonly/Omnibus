@@ -10,7 +10,7 @@ services:
     environment:
       CONFIG_ENV: local
     volumes:
-      - ./config-server/config:/workspace/config
+      - ./core/config-server/config:/workspace/config
 
   api-gateway:
     build:
