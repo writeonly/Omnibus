@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.rules
+package pl.writeonly.omnibus.rule.rules
 
 import org.kie.api.runtime.KieSession
 import org.springframework.stereotype.Component

@@ -28,8 +28,8 @@
 
 | Service | Technology | Responsibility |
 |---------|-----------|-----------------|
-| `services/bidding-engine` | Spring Boot + Drools | Core rule engine evaluating hands and producing bids |
-| `services/workflow-orchestrator` | Spring Boot + Zeebe | Manages admin rule creation/validation workflows |
+| `services/rule-engine` | Spring Boot + Drools | Core rule engine evaluating hands and producing bids |
+| `services/workflow-engine` | Spring Boot + Zeebe | Manages admin rule creation/validation workflows |
 | `services/event-archive` | Spring Boot + Kafka | Kafka consumer persisting domain events into Cassandra |
 
 ### Infrastructure & Integration
@@ -56,9 +56,9 @@
    ↓
 2. Angular → Nest BFF (HTTP/REST)
    ↓
-3. BFF validates input & forwards to bidding-engine
+3. BFF validates input & forwards to rule-engine
    ↓
-4. Bidding-engine extracts hand facts
+4. rule-engine extracts hand facts
    ↓
 5. Drools rule engine evaluates facts
    ↓
@@ -84,9 +84,9 @@
    ↓
 5. Zeebe orchestrates: validate-and-publish-rule job
    ↓
-6. Job worker calls bidding-engine with full ruleset
+6. Job worker calls rule-engine with full ruleset
    ↓
-7. Bidding-engine validates by compiling Drools
+7. rule-engine validates by compiling Drools
    ↓
 8. If valid → RuleUpdatedEvent to Kafka → Cassandra
    ↓
@@ -132,7 +132,7 @@ docker compose up --build
 #### 2a. Bidding Engine (Spring Boot)
 
 ```bash
-cd services/bidding-engine
+cd services/rule-engine
 ./gradlew bootRun
 ```
 
@@ -210,7 +210,7 @@ npm start
 ```
 - gRPC: localhost:26500
 - REST: http://localhost:8089
-- Workflow Orchestrator: http://localhost:8082
+- Workflow Engine: http://localhost:8082
 - Rule Publication: POST /api/v1/rule-publications
 ```
 
@@ -219,8 +219,8 @@ npm start
 ```
 - URL: http://localhost:9091
 - Scrapes:
-  - bidding-engine: /actuator/prometheus
-  - workflow-orchestrator: /actuator/prometheus
+  - rule-engine: /actuator/prometheus
+  - workflow-engine: /actuator/prometheus
   - event-archive: /actuator/prometheus
   - keycloak: /metrics
 ```
@@ -264,7 +264,7 @@ Future releases will expand to intermediate/advanced bidding conventions.
 
 ### Current Limitations
 
-- Managed rules stored in `services/bidding-engine/managed-rules`
+- Managed rules stored in `services/rule-engine/managed-rules`
 - Rules loaded per request (not cached server-side yet)
 - Future: hot-reload and rule versioning
 
@@ -335,8 +335,8 @@ GET http://localhost:8088/actuator/prometheus
 
 Promtail ships logs to observability stack. Configure log levels in:
 
-- `services/bidding-engine/src/main/resources/application.yml`
-- `services/workflow-orchestrator/src/main/resources/application.yml`
+- `services/rule-engine/src/main/resources/application.yml`
+- `services/workflow-engine/src/main/resources/application.yml`
 - `services/event-archive/src/main/resources/application.yml`
 
 ### Health Checks
@@ -345,7 +345,7 @@ Promtail ships logs to observability stack. Configure log levels in:
 # Bidding Engine
 curl http://localhost:8080/actuator/health
 
-# Workflow Orchestrator
+# Workflow Engine
 curl http://localhost:8082/actuator/health
 
 # Event Archive
@@ -360,8 +360,8 @@ curl http://localhost:8081/actuator/health
 
 | Event | Topic | Producer | Consumer |
 |-------|-------|----------|----------|
-| `RecommendationProducedEvent` | `omnibus.recommendation.produced` | bidding-engine | event-archive |
-| `RuleUpdatedEvent` | `omnibus.rule.updated` | bidding-engine | event-archive |
+| `RecommendationProducedEvent` | `omnibus.recommendation.produced` | rule-engine | event-archive |
+| `RuleUpdatedEvent` | `omnibus.rule.updated` | rule-engine | event-archive |
 
 ### Event Flow
 
@@ -371,7 +371,7 @@ Synchronous (HTTP):
 
 Asynchronous (Kafka):
   Bidding Engine → RecommendationProducedEvent → event-archive → Cassandra
-  Workflow Orchestrator → RuleUpdatedEvent → event-archive → Cassandra
+  Workflow Engine → RuleUpdatedEvent → event-archive → Cassandra
 ```
 
 ---
@@ -385,11 +385,11 @@ Omnibus/
 ├── settings.gradle.kts                 # Multi-module setup
 │
 ├── services/
-│   ├── bidding-engine/                 # Spring Boot + Drools rule engine
+│   ├── rule-engine/                 # Spring Boot + Drools rule engine
 │   │   ├── src/main/kotlin/
 │   │   ├── src/main/resources/rules/   # DRL rule definitions
 │   │   └── managed-rules/              # Admin-created rules
-│   ├── workflow-orchestrator/          # Spring Boot + Zeebe
+│   ├── workflow-engine/          # Spring Boot + Zeebe
 │   └── event-archive/                  # Spring Boot + Cassandra consumer
 │
 ├── presentation/
@@ -457,7 +457,7 @@ Enforces layering rules and prevents circular dependencies.
 ### Debugging
 
 - **Bidding Engine**: Access Swagger UI at `http://localhost:8080/swagger-ui.html`
-- **Workflow Orchestrator**: REST API at `http://localhost:8082`
+- **Workflow Engine**: REST API at `http://localhost:8082`
 - **Frontend**: Browser DevTools (F12)
 
 ### Database Reset

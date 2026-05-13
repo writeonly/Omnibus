@@ -1,6 +1,6 @@
-package pl.writeonly.omnibus.bidding.application
+package pl.writeonly.omnibus.rule.application
 
-import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

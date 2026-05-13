@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.api
+package pl.writeonly.omnibus.rule.api
 
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Contact
@@ -13,7 +13,7 @@ class OpenApiConfiguration {
     fun omnibusOpenApi(): OpenAPI =
         OpenAPI().info(
             Info()
-                .title("Omnibus Bidding Engine API")
+                .title("Omnibus Rule Engine API")
                 .description("REST API for bridge bidding recommendations and Drools rule administration.")
                 .version("v1")
                 .contact(

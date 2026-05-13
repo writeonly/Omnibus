@@ -1,7 +1,7 @@
 server:
   port: 8081
   application:
-    name: bidding-engine
+    name: rule-engine
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:

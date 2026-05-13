@@ -95,8 +95,8 @@ services-bootjar:
 	$(GRADLE) \
 		:config-server:bootJar \
 		:api-gateway:bootJar \
-		:bidding-engine:bootJar \
-		:workflow-orchestrator:bootJar \
+		:rule-engine:bootJar \
+		:workflow-engine:bootJar \
 		--parallel \
 		--build-cache \
 		--no-daemon

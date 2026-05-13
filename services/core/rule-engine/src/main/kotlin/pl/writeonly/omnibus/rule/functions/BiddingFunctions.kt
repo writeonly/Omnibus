@@ -1,11 +1,11 @@
-package pl.writeonly.omnibus.bidding.functions
+package pl.writeonly.omnibus.rule.functions
 
-import pl.writeonly.omnibus.bidding.application.ManagedRuleAdminService
-import pl.writeonly.omnibus.bidding.application.RestBiddingService
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleUpsertRequest
-import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
-import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.application.ManagedRuleAdminService
+import pl.writeonly.omnibus.rule.application.RestBiddingService
+import pl.writeonly.omnibus.rule.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.rule.domain.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.function.Function

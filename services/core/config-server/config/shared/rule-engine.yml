@@ -6,5 +6,5 @@ grpc:
     port: 9091
 
 topics:
-  recommendation-produced: bidding.recommendation-produced.v1
-  rule-updated: bidding.rule-updated.v1
+  recommendation-produced: rule.recommendation-produced.v1
+  rule-updated: rule.rule-updated.v1

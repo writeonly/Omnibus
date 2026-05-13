@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.events
+package pl.writeonly.omnibus.rule.events
 
 import org.apache.kafka.clients.admin.NewTopic
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

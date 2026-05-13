@@ -5,13 +5,13 @@ grpc:
   server:
     port: ${GRPC_PORT:9082}
   client:
-    bidding-engine:
+    rule-engine:
       address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
       negotiation-type: plaintext
 
 spring:
   application:
-    name: workflow-orchestrator
+    name: workflow-engine
 
 management:
   endpoints:

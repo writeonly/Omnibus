@@ -5,12 +5,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: bidding-engine
-          uri: http://bidding-engine:8081
+        - id: rule-engine
+          uri: http://rule-engine:8081
           predicates:
-            - Path=/api/bidding/**
+            - Path=/api/rule/**
 
-        - id: workflow-orchestrator
-          uri: http://workflow-orchestrator:8082
+        - id: workflow-engine
+          uri: http://workflow-engine:8082
           predicates:
             - Path=/api/workflow/**

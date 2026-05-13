@@ -3,8 +3,8 @@ rootProject.name = "omnibus"
 include(
     "config-server",
     "api-gateway",
-    "bidding-engine",
-    "workflow-orchestrator",
+    "rule-engine",
+    "workflow-engine",
     "event-archive",
     "outbox-relay-service",
     "cassandra-projection-service"
@@ -13,8 +13,8 @@ include(
 
 project(":config-server").projectDir = file("core/config-server")
 project(":api-gateway").projectDir = file("core/api-gateway")
-project(":bidding-engine").projectDir = file("core/bidding-engine")
-project(":workflow-orchestrator").projectDir = file("core/workflow-orchestrator")
+project(":rule-engine").projectDir = file("core/rule-engine")
+project(":workflow-engine").projectDir = file("core/workflow-engine")
 project(":event-archive").projectDir = file("legacy/event-archive")
 project(":outbox-relay-service").projectDir = file("legacy/outbox-relay-service")
 project(":cassandra-projection-service").projectDir = file("legacy/cassandra-projection-service")

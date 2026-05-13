@@ -1,6 +1,6 @@
-package pl.writeonly.omnibus.bidding.application
+package pl.writeonly.omnibus.rule.application
 
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.rule.domain.ManagedRuleDefinition
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.io.IOException

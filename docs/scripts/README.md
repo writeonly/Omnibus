@@ -147,7 +147,7 @@ If you prefer to run commands manually:
 ./gradlew clean build
 
 # Run Spring Boot service
-cd services/bidding-engine
+cd services/rule-engine
 ./gradlew bootRun
 ```
 

@@ -1,2 +1,2 @@
-rootProject.name = "workflow-orchestrator"
+rootProject.name = "workflow-engine"
 

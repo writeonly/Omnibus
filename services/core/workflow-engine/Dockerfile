@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY core/workflow-orchestrator/build/libs/workflow-orchestrator-*.jar app.jar
+COPY core/workflow-engine/build/libs/workflow-engine-*.jar app.jar
 
 EXPOSE 8082
 

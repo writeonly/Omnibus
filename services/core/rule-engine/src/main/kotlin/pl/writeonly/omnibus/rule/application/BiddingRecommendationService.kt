@@ -1,13 +1,13 @@
-package pl.writeonly.omnibus.bidding.application
+package pl.writeonly.omnibus.rule.application
 
-import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
-import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
-import pl.writeonly.omnibus.bidding.domain.HandParser
-import pl.writeonly.omnibus.bidding.events.DomainEventPublisher
-import pl.writeonly.omnibus.bidding.events.RecommendationProducedEvent
-import pl.writeonly.omnibus.bidding.rules.BiddingFacts
-import pl.writeonly.omnibus.bidding.rules.CandidateBid
-import pl.writeonly.omnibus.bidding.rules.DroolsBiddingEngine
+import pl.writeonly.omnibus.rule.domain.RecommendationRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.domain.HandParser
+import pl.writeonly.omnibus.rule.events.DomainEventPublisher
+import pl.writeonly.omnibus.rule.events.RecommendationProducedEvent
+import pl.writeonly.omnibus.rule.rules.BiddingFacts
+import pl.writeonly.omnibus.rule.rules.CandidateBid
+import pl.writeonly.omnibus.rule.rules.DroolsBiddingEngine
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.util.UUID

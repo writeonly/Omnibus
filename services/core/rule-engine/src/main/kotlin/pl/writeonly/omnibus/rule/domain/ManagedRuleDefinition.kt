@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.domain
+package pl.writeonly.omnibus.rule.domain
 
 data class ManagedRuleDefinition(
     val name: String,

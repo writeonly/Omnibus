@@ -20,29 +20,29 @@ services:
       - "8080:8080"
     depends_on:
       - config-server
-      - bidding-engine
-      - workflow-orchestrator
+      - rule-engine
+      - workflow-engine
     networks: [omnibus]
 
-  bidding-engine:
+  rule-engine:
     build:
       context: .
-      dockerfile: core/bidding-engine/Dockerfile
+      dockerfile: core/rule-engine/Dockerfile
     ports:
       - "8081:8081"
     depends_on: 
       - config-server
     networks: [omnibus]
 
-  workflow-orchestrator:
+  workflow-engine:
     build:
       context: .
-      dockerfile: core/workflow-orchestrator/Dockerfile
+      dockerfile: core/workflow-engine/Dockerfile
     ports:
       - "8082:8082"
     depends_on:
       - config-server
-      - bidding-engine
+      - rule-engine
     networks: [omnibus]
 
   event-archive:

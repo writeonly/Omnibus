@@ -4,9 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class BiddingEngineApplication
+class RuleEngineApplication
 
 fun main(args: Array<String>) {
-    runApplication<BiddingEngineApplication>(*args)
+    runApplication<RuleEngineApplication>(*args)
 }
 

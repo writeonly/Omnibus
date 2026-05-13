@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.api
+package pl.writeonly.omnibus.rule.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

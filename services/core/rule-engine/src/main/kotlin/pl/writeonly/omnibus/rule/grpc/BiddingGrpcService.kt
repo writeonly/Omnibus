@@ -1,9 +1,9 @@
-package pl.writeonly.omnibus.bidding.grpc
+package pl.writeonly.omnibus.rule.grpc
 
 import io.grpc.stub.StreamObserver
 import net.devh.boot.grpc.server.service.GrpcService
-import pl.writeonly.omnibus.bidding.application.ManagedRuleAdminService
-import pl.writeonly.omnibus.bidding.application.RestBiddingService
+import pl.writeonly.omnibus.rule.application.ManagedRuleAdminService
+import pl.writeonly.omnibus.rule.application.RestBiddingService
 import pl.writeonly.omnibus.grpc.bidding.v1.BiddingServiceGrpc
 import pl.writeonly.omnibus.grpc.bidding.v1.ListManagedRulesRequest
 import pl.writeonly.omnibus.grpc.bidding.v1.ListManagedRulesResponse

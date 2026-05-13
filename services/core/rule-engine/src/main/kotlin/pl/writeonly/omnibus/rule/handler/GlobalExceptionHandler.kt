@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.handler
+package pl.writeonly.omnibus.rule.handler
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

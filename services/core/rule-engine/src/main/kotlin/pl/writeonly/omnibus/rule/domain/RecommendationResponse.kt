@@ -1,6 +1,6 @@
-package pl.writeonly.omnibus.bidding.domain
+package pl.writeonly.omnibus.rule.domain
 
-import pl.writeonly.omnibus.bidding.rules.CandidateBid
+import pl.writeonly.omnibus.rule.rules.CandidateBid
 
 data class RecommendationResponse(
     val system: String,

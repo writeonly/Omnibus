@@ -1,6 +1,6 @@
-package pl.writeonly.omnibus.bidding.rules
+package pl.writeonly.omnibus.rule.rules
 
-import pl.writeonly.omnibus.bidding.domain.HandProfile
+import pl.writeonly.omnibus.rule.domain.HandProfile
 
 data class BiddingFacts(
     val system: String,

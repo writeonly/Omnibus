@@ -1,10 +1,10 @@
-package pl.writeonly.omnibus.bidding.grpc
+package pl.writeonly.omnibus.rule.grpc
 
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleUpsertRequest
-import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
-import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
-import pl.writeonly.omnibus.bidding.rules.CandidateBid
+import pl.writeonly.omnibus.rule.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.rule.domain.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.rules.CandidateBid
 import pl.writeonly.omnibus.grpc.bidding.v1.CandidateBid as GrpcCandidateBid
 import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleDefinition as GrpcManagedRuleDefinition
 import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleUpsertRequest as GrpcManagedRuleUpsertRequest

@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY core/bidding-engine/build/libs/bidding-engine-*.jar app.jar
+COPY core/rule-engine/build/libs/rule-engine-*.jar app.jar
 
 EXPOSE 8081
 

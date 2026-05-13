@@ -5,11 +5,11 @@ grpc:
   server:
     port: ${GRPC_PORT:9080}
   client:
-    bidding-engine:
-      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+    rule-engine:
+      address: ${RULE_ENGINE_GRPC_ADDRESS:static://localhost:9081}
       negotiation-type: plaintext
-    workflow-orchestrator:
-      address: ${WORKFLOW_ORCHESTRATOR_GRPC_ADDRESS:static://localhost:9082}
+    workflow-engine:
+      address: ${WORKFLOW_ENGINE_GRPC_ADDRESS:static://localhost:9082}
       negotiation-type: plaintext
 
 spring:
@@ -25,13 +25,13 @@ spring:
         webflux:
           routes:
 
-            - id: bidding-engine
-              uri: http://bidding-engine:8081
+            - id: rule-engine
+              uri: http://rule-engine:8081
               predicates:
-                - Path=/internal/bidding/**
+                - Path=/internal/rule/**
 
-            - id: workflow-orchestrator
-              uri: http://workflow-orchestrator:8082
+            - id: workflow-engine
+              uri: http://workflow-engine:8082
               predicates:
                 - Path=/internal/workflow/**
 

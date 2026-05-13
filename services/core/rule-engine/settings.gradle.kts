@@ -1,2 +1,2 @@
-rootProject.name = "bidding-engine"
+rootProject.name = "rule-engine"
 

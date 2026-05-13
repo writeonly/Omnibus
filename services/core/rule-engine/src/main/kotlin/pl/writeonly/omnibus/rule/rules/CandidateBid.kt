@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.rules
+package pl.writeonly.omnibus.rule.rules
 
 data class CandidateBid(
     val bid: String,

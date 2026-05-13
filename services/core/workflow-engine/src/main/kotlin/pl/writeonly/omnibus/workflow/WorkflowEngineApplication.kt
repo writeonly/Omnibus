@@ -6,8 +6,8 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @Deployment(resources = ["classpath*:/bpmn/*.bpmn"])
-class WorkflowOrchestratorApplication
+class WorkflowEngineApplication
 
 fun main(args: Array<String>) {
-    runApplication<WorkflowOrchestratorApplication>(*args)
+    runApplication<WorkflowEngineApplication>(*args)
 }

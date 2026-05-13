@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.events
+package pl.writeonly.omnibus.rule.events
 
 import java.time.Instant
 

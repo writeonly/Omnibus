@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding.events
+package pl.writeonly.omnibus.rule.events
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component

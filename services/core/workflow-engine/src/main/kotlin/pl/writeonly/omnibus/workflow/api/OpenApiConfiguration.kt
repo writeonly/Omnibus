@@ -11,7 +11,7 @@ class OpenApiConfiguration {
     fun workflowOpenApi(): OpenAPI =
         OpenAPI().info(
             Info()
-                .title("Omnibus Workflow Orchestrator API")
+                .title("Omnibus Workflow Engine API")
                 .version("v1")
                 .description("Camunda-backed workflows around Drools rule governance"),
         )

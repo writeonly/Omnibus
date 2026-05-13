@@ -1,8 +1,8 @@
-package pl.writeonly.omnibus.bidding.api
+package pl.writeonly.omnibus.rule.api
 
-import pl.writeonly.omnibus.bidding.application.RestBiddingService
-import pl.writeonly.omnibus.bidding.domain.RecommendationRequest
-import pl.writeonly.omnibus.bidding.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.application.RestBiddingService
+import pl.writeonly.omnibus.rule.domain.RecommendationRequest
+import pl.writeonly.omnibus.rule.domain.RecommendationResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

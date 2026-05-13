@@ -1,11 +1,11 @@
-package pl.writeonly.omnibus.bidding.application
+package pl.writeonly.omnibus.rule.application
 
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleDefinition
-import pl.writeonly.omnibus.bidding.domain.ManagedRuleUpsertRequest
-import pl.writeonly.omnibus.bidding.events.DomainEventPublisher
-import pl.writeonly.omnibus.bidding.events.RuleUpdatedEvent
-import pl.writeonly.omnibus.bidding.rules.DroolsCompilationService
-import pl.writeonly.omnibus.bidding.rules.RuleCatalogService
+import pl.writeonly.omnibus.rule.domain.ManagedRuleDefinition
+import pl.writeonly.omnibus.rule.domain.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.rule.events.DomainEventPublisher
+import pl.writeonly.omnibus.rule.events.RuleUpdatedEvent
+import pl.writeonly.omnibus.rule.rules.DroolsCompilationService
+import pl.writeonly.omnibus.rule.rules.RuleCatalogService
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.util.UUID

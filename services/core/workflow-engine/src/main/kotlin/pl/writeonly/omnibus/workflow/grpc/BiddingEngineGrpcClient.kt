@@ -8,7 +8,7 @@ import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleUpsertRequest
 
 @Component
 class BiddingEngineGrpcClient(
-    @GrpcClient("bidding-engine")
+    @GrpcClient("rule-engine")
     private val biddingService: BiddingServiceGrpc.BiddingServiceBlockingStub,
 ) {
     fun saveManagedRule(name: String, content: String): ManagedRuleDefinition =
