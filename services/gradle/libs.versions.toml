@@ -21,6 +21,9 @@ drools = "10.2.0"
 kogito = "10.2.0"
 camunda = "8.8.0"
 
+lombok = "1.18.38"
+lombokPlugin = "8.6"
+
 [libraries]
 
 # ---------------- Spring Boot ----------------
@@ -51,6 +54,9 @@ springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-u
 # ---------------- Kotlin ----------------
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+
+# ---------------- Lombok ----------------
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 
 # ---------------- gRPC / Protobuf ----------------
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
@@ -87,6 +93,9 @@ kotlin-noarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin
 # Spring
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 spring-deps = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
+
+# Lombok
+lombok = { id = "io.freefair.lombok", version.ref = "lombokPlugin" }
 
 # Protobuf
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
