@@ -17,12 +17,19 @@ dependencyManagement {
 }
 
 dependencies {
+    // Kotlin
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.logging)
 
     // Spring
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.cloud.starter.function.web)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.actuator)
+ 
+     // Kafka
+    implementation(libs.spring.kafka)
 
     // gRPC
     implementation(libs.grpc.spring.server)
@@ -32,18 +39,11 @@ dependencies {
     implementation(libs.protobuf.java.util)
     compileOnly(libs.javax.annotation.api)
 
-    // Kafka
-    implementation(libs.spring.kafka)
-
     // Observability
     implementation(libs.micrometer.registry.prometheus)
 
     // OpenAPI
     implementation(libs.springdoc.openapi)
-
-    // Kotlin
-    implementation(libs.jackson.kotlin)
-    implementation(libs.kotlin.reflect)
 
     // Kogito 
     implementation(libs.kogito.dmn)

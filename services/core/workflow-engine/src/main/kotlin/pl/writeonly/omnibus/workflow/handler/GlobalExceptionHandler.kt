@@ -1,6 +1,6 @@
 package pl.writeonly.omnibus.workflow.handler
 import jakarta.servlet.http.HttpServletRequest
-import org.slf4j.LoggerFactory
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -11,7 +11,7 @@ import java.time.Instant
 @RestControllerAdvice
 class GlobalExceptionHandler {
 
-    private val log = LoggerFactory.getLogger(javaClass)
+    private val log = KotlinLogging.logger {}
 
     @ExceptionHandler(RuntimeException::class)
     fun handleRuntimeException(

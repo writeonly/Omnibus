@@ -24,6 +24,8 @@ camunda = "8.8.0"
 lombok = "1.18.38"
 lombokPlugin = "8.6"
 
+kotlinLogging = "3.0.5"
+
 [libraries]
 
 # ---------------- Spring Boot ----------------
@@ -55,7 +57,10 @@ springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-u
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 
-# ---------------- Lombok ----------------
+# ---------------- Logging (Kotlin) ----------------
+kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlinLogging" }
+
+# ---------------- Lombok (ONLY for Java modules) ----------------
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 
 # ---------------- gRPC / Protobuf ----------------
@@ -80,7 +85,7 @@ drools-decisiontables = { module = "org.drools:drools-decisiontables", version.r
 # ---------------- Camunda 8 ----------------
 camunda-spring-boot = { module = "io.camunda:camunda-spring-boot-starter", version.ref = "camunda" }
 
-# ---------------- KOGITO (REPLACES jBPM + KIE + Drools stack) ----------------
+# ---------------- KOGITO ----------------
 kogito-dmn = { module = "org.kie.kogito:kogito-dmn", version.ref = "kogito" }
 
 [plugins]
@@ -94,7 +99,7 @@ kotlin-noarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 spring-deps = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
 
-# Lombok
+# Lombok (for Java annotation processing)
 lombok = { id = "io.freefair.lombok", version.ref = "lombokPlugin" }
 
 # Protobuf
