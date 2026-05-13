@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.bidding
+package pl.writeonly.omnibus.rule
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
