@@ -1,10 +1,16 @@
 spring:
   application:
-    name: bidding-engine
-
-  config:
-    import: optional:configserver:http://config-server:8888
+    name: config-server
 
   cloud:
     config:
-      fail-fast: true
+      server:
+        git:
+          uri: https://github.com/writeonly/omnibus
+          default-label: main
+          clone-on-start: true
+          search-paths:
+            - services/core/config-server/config/shared
+
+server:
+  port: 8888
