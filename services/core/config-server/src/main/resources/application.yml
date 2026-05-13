@@ -1,3 +1,6 @@
+server:
+  port: 8888
+
 spring:
   application:
     name: config-server
@@ -11,6 +14,3 @@ spring:
           clone-on-start: true
           search-paths:
             - services/core/config-server/config/shared
-
-server:
-  port: 8888

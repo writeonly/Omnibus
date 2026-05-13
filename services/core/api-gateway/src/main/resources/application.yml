@@ -6,26 +6,28 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/omnibus
+          issuer-uri: http://keycloak:8180/realms/omnibus
 
   cloud:
     gateway:
-      routes:
+      server:
+        webflux:
+          routes:
 
-        - id: bff
-          uri: http://bff-nest:3000
-          predicates:
-            - Path=/api/**
+            - id: bff
+              uri: http://bff-nest:3000
+              predicates:
+                - Path=/api/**
 
-        - id: bidding-engine
-          uri: http://bidding-engine:8080
-          predicates:
-            - Path=/internal/bidding/**
+            - id: bidding-engine
+              uri: http://bidding-engine:8081
+              predicates:
+                - Path=/internal/bidding/**
 
-        - id: workflow
-          uri: http://workflow-orchestrator:8080
-          predicates:
-            - Path=/internal/workflow/**
+            - id: workflow
+              uri: http://workflow-orchestrator:8082
+              predicates:
+                - Path=/internal/workflow/**
 
 management:
   endpoints:
