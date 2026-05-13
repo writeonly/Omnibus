@@ -17,6 +17,9 @@ spring:
     stream:
       default-binder: kafka
 
+  kafka:
+    bootstrap-servers: kafka:9092
+
   security:
     user:
       name: name

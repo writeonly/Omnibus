@@ -11,6 +11,8 @@ services:
       CONFIG_ENV: local
     volumes:
       - ./core/config-server/config:/workspace/config
+    networks:
+      - omnibus
 
   api-gateway:
     build:
@@ -22,7 +24,8 @@ services:
       - config-server
       - rule-engine
       - workflow-engine
-    networks: [omnibus]
+    networks:
+      - omnibus
 
   rule-engine:
     build:
@@ -30,9 +33,10 @@ services:
       dockerfile: core/rule-engine/Dockerfile
     ports:
       - "8081:8081"
-    depends_on: 
+    depends_on:
       - config-server
-    networks: [omnibus]
+    networks:
+      - omnibus
 
   workflow-engine:
     build:
@@ -43,31 +47,8 @@ services:
     depends_on:
       - config-server
       - rule-engine
-    networks: [omnibus]
-
-  event-archive:
-    profiles:
-      - legacy
-    build:
-      context: .
-      dockerfile: legacy/services/event-archive/Dockerfile
-    networks: [omnibus]
-
-  outbox-relay-service:
-    profiles:
-      - legacy
-    build:
-      context: .
-      dockerfile: legacy/outbox-relay-service/Dockerfile
-    networks: [omnibus]
-
-  cassandra-projection-service:
-    profiles:
-      - legacy
-    build:
-      context: .
-      dockerfile: legacy/cassandra-projection-service/Dockerfile
-    networks: [omnibus]
+    networks:
+      - omnibus
 
 networks:
   omnibus:
