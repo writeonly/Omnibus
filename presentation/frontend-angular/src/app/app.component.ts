@@ -9,6 +9,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { KeycloakService } from 'keycloak-angular';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from './core/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
   readonly theme = inject(ThemeService);
   private readonly router = inject(Router);
   private readonly keycloak = inject(KeycloakService);
+  private readonly auth = inject(AuthService);
 
   activeRoute = '';
 
@@ -64,11 +66,15 @@ export class AppComponent implements OnInit {
   }
 
   login() {
-    this.keycloak.login();
+    this.auth.login();
+  }
+
+  register() {
+    this.auth.register();
   }
 
   logout() {
-    this.keycloak.logout(window.location.origin);
+    this.auth.logout();
   }
 
   onRouteChange(route: string) {

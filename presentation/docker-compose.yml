@@ -4,7 +4,7 @@ services:
     build:
       context: ./frontend-angular
       args:
-        KEYCLOAK_URL: http://keycloak:8180
+        KEYCLOAK_URL: http://localhost:8180
         KEYCLOAK_REALM: omnibus
         KEYCLOAK_CLIENT: omnibus-frontend
     ports:
@@ -17,7 +17,12 @@ services:
     build:
       context: ./bff-nest
     environment:
-      KEYCLOAK_URL: http://keycloak:8180
+      KEYCLOAK_PUBLIC_URL: http://localhost:8180
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+      KEYCLOAK_REALM: omnibus
+      KEYCLOAK_CLIENT_ID: omnibus-frontend
+      FRONTEND_PUBLIC_URL: http://localhost:4300
+      FRONTEND_ALLOWED_REDIRECT_ORIGINS: http://localhost:4300,http://localhost:4200
       API_GATEWAY_GRPC_TARGET: http://api-gateway:8080
       PORT: 3000
     ports:

@@ -28,6 +28,12 @@
     Login
   </button>
 
+  <button *ngIf="!isLoggedIn"
+          mat-button
+          (click)="register()">
+    Register
+  </button>
+
   <div *ngIf="isLoggedIn" class="user-section">
     <span class="username">{{ username }}</span>
 

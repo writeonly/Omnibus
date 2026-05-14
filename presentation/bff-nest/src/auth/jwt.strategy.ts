@@ -6,17 +6,25 @@ import * as jwksRsa from 'jwks-rsa';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
+    const publicKeycloakUrl = withoutTrailingSlash(
+      process.env.KEYCLOAK_PUBLIC_URL ?? process.env.KEYCLOAK_URL ?? 'http://localhost:8180'
+    );
+    const internalKeycloakUrl = withoutTrailingSlash(
+      process.env.KEYCLOAK_INTERNAL_URL ?? process.env.KEYCLOAK_URL ?? publicKeycloakUrl
+    );
+    const realm = process.env.KEYCLOAK_REALM ?? 'omnibus';
+
     super({
       secretOrKeyProvider: jwksRsa.passportJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: 'http://localhost:8081/realms/omnibus/protocol/openid-connect/certs',
+        jwksUri: `${internalKeycloakUrl}/realms/${realm}/protocol/openid-connect/certs`,
       }),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      audience: 'omnibus-frontend',
-      issuer: 'http://localhost:8081/realms/omnibus',
+      audience: process.env.KEYCLOAK_CLIENT_ID ?? 'omnibus-frontend',
+      issuer: `${publicKeycloakUrl}/realms/${realm}`,
       algorithms: ['RS256'],
     });
   }
@@ -29,4 +37,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       roles: payload.realm_access?.roles || [],
     };
   }
+}
+
+function withoutTrailingSlash(value: string): string {
+  return value.endsWith('/') ? value.slice(0, -1) : value;
 }

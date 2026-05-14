@@ -15,6 +15,15 @@ export class ConfigService {
 
   async load() {
     try {
+      const response = await fetch('/api/auth/config');
+
+      if (response.ok) {
+        this.config = {
+          keycloak: await response.json()
+        };
+        return;
+      }
+
       const env = window.__env;
 
       if (env?.KEYCLOAK_URL) {
