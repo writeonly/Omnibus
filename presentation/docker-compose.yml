@@ -18,6 +18,7 @@ services:
       context: ./bff-nest
     environment:
       KEYCLOAK_URL: http://keycloak:8180
+      API_GATEWAY_GRPC_TARGET: http://api-gateway:8080
       PORT: 3000
     ports:
       - "3000:3000"
@@ -25,3 +26,4 @@ services:
 
 networks:
   omnibus:
+    name: omnibus

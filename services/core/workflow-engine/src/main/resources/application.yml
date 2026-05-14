@@ -12,12 +12,19 @@ grpc:
 spring:
   application:
     name: workflow-engine
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  cloud:
+    bus:
+      enabled: true
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,prometheus
+        include: health,info,prometheus,refresh
   endpoint:
     health:
       show-details: always

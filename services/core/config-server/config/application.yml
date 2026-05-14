@@ -9,5 +9,14 @@ logging:
     root: INFO
 
 spring:
+  cloud:
+    bus:
+      enabled: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    consumer:
+      auto-offset-reset: earliest
+    producer:
+      acks: all
   jackson:
     default-property-inclusion: non_null

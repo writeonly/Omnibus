@@ -27,6 +27,8 @@ dependencies {
     implementation(libs.spring.boot.starter.oauth2.resource.server)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.cloud.starter.bus.kafka)
+    implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.function.web)
     
     // Kafka

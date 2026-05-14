@@ -140,6 +140,7 @@ services:
 
 networks:
   omnibus:
+    name: omnibus
 
 volumes:
   postgres_data:

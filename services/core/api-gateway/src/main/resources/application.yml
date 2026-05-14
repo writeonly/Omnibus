@@ -1,36 +1,33 @@
 server:
   port: 8080
-
-grpc:
-  server:
-    port: ${GRPC_PORT:9080}
-  client:
-    rule-engine:
-      address: ${RULE_ENGINE_GRPC_ADDRESS:static://localhost:9081}
-      negotiation-type: plaintext
-    workflow-engine:
-      address: ${WORKFLOW_ENGINE_GRPC_ADDRESS:static://localhost:9082}
-      negotiation-type: plaintext
+  http2:
+    enabled: true
 
 spring:
+  application:
+    name: api-gateway
   config:
-    import: optional:configserver:http://localhost:8888
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"
+  kafka:
+    bootstrap-servers: "${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}"
 
   cloud:
+    bus:
+      enabled: true
     gateway:
       server:
         webflux:
           routes:
 
-            - id: rule-engine
-              uri: http://rule-engine:8081
+            - id: rule-engine-grpc
+              uri: "${RULE_ENGINE_GRPC_URI:h2c://localhost:9081}"
               predicates:
-                - Path=/internal/rule/**
+                - Path=/omnibus.v1.BiddingService/**
 
-            - id: workflow-engine
-              uri: http://workflow-engine:8082
+            - id: workflow-engine-grpc
+              uri: "${WORKFLOW_ENGINE_GRPC_URI:h2c://localhost:9082}"
               predicates:
-                - Path=/internal/workflow/**
+                - Path=/omnibus.v1.WorkflowService/**
   security:
     oauth2:
       resourceserver:
@@ -41,4 +38,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,prometheus,metrics
+        include: health,info,prometheus,metrics,refresh

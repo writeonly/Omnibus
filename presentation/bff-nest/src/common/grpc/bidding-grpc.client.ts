@@ -30,7 +30,7 @@ export interface BiddingRecommendationResponse {
 
 @Injectable()
 export class BiddingGrpcClient {
-  private readonly target = process.env.BIDDING_ENGINE_GRPC_TARGET ?? 'http://localhost:9081';
+  private readonly target = process.env.API_GATEWAY_GRPC_TARGET ?? 'http://localhost:8080';
 
   constructor(private readonly transport: GrpcTransport) {}
 

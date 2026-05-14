@@ -4,21 +4,27 @@ server:
 spring:
   application:
     name: config-server
+  profiles:
+    active: ${CONFIG_SERVER_PROFILE:native}
 
   cloud:
     config:
       server:
+        native:
+          search-locations: ${CONFIG_REPO_LOCATION:file:/workspace/config,file:./core/config-server/config,file:./config}
         git:
-          uri: https://github.com/writeonly/omnibus
-          default-label: main
-          clone-on-start: true
+          uri: ${CONFIG_GIT_URI:https://github.com/writeonly/omnibus}
+          default-label: ${CONFIG_GIT_LABEL:main}
+          clone-on-start: ${CONFIG_GIT_CLONE_ON_START:true}
           search-paths:
             - services/core/config-server/config
+    bus:
+      enabled: true
     stream:
       default-binder: kafka
 
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
 
   security:
     user:
@@ -29,4 +35,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,busrefresh,refresh

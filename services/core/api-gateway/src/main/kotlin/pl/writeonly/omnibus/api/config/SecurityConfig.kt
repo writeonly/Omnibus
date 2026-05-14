@@ -14,6 +14,8 @@ class SecurityConfig {
             .csrf { it.disable() }
             .authorizeExchange {
                 it.pathMatchers("/actuator/**").permitAll()
+                it.pathMatchers("/omnibus.v1.BiddingService/**").permitAll()
+                it.pathMatchers("/omnibus.v1.WorkflowService/**").permitAll()
                 it.anyExchange().authenticated()
             }
             .oauth2ResourceServer { it.jwt {} }

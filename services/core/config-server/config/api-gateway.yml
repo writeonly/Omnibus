@@ -1,5 +1,7 @@
 server:
   port: 8080
+  http2:
+    enabled: true
 
 spring:
   cloud:
@@ -7,12 +9,12 @@ spring:
       server:
         webflux:
           routes:
-            - id: rule-engine
-              uri: http://rule-engine:8081
+            - id: rule-engine-grpc
+              uri: "${RULE_ENGINE_GRPC_URI:h2c://rule-engine:9081}"
               predicates:
-                - Path=/internal/rule/**
+                - Path=/omnibus.v1.BiddingService/**
 
-            - id: workflow-engine
-              uri: http://workflow-engine:8082
+            - id: workflow-engine-grpc
+              uri: "${WORKFLOW_ENGINE_GRPC_URI:h2c://workflow-engine:9082}"
               predicates:
-                - Path=/internal/workflow/**
+                - Path=/omnibus.v1.WorkflowService/**

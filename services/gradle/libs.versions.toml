@@ -37,6 +37,7 @@ spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-start
 
 # ---------------- Spring Cloud ----------------
 spring-cloud-config-server = { module = "org.springframework.cloud:spring-cloud-config-server" }
+spring-cloud-config-monitor = { module = "org.springframework.cloud:spring-cloud-config-monitor" }
 spring-cloud-starter-bus-amqp = { module = "org.springframework.cloud:spring-cloud-starter-bus-amqp" }
 spring-cloud-starter-bus-kafka = { module = "org.springframework.cloud:spring-cloud-starter-bus-kafka" }
 spring-cloud-starter-config = { module = "org.springframework.cloud:spring-cloud-starter-config" }

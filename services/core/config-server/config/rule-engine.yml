@@ -5,6 +5,8 @@ grpc:
   server:
     port: 9081
 
-topics:
-  recommendation-produced: rule.recommendation-produced.v1
-  rule-updated: rule.rule-updated.v1
+omnibus:
+  kafka:
+    topics:
+      recommendation-produced: omnibus.recommendation.produced
+      rule-updated: omnibus.rule.updated

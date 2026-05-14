@@ -23,7 +23,7 @@ dependencies {
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.cloud.config.server)
-    implementation(libs.spring.cloud.starter.bus.amqp)
+    implementation(libs.spring.cloud.config.monitor)
     implementation(libs.spring.cloud.starter.bus.kafka)
 
     // Tests

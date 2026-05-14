@@ -5,8 +5,7 @@ import { concat, encodeStringField } from './protobuf';
 
 @Injectable()
 export class WorkflowGrpcClient {
-  private readonly target =
-    process.env.WORKFLOW_ORCHESTRATOR_GRPC_TARGET ?? 'http://localhost:9082';
+  private readonly target = process.env.API_GATEWAY_GRPC_TARGET ?? 'http://localhost:8080';
 
   constructor(private readonly transport: GrpcTransport) {}
 

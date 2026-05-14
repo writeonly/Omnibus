@@ -9,6 +9,8 @@ services:
       - "8888:8888"
     environment:
       CONFIG_ENV: local
+      CONFIG_REPO_LOCATION: file:/workspace/config
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     volumes:
       - ./core/config-server/config:/workspace/config
     networks:
@@ -24,6 +26,11 @@ services:
       - config-server
       - rule-engine
       - workflow-engine
+    environment:
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      RULE_ENGINE_GRPC_URI: h2c://rule-engine:9081
+      WORKFLOW_ENGINE_GRPC_URI: h2c://workflow-engine:9082
     networks:
       - omnibus
 
@@ -35,6 +42,9 @@ services:
       - "8081:8081"
     depends_on:
       - config-server
+    environment:
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - omnibus
 
@@ -47,8 +57,13 @@ services:
     depends_on:
       - config-server
       - rule-engine
+    environment:
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      BIDDING_ENGINE_GRPC_ADDRESS: static://rule-engine:9081
     networks:
       - omnibus
 
 networks:
   omnibus:
+    name: omnibus

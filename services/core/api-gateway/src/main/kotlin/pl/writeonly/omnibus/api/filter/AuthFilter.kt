@@ -20,7 +20,12 @@ class AuthFilter : GlobalFilter, Ordered {
         val request = exchange.request
         val path = request.uri.path
 
-        if (path.startsWith("/auth") || path.startsWith("/actuator")) {
+        if (
+            path.startsWith("/auth") ||
+            path.startsWith("/actuator") ||
+            path.startsWith("/omnibus.v1.BiddingService/") ||
+            path.startsWith("/omnibus.v1.WorkflowService/")
+        ) {
             return chain.filter(exchange)
         }
 
