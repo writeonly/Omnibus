@@ -25,15 +25,27 @@ lombokPlugin = "8.6"
 
 kotlinLogging = "3.0.5"
 
+# ---------------- AUTH ----------------
+springAuthorizationServer = "1.5.1"
+postgresql = "42.7.7"
+
 [libraries]
 
 # ---------------- Spring Boot ----------------
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
 spring-boot-starter-oauth2-resource-server = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+
+# ---------------- Spring Security ----------------
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+
+# ---------------- Spring Authorization Server ----------------
+spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server", version.ref = "springAuthorizationServer" }
 
 # ---------------- Spring Cloud ----------------
 spring-cloud-config-server = { module = "org.springframework.cloud:spring-cloud-config-server" }
@@ -48,6 +60,9 @@ spring-cloud-starter-loadbalancer = { module = "org.springframework.cloud:spring
 
 # ---------------- Kafka ----------------
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
+
+# ---------------- Database ----------------
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 
 # ---------------- Observability ----------------
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }

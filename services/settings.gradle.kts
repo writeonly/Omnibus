@@ -2,6 +2,7 @@ rootProject.name = "omnibus"
 
 include(
     "config-server",
+    "auth-server",
     "api-gateway",
     "rule-engine",
     "workflow-engine",
@@ -12,6 +13,7 @@ include(
 )
 
 project(":config-server").projectDir = file("core/config-server")
+project(":auth-server").projectDir = file("core/auth-server")
 project(":api-gateway").projectDir = file("core/api-gateway")
 project(":rule-engine").projectDir = file("core/rule-engine")
 project(":workflow-engine").projectDir = file("core/workflow-engine")
