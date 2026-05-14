@@ -1,6 +1,7 @@
 ## README
 
-Witten with Kogito
+Witten with Spring Cloud Function.
+Use Kogito.
 
 ## TODO
 - Add persistent Kogito process instance storage when workflow history is required.
