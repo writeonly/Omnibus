@@ -1,3 +1,7 @@
+## README
+
+Follow Frontend
+
 # Omnibus React frontend
 
 React + TypeScript version of the Omnibus presentation frontend.
