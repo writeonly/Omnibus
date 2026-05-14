@@ -1,6 +1,7 @@
 ## README
 
 Witten with Spring Cloude Gateway.
+Alternative for Nginx.
 API Gateway for all JVM services.
 
 ## TODO
