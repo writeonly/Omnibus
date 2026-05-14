@@ -1,1 +1,1 @@
-- Rewrite Camunda to Kogito
+- Add persistent Kogito process instance storage when workflow history is required.

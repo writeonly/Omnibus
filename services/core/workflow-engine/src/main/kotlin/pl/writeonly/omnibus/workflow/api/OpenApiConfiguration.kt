@@ -13,7 +13,6 @@ class OpenApiConfiguration {
             Info()
                 .title("Omnibus Workflow Engine API")
                 .version("v1")
-                .description("Camunda-backed workflows around Drools rule governance"),
+                .description("Kogito-backed workflows around Drools rule governance"),
         )
 }
-

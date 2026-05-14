@@ -1,32 +1,43 @@
 package pl.writeonly.omnibus.workflow.application
 
-import io.camunda.client.CamundaClient
-import io.camunda.client.api.response.ProcessInstanceEvent
+import org.kie.kogito.process.Processes
+import org.springframework.beans.factory.ObjectProvider
 import org.springframework.stereotype.Service
 import pl.writeonly.omnibus.workflow.domain.RulePublicationRequest
 import pl.writeonly.omnibus.workflow.domain.RulePublicationSubmission
 import java.time.Instant
+import java.util.UUID
 
 @Service
 class RulePublicationWorkflowService(
-    private val camundaClient: CamundaClient,
+    private val kogitoProcesses: ObjectProvider<Processes>,
+    private val rulePublicationWorker: RulePublicationWorker,
 ) {
     fun startPublication(request: RulePublicationRequest): RulePublicationSubmission {
-        val event: ProcessInstanceEvent =
-            camundaClient.newCreateInstanceCommand()
-                .bpmnProcessId(PROCESS_ID)
-                .latestVersion()
-                .variables(buildVariables(request))
-                .send()
-                .join()
+        val variables = buildVariables(request)
+        val processInstanceId = startKogitoProcess(variables)
+
+        rulePublicationWorker.validateAndPublishRule(variables)
 
         return RulePublicationSubmission(
-            event.processInstanceKey.toString(),
+            processInstanceId,
             PROCESS_ID,
-            "STARTED",
+            "COMPLETED",
             request.name,
             request.requestedBy,
         )
+    }
+
+    private fun startKogitoProcess(variables: Map<String, Any>): String {
+        val processes = kogitoProcesses.ifAvailable ?: return UUID.randomUUID().toString()
+        val process = processes.processById(PROCESS_ID)
+        val model = process.createModel()
+        model.update(variables)
+        val processInstance = process.createInstance(model)
+
+        processInstance.start()
+
+        return processInstance.id()
     }
 
     private fun buildVariables(request: RulePublicationRequest): Map<String, Any> =

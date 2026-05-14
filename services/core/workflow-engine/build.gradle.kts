@@ -46,11 +46,10 @@ dependencies {
     // OpenAPI
     implementation(libs.springdoc.openapi)
 
-    // Kogito 
+    // Kogito
+    implementation(libs.jbpm.spring.boot.starter)
+    implementation(libs.kogito.api)
     implementation(libs.kogito.dmn)
-
-    // CAMUNDA 8 (ZEEBE)
-    implementation("io.camunda:camunda-spring-boot-starter:8.8.0")
 
     // Test
     testImplementation(libs.spring.boot.starter.test)

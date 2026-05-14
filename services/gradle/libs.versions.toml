@@ -19,7 +19,6 @@ javaxAnnotation = "1.3.2"
 
 drools = "10.2.0"
 kogito = "10.2.0"
-camunda = "8.8.0"
 
 lombok = "1.18.38"
 lombokPlugin = "8.6"
@@ -84,10 +83,9 @@ drools-engine = { module = "org.drools:drools-engine", version.ref = "drools" }
 drools-mvel = { module = "org.drools:drools-mvel", version.ref = "drools" }
 drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
 
-# ---------------- Camunda 8 ----------------
-camunda-spring-boot = { module = "io.camunda:camunda-spring-boot-starter", version.ref = "camunda" }
-
 # ---------------- KOGITO ----------------
+jbpm-spring-boot-starter = { module = "org.jbpm:jbpm-spring-boot-starter", version.ref = "kogito" }
+kogito-api = { module = "org.kie.kogito:kogito-api", version.ref = "kogito" }
 kogito-dmn = { module = "org.kie.kogito:kogito-dmn", version.ref = "kogito" }
 
 [plugins]
