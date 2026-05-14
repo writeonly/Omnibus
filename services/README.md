@@ -541,3 +541,9 @@ For issues, questions, or contributions, please open a GitHub issue in the [writ
 
 **Last Updated**: May 2026  
 **Status**: Active Development (MVP Phase)
+
+## TODO
+- Use Kure Potlin
+- Use vavr
+- Arrow
+
