@@ -27,13 +27,14 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.oauth2.resource.server)
     implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.data.redis)
 
     // OAuth2 / Authorization Server
     implementation(libs.spring.security.oauth2.authorization.server)
 
     // Database
     runtimeOnly(libs.postgresql)
-
+ 
     // Observability
     implementation(libs.micrometer.registry.prometheus)
 
