@@ -1,6 +1,7 @@
 rootProject.name = "omnibus"
 
 include(
+//    "swing-client",
     "config-server",
     "auth-server",
     "api-gateway",
@@ -12,6 +13,7 @@ include(
 
 )
 
+//project(":swing-client").projectDir = file("core/swing-client")
 project(":config-server").projectDir = file("core/config-server")
 project(":auth-server").projectDir = file("core/auth-server")
 project(":api-gateway").projectDir = file("core/api-gateway")

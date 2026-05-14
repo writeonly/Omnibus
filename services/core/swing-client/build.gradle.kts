@@ -1,39 +1,48 @@
 plugins {
-    kotlin("jvm") version "2.1.21"
+    kotlin("jvm")
     application
-
-    id("com.google.protobuf") version "0.9.4"
+    id("com.google.protobuf")
 }
-
-group = "pl.writeonly.omnibus"
-version = "1.0.0"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-
-    // Swing UI (JDK built-in) → brak dependency
-
-    // gRPC
     implementation("io.grpc:grpc-netty-shaded:1.63.0")
     implementation("io.grpc:grpc-protobuf:1.63.0")
     implementation("io.grpc:grpc-stub:1.63.0")
-
-    // protobuf runtime
     implementation("com.google.protobuf:protobuf-java:3.25.5")
 
-    // annotation (required by grpc)
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
+}
 
-    // logging
-    implementation("io.github.microutils:kotlin-logging:3.0.5")
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.5"
+    }
 
-    // optional JSON (if mixed APIs)
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.63.0"
+        }
+    }
 
-    testImplementation(kotlin("test"))
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+            }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("src/main/proto")
+        }
+    }
 }
 
 application {

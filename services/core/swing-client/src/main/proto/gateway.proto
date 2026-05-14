@@ -1,19 +1,18 @@
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.25.5"
-    }
+syntax = "proto3";
 
-    plugins {
-        create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.63.0"
-        }
-    }
+package gateway;
 
-    generateProtoTasks {
-        all().forEach {
-            it.plugins {
-                create("grpc")
-            }
-        }
-    }
+option java_multiple_files = true;
+option java_package = "pl.writeonly.omnibus.grpc.gateway";
+
+service GatewayService {
+  rpc Ping (PingRequest) returns (PingResponse);
+}
+
+message PingRequest {
+  string message = 1;
+}
+
+message PingResponse {
+  string message = 1;
 }
