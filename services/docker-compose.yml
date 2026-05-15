@@ -16,6 +16,21 @@ services:
     networks:
       - omnibus
 
+  eureka-server:
+    build:
+      context: .
+      dockerfile: core/eureka-server/Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+    environment:
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - omnibus
+
   auth-server:
     build:
       context: .
@@ -25,8 +40,10 @@ services:
       - "9000:9000"
     depends_on:
       - config-server
+      - eureka-server
     environment:
       CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       DB_URL: jdbc:postgresql://postgres:5432/auth_db
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
@@ -44,10 +61,12 @@ services:
     depends_on:
       - config-server
       - auth-server
+      - eureka-server
       - rule-engine
       - workflow-engine
     environment:
       CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       RULE_ENGINE_GRPC_URI: h2c://rule-engine:9081
@@ -64,8 +83,10 @@ services:
     depends_on:
       - config-server
       - auth-server
+      - eureka-server
     environment:
       CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
@@ -80,9 +101,11 @@ services:
     depends_on:
       - config-server
       - auth-server
+      - eureka-server
       - rule-engine
     environment:
       CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       BIDDING_ENGINE_GRPC_ADDRESS: static://rule-engine:9081
@@ -92,3 +115,4 @@ services:
 networks:
   omnibus:
     name: omnibus
+ 
