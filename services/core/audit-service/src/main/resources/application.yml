@@ -1,0 +1,80 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: audit-service
+
+  config:
+    import: "optional:configserver:"
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+    consumer:
+      group-id: audit-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+        spring.json.trusted.packages: "*"
+
+  cloud:
+    function:
+      definition: auditConsumer
+
+    stream:
+      bindings:
+
+        auditConsumer-in-0:
+          destination: omnibus-events
+          group: audit-service
+          content-type: application/json
+
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+  data:
+
+    mongodb:
+      uri: ${MONGO_URI:mongodb://omnibus:omnibus@localhost:27017/audit_db?authSource=admin}
+
+    cassandra:
+      contact-points: ${CASSANDRA_CONTACT_POINTS:localhost}
+      port: ${CASSANDRA_PORT:9042}
+      keyspace-name: ${CASSANDRA_KEYSPACE:audit_keyspace}
+      local-datacenter: ${CASSANDRA_DATACENTER:datacenter1}
+      schema-action: CREATE_IF_NOT_EXISTS
+
+    elasticsearch:
+      uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    pl.writeonly.omnibus.audit: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.cloud.stream: INFO
+ 
