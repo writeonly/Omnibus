@@ -6,6 +6,7 @@ include(
     "eureka-server",
     "auth-server",
     "api-gateway",
+    "audit-service",
     "user-service",
     "rule-engine",
     "workflow-engine",
@@ -20,6 +21,7 @@ project(":config-server").projectDir = file("core/config-server")
 project(":eureka-server").projectDir = file("core/eureka-server")
 project(":auth-server").projectDir = file("core/auth-server")
 project(":api-gateway").projectDir = file("core/api-gateway")
+project(":audit-service").projectDir = file("core/audit-service")
 project(":user-service").projectDir = file("core/user-service")
 project(":rule-engine").projectDir = file("core/rule-engine")
 project(":workflow-engine").projectDir = file("core/workflow-engine")
