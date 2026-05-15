@@ -79,6 +79,13 @@ subprojects {
     tasks.withType<com.diffplug.gradle.spotless.SpotlessTask>().configureEach {
         enabled = false
     }
+
+    tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
+        jvmArgs = listOf(
+            "-Xms256m",
+            "-Xmx256m"
+        )
+    }
 }
 
 repositories {

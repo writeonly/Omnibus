@@ -18,6 +18,7 @@ services:
     image: postgres:16-alpine
     container_name: omnibus-postgres
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       POSTGRES_DB: omnibus
       POSTGRES_USER: omnibus
       POSTGRES_PASSWORD: omnibus
@@ -37,6 +38,7 @@ services:
     image: postgres:16-alpine
     container_name: omnibus-postgres-init
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       PGPASSWORD: omnibus
     volumes:
       - ./postgres:/init:ro
@@ -53,7 +55,8 @@ services:
     image: docker.elastic.co/kibana/kibana:8.13.4
     container_name: omnibus-kibana
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
     ports:
       - "5601:5601"
     depends_on:
@@ -82,6 +85,7 @@ services:
     container_name: omnibus-keycloak
     command: ["start-dev", "--import-realm"]
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       KEYCLOAK_ADMIN: kcadmin
       KEYCLOAK_ADMIN_PASSWORD: kcadmin
     volumes:
@@ -91,6 +95,8 @@ services:
     networks: [omnibus]
 
   cassandra:
+    profiles:
+      - legacy
     image: cassandra:5.0
     container_name: omnibus-cassandra
     ports:
@@ -100,6 +106,8 @@ services:
     networks: [omnibus]
 
   cassandra-init:
+    profiles:
+      - legacy
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
     depends_on:
@@ -121,6 +129,7 @@ services:
     image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       KAFKA_NODE_ID: 0
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
@@ -141,6 +150,7 @@ services:
     image: provectuslabs/kafka-ui:latest
     container_name: omnibus-kafka-ui
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     ports:
@@ -151,9 +161,10 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
     container_name: omnibus-elasticsearch
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+      discovery.type: "single-node"
+      xpack.security.enabled: false
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -167,6 +178,7 @@ services:
     ports:
       - "27017:27017"
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       MONGO_INITDB_ROOT_USERNAME: omnibus
       MONGO_INITDB_ROOT_PASSWORD: omnibus
       MONGO_INITDB_DATABASE: audit_db
