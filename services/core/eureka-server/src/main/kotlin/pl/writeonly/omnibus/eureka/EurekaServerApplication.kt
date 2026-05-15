@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class EurekaServerApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(EurekaServerApplication::class.java, *args)
+    runApplication<EurekaServerApplication>(*args)
 }
+

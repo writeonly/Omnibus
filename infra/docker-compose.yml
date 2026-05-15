@@ -49,6 +49,17 @@ services:
         condition: service_healthy
     networks: [omnibus]
 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.4
+    container_name: omnibus-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks: [omnibus]
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: omnibus-rabbitmq
@@ -136,6 +147,38 @@ services:
       - "9002:8080"
     networks: [omnibus]
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: omnibus-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks: [omnibus]
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+
+  mongodb:
+    image: mongo:7.0
+    container_name: omnibus-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: omnibus
+      MONGO_INITDB_ROOT_PASSWORD: omnibus
+      MONGO_INITDB_DATABASE: audit_db
+    volumes:
+      - mongo_data:/data/db
+    networks: [omnibus]
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
 networks:
   omnibus:
     name: omnibus
@@ -143,3 +186,5 @@ networks:
 volumes:
   postgres_data:
   cassandra_data:
+  elastic_data:
+  mongo_data:

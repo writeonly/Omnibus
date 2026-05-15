@@ -22,27 +22,18 @@ dependencies {
 
     // Spring Boot
     implementation(libs.spring.boot.starter.actuator)
-    implementation(libs.spring.boot.starter.oauth2.resource.server)
     implementation(libs.spring.boot.starter.security)
-    implementation(libs.spring.boot.starter.validation)
-    implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.data.jpa)
-    implementation(libs.spring.boot.starter.data.redis)
-    implementation(libs.spring.cloud.starter.bus.kafka)
+    implementation(libs.spring.boot.starter.oauth2.resource.server)
+
+    // Spring Cloud
     implementation(libs.spring.cloud.starter.config)
+    implementation(libs.spring.cloud.starter.gateway)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
-    implementation(libs.spring.cloud.starter.function.web)
 
-    // OAuth2 / Authorization Server
-    implementation(libs.spring.security.oauth2.authorization.server)
-
-    // Database
-    runtimeOnly(libs.postgresql)
- 
-    // Observability
+    // Monitoring
     implementation(libs.micrometer.registry.prometheus)
 
-    // Tests
+    // Testing
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.security.test)
 }

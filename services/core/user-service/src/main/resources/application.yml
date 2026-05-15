@@ -9,7 +9,7 @@ spring:
     import: "optional:configserver:"
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/user_db}
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/user_db}
     username: ${DB_USERNAME:omnibus}
     password: ${DB_PASSWORD:omnibus}
     driver-class-name: org.postgresql.Driver

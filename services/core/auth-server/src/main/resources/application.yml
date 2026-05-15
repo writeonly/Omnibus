@@ -9,10 +9,10 @@ spring:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/auth_db}
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/auth_db}
     username: ${DB_USERNAME:omnibus}
     password: ${DB_PASSWORD:omnibus}
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver 
 
   jpa:
     hibernate:
