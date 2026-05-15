@@ -45,8 +45,9 @@ services:
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       DB_URL: jdbc:postgresql://postgres:5432/auth_db
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
+      POSTGRES_DB: auth_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
       AUTH_ISSUER: http://auth-server:9000
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
