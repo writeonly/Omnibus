@@ -3,26 +3,27 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
+  - job_name: omnibus-audit-service
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - audit-service:8081
+
+  - job_name: omnibus-user-service
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - user-service:8082
+
   - job_name: omnibus-rule-engine
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - rule-engine:8080
-
-  - job_name: omnibus-keycloak
-    metrics_path: /metrics
-    static_configs:
-      - targets:
-          - keycloak:8080
+          - rule-engine:8083
 
   - job_name: omnibus-workflow-engine
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - workflow-engine:8082
+          - workflow-engine:8084
 
-  - job_name: omnibus-event-archive
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets:
-          - event-archive:8081

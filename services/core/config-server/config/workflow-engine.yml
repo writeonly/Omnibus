@@ -1,6 +1,6 @@
 server:
-  port: 8083
+  port: 8084
 
 grpc:
   server:
-    port: 9083
+    port: 9084

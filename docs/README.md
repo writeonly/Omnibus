@@ -374,16 +374,16 @@ View logs in Grafana (http://localhost:3001) with Loki data source.
 ### Health Checks
 
 ```bash
-# User Service
+# Audit Service
 curl http://localhost:8081/actuator/health
 
-# Bidding Engine
+# User Service
 curl http://localhost:8082/actuator/health
 
-# Workflow Engine
+# Bidding Engine
 curl http://localhost:8083/actuator/health
 
-# Event Archive
+# Workflow Engine
 curl http://localhost:8084/actuator/health
 
 # Kafka UI
@@ -502,7 +502,7 @@ Enforces layering rules and prevents circular dependencies.
 ### Debugging
 
 - **Bidding Engine**: Access Swagger UI at `http://localhost:8080/swagger-ui.html`
-- **Workflow Orchestrator**: REST API at `http://localhost:8082`
+- **Workflow Orchestrator**: REST API at `http://localhost:8084`
 - **Frontend**: Browser DevTools (F12)
 - **Kafka UI**: Monitor topics at `http://localhost:9000`
 - **Prometheus**: Query metrics at `http://localhost:9090`

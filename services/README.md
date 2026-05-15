@@ -210,7 +210,7 @@ npm start
 ```
 - gRPC: localhost:26500
 - REST: http://localhost:8089
-- Workflow Engine: http://localhost:8083
+- Workflow Engine: http://localhost:8081
 - Rule Publication: POST /api/v1/rule-publications
 ```
 
@@ -457,7 +457,7 @@ Enforces layering rules and prevents circular dependencies.
 ### Debugging
 
 - **Bidding Engine**: Access Swagger UI at `http://localhost:8080/swagger-ui.html`
-- **Workflow Engine**: REST API at `http://localhost:8082`
+- **Workflow Engine**: REST API at `http://localhost:8084`
 - **Frontend**: Browser DevTools (F12)
 
 ### Database Reset
