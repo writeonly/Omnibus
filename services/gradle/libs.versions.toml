@@ -51,13 +51,22 @@ spring-security-oauth2-authorization-server = { module = "org.springframework.se
 # ---------------- Spring Cloud ----------------
 spring-cloud-config-server = { module = "org.springframework.cloud:spring-cloud-config-server" }
 spring-cloud-config-monitor = { module = "org.springframework.cloud:spring-cloud-config-monitor" }
+
 spring-cloud-starter-bus-amqp = { module = "org.springframework.cloud:spring-cloud-starter-bus-amqp" }
 spring-cloud-starter-bus-kafka = { module = "org.springframework.cloud:spring-cloud-starter-bus-kafka" }
+
 spring-cloud-starter-config = { module = "org.springframework.cloud:spring-cloud-starter-config" }
+
 spring-cloud-starter-function-web = { module = "org.springframework.cloud:spring-cloud-starter-function-web" }
+
 spring-cloud-starter-gateway = { module = "org.springframework.cloud:spring-cloud-starter-gateway" }
 spring-cloud-starter-gateway-server-webflux = { module = "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux" }
+
 spring-cloud-starter-loadbalancer = { module = "org.springframework.cloud:spring-cloud-starter-loadbalancer" }
+
+# ---------------- Eureka ----------------
+spring-cloud-starter-netflix-eureka-server = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server" }
+spring-cloud-starter-netflix-eureka-client = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client" }
 
 # ---------------- Kafka ----------------
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
