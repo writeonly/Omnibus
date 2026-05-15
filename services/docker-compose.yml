@@ -75,6 +75,32 @@ services:
     networks:
       - omnibus
 
+  audit-service:
+    build:
+      context: .
+      dockerfile: core/audit-service/Dockerfile
+    container_name: audit-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - config-server
+      - eureka-server
+      - auth-server
+    environment:
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+      DB_URL: jdbc:postgresql://postgres:5432/audit_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
+      POSTGRES_DB: audit_db
+
+      AUTH_SERVER_URL: http://auth-server:9000
+    networks:
+      - omnibus
+
   user-service:
     build:
       context: .
