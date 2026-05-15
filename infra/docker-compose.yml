@@ -14,19 +14,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.0.0
-    container_name: omnibus-keycloak
-    command: ["start-dev", "--import-realm"]
-    environment:
-      KEYCLOAK_ADMIN: kcadmin
-      KEYCLOAK_ADMIN_PASSWORD: kcadmin
-    volumes:
-      - ./keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
-    ports:
-      - "8180:8080"
-    networks: [omnibus]
-
   postgres:
     image: postgres:16-alpine
     container_name: omnibus-postgres
@@ -62,6 +49,63 @@ services:
         condition: service_healthy
     networks: [omnibus]
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: omnibus-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: [omnibus]
+
+  redis:
+    profiles:
+      - legacy
+    image: redis:7-alpine
+    container_name: omnibus-redis
+    ports:
+      - "6379:6379"
+    networks: [omnibus]
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: omnibus-keycloak
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KEYCLOAK_ADMIN: kcadmin
+      KEYCLOAK_ADMIN_PASSWORD: kcadmin
+    volumes:
+      - ./keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
+    ports:
+      - "9090:8080"
+    networks: [omnibus]
+
+  cassandra:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    networks: [omnibus]
+
+  cassandra-init:
+    image: cassandra:5.0
+    container_name: omnibus-cassandra-init
+    depends_on:
+      cassandra:
+        condition: service_started
+    volumes:
+      - ./cassandra/init.cql:/init.cql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo 'Waiting for Cassandra...';
+        until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do sleep 5; done;
+        echo 'Init...';
+        cqlsh cassandra 9042 -f /init.cql;
+    networks: [omnibus]
+
   kafka:
     image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
@@ -90,54 +134,6 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     ports:
       - "9002:8080"
-    networks: [omnibus]
-
-  cassandra:
-    profiles:
-      - legacy
-    image: cassandra:5.0
-    container_name: omnibus-cassandra
-    ports:
-      - "9042:9042"
-    volumes:
-      - cassandra_data:/var/lib/cassandra
-    networks: [omnibus]
-
-  cassandra-init:
-    profiles:
-      - legacy
-    image: cassandra:5.0
-    container_name: omnibus-cassandra-init
-    depends_on:
-      cassandra:
-        condition: service_started
-    volumes:
-      - ./cassandra/init.cql:/init.cql:ro
-    entrypoint:
-      - /bin/bash
-      - -c
-      - |
-        echo 'Waiting for Cassandra...';
-        until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do sleep 5; done;
-        echo 'Init...';
-        cqlsh cassandra 9042 -f /init.cql;
-    networks: [omnibus]
-
-  redis:
-    profiles:
-      - legacy
-    image: redis:7-alpine
-    container_name: omnibus-redis
-    ports:
-      - "6379:6379"
-    networks: [omnibus]
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: omnibus-rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     networks: [omnibus]
 
 networks:
