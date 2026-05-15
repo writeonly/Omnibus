@@ -10,4 +10,3 @@ class EurekaServerApplication
 fun main(args: Array<String>) {
     runApplication<EurekaServerApplication>(*args)
 }
-

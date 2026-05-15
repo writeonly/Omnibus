@@ -27,7 +27,3 @@ dependencies {
 
     testImplementation(libs.spring.boot.starter.test)
 }
-
-springBoot {
-    mainClass.set("pl.writeonly.omnibus.eureka.EurekaServerApplication")
-}
