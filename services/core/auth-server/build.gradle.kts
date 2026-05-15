@@ -22,15 +22,18 @@ dependencies {
 
     // Spring Boot
     implementation(libs.spring.boot.starter.actuator)
-    implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.oauth2.resource.server)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.spring.boot.starter.validation)
 
     // Spring Cloud
     implementation(libs.spring.cloud.starter.config)
-    implementation(libs.spring.cloud.starter.gateway)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
 
-    // Monitoring
+    // Authorization Server
+    implementation(libs.spring.security.oauth2.authorization.server)
+
+    // Observability
     implementation(libs.micrometer.registry.prometheus)
 
     // Testing

@@ -1,12 +1,10 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.deps)
+
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.noarg")
-
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
 }
 
 group = "com.omnibus"
@@ -14,6 +12,14 @@ version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(
+            "org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}"
+        )
+    }
 }
 
 java {
@@ -28,18 +34,34 @@ noArg {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-data-cassandra-reactive")
-    implementation("org.springframework.kafka:spring-kafka")
-    implementation("io.micrometer:micrometer-registry-prometheus")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    // Kotlin
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.logging)
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
+    // Spring Boot
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.webflux)
+    implementation(libs.spring.boot.starter.validation)
+
+    // Cassandra (REACTIVE)
+    implementation(libs.spring.boot.starter.data.cassandra)
+
+    // Kafka
+    implementation(libs.spring.kafka)
+
+    // Spring Cloud
+    implementation(libs.spring.cloud.starter.config)
+    implementation(libs.spring.cloud.starter.netflix.eureka.client)
+    implementation(libs.spring.cloud.starter.function.web)
+
+    // Observability
+    implementation(libs.micrometer.registry.prometheus)
+
+    // Tests
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.kafka.test)
 }
 
 tasks.withType<Test> {
@@ -48,7 +70,7 @@ tasks.withType<Test> {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_21)
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
     }
 }
 

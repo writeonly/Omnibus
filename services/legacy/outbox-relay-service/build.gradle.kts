@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     
     implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+    implementation(libs.spring.cloud.starter.netflix.eureka.client)
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
