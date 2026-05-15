@@ -374,14 +374,17 @@ View logs in Grafana (http://localhost:3001) with Loki data source.
 ### Health Checks
 
 ```bash
-# Bidding Engine
-curl http://localhost:8080/actuator/health
+# User Service
+curl http://localhost:8081/actuator/health
 
-# Workflow Orchestrator
+# Bidding Engine
 curl http://localhost:8082/actuator/health
 
+# Workflow Engine
+curl http://localhost:8083/actuator/health
+
 # Event Archive
-curl http://localhost:8081/actuator/health
+curl http://localhost:8084/actuator/health
 
 # Kafka UI
 http://localhost:9000

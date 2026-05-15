@@ -1,12 +1,12 @@
 server:
-  port: 8082
+  port: 8083
 
 grpc:
   server:
-    port: ${GRPC_PORT:9082}
+    port: ${GRPC_PORT:9083}
   client:
     rule-engine:
-      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9082}
       negotiation-type: plaintext
 
 spring:

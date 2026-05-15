@@ -75,12 +75,37 @@ services:
     networks:
       - omnibus
 
+  user-service:
+    build:
+      context: .
+      dockerfile: core/user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - config-server
+      - eureka-server
+      - auth-server
+    environment:
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      AUTH_SERVER_URL: http://auth-server:9000
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+      # jeśli używasz DB w user-service:
+      DB_URL: jdbc:postgresql://postgres:5432/user_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
+      POSTGRES_DB: user_db
+    networks:
+      - omnibus
+
   rule-engine:
     build:
       context: .
       dockerfile: core/rule-engine/Dockerfile
     ports:
-      - "8081:8081"
+      - "8082:8082"
     depends_on:
       - config-server
       - auth-server
@@ -98,7 +123,7 @@ services:
       context: .
       dockerfile: core/workflow-engine/Dockerfile
     ports:
-      - "8082:8082"
+      - "8083:8083"
     depends_on:
       - config-server
       - auth-server

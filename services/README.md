@@ -210,7 +210,7 @@ npm start
 ```
 - gRPC: localhost:26500
 - REST: http://localhost:8089
-- Workflow Engine: http://localhost:8082
+- Workflow Engine: http://localhost:8083
 - Rule Publication: POST /api/v1/rule-publications
 ```
 
@@ -343,13 +343,13 @@ Promtail ships logs to observability stack. Configure log levels in:
 
 ```bash
 # Bidding Engine
-curl http://localhost:8080/actuator/health
-
-# Workflow Engine
 curl http://localhost:8082/actuator/health
 
+# Workflow Engine
+curl http://localhost:8083/actuator/health
+
 # Event Archive
-curl http://localhost:8081/actuator/health
+curl http://localhost:8084/actuator/health
 ```
 
 ---
