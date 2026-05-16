@@ -8,7 +8,7 @@ services:
     ports:
       - "8888:8888"
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_ENV: local
       CONFIG_REPO_LOCATION: file:/workspace/config
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -27,7 +27,7 @@ services:
     depends_on:
       - config-server
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
@@ -44,7 +44,7 @@ services:
       - config-server
       - eureka-server
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       DB_URL: jdbc:postgresql://postgres:5432/auth_db
@@ -69,7 +69,7 @@ services:
       - rule-engine
       - workflow-engine
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
@@ -91,7 +91,7 @@ services:
       - eureka-server
       - auth-server
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
 
@@ -118,7 +118,7 @@ services:
       - eureka-server
       - auth-server
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
@@ -143,7 +143,7 @@ services:
       - auth-server
       - eureka-server
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
@@ -163,7 +163,7 @@ services:
       - eureka-server
       - rule-engine
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
