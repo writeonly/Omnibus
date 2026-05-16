@@ -94,6 +94,7 @@ services:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      AUTH_SERVER_URL: http://auth-server:9000
 
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
@@ -102,7 +103,10 @@ services:
       DB_PASSWORD: omnibus
       POSTGRES_DB: audit_db
 
-      AUTH_SERVER_URL: http://auth-server:9000
+      CASSANDRA_HOST: cassandra
+      CASSANDRA_PORT: 9042
+      CASSANDRA_KEYSPACE: audit
+
     networks:
       - omnibus
 
