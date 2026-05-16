@@ -1,3 +1,8 @@
+# Profiles;
+# - first: nginx, kibana, cassandra, kafka, elasticsearch, mongodb
+# - follow: opensearch-dashboards, scylla, redpanda, opensearch, ferretdb
+# - legacy: nginx
+
 services:
 
   nginx:
@@ -52,15 +57,30 @@ services:
     networks: [omnibus]
 
   kibana:
+    profiles:
+      - first
     image: docker.elastic.co/kibana/kibana:8.13.4
     container_name: omnibus-kibana
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
     ports:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    networks: [omnibus]
+
+  opensearch-dashboards:
+    profiles:
+      - follow
+    image: opensearchproject/opensearch-dashboards:2.14.0
+    container_name: omnibus-opensearch-dashboards
+    ports:
+      - "5601:5601"
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+    depends_on:
+      - opensearch
     networks: [omnibus]
 
   rabbitmq:
@@ -72,8 +92,6 @@ services:
     networks: [omnibus]
 
   redis:
-    profiles:
-      - legacy
     image: redis:7-alpine
     container_name: omnibus-redis
     ports:
@@ -96,7 +114,7 @@ services:
 
   cassandra:
     profiles:
-      - legacy
+      - first
     image: cassandra:5.0
     container_name: omnibus-cassandra
     ports:
@@ -107,7 +125,7 @@ services:
 
   cassandra-init:
     profiles:
-      - legacy
+      - first
     image: cassandra:5.0
     container_name: omnibus-cassandra-init
     depends_on:
@@ -125,44 +143,103 @@ services:
         cqlsh cassandra 9042 -f /init.cql;
     networks: [omnibus]
 
+  scylla:
+    profiles:
+      - follow
+    image: scylladb/scylla:latest
+    container_name: omnibus-scylla
+    ports:
+      - "9042:9042"
+    volumes:
+      - scylla_data:/var/lib/scylla
+    command: --smp 1 --memory 1G
+    networks: [omnibus]
+
+  scylla-init:
+    profiles:
+      - follow
+    image: scylladb/scylla:latest
+    container_name: omnibus-scylla-init
+    depends_on:
+      scylla:
+        condition: service_started
+    volumes:
+      - ./cassandra/init.cql:/init.cql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo 'Waiting for Scylla...';
+        until cqlsh scylla 9042 -e "DESCRIBE KEYSPACES"; do sleep 5; done;
+        echo 'Init...';
+        cqlsh scylla 9042 -f /init.cql;
+    networks: [omnibus]
+
   kafka:
+    profiles:
+      - first
     image: confluentinc/cp-kafka:7.6.1
     container_name: omnibus-kafka
     environment:
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
       JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:29092
       KAFKA_NODE_ID: 0
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
     ports:
       - "29092:29092"
     networks: [omnibus]
 
   kafka-ui:
     profiles:
-      - legacy
+      - first
     image: provectuslabs/kafka-ui:latest
     container_name: omnibus-kafka-ui
     environment:
       JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
-      KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_NAME: local
     ports:
       - "9002:8080"
     networks: [omnibus]
+  redpanda:
+    profiles:
+      - follow
+    image: redpandadata/redpanda:latest
+    container_name: omnibus-redpanda
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - 1G
+      - --reserve-memory
+      - 0M
+      - --node-id
+      - "0"
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://localhost:9092
+    ports:
+      - "9092:9092"
 
   elasticsearch:
+    profiles:
+      - first
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
     container_name: omnibus-elasticsearch
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
       discovery.type: "single-node"
       xpack.security.enabled: false
     ports:
@@ -172,7 +249,34 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
+  opensearch:
+    profiles:
+      - follow
+    image: opensearchproject/opensearch:2.14.0
+    container_name: omnibus-opensearch
+    environment:
+      DISABLE_SECURITY_PLUGIN: true
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx256m"
+      OPENSEARCH_JAVA_OPTS: "-Xms256m -Xmx256m"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: initial_admin_password
+      discovery.type: "single-node"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+    - "9200:9200"
+    - "9600:9600"
+    networks: [omnibus]
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+
   mongodb:
+    profiles:
+      - first
     image: mongo:7.0
     container_name: omnibus-mongodb
     ports:
@@ -191,12 +295,33 @@ services:
       timeout: 5s
       retries: 20
 
+  ferretdb:
+    profiles:
+      - follow
+    image: ghcr.io/ferretdb/ferretdb:latest
+    container_name: omnibus-ferretdb
+    ports:
+    - "27017:27017"
+    environment:
+      FERRETDB_POSTGRESQL_URL: postgres://omnibus:omnibus@postgres:5432/omnibus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [omnibus]
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "27017"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
 networks:
   omnibus:
     name: omnibus
 
 volumes:
   postgres_data:
-  cassandra_data:
-  elastic_data:
   mongo_data:
+  cassandra_data:
+  scylla_data:
+  elastic_data:
+  opensearch_data:

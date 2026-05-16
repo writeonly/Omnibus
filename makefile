@@ -2,12 +2,15 @@
 # CONFIG
 # =========================
 
-COMPOSE_INFRA = docker compose -f infra/docker-compose.yml
-COMPOSE_SERVICES = docker compose -f services/docker-compose.yml
-COMPOSE_PRESENTATION = docker compose -f presentation/docker-compose.yml
-COMPOSE_OBS = docker compose -f obs/docker-compose.yml
+PROFILE = "follow"
+
+COMPOSE_INFRA        = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
+COMPOSE_SERVICES     = docker compose --profile $(PROFILE) -f services/docker-compose.yml
+COMPOSE_PRESENTATION = docker compose --profile $(PROFILE) -f presentation/docker-compose.yml
+COMPOSE_OBS          = docker compose --profile $(PROFILE) -f obs/docker-compose.yml
 
 COMPOSE_ALL = docker compose \
+	--profile $(PROFILE) \
 	-f infra/docker-compose.yml \
 	-f services/docker-compose.yml \
 	-f presentation/docker-compose.yml \

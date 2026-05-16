@@ -545,5 +545,5 @@ For issues, questions, or contributions, please open a GitHub issue in the [writ
 ## TODO
 - Use Kure Potlin
 - Use vavr
-- Arrow
+- Use Arrow
 
