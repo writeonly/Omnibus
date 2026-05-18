@@ -9,7 +9,7 @@ spring:
     import: "optional:configserver:"
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
 
     consumer:
       group-id: audit-service
@@ -34,7 +34,7 @@ spring:
 
       kafka:
         binder:
-          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
 
   data:
 
@@ -42,14 +42,14 @@ spring:
       uri: ${MONGO_URI:mongodb://omnibus:omnibus@localhost:27017/audit_db?authSource=admin}
 
     cassandra:
-      contact-points: ${CASSANDRA_CONTACT_POINTS:localhost}
+      contact-points: ${CASSANDRA_CONTACT_POINTS:cassandra}
       port: ${CASSANDRA_PORT:9042}
       keyspace-name: ${CASSANDRA_KEYSPACE:audit_keyspace}
       local-datacenter: ${CASSANDRA_DATACENTER:datacenter1}
       schema-action: CREATE_IF_NOT_EXISTS
 
     elasticsearch:
-      uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
+      uris: ${ELASTICSEARCH_URIS:http://elasticsearch:9200}
 
 eureka:
   client:
