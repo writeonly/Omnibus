@@ -13,7 +13,7 @@ services:
       CONFIG_REPO_LOCATION: file:/workspace/config
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     volumes:
-      - ./core/config-server/config:/workspace/config
+      - ./server/config-server/config:/workspace/config
     networks:
       - omnibus
 
