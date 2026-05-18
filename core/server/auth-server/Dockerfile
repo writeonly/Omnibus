@@ -2,8 +2,8 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY core/audit-service/build/libs/*.jar app.jar
+COPY server/auth-server/build/libs/*.jar app.jar
 
-EXPOSE 8090
+EXPOSE 9000
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

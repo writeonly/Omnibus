@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY core/user-service/build/libs/*.jar app.jar
+COPY service/audit-service/build/libs/*.jar app.jar
 
 EXPOSE 8081
 

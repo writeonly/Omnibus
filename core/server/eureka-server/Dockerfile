@@ -6,7 +6,7 @@ RUN addgroup --system spring && adduser --system spring --ingroup spring
 
 USER spring:spring
 
-COPY core/eureka-server/build/libs/*.jar app.jar
+COPY server/eureka-server/build/libs/*.jar app.jar
 
 EXPOSE 8761
 

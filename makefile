@@ -5,40 +5,40 @@
 PROFILE = "follow"
 
 COMPOSE_INFRA        = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
-COMPOSE_SERVICES     = docker compose --profile $(PROFILE) -f services/docker-compose.yml
+COMPOSE_CORE     = docker compose --profile $(PROFILE) -f core/docker-compose.yml
 COMPOSE_PRESENTATION = docker compose --profile $(PROFILE) -f presentation/docker-compose.yml
 COMPOSE_OBS          = docker compose --profile $(PROFILE) -f obs/docker-compose.yml
 
 COMPOSE_ALL = docker compose \
 	--profile $(PROFILE) \
 	-f infra/docker-compose.yml \
-	-f services/docker-compose.yml \
+	-f core/docker-compose.yml \
 	-f presentation/docker-compose.yml \
 	-f obs/docker-compose.yml
 
-SERVICES_DIR = services
+CORE_DIR = core
 BFF_NEST_DIR = presentation/bff-nest
 
-GRADLE = cd $(SERVICES_DIR) && ./gradlew
+GRADLE = cd $(CORE_DIR) && ./gradlew
 
 # =========================
 # FULL BUILD
 # =========================
 
 all:
-	$(MAKE) services-build
+	$(MAKE) core-build
 	$(MAKE) infra-up
-	$(MAKE) services-up
+	$(MAKE) core-up
 	$(MAKE) presentation-up
 
 down:
 	$(MAKE) presentation-down
 	$(MAKE) infra-down
-	$(MAKE) services-down
+	$(MAKE) core-down
 	$(MAKE) obs-down
 
 build-all:
-	$(MAKE) services-build
+	$(MAKE) core-build
 	$(MAKE) bff-nest-build
 	$(MAKE) frontend-angular-build
 #	$(MAKE) frontend-react-build
@@ -47,7 +47,7 @@ build-all:
 
 build-all-parallel:
 	$(MAKE) -j 5 \
-		services-build \
+		core-build \
 		bff-nest-build \
 		frontend-angular-build \
 		frontend-react-build \
@@ -61,7 +61,7 @@ build-all-parallel:
 dev: infra-up obs-up
 	@echo "🚀 Infra + Observability running"
 
-dev-all: build-all infra-up services-up presentation-up obs-up
+dev-all: build-all infra-up core-up presentation-up obs-up
 	@echo "🚀 FULL SYSTEM READY"
 
 # =========================
@@ -84,17 +84,17 @@ infra-ps:
 	$(COMPOSE_INFRA) ps
 
 # =========================
-# SERVICES
+# CORE
 # =========================
 
 # ---------------------------------
-# BUILD SERVICES LOCALLY (NO DOCKER)
+# BUILD CORE LOCALLY (NO DOCKER)
 # ---------------------------------
 
-services-build:
+core-build:
 	$(GRADLE) clean build --parallel --build-cache --no-daemon
 
-services-bootjar:
+core-bootjar:
 	$(GRADLE) \
 		:config-server:bootJar \
 		:api-gateway:bootJar \
@@ -104,41 +104,41 @@ services-bootjar:
 		--build-cache \
 		--no-daemon
 
-services-clean:
+core-clean:
 	$(GRADLE) clean
 
-services-test:
+core-test:
 	$(GRADLE) test --parallel --no-daemon
 
-services-coverage:
+core-coverage:
 	$(GRADLE) jacocoTestReport
 
-services-coverage-html:
+core-coverage-html:
 	$(GRADLE) jacocoTestReport
-	open services/build/reports/jacoco/test/html/index.html
+	open core/build/reports/jacoco/test/html/index.html
 
 # ---------------------------------
 # DOCKER SERVICES
 # ---------------------------------
 
-services-up: services-bootjar
-	$(COMPOSE_SERVICES) up -d --build
+core-up: core-bootjar
+	$(COMPOSE_CORE) up -d --build
 
-services-down:
-	$(COMPOSE_SERVICES) down -v
+core-down:
+	$(COMPOSE_CORE) down -v
 
-services-logs:
-	$(COMPOSE_SERVICES) logs -f
+core-logs:
+	$(COMPOSE_CORE) logs -f
 
-services-restart: services-bootjar
-	$(COMPOSE_SERVICES) restart
+core-restart: core-bootjar
+	$(COMPOSE_CORE) restart
 
-services-rebuild: services-bootjar
-	$(COMPOSE_SERVICES) build --no-cache
-	$(COMPOSE_SERVICES) up -d
+core-rebuild: core-bootjar
+	$(COMPOSE_CORE) build --no-cache
+	$(COMPOSE_CORE) up -d
 
-services-ps:
-	$(COMPOSE_SERVICES) ps
+core-ps:
+	$(COMPOSE_CORE) ps
 
 # =========================
 # PRESENTATION
@@ -199,7 +199,7 @@ obs-restart:
 # GLOBAL
 # =========================
 
-up: infra-up services-up presentation-up obs-up
+up: infra-up core-up presentation-up obs-up
 
 down:
 	$(COMPOSE_ALL) down -v --remove-orphans

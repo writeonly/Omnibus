@@ -3,7 +3,7 @@ services:
   config-server:
     build:
       context: .
-      dockerfile: core/config-server/Dockerfile
+      dockerfile: server/config-server/Dockerfile
     container_name: config-server
     ports:
       - "8888:8888"
@@ -20,7 +20,7 @@ services:
   eureka-server:
     build:
       context: .
-      dockerfile: core/eureka-server/Dockerfile
+      dockerfile: server/eureka-server/Dockerfile
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -36,7 +36,7 @@ services:
   auth-server:
     build:
       context: .
-      dockerfile: core/auth-server/Dockerfile
+      dockerfile: server/auth-server/Dockerfile
     container_name: auth-server
     ports:
       - "9000:9000"
@@ -59,7 +59,7 @@ services:
   api-gateway:
     build:
       context: .
-      dockerfile: core/api-gateway/Dockerfile
+      dockerfile: server/api-gateway/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -82,7 +82,7 @@ services:
   audit-service:
     build:
       context: .
-      dockerfile: core/audit-service/Dockerfile
+      dockerfile: service/audit-service/Dockerfile
     container_name: audit-service
     ports:
       - "8081:8081"
@@ -113,7 +113,7 @@ services:
   user-service:
     build:
       context: .
-      dockerfile: core/user-service/Dockerfile
+      dockerfile: service/user-service/Dockerfile
     container_name: user-service
     ports:
       - "8082:8082"
@@ -139,7 +139,7 @@ services:
   rule-engine:
     build:
       context: .
-      dockerfile: core/rule-engine/Dockerfile
+      dockerfile: service/rule-engine/Dockerfile
     ports:
       - "8083:8083"
     depends_on:
@@ -158,7 +158,7 @@ services:
   workflow-engine:
     build:
       context: .
-      dockerfile: core/workflow-engine/Dockerfile
+      dockerfile: service/workflow-engine/Dockerfile
     ports:
       - "8084:8084"
     depends_on:

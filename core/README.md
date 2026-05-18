@@ -6,15 +6,15 @@ This directory contains the JVM backend workspace for Omnibus.
 
 | Path | Purpose |
 | --- | --- |
-| `core/swing-client` | Desktop client prototype |
-| `core/config-server` | Spring Cloud Config Server |
-| `core/eureka-server` | Eureka service discovery |
-| `core/auth-server` | Spring Authorization Server and auth flow support |
-| `core/api-gateway` | Spring Cloud Gateway entry point for backend traffic |
-| `core/audit-service` | Kafka/audit observation service |
-| `core/user-service` | User domain service |
-| `core/rule-engine` | Drools-based bridge bidding rule engine |
-| `core/workflow-engine` | Rule-publication workflow service |
+| `legacy/swing-client` | Desktop client prototype |
+| `server/config-server` | Spring Cloud Config Server |
+| `server/eureka-server` | Eureka service discovery |
+| `server/auth-server` | Spring Authorization Server and auth flow support |
+| `server/api-gateway` | Spring Cloud Gateway entry point for backend traffic |
+| `service/audit-service` | Kafka/audit observation service |
+| `service/user-service` | User domain service |
+| `service/rule-engine` | Drools-based bridge bidding rule engine |
+| `service/workflow-engine` | Rule-publication workflow service |
 | `legacy/*` | Older/transitional services and projections |
 
 ## Build
