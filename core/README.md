@@ -52,3 +52,7 @@ The compose file expects the shared `omnibus` Docker network and infrastructure 
 ## Module Notes
 
 Keep service-specific commands, TODOs, API notes, and design decisions in the README inside each service directory.
+
+## TODO
+
+* Use webflux when asynchronous makes sense
