@@ -5,7 +5,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks: [omnibus]
 
   loki:
@@ -17,7 +17,7 @@ services:
   promtail:
     image: grafana/promtail:2.9.6
     volumes:
-      - ./promtail/promtail.yml:/etc/promtail/config.yml:ro
+      - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
     networks: [omnibus]
 
   grafana:
