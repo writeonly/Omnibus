@@ -5,13 +5,15 @@
 PROFILE = "follow"
 
 COMPOSE_INFRA        = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
-COMPOSE_CORE     = docker compose --profile $(PROFILE) -f core/docker-compose.yml
+COMPOSE_INIT         = docker compose --profile $(PROFILE) -p init -f infra/docker-compose.init.yml
+COMPOSE_CORE         = docker compose --profile $(PROFILE) -f core/docker-compose.yml
 COMPOSE_PRESENTATION = docker compose --profile $(PROFILE) -f presentation/docker-compose.yml
 COMPOSE_OBS          = docker compose --profile $(PROFILE) -f obs/docker-compose.yml
 
 COMPOSE_ALL = docker compose \
 	--profile $(PROFILE) \
 	-f infra/docker-compose.yml \
+	-f infra/docker-compose.init.yml \
 	-f core/docker-compose.yml \
 	-f presentation/docker-compose.yml \
 	-f obs/docker-compose.yml
@@ -70,6 +72,7 @@ dev-all: build-all infra-up core-up presentation-up obs-up
 
 infra-up:
 	$(COMPOSE_INFRA) up -d
+	$(COMPOSE_INIT) up -d
 
 infra-down:
 	$(COMPOSE_INFRA) down -v

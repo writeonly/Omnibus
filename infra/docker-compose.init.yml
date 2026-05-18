@@ -1,0 +1,66 @@
+# Profiles;
+# - first: nginx, kibana, cassandra, kafka, elasticsearch, mongodb
+# - follow: opensearch-dashboards, scylla, redpanda, opensearch, ferretdb
+# - legacy: nginx
+
+services:
+
+  postgres-init:
+    image: postgres:16-alpine
+    container_name: omnibus-postgres-init
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
+      PGPASSWORD: omnibus
+    volumes:
+      - ./postgres:/init:ro
+    entrypoint:
+      - /bin/sh
+      - -c
+      - psql -h postgres -U omnibus -d omnibus -v ON_ERROR_STOP=1 -f /init/001-outbox.sql
+    networks: [omnibus]
+
+  cassandra-init:
+    profiles:
+      - first
+    image: cassandra:5.0
+    container_name: omnibus-cassandra-init
+    volumes:
+      - ./cassandra/init.cql:/init.cql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo 'Waiting for Cassandra...';
+        until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do sleep 5; done;
+        echo 'Init...';
+        cqlsh cassandra 9042 -f /init.cql;
+    networks: [omnibus]
+
+  scylla-init:
+    profiles:
+      - follow
+    image: scylladb/scylla:latest
+    container_name: omnibus-scylla-init
+    volumes:
+      - ./cassandra/init.cql:/init.cql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo 'Waiting for Scylla...';
+        until cqlsh scylla 9042 -e "DESCRIBE KEYSPACES"; do sleep 5; done;
+        echo 'Init...';
+        cqlsh scylla 9042 -f /init.cql;
+    networks: [omnibus]
+
+networks:
+  omnibus:
+    name: omnibus
+
+volumes:
+  postgres_data:
+  mongo_data:
+  cassandra_data:
+  scylla_data:
+  elastic_data:
+  opensearch_data:
