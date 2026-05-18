@@ -1,39 +1,27 @@
-# Omnibus Documentation
+# Scripts
 
-This folder contains cross-project documentation. The repository root [README](../README.md) is the main entry point for setup, repository layout, and day-to-day navigation.
+This page lists script entry points that currently exist in the repository. There is no root-level `scripts/` directory at the moment, so run each script from the path shown below.
 
-## Documents
+## Repository Helpers
 
-| Document | Purpose |
+| Script | Purpose |
 | --- | --- |
-| [../README.md](../README.md) | Main project overview, local startup, component map |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Architecture deep dive and service flows |
-| [scripts/README.md](scripts/README.md) | Index of existing repository scripts |
-| [LICENSE](LICENSE) | MIT license |
+| [../../list-files.sh](../../list-files.sh) | Repository file listing helper |
+| [../../services/clean-gradle.sh](../../services/clean-gradle.sh) | Gradle cleanup helper for the services workspace |
 
-## Module READMEs
+## Presentation Scripts
 
-Module-specific notes intentionally stay with their modules:
-
-| Area | README |
+| Script | Purpose |
 | --- | --- |
-| Backend services | [../services/README.md](../services/README.md) |
-| Presentation apps | [../presentation/README.md](../presentation/README.md) |
-| Infrastructure | [../infra/README.md](../infra/README.md) |
-| API gateway | [../services/core/api-gateway/README.md](../services/core/api-gateway/README.md) |
-| Rule engine | [../services/core/rule-engine/README.md](../services/core/rule-engine/README.md) |
-| Workflow engine | [../services/core/workflow-engine/README.md](../services/core/workflow-engine/README.md) |
-| Auth server | [../services/core/auth-server/README.md](../services/core/auth-server/README.md) |
-| User service | [../services/core/user-service/README.md](../services/core/user-service/README.md) |
-| Audit service | [../services/core/audit-service/README.md](../services/core/audit-service/README.md) |
-| Config server | [../services/core/config-server/README.md](../services/core/config-server/README.md) |
-| NestJS BFF | [../presentation/bff-nest/README.md](../presentation/bff-nest/README.md) |
-| Angular frontend | [../presentation/frontend-angular/README.md](../presentation/frontend-angular/README.md) |
-| React frontend | [../presentation/frontend-react/README.md](../presentation/frontend-react/README.md) |
-| Developer dashboard | [../presentation/dev-dashboard/README.md](../presentation/dev-dashboard/README.md) |
+| [../../presentation/bff-nest/run.sh](../../presentation/bff-nest/run.sh) | Run the NestJS BFF |
+| [../../presentation/frontend-angular/run.sh](../../presentation/frontend-angular/run.sh) | Run the Angular frontend |
+| [../../presentation/frontend-angular/openapi.sh](../../presentation/frontend-angular/openapi.sh) | Angular OpenAPI generation helper |
+| [../../presentation/frontend-angular/orval.sh](../../presentation/frontend-angular/orval.sh) | Orval generation helper |
+| [../../presentation/frontend-angular/nginx/entrypoint.sh](../../presentation/frontend-angular/nginx/entrypoint.sh) | Frontend container entrypoint |
+| [../../presentation/frontend-react/run.sh](../../presentation/frontend-react/run.sh) | Run the React frontend |
 
-## Documentation Ownership
+## Generated Or Local Scripts
 
-- Put onboarding and local startup changes in the root [README](../README.md).
-- Put architecture changes that affect several modules in [ARCHITECTURE.md](ARCHITECTURE.md).
-- Put implementation details and local TODOs in the module README closest to the code.
+| Script | Note |
+| --- | --- |
+| [../../presentation/frontend-angular/src/generated/openapi/git_push.sh](../../presentation/frontend-angular/src/generated/openapi/git_push.sh) | Generated OpenAPI helper; treat as generated output unless regenerating the client |
