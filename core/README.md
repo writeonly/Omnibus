@@ -55,4 +55,5 @@ Keep service-specific commands, TODOs, API notes, and design decisions in the RE
 
 ## TODO
 
-* Use webflux when asynchronous makes sense
+* Use String Webflux when asynchronous makes sense
+* Use Spring Cloud Function 
