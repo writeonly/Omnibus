@@ -34,10 +34,10 @@ all:
 	$(MAKE) ui-up
 
 down:
-	$(MAKE) ui-down
-	$(MAKE) infra-down
-	$(MAKE) core-down
 	$(MAKE) obs-down
+	$(MAKE) ui-down
+	$(MAKE) core-down
+	$(MAKE) infra-down
 
 build-all:
 	$(MAKE) core-build

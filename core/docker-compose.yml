@@ -88,6 +88,7 @@ services:
       context: .
       dockerfile: service/audit-service/Dockerfile
     container_name: audit-service
+    mem_limit: 512m
     ports:
       - "8081:8081"
     depends_on:
