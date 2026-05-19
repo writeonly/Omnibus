@@ -8,6 +8,9 @@ spring:
     name: api-gateway
   config:
     import: "optional:configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"
+  jmx:
+    enabled: false
+
   kafka:
     bootstrap-servers: "${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}"
 

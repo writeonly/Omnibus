@@ -16,6 +16,8 @@ spring:
   cloud:
     bus:
       enabled: true
+  jmx:
+    enabled: false
 
 grpc:
   server:
