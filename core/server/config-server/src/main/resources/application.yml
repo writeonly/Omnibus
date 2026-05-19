@@ -17,7 +17,7 @@ spring:
           default-label: ${CONFIG_GIT_LABEL:main}
           clone-on-start: ${CONFIG_GIT_CLONE_ON_START:true}
           search-paths:
-            - services/core/config-server/config
+            - server/config-server/config
     bus:
       enabled: true
     stream:

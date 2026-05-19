@@ -186,7 +186,7 @@ services:
       - follow
     image: redpandadata/redpanda:latest
     container_name: omnibus-redpanda
-    mem_limit: 512m
+    mem_limit: 1G
     command:
       - redpanda
       - start
@@ -194,7 +194,7 @@ services:
       - --smp
       - "1"
       - --memory
-      - 1G
+      - 512M
       - --reserve-memory
       - 0M
       - --node-id
