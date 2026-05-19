@@ -15,7 +15,8 @@ services:
       - ./nginx/index.html:/usr/share/nginx/html/index.html:ro
     ports:
       - "8000:80"
-    networks: [omnibus]
+    networks:
+      omnibus:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -32,7 +33,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres:/docker-entrypoint-initdb.d:ro
-    networks: [omnibus]
+    networks:
+      omnibus:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U omnibus -d omnibus"]
       interval: 10s
@@ -51,7 +53,8 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   opensearch-dashboards:
     profiles:
@@ -64,7 +67,10 @@ services:
       OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
     depends_on:
       - opensearch
-    networks: [omnibus]
+    networks:
+      omnibus:
+        aliases:
+          - kibana
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -72,14 +78,16 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   redis:
     image: redis:7-alpine
     container_name: omnibus-redis
     ports:
       - "6379:6379"
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0
@@ -93,7 +101,8 @@ services:
       - ./keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
       - "9090:8080"
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   cassandra:
     profiles:
@@ -104,7 +113,8 @@ services:
       - "9042:9042"
     volumes:
       - cassandra_data:/var/lib/cassandra
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   scylla:
     profiles:
@@ -116,7 +126,10 @@ services:
     volumes:
       - scylla_data:/var/lib/scylla
     command: --smp 1 --memory 1G
-    networks: [omnibus]
+    networks:
+      omnibus:
+        aliases:
+          - cassandra
 
   kafka:
     profiles:
@@ -137,7 +150,8 @@ services:
       KAFKA_PROCESS_ROLES: broker,controller
     ports:
       - "29092:29092"
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   kafka-ui:
     profiles:
@@ -149,8 +163,10 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       KAFKA_CLUSTERS_0_NAME: local
     ports:
-      - "9002:8080"
-    networks: [omnibus]
+      - "9094:8080"
+    networks:
+      omnibus:
+
   redpanda:
     profiles:
       - follow
@@ -174,6 +190,10 @@ services:
       - PLAINTEXT://localhost:9092
     ports:
       - "9092:9092"
+    networks:
+      omnibus:
+        aliases:
+          - kafka
 
   elasticsearch:
     profiles:
@@ -188,7 +208,8 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
-    networks: [omnibus]
+    networks:
+      omnibus:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
 
@@ -213,7 +234,8 @@ services:
     ports:
     - "9200:9200"
     - "9600:9600"
-    networks: [omnibus]
+    networks:
+      omnibus:
     volumes:
       - opensearch_data:/usr/share/opensearch/data
 
@@ -231,7 +253,8 @@ services:
       MONGO_INITDB_DATABASE: audit_db
     volumes:
       - mongo_data:/data/db
-    networks: [omnibus]
+    networks:
+      omnibus:
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
       interval: 10s
@@ -250,7 +273,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    networks: [omnibus]
+    networks:
+      omnibus:
+        aliases:
+          - mongodb
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "27017"]
       interval: 10s

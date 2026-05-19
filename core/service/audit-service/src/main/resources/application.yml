@@ -77,4 +77,6 @@ logging:
     pl.writeonly.omnibus.audit: DEBUG
     org.springframework.kafka: INFO
     org.springframework.cloud.stream: INFO
+    org.springframework.data.cassandra: DEBUG
+    com.datastax.oss.driver: DEBUG
  

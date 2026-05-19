@@ -7,15 +7,18 @@ services:
         KEYCLOAK_URL: http://localhost:8180
         KEYCLOAK_REALM: omnibus
         KEYCLOAK_CLIENT: omnibus-frontend
+    mem_limit: 512m
     ports:
       - "4300:80"
     depends_on:
       - bff-nest
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   bff-nest:
     build:
       context: ./bff-nest
+    mem_limit: 512m
     environment:
       KEYCLOAK_PUBLIC_URL: http://localhost:8180
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
@@ -27,7 +30,8 @@ services:
       PORT: 3000
     ports:
       - "3000:3000"
-    networks: [omnibus]
+    networks:
+      omnibus:
 
 networks:
   omnibus:

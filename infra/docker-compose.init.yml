@@ -17,7 +17,8 @@ services:
       - /bin/sh
       - -c
       - psql -h postgres -U omnibus -d omnibus -v ON_ERROR_STOP=1 -f /init/001-outbox.sql
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   cassandra-init:
     profiles:
@@ -34,7 +35,8 @@ services:
         until cqlsh cassandra 9042 -e 'SELECT now() FROM system.local'; do sleep 5; done;
         echo 'Init...';
         cqlsh cassandra 9042 -f /init.cql;
-    networks: [omnibus]
+    networks:
+      omnibus:
 
   scylla-init:
     profiles:
@@ -51,7 +53,8 @@ services:
         until cqlsh scylla 9042 -e "DESCRIBE KEYSPACES"; do sleep 5; done;
         echo 'Init...';
         cqlsh scylla 9042 -f /init.cql;
-    networks: [omnibus]
+    networks:
+      omnibus:
 
 networks:
   omnibus:

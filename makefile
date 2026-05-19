@@ -4,18 +4,18 @@
 
 PROFILE = "follow"
 
-COMPOSE_INFRA        = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
-COMPOSE_INIT         = docker compose --profile $(PROFILE) -p init -f infra/docker-compose.init.yml
-COMPOSE_CORE         = docker compose --profile $(PROFILE) -f core/docker-compose.yml
-COMPOSE_PRESENTATION = docker compose --profile $(PROFILE) -f presentation/docker-compose.yml
-COMPOSE_OBS          = docker compose --profile $(PROFILE) -f obs/docker-compose.yml
+COMPOSE_INFRA = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
+COMPOSE_INIT  = docker compose --profile $(PROFILE) -p init -f infra/docker-compose.init.yml
+COMPOSE_CORE  = docker compose --profile $(PROFILE) -f core/docker-compose.yml
+COMPOSE_UI    = docker compose --profile $(PROFILE) -f ui/docker-compose.yml
+COMPOSE_OBS   = docker compose --profile $(PROFILE) -f obs/docker-compose.yml
 
 COMPOSE_ALL = docker compose \
 	--profile $(PROFILE) \
 	-f infra/docker-compose.yml \
 	-f infra/docker-compose.init.yml \
 	-f core/docker-compose.yml \
-	-f presentation/docker-compose.yml \
+	-f ui/docker-compose.yml \
 	-f obs/docker-compose.yml
 
 CORE_DIR = core
@@ -31,10 +31,10 @@ all:
 	$(MAKE) core-build
 	$(MAKE) infra-up
 	$(MAKE) core-up
-	$(MAKE) presentation-up
+	$(MAKE) ui-up
 
 down:
-	$(MAKE) presentation-down
+	$(MAKE) ui-down
 	$(MAKE) infra-down
 	$(MAKE) core-down
 	$(MAKE) obs-down
@@ -63,7 +63,7 @@ build-all-parallel:
 dev: infra-up obs-up
 	@echo "🚀 Infra + Observability running"
 
-dev-all: build-all infra-up core-up presentation-up obs-up
+dev-all: build-all infra-up core-up ui-up obs-up
 	@echo "🚀 FULL SYSTEM READY"
 
 # =========================
@@ -147,17 +147,17 @@ core-ps:
 # PRESENTATION
 # =========================
 
-presentation-up:
-	$(COMPOSE_PRESENTATION) up -d --build
+ui-up:
+	$(COMPOSE_UI) up -d --build
 
-presentation-down:
-	$(COMPOSE_PRESENTATION) down -v
+ui-down:
+	$(COMPOSE_UI) down -v
 
-presentation-logs:
-	$(COMPOSE_PRESENTATION) logs -f
+ui-logs:
+	$(COMPOSE_UI) logs -f
 
-presentation-restart:
-	$(COMPOSE_PRESENTATION) restart
+ui-restart:
+	$(COMPOSE_UI) restart
 
 # ---------------------------------
 # NEST BFF
@@ -174,13 +174,13 @@ bff-nest-dev:
 # ---------------------------------
 
 frontend-angular-build:
-	cd presentation/frontend-angular && npm install && npm run build
+	cd ui/frontend-angular && npm install && npm run build
 
 frontend-react-build:
-	cd presentation/frontend-react && npm install && npm run build
+	cd ui/frontend-react && npm install && npm run build
 
 dev-dashboard-build:
-	cd presentation/dev-dashboard && npm install && npm run build
+	cd ui/dev-dashboard && npm install && npm run build
 
 # =========================
 # OBSERVABILITY
@@ -202,7 +202,7 @@ obs-restart:
 # GLOBAL
 # =========================
 
-up: infra-up core-up presentation-up obs-up
+up: infra-up core-up ui-up obs-up
 
 down:
 	$(COMPOSE_ALL) down -v --remove-orphans
