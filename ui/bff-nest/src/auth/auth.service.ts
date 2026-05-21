@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserGrpcClient, RegisterUserInput } from '../common/grpc/user-grpc.client';
 
 export interface KeycloakClientConfig {
   url: string;
@@ -13,6 +14,8 @@ export class AuthService {
   );
   private readonly realm = process.env.KEYCLOAK_REALM ?? 'omnibus';
   private readonly clientId = process.env.KEYCLOAK_CLIENT_ID ?? 'omnibus-frontend';
+
+  constructor(private readonly userGrpcClient: UserGrpcClient) {}
 
   getClientConfig(): KeycloakClientConfig {
     return {
@@ -54,6 +57,10 @@ export class AuthService {
       email: user.email,
       roles: user.roles,
     };
+  }
+
+  registerUser(input: RegisterUserInput) {
+    return this.userGrpcClient.registerUser(input);
   }
 
   private buildOpenIdUrl(endpoint: string, params: Record<string, string>): string {

@@ -8,13 +8,12 @@ spring:
     password: ${DB_PASSWORD:omnibus}
     driver-class-name: org.postgresql.Driver
   cloud:
-    function:
-      definition: outboxEvents
     stream:
       bindings:
         outboxEvents-out-0:
-          destination: ${BFF_OUTBOX_KAFKA_TOPIC:bff.outbox.events}
+          destination: ${USER_REGISTERED_KAFKA_TOPIC:user.registered}
           content-type: application/json
-      poller:
-        fixed-delay: ${OUTBOX_RELAY_POLL_DELAY:1000}
-        max-messages-per-poll: ${OUTBOX_RELAY_MAX_MESSAGES_PER_POLL:1}
+
+outbox:
+  relay:
+    fixed-delay: ${OUTBOX_RELAY_POLL_DELAY:1000}

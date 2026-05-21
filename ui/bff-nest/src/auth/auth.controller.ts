@@ -1,6 +1,7 @@
-import { Controller, Get, Query, Redirect, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Redirect, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { RegisterUserDto } from './register-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +22,11 @@ export class AuthController {
   @Redirect()
   register(@Query('redirectUri') redirectUri?: string) {
     return { url: this.authService.buildRegistrationUrl(normalizeRedirectUri(redirectUri)) };
+  }
+
+  @Post('register')
+  registerUser(@Body() body: RegisterUserDto) {
+    return this.authService.registerUser(body);
   }
 
   @Get('logout')

@@ -61,6 +61,7 @@ class SecurityConfig {
 
         http
             .authorizeHttpRequests {
+                it.requestMatchers("/actuator/**").permitAll()
                 it.anyRequest().authenticated()
             }
             .formLogin(Customizer.withDefaults())

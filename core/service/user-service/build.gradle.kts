@@ -1,9 +1,10 @@
 plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.deps)
+    alias(libs.plugins.protobuf)
 
-    kotlin("jvm")
-    kotlin("plugin.spring")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
     kotlin("plugin.jpa")
 }
 
@@ -27,6 +28,7 @@ dependencies {
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.security.crypto)
     implementation(libs.spring.cloud.starter.bus.kafka)
     implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.loadbalancer)
@@ -39,9 +41,36 @@ dependencies {
     // 🔥 KAFKA (REQUIRED)
     implementation(libs.spring.kafka)
 
+    // gRPC
+    implementation(libs.grpc.spring.server)
+    implementation(libs.grpc.protobuf)
+    implementation(libs.grpc.stub)
+    implementation(libs.protobuf.java.util)
+    compileOnly(libs.javax.annotation.api)
+
     // Observability
     implementation(libs.micrometer.registry.prometheus)
 
     // Tests
     testImplementation(libs.spring.boot.starter.test)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
+    }
+
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
+        }
+    }
+
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+            }
+        }
+    }
 }

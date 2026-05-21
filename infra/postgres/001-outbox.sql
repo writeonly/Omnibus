@@ -1,3 +1,5 @@
+\connect user_db
+
 create table if not exists outbox_events (
   id uuid primary key,
   aggregate_type text not null,

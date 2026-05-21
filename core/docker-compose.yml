@@ -96,6 +96,8 @@ services:
         condition: service_healthy
       rule-engine:
         condition: service_healthy
+      user-service:
+        condition: service_healthy
       workflow-engine:
         condition: service_healthy
     environment:
@@ -106,6 +108,7 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       RULE_ENGINE_GRPC_URI: lb:h2c://rule-engine
       WORKFLOW_ENGINE_GRPC_URI: lb:h2c://workflow-engine
+      USER_SERVICE_GRPC_URI: lb:h2c://user-service
     networks:
       - omnibus
 
@@ -178,6 +181,35 @@ services:
       DB_USERNAME: omnibus
       DB_PASSWORD: omnibus
       POSTGRES_DB: user_db
+    networks:
+      - omnibus
+
+  outbox-relay-service:
+    build:
+      context: .
+      dockerfile: legacy/outbox-relay-service/Dockerfile
+    container_name: outbox-relay-service
+    mem_limit: 512m
+    ports:
+      - "8085:8085"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8085; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      DB_URL: jdbc:postgresql://postgres:5432/user_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
     networks:
       - omnibus
 

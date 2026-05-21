@@ -1,5 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface RegisterUserRequest {
+  username: string;
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface RegisterUserResponse {
+  userId: string;
+  username: string;
+  email: string;
+  status: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,8 +29,8 @@ export class AuthService {
     window.location.href = this.redirectUrl('/api/auth/login');
   }
 
-  register() {
-    window.location.href = this.redirectUrl('/api/auth/register');
+  register(request: RegisterUserRequest): Observable<RegisterUserResponse> {
+    return this.http.post<RegisterUserResponse>('/api/auth/register', request);
   }
 
   logout() {

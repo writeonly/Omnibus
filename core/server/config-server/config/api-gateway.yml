@@ -18,6 +18,11 @@ spring:
               uri: "${WORKFLOW_ENGINE_GRPC_URI:lb:h2c://workflow-engine}"
               predicates:
                 - Path=/omnibus.v1.WorkflowService/**
+
+            - id: user-service-grpc
+              uri: "${USER_SERVICE_GRPC_URI:lb:h2c://user-service}"
+              predicates:
+                - Path=/omnibus.v1.UserService/**
   security:
     oauth2:
       resourceserver:

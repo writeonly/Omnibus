@@ -1,4 +1,4 @@
-package com.omnibus.userservice
+package pl.writeonly.omnibus.user
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
