@@ -30,7 +30,7 @@ docker compose up --build
 
 | Component | URL |
 | --- | --- |
-| Angular frontend container | `http://localhost:4300` |
+| Angular frontend container | `http://localhost:4200` |
 | NestJS BFF | `http://localhost:3000` |
 
 ## Local Development

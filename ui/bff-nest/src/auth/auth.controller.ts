@@ -43,7 +43,7 @@ export class AuthController {
 }
 
 function normalizeRedirectUri(redirectUri?: string): string {
-  const fallback = process.env.FRONTEND_PUBLIC_URL ?? 'http://localhost:4300';
+  const fallback = process.env.FRONTEND_PUBLIC_URL ?? 'http://localhost:4200';
   const allowedOrigins = (process.env.FRONTEND_ALLOWED_REDIRECT_ORIGINS ?? fallback)
     .split(',')
     .map((origin) => origin.trim())

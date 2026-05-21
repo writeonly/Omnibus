@@ -89,7 +89,7 @@ docker compose up --build
 
 | Component | URL/Port |
 | --- | --- |
-| Angular frontend container | `http://localhost:4300` |
+| Angular frontend container | `http://localhost:5173` |
 | NestJS BFF | `http://localhost:3000` |
 | API gateway | `http://localhost:8080` |
 | config-server | `http://localhost:8888` |

@@ -9,7 +9,7 @@ services:
         KEYCLOAK_CLIENT: omnibus-frontend
     mem_limit: 512m
     ports:
-      - "4300:80"
+      - "4200:80"
     depends_on:
       - bff-nest
     networks:
@@ -24,8 +24,8 @@ services:
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus
       KEYCLOAK_CLIENT_ID: omnibus-frontend
-      FRONTEND_PUBLIC_URL: http://localhost:4300
-      FRONTEND_ALLOWED_REDIRECT_ORIGINS: http://localhost:4300,http://localhost:4200
+      FRONTEND_PUBLIC_URL: http://localhost:4200
+      FRONTEND_ALLOWED_REDIRECT_ORIGINS: http://localhost:400,http://localhost:4200
       API_GATEWAY_GRPC_TARGET: http://api-gateway:8080
       PORT: 3000
     ports:
