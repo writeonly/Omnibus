@@ -101,8 +101,8 @@ core-bootjar:
 	$(GRADLE) \
 		:config-server:bootJar \
 		:api-gateway:bootJar \
-		:rule-engine:bootJar \
-		:workflow-engine:bootJar \
+		:rule-service:bootJar \
+		:workflow-service:bootJar \
 		--parallel \
 		--build-cache \
 		--no-daemon

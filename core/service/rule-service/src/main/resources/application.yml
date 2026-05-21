@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: rule-service
+  config:
+    import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"

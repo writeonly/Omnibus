@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: rule-engine
-  config:
-    import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"

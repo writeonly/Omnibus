@@ -17,7 +17,7 @@ Spring Cloud Gateway entry point for backend traffic.
 ```text
 NestJS BFF
   -> API Gateway
-  -> rule-engine / workflow-engine / user-service / audit-service
+  -> rule-service / workflow-service / user-service / audit-service
 ```
 
 The gateway is configured through `config-server` and discovers JVM services through `eureka-server`.

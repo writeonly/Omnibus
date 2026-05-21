@@ -1,8 +1,6 @@
-## README
+## Follow Frontend
 
-Follow Frontend
-
-# Omnibus React frontend
+## Omnibus React frontend
 
 React + TypeScript version of the Omnibus presentation frontend.
 
@@ -12,3 +10,10 @@ npm run start
 ```
 
 The development server runs on port `4300` and proxies `/api` to `http://localhost:3000`.
+
+## TODO
+
+- Use Enteprise React
+- Follow Angular
+- Add nest.js
+- Add Playwright tests

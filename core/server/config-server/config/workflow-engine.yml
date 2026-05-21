@@ -5,8 +5,8 @@ grpc:
   server:
     port: ${GRPC_PORT:9082}
   client:
-    rule-engine:
-      address: ${BIDDING_ENGINE_GRPC_ADDRESS:discovery:///rule-engine}
+    rule-service:
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:discovery:///rule-service}
       negotiation-type: plaintext
 
 eureka:

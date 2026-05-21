@@ -1,7 +1,7 @@
-## README
+## First Frontend
 
-First Frontend
+Angulat First
 
 ## TODO
+
 - BDD tests : Playwright + Cucumber
-- RxJS ?

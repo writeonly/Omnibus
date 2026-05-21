@@ -9,13 +9,13 @@ spring:
       server:
         webflux:
           routes:
-            - id: rule-engine-grpc
-              uri: "${RULE_ENGINE_GRPC_URI:lb:h2c://rule-engine}"
+            - id: rule-service-grpc
+              uri: "${RULE_ENGINE_GRPC_URI:lb:h2c://rule-service}"
               predicates:
                 - Path=/omnibus.v1.BiddingService/**
 
-            - id: workflow-engine-grpc
-              uri: "${WORKFLOW_ENGINE_GRPC_URI:lb:h2c://workflow-engine}"
+            - id: workflow-service-grpc
+              uri: "${WORKFLOW_ENGINE_GRPC_URI:lb:h2c://workflow-service}"
               predicates:
                 - Path=/omnibus.v1.WorkflowService/**
 

@@ -33,7 +33,7 @@ API Gateway
     |
     v
 Core services
-  rule-engine, workflow-engine, user-service, audit-service,
+  rule-service, workflow-service, user-service, audit-service,
   auth-server, config-server, eureka-server
     |
     v
@@ -48,12 +48,12 @@ The main product path is the bidding recommendation flow:
 User enters a bridge hand
   -> frontend sends it to the BFF
   -> BFF routes through the API gateway
-  -> rule-engine parses the hand and evaluates Drools rules
+  -> rule-service parses the hand and evaluates Drools rules
   -> recommendation is returned synchronously
   -> domain events can be published to Kafka and archived/audited
 ```
 
-Admin and rule-publication flows are handled by `workflow-engine`, which validates rule submissions against `rule-engine` before publication.
+Admin and rule-publication flows are handled by `workflow-service`, which validates rule submissions against `rule-service` before publication.
 
 ## Local Startup
 
@@ -95,8 +95,8 @@ docker compose up --build
 | config-server | `http://localhost:8888` |
 | eureka-server | `http://localhost:8761` |
 | auth-server | `http://localhost:9000` |
-| rule-engine | `http://localhost:8083` |
-| workflow-engine | `http://localhost:8084` |
+| rule-service | `http://localhost:8083` |
+| workflow-service | `http://localhost:8084` |
 | PostgreSQL | `localhost:5432` |
 | Keycloak | `http://localhost:9090` |
 | RabbitMQ Management | `http://localhost:15672` |
@@ -121,8 +121,8 @@ See the README in each area for more ports, profiles and local development comma
 - Java services use JDK 21 and Gradle Kotlin DSL.
 - Backend modules are listed in [core/settings.gradle.kts](core/settings.gradle.kts).
 - Frontend and BFF modules use Node/npm.
-- Drools rules are in [core/service/rule-engine/src/main/resources/rules](core/service/rule-engine/src/main/resources/rules).
-- BPMN workflow assets live in [core/service/workflow-engine/src/main/resources/bpmn](core/service/workflow-engine/src/main/resources/bpmn).
+- Drools rules are in [core/service/rule-service/src/main/resources/rules](core/service/rule-service/src/main/resources/rules).
+- BPMN workflow assets live in [core/service/workflow-service/src/main/resources/bpmn](core/service/workflow-service/src/main/resources/bpmn).
 - Shared protobuf definitions live in [proto/omnibus/v1](proto/omnibus/v1), with service-local copies where needed by build tooling.
 
 ## Documentation Policy

@@ -12,8 +12,8 @@ This directory contains the JVM backend workspace for Omnibus.
 | [server/api-gateway](server/api-gateway/README.md) | Spring Cloud Gateway entry point for backend traffic |
 | [service/audit-service](service/audit-service/README.md) | Kafka/audit observation service |
 | [service/user-service](service/user-service/README.md) | User domain service |
-| [service/rule-engine](service/rule-engine/README.md) | Drools-based bridge bidding rule engine |
-| [service/workflow-engine](service/workflow-engine/README.md) | Rule-publication workflow service |
+| [service/rule-service](service/rule-service/README.md) | Drools-based bridge bidding rule service |
+| [service/workflow-service](service/workflow-service/README.md) | Rule-publication workflow service |
 | `legacy/*` | Older or transitional services and projections |
 
 ## Backend Services
@@ -26,8 +26,8 @@ This directory contains the JVM backend workspace for Omnibus.
 | `api-gateway` | Spring Cloud Gateway entry point for backend services | `8080` |
 | `audit-service` | Audit/event observation service | `8081` |
 | `user-service` | User domain and registration flow | `8082` |
-| `rule-engine` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8083` |
-| `workflow-engine` | Rule publication workflow and validation orchestration | `8084` |
+| `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8083` |
+| `workflow-service` | Rule publication workflow and validation orchestration | `8084` |
 
 ## Build
 
@@ -38,8 +38,8 @@ This directory contains the JVM backend workspace for Omnibus.
 Run a single service during development:
 
 ```bash
-./gradlew :rule-engine:bootRun
-./gradlew :workflow-engine:bootRun
+./gradlew :rule-service:bootRun
+./gradlew :workflow-service:bootRun
 ```
 
 ## Docker Compose
@@ -66,5 +66,6 @@ Keep service-specific commands, TODOs, API notes and design decisions in the REA
 
 ## TODO
 
+- Use Spring Cloud Function
 - Use Spring WebFlux when asynchronous request handling makes sense.
-- Use Spring Cloud Function where it simplifies event/function boundaries.
+- Use Loom when synchronous request handling makes sense.

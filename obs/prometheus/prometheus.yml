@@ -15,15 +15,15 @@ scrape_configs:
       - targets:
           - user-service:8082
 
-  - job_name: omnibus-rule-engine
+  - job_name: omnibus-rule-service
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - rule-engine:8083
+          - rule-service:8083
 
-  - job_name: omnibus-workflow-engine
+  - job_name: omnibus-workflow-service
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - workflow-engine:8084
+          - workflow-service:8084
 
