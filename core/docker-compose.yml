@@ -1,3 +1,9 @@
+x-actuator-healthcheck: &actuator-healthcheck
+  interval: 10s
+  timeout: 5s
+  retries: 20
+  start_period: 30s
+
 services:
 
   config-server:
@@ -8,6 +14,9 @@ services:
     mem_limit: 512m
     ports:
       - "8888:8888"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8888; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_ENV: local
@@ -26,8 +35,12 @@ services:
     mem_limit: 512m
     ports:
       - "8761:8761"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8761; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
@@ -43,9 +56,14 @@ services:
     mem_limit: 512m
     ports:
       - "9000:9000"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/9000; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
-      - eureka-server
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
@@ -66,12 +84,20 @@ services:
     mem_limit: 512m
     ports:
       - "8080:8080"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8080; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
-      - auth-server
-      - eureka-server
-      - rule-engine
-      - workflow-engine
+      config-server:
+        condition: service_healthy
+      auth-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      rule-engine:
+        condition: service_healthy
+      workflow-engine:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
@@ -91,10 +117,16 @@ services:
     mem_limit: 512m
     ports:
       - "8081:8081"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8081; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
-      - eureka-server
-      - auth-server
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      auth-server:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
@@ -124,10 +156,16 @@ services:
     mem_limit: 512m
     ports:
       - "8082:8082"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8082; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
-      - eureka-server
-      - auth-server
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      auth-server:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
@@ -150,10 +188,16 @@ services:
     mem_limit: 512m
     ports:
       - "8083:8083"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
-      - auth-server
-      - eureka-server
+      config-server:
+        condition: service_healthy
+      auth-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
@@ -170,11 +214,18 @@ services:
     mem_limit: 512m
     ports:
       - "8084:8084"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8084; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
-      - config-server
-      - auth-server
-      - eureka-server
-      - rule-engine
+      config-server:
+        condition: service_healthy
+      auth-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      rule-engine:
+        condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888

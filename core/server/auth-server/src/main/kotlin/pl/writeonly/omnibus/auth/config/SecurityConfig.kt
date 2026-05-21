@@ -47,6 +47,7 @@ class SecurityConfig {
             .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
             .with(authorizationServerConfigurer, Customizer.withDefaults())
             .authorizeHttpRequests {
+                it.requestMatchers("/actuator/**").permitAll()
                 it.anyRequest().authenticated()
             }
 
