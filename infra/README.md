@@ -16,6 +16,8 @@ Optional profiles:
 | `follow` | Redpanda, Scylla, OpenSearch, OpenSearch Dashboards, FerretDB |
 | `legacy` | NGINX gateway |
 
+The compose file creates or uses the shared Docker network named `omnibus`.
+
 ## Core Ports
 
 | Service | Port/URL |
@@ -23,10 +25,34 @@ Optional profiles:
 | PostgreSQL | `localhost:5432` |
 | Keycloak | `http://localhost:9090` |
 | Redis | `localhost:6379` |
+| RabbitMQ | `localhost:5672` |
 | RabbitMQ Management | `http://localhost:15672` |
 | Kafka external listener | `localhost:29092` with `first` profile |
-| Kafka UI | `http://localhost:9002` with `first` profile |
+| Kafka UI | `http://localhost:9094` with `first` profile |
+| Redpanda external listener | `localhost:9092` with `follow` profile |
 | Cassandra/Scylla | `localhost:9042` with matching profile |
+| Elasticsearch/OpenSearch | `http://localhost:9200` with matching profile |
+| Kibana/OpenSearch Dashboards | `http://localhost:5601` with matching profile |
 | NGINX legacy gateway | `http://localhost:8000` with `legacy` profile |
 
-The compose file creates/uses the shared Docker network named `omnibus`.
+## Data And State
+
+| Store | Current role |
+| --- | --- |
+| PostgreSQL | Service databases, auth-related state and outbox tables |
+| Redis | Cache and token blacklist support |
+| RabbitMQ | Local messaging experiments and integration support |
+| Kafka/Redpanda | Domain events, audit/archive projections, config bus use cases |
+| Cassandra/Scylla | Event/audit/projection storage path |
+| MongoDB/FerretDB | Audit/search-oriented storage experiments |
+| Elasticsearch/OpenSearch | Search and log/audit exploration |
+
+## Local Assets
+
+| Path | Purpose |
+| --- | --- |
+| [postgres](postgres) | PostgreSQL initialization scripts |
+| [keycloak](keycloak) | Imported Keycloak realm configuration |
+| [cassandra](cassandra) | Cassandra initialization scripts |
+| [nginx](nginx) | Legacy NGINX gateway configuration |
+| [outbox-relay](outbox-relay) | Node-based outbox relay helper |

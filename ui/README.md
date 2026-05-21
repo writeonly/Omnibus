@@ -1,4 +1,4 @@
-# Presentation
+# UI
 
 This directory contains the frontend and backend-for-frontend modules for Omnibus.
 
@@ -6,10 +6,21 @@ This directory contains the frontend and backend-for-frontend modules for Omnibu
 
 | Module | Purpose |
 | --- | --- |
-| `frontend-angular` | Primary frontend |
-| `frontend-react` | Alternative React frontend |
-| `dev-dashboard` | Developer dashboard |
-| `bff-nest` | NestJS backend-for-frontend |
+| [frontend-angular](frontend-angular/README.md) | Primary frontend |
+| [frontend-react](frontend-react/README.md) | Alternative React frontend |
+| [dev-dashboard](dev-dashboard/README.md) | Developer dashboard |
+| [bff-nest](bff-nest/README.md) | NestJS backend-for-frontend |
+
+## Presentation Flow
+
+```text
+Frontend apps
+  -> NestJS BFF
+  -> API gateway
+  -> core services
+```
+
+The BFF shields UI clients from backend topology. In Docker Compose it calls the backend API gateway through the shared `omnibus` network.
 
 ## Docker Compose
 
@@ -21,8 +32,6 @@ docker compose up --build
 | --- | --- |
 | Angular frontend container | `http://localhost:4300` |
 | NestJS BFF | `http://localhost:3000` |
-
-The BFF is configured to call the backend API gateway at `http://api-gateway:8080` inside the shared Docker network.
 
 ## Local Development
 
@@ -41,3 +50,14 @@ cd ../frontend-react
 npm install
 npm run start
 ```
+
+## Scripts
+
+| Script | Purpose |
+| --- | --- |
+| [bff-nest/run.sh](bff-nest/run.sh) | Run the NestJS BFF |
+| [frontend-angular/run.sh](frontend-angular/run.sh) | Run the Angular frontend |
+| [frontend-angular/openapi.sh](frontend-angular/openapi.sh) | Generate/update Angular OpenAPI client code |
+| [frontend-angular/orval.sh](frontend-angular/orval.sh) | Generate/update Orval client code |
+| [frontend-angular/nginx/entrypoint.sh](frontend-angular/nginx/entrypoint.sh) | Frontend container entrypoint |
+| [frontend-react/run.sh](frontend-react/run.sh) | Run the React frontend |
