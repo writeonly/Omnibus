@@ -1,0 +1,25 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/auth_db}
+    username: ${DB_USERNAME:omnibus}
+    password: ${DB_PASSWORD:omnibus}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: ${AUTH_ISSUER:http://localhost:9000}
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO

@@ -1,44 +1,5 @@
-server:
-  port: 8080
-  http2:
-    enabled: true
-
 spring:
   application:
     name: api-gateway
   config:
-    import: "optional:configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"
-  jmx:
-    enabled: false
-
-  kafka:
-    bootstrap-servers: "${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}"
-
-  cloud:
-    bus:
-      enabled: true
-    gateway:
-      server:
-        webflux:
-          routes:
-
-            - id: rule-engine-grpc
-              uri: "${RULE_ENGINE_GRPC_URI:h2c://localhost:9081}"
-              predicates:
-                - Path=/omnibus.v1.BiddingService/**
-
-            - id: workflow-engine-grpc
-              uri: "${WORKFLOW_ENGINE_GRPC_URI:h2c://localhost:9082}"
-              predicates:
-                - Path=/omnibus.v1.WorkflowService/**
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://keycloak:8180/realms/omnibus
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus,metrics,refresh
+    import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"

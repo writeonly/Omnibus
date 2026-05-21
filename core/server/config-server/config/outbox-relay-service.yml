@@ -1,0 +1,20 @@
+server:
+  port: 8085
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/omnibus}
+    username: ${DB_USERNAME:omnibus}
+    password: ${DB_PASSWORD:omnibus}
+    driver-class-name: org.postgresql.Driver
+  cloud:
+    function:
+      definition: outboxEvents
+    stream:
+      bindings:
+        outboxEvents-out-0:
+          destination: ${BFF_OUTBOX_KAFKA_TOPIC:bff.outbox.events}
+          content-type: application/json
+      poller:
+        fixed-delay: ${OUTBOX_RELAY_POLL_DELAY:1000}
+        max-messages-per-poll: ${OUTBOX_RELAY_MAX_MESSAGES_PER_POLL:1}

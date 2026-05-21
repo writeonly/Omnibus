@@ -1,52 +1,5 @@
-server:
-  port: 8083
-
 spring:
   application:
     name: rule-engine
   config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.add.type.headers: false
-  cloud:
-    bus:
-      enabled: true
-  jmx:
-    enabled: false
-
-grpc:
-  server:
-    port: ${GRPC_PORT:9081}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus,refresh
-  endpoint:
-    health:
-      show-details: always
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-
-omnibus:
-  rules:
-    storage-path: managed-rules
-  kafka:
-    enabled: ${OMNIBUS_KAFKA_ENABLED:true}
-    topics:
-      recommendation-produced: omnibus.recommendation.produced
-      rule-updated: omnibus.rule.updated
-
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+    import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"

@@ -1,0 +1,42 @@
+server:
+  port: 8081
+
+spring:
+  kafka:
+    consumer:
+      group-id: audit-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+  cloud:
+    function:
+      definition: auditConsumer
+    stream:
+      bindings:
+        auditConsumer-in-0:
+          destination: omnibus-events
+          group: audit-service
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://omnibus:omnibus@localhost:27017/audit_db?authSource=admin}
+    cassandra:
+      contact-points: ${CASSANDRA_CONTACT_POINTS:cassandra}
+      port: ${CASSANDRA_PORT:9042}
+      keyspace-name: ${CASSANDRA_KEYSPACE:audit_keyspace}
+      local-datacenter: ${CASSANDRA_DATACENTER:datacenter1}
+      schema-action: CREATE_IF_NOT_EXISTS
+    elasticsearch:
+      uris: ${ELASTICSEARCH_URIS:http://elasticsearch:9200}
+
+logging:
+  level:
+    pl.writeonly.omnibus.audit: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.cloud.stream: INFO
+    org.springframework.data.cassandra: DEBUG
+    com.datastax.oss.driver: DEBUG

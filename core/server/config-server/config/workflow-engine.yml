@@ -3,4 +3,14 @@ server:
 
 grpc:
   server:
-    port: 9084
+    port: ${GRPC_PORT:9082}
+  client:
+    rule-engine:
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+      negotiation-type: plaintext
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

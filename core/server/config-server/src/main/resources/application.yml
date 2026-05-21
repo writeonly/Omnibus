@@ -11,13 +11,13 @@ spring:
     config:
       server:
         native:
-          search-locations: ${CONFIG_REPO_LOCATION:file:/workspace/config,file:./core/config-server/config,file:./config}
+          search-locations: ${CONFIG_REPO_LOCATION:file:/workspace/config,file:./server/config-server/config,file:./config}
         git:
           uri: ${CONFIG_GIT_URI:https://github.com/writeonly/omnibus}
           default-label: ${CONFIG_GIT_LABEL:main}
           clone-on-start: ${CONFIG_GIT_CLONE_ON_START:true}
           search-paths:
-            - server/config-server/config
+            - core/server/config-server/config
     bus:
       enabled: true
     stream:
