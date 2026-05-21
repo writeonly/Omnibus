@@ -10,7 +10,7 @@ export interface KeycloakClientConfig {
 @Injectable()
 export class AuthService {
   private readonly publicKeycloakUrl = withoutTrailingSlash(
-    process.env.KEYCLOAK_PUBLIC_URL ?? process.env.KEYCLOAK_URL ?? 'http://localhost:8180'
+    process.env.KEYCLOAK_PUBLIC_URL ?? process.env.KEYCLOAK_URL ?? 'http://localhost:9090'
   );
   private readonly realm = process.env.KEYCLOAK_REALM ?? 'omnibus';
   private readonly clientId = process.env.KEYCLOAK_CLIENT_ID ?? 'omnibus-frontend';

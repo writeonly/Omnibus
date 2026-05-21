@@ -27,4 +27,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${OAUTH2_ISSUER_URI:http://keycloak:8180/realms/omnibus}
+          issuer-uri: ${OAUTH2_ISSUER_URI:http://keycloak:9090/realms/omnibus}
