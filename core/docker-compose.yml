@@ -78,8 +78,8 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      RULE_ENGINE_GRPC_URI: h2c://rule-engine:9081
-      WORKFLOW_ENGINE_GRPC_URI: h2c://workflow-engine:9082
+      RULE_ENGINE_GRPC_URI: lb:h2c://rule-engine
+      WORKFLOW_ENGINE_GRPC_URI: lb:h2c://workflow-engine
     networks:
       - omnibus
 
@@ -181,7 +181,7 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      BIDDING_ENGINE_GRPC_ADDRESS: static://rule-engine:9081
+      BIDDING_ENGINE_GRPC_ADDRESS: discovery:///rule-engine
     networks:
       - omnibus
 

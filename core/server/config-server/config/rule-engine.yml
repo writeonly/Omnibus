@@ -5,6 +5,12 @@ grpc:
   server:
     port: ${GRPC_PORT:9081}
 
+eureka:
+  instance:
+    non-secure-port: ${GRPC_PORT:9081}
+    metadata-map:
+      grpc.port: ${GRPC_PORT:9081}
+
 omnibus:
   rules:
     storage-path: ${OMNIBUS_RULES_STORAGE_PATH:managed-rules}

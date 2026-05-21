@@ -6,8 +6,14 @@ grpc:
     port: ${GRPC_PORT:9082}
   client:
     rule-engine:
-      address: ${BIDDING_ENGINE_GRPC_ADDRESS:static://localhost:9081}
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:discovery:///rule-engine}
       negotiation-type: plaintext
+
+eureka:
+  instance:
+    non-secure-port: ${GRPC_PORT:9082}
+    metadata-map:
+      grpc.port: ${GRPC_PORT:9082}
 
 springdoc:
   api-docs:
