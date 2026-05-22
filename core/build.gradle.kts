@@ -2,6 +2,7 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.concurrent.Executors
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
@@ -90,4 +91,39 @@ subprojects {
 
 repositories {
     mavenCentral()
+}
+
+val processes = mutableListOf<Process>()
+
+fun runAsync(name: String, command: String) {
+    val pb = ProcessBuilder(command.split(" "))
+        .inheritIO()
+
+    val process = pb.start()
+    processes.add(process)
+
+    println("🚀 started $name")
+}
+
+tasks.register("run") {
+
+    doLast {
+        println("🔥 starting full dev environment...")
+
+        runAsync("config-server", "./gradlew :config-server:bootRun")
+        runAsync("eureka-server", "./gradlew :eureka-server:bootRun")
+        runAsync("auth-server", "./gradlew :auth-server:bootRun")
+        runAsync("api-gateway", "./gradlew :api-gateway:bootRun")
+        runAsync("audit-service", "./gradlew :audit-service:bootRun")
+        runAsync("user-service", "./gradlew :user-service:bootRun")
+        runAsync("rule-service", "./gradlew :rule-service:bootRun")
+        runAsync("workflow-service", "./gradlew :workflow-service:bootRun")
+
+        Runtime.getRuntime().addShutdownHook(Thread {
+            println("🛑 stopping all services...")
+            processes.forEach { it.destroy() }
+        })
+
+        processes.forEach { it.waitFor() }
+    }
 }

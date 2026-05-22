@@ -11,7 +11,8 @@ spring:
     config:
       server:
         native:
-          search-locations: ${CONFIG_REPO_LOCATION:file:/workspace/config,file:./server/config-server/config,file:./config}
+          # search-locations: ${CONFIG_REPO_LOCATION:file:/workspace/config,file:./server/config-server/config,file:./config}
+          search-locations: ${CONFIG_REPO_LOCATION:file:${user.dir}/config}
         git:
           uri: ${CONFIG_GIT_URI:https://github.com/writeonly/omnibus}
           default-label: ${CONFIG_GIT_LABEL:main}
@@ -27,7 +28,7 @@ spring:
     enabled: false
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
   security:
     user:

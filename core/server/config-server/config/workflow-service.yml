@@ -1,0 +1,22 @@
+server:
+  port: 8084
+
+grpc:
+  server:
+    port: ${GRPC_PORT:9082}
+  client:
+    rule-service:
+      address: ${BIDDING_ENGINE_GRPC_ADDRESS:discovery:///rule-service}
+      negotiation-type: plaintext
+
+eureka:
+  instance:
+    non-secure-port: ${GRPC_PORT:9082}
+    metadata-map:
+      grpc.port: ${GRPC_PORT:9082}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
