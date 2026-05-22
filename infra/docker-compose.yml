@@ -23,6 +23,8 @@ services:
 
   grafana:
     image: grafana/grafana:10.4.2
+    container_name: omnibus-grafana
+    mem_limit: 512m
     ports:
       - "3001:3000"
     networks:
@@ -32,6 +34,8 @@ services:
     profiles:
       - "false"
     image: grafana/loki:2.9.6
+    container_name: omnibus-loki
+    mem_limit: 512m
     ports:
       - "3100:3100"
     networks:
@@ -161,10 +165,12 @@ services:
 
   prometheus:
     image: prom/prometheus:v2.54.1
+    container_name: omnibus-prometheus
+    mem_limit: 512m
     ports:
       - "9090:9090"
     volumes:
-      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       omnibus:
 
@@ -261,11 +267,12 @@ services:
     container_name: omnibus-opensearch
     mem_limit: 512m
     environment:
-      DISABLE_SECURITY_PLUGIN: true
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m"
       OPENSEARCH_JAVA_OPTS: "-Xms128m -Xmx256m"
-      OPENSEARCH_INITIAL_ADMIN_PASSWORD: initial_admin_password
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: QQQqqq111!!!
+      bootstrap.memory_lock: "true"
       discovery.type: "single-node"
+      plugins.security.ssl.http.enabled: "false"
     ulimits:
       memlock:
         soft: -1
@@ -332,9 +339,11 @@ services:
         - first
         - follow
     image: docker.elastic.co/beats/filebeat:8.14.0
+    container_name: omnibus-filebeat
+    mem_limit: 512m
     user: root
     volumes:
-      - ./infra/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
@@ -342,8 +351,10 @@ services:
 
   promtail:
     image: grafana/promtail:2.9.6
+    container_name: omnibus-promtail
+    mem_limit: 512m
     volumes:
-      - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
+      - ./promtail/promtail.yml:/etc/promtail/config.yml:ro
     networks:
       omnibus:
 

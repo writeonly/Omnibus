@@ -25,5 +25,9 @@ dependencies {
     implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.netflix.eureka.server)
 
+    // Observability
+    implementation(libs.logback)
+    implementation(libs.micrometer.registry.prometheus)
+
     testImplementation(libs.spring.boot.starter.test)
 }

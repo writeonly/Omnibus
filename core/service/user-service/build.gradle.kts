@@ -49,6 +49,7 @@ dependencies {
     compileOnly(libs.javax.annotation.api)
 
     // Observability
+    implementation(libs.logback)
     implementation(libs.micrometer.registry.prometheus)
 
     // Tests

@@ -24,6 +24,7 @@ lombok = "1.18.38"
 lombokPlugin = "8.6"
 
 kotlinLogging = "3.0.5"
+logback = "7.4"
 
 springAuthorizationServer = "1.5.1"
 postgresql = "42.7.7"
@@ -112,6 +113,10 @@ jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin"
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 
 kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlinLogging" }
+
+# ---------------- Logback ----------------
+
+logback = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logback" }
 
 # ---------------- Lombok ----------------
 

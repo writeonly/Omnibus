@@ -26,6 +26,10 @@ dependencies {
     implementation(libs.spring.cloud.config.monitor)
     implementation(libs.spring.cloud.starter.bus.kafka)
 
+    // Observability
+    implementation(libs.logback)
+    implementation(libs.micrometer.registry.prometheus)
+
     // Tests
     testImplementation(libs.spring.boot.starter.test)
 }

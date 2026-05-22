@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.spring.kafka)
 
     // Observability
+    implementation(libs.logback)
     implementation(libs.micrometer.registry.prometheus)
 
     // Tests

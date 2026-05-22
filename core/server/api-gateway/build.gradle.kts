@@ -32,5 +32,6 @@ dependencies {
     // implementation(libs.spring.cloud.starter.function.web)
 
     // Observability
+    implementation(libs.logback)
     implementation(libs.micrometer.registry.prometheus)
 }

@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.spring.security.oauth2.authorization.server)
 
     // Observability
+    implementation(libs.logback)
     implementation(libs.micrometer.registry.prometheus)
 
     // Testing

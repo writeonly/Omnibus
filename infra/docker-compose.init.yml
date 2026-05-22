@@ -59,6 +59,7 @@ services:
 networks:
   omnibus:
     name: omnibus
+    external: true
 
 volumes:
   postgres_data:
