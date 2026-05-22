@@ -7,7 +7,7 @@ export class ConfigService {
 
   config = {
     keycloak: {
-      url: 'http://localhost:9090',
+      url: 'http://localhost:9001',
       realm: 'omnibus',
       clientId: 'omnibus-frontend'
     }

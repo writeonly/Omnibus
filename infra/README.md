@@ -23,7 +23,7 @@ The compose file creates or uses the shared Docker network named `omnibus`.
 | Service | Port/URL |
 | --- | --- |
 | PostgreSQL | `localhost:5432` |
-| Keycloak | `http://localhost:9090` |
+| Keycloak | `http://localhost:9001` |
 | Redis | `localhost:6379` |
 | RabbitMQ | `localhost:5672` |
 | RabbitMQ Management | `http://localhost:15672` |

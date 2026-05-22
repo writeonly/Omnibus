@@ -98,7 +98,7 @@ docker compose up --build
 | rule-service | `http://localhost:8083` |
 | workflow-service | `http://localhost:8084` |
 | PostgreSQL | `localhost:5432` |
-| Keycloak | `http://localhost:9090` |
+| Keycloak | `http://localhost:9001` |
 | RabbitMQ Management | `http://localhost:15672` |
 | Grafana | `http://localhost:3001` |
 

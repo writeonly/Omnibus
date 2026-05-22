@@ -7,7 +7,7 @@ import * as jwksRsa from 'jwks-rsa';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     const publicKeycloakUrl = withoutTrailingSlash(
-      process.env.KEYCLOAK_PUBLIC_URL ?? process.env.KEYCLOAK_URL ?? 'http://localhost:9090'
+      process.env.KEYCLOAK_PUBLIC_URL ?? process.env.KEYCLOAK_URL ?? 'http://localhost:9001'
     );
     const internalKeycloakUrl = withoutTrailingSlash(
       process.env.KEYCLOAK_INTERNAL_URL ?? process.env.KEYCLOAK_URL ?? publicKeycloakUrl
