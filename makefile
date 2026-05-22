@@ -8,15 +8,13 @@ COMPOSE_INFRA = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
 COMPOSE_INIT  = docker compose --profile $(PROFILE) -p init -f infra/docker-compose.init.yml
 COMPOSE_CORE  = docker compose --profile $(PROFILE) -f core/docker-compose.yml
 COMPOSE_UI    = docker compose --profile $(PROFILE) -f ui/docker-compose.yml
-COMPOSE_OBS   = docker compose --profile $(PROFILE) -f obs/docker-compose.yml
 
 COMPOSE_ALL = docker compose \
 	--profile $(PROFILE) \
 	-f infra/docker-compose.yml \
 	-f infra/docker-compose.init.yml \
 	-f core/docker-compose.yml \
-	-f ui/docker-compose.yml \
-	-f obs/docker-compose.yml
+	-f ui/docker-compose.yml
 
 CORE_DIR = core
 BFF_NEST_DIR = presentation/bff-nest
@@ -34,7 +32,6 @@ all:
 	$(MAKE) ui-up
 
 down:
-	$(MAKE) obs-down
 	$(MAKE) ui-down
 	$(MAKE) core-down
 	$(MAKE) infra-down
@@ -56,14 +53,45 @@ build-all-parallel:
 		dev-dashboard-build
 	@echo "🔥 FULL PARALLEL BUILD DONE"
 
+
+
+# =========================
+# GLOBAL
+# =========================
+
+up: infra-up core-up ui-up
+
+down:
+	$(COMPOSE_ALL) down -v --remove-orphans
+
+restart:
+	$(COMPOSE_ALL) restart
+
+logs:
+	$(COMPOSE_ALL) logs -f
+
+ps:
+	$(COMPOSE_ALL) ps
+
+# =========================
+# CLEAN
+# =========================
+
+clean:
+	docker compose down -v --remove-orphans
+	$(GRADLE) clean
+
+docker-prune:
+	docker system prune -af --volumes
+
 # =========================
 # DEV MODE
 # =========================
 
-dev: infra-up obs-up
-	@echo "🚀 Infra + Observability running"
+dev: infra-up
+	@echo "🚀 Infra running"
 
-dev-all: build-all infra-up core-up ui-up obs-up
+dev-all: build-all infra-up core-up ui-up
 	@echo "🚀 FULL SYSTEM READY"
 
 # =========================
@@ -182,47 +210,4 @@ frontend-react-build:
 dev-dashboard-build:
 	cd ui/dev-dashboard && npm install && npm run build
 
-# =========================
-# OBSERVABILITY
-# =========================
 
-obs-up:
-	$(COMPOSE_OBS) up -d
-
-obs-down:
-	$(COMPOSE_OBS) down -v
-
-obs-logs:
-	$(COMPOSE_OBS) logs -f
-
-obs-restart:
-	$(COMPOSE_OBS) restart
-
-# =========================
-# GLOBAL
-# =========================
-
-up: infra-up core-up ui-up obs-up
-
-down:
-	$(COMPOSE_ALL) down -v --remove-orphans
-
-restart:
-	$(COMPOSE_ALL) restart
-
-logs:
-	$(COMPOSE_ALL) logs -f
-
-ps:
-	$(COMPOSE_ALL) ps
-
-# =========================
-# CLEAN
-# =========================
-
-clean:
-	docker compose down -v --remove-orphans
-	$(GRADLE) clean
-
-docker-prune:
-	docker system prune -af --volumes
