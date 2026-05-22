@@ -37,20 +37,20 @@ class RestBiddingService(
             candidates,
         )
 
-        domainEventPublisher.publishRecommendationProduced(
-            RecommendationProducedEvent(
-                UUID.randomUUID().toString(),
-                Instant.now(),
-                response.system,
-                response.evaluatedSeat,
-                response.northHand,
-                response.southHand,
-                response.auction,
-                response.recommendedBid,
-                response.explanation,
-                response.candidates.map { it.bid },
-            ),
-        )
+        // domainEventPublisher.publishRecommendationProduced(
+        //     RecommendationProducedEvent(
+        //         UUID.randomUUID().toString(),
+        //         Instant.now(),
+        //         response.system,
+        //         response.evaluatedSeat,
+        //         response.northHand,
+        //         response.southHand,
+        //         response.auction,
+        //         response.recommendedBid,
+        //         response.explanation,
+        //         response.candidates.map { it.bid },
+        //     ),
+        // )
 
         return response
     }

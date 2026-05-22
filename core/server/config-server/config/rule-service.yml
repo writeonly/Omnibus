@@ -21,7 +21,8 @@ omnibus:
   rules:
     storage-path: ${OMNIBUS_RULES_STORAGE_PATH:managed-rules}
   kafka:
-    enabled: ${OMNIBUS_KAFKA_ENABLED:true}
+    # enabled: ${OMNIBUS_KAFKA_ENABLED:true}
+    enabled: false
     topics:
       recommendation-produced: omnibus.recommendation.produced
       rule-updated: omnibus.rule.updated

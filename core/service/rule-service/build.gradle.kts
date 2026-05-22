@@ -32,6 +32,9 @@ dependencies {
     implementation(libs.spring.cloud.starter.loadbalancer)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
     implementation(libs.spring.cloud.starter.function.web)
+    
+    // Kafka
+    implementation(libs.spring.kafka)
 
     // gRPC
     implementation(libs.grpc.spring.server)
