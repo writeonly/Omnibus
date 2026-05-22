@@ -2,7 +2,9 @@
 # CONFIG
 # =========================
 
-PROFILE = "follow"
+# PROFILE = "first"
+# PROFILE = "follow"
+PROFILE = "false"
 
 COMPOSE_INFRA = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
 COMPOSE_INIT  = docker compose --profile $(PROFILE) -p init -f infra/docker-compose.init.yml

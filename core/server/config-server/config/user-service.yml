@@ -3,13 +3,19 @@ server:
 
 grpc:
   server:
-    port: ${GRPC_PORT:9083}
+    port: ${GRPC_PORT:9082}
 
 eureka:
   instance:
-    non-secure-port: ${GRPC_PORT:9083}
+    non-secure-port: ${GRPC_PORT:9082}
     metadata-map:
-      grpc.port: ${GRPC_PORT:9083}
+      grpc.port: ${GRPC_PORT:9082}
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
 
 spring:
   datasource:

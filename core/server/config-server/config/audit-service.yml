@@ -34,9 +34,7 @@ spring:
       uris: ${ELASTICSEARCH_URIS:http://elasticsearch:9200}
 
 logging:
+  file:
+    name: logs/app.log
   level:
-    pl.writeonly.omnibus.audit: DEBUG
-    org.springframework.kafka: INFO
-    org.springframework.cloud.stream: INFO
-    org.springframework.data.cassandra: DEBUG
-    com.datastax.oss.driver: DEBUG
+    root: INFO

@@ -22,7 +22,8 @@ spring:
     bus:
       enabled: true
     stream:
-      default-binder: kafka
+      # default-binder: kafka
+      default-binder: rabbit
 
   jmx:
     enabled: false
@@ -34,6 +35,12 @@ spring:
     user:
       name: name
       password: password
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: omnibus
+    password: omnibus    
 
 management:
   endpoints:

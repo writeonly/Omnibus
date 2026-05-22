@@ -29,7 +29,6 @@ dependencies {
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.security.crypto)
-    implementation(libs.spring.cloud.starter.bus.kafka)
     implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.loadbalancer)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
@@ -37,9 +36,6 @@ dependencies {
  
     // Persistence
     runtimeOnly(libs.postgresql)
-
-    // 🔥 KAFKA (REQUIRED)
-    implementation(libs.spring.kafka)
 
     // gRPC
     implementation(libs.grpc.spring.server)

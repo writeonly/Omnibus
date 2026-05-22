@@ -3,13 +3,19 @@ server:
 
 grpc:
   server:
-    port: ${GRPC_PORT:9081}
+    port: ${GRPC_PORT:9083}
 
 eureka:
   instance:
-    non-secure-port: ${GRPC_PORT:9081}
+    non-secure-port: ${GRPC_PORT:9083}
     metadata-map:
-      grpc.port: ${GRPC_PORT:9081}
+      grpc.port: ${GRPC_PORT:9083}
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
 
 omnibus:
   rules:

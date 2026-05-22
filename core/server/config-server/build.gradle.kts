@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.spring.cloud.config.server)
     implementation(libs.spring.cloud.config.monitor)
     implementation(libs.spring.cloud.starter.bus.kafka)
+    implementation(libs.spring.cloud.starter.bus.amqp)
 
     // Observability
     implementation(libs.logback)

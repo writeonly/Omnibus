@@ -32,11 +32,7 @@ dependencies {
     implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
     implementation(libs.spring.cloud.starter.function.web)
-    implementation(libs.spring.cloud.starter.stream.kafka)
     implementation(libs.spring.cloud.function.context)
-
-    // Kafka
-    implementation(libs.spring.kafka)
 
     // Observability
     implementation(libs.logback)
@@ -44,5 +40,4 @@ dependencies {
 
     // Tests
     testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.spring.kafka.test)
 }

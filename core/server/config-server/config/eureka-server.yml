@@ -7,7 +7,7 @@ eureka:
     fetch-registry: false
 
 logging:
+  file:
+    name: logs/app.log
   level:
-    com.netflix.eureka: INFO
-    com.netflix.discovery: INFO
-    org.springframework.cloud.netflix.eureka: INFO
+    root: INFO

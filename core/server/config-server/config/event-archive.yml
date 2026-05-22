@@ -17,6 +17,12 @@ spring:
     keyspace-name: ${CASSANDRA_KEYSPACE:omnibus}
     schema-action: create_if_not_exists
 
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
+
 omnibus:
   kafka:
     topics:

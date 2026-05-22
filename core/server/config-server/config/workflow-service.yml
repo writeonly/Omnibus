@@ -3,11 +3,17 @@ server:
 
 grpc:
   server:
-    port: ${GRPC_PORT:9082}
+    port: ${GRPC_PORT:9084}
   client:
     rule-service:
       address: ${BIDDING_ENGINE_GRPC_ADDRESS:discovery:///rule-service}
       negotiation-type: plaintext
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
 
 eureka:
   instance:

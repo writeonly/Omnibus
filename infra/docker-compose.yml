@@ -29,7 +29,7 @@ services:
     container_name: omnibus-grafana
     mem_limit: 512m
     ports:
-      - "3001:3000"
+      - "3000:3000"
     networks:
       omnibus:
 
@@ -118,6 +118,7 @@ services:
   redis:
     image: redis:7-alpine
     container_name: omnibus-redis
+    mem_limit: 521m
     ports:
       - "6379:6379"
     networks:
@@ -170,7 +171,7 @@ services:
 
   prometheus:
     profiles:
-      - "false"
+      - legacy
     image: prom/prometheus:v2.54.1
     container_name: omnibus-prometheus
     mem_limit: 512m

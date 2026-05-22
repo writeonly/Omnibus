@@ -28,3 +28,9 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${OAUTH2_ISSUER_URI:http://keycloak:9001/realms/omnibus}
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO

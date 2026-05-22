@@ -29,9 +29,10 @@ spring:
         issuer: ${AUTH_ISSUER:http://localhost:9000}
 
 logging:
+  file:
+    name: logs/app.log
   level:
-    org.springframework.security: INFO
-    org.springframework.security.oauth2: INFO
+    root: INFO
 
 omnibus:
   keycloak:
