@@ -27,9 +27,9 @@ services:
       FRONTEND_PUBLIC_URL: http://localhost:4200
       FRONTEND_ALLOWED_REDIRECT_ORIGINS: http://localhost:400,http://localhost:4200
       API_GATEWAY_GRPC_TARGET: http://api-gateway:8080
-      PORT: 3000
+      PORT: 3001
     ports:
-      - "3000:3000"
+      - "3001:3001"
     networks:
       omnibus:
 

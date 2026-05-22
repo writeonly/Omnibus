@@ -15,7 +15,7 @@ class ManagedRuleAdminService(
     private val managedRuleStore: ManagedRuleStore,
     private val ruleCatalogService: RuleCatalogService,
     private val droolsCompilationService: DroolsCompilationService,
-    private val domainEventPublisher: DomainEventPublisher,
+    // private val domainEventPublisher: DomainEventPublisher,
 ) {
     fun listRules(): List<ManagedRuleDefinition> = ruleCatalogService.listAllRules()
 
@@ -24,16 +24,16 @@ class ManagedRuleAdminService(
 
         try {
             droolsCompilationService.buildContainer(ruleCatalogService.listAllRules())
-            domainEventPublisher.publishRuleUpdated(
-                RuleUpdatedEvent(
-                    UUID.randomUUID().toString(),
-                    Instant.now(),
-                    storedRule.name,
-                    storedRule.sourcePath,
-                    storedRule.managed,
-                    storedRule.content.length,
-                ),
-            )
+            // domainEventPublisher.publishRuleUpdated(
+            //     RuleUpdatedEvent(
+            //         UUID.randomUUID().toString(),
+            //         Instant.now(),
+            //         storedRule.name,
+            //         storedRule.sourcePath,
+            //         storedRule.managed,
+            //         storedRule.content.length,
+            //     ),
+            // )
             return storedRule
         } catch (exception: RuntimeException) {
             managedRuleStore.delete(storedRule.name)

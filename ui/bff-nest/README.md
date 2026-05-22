@@ -10,7 +10,7 @@ NestJS backend-for-frontend for Omnibus UI clients.
 
 | Interface | Port |
 | --- | --- |
-| HTTP | `3000` |
+| HTTP | `3001` |
 
 ## Flow
 

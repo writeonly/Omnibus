@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { HealthController } from './health/health.controller';
-import { NextBidModule } from './bidding/next-bid/next-bid.module';
-import { RestBiddingModule } from './bidding/rest-bidding/rest-bidding.module';
+import { NextBidModule } from './api/rule/next-bid/next-bid.module';
+import { RestBiddingModule } from './api/workflow/rest-bidding/rest-bidding.module';
 // import { OutboxModule } from './outbox/outbox.module';
-import { GrpcClientsModule } from './common/grpc/grpc-clients.module';
-import { AuthModule } from './auth/auth.module';
+import { GrpcClientsModule } from './api/common/grpc/grpc-clients.module';
+import { AuthModule } from './api/auth/auth.module';
 
 @Module({
   imports: [
