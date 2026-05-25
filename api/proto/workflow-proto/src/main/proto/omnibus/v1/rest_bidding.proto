@@ -3,23 +3,23 @@ syntax = "proto3";
 package omnibus.v1;
 
 option java_multiple_files = true;
-option java_package = "pl.writeonly.omnibus.grpc.workflow.bidding.v1";
-option java_outer_classname = "BiddingProto";
+option java_package = "pl.writeonly.omnibus.grpc.workflow.restbidding.v1";
+option java_outer_classname = "RestBiddingProto";
 
-service BiddingService {
-  rpc RecommendBid(RecommendationRequest) returns (RecommendationResponse);
+service RestBiddingService {
+  rpc RestBiddingBid(RestBiddingRequest) returns (RestBiddingResponse);
   rpc ListManagedRules(ListManagedRulesRequest) returns (ListManagedRulesResponse);
   rpc SaveManagedRule(ManagedRuleUpsertRequest) returns (ManagedRuleDefinition);
 }
 
-message RecommendationRequest {
+message RestBiddingRequest {
   string north_hand = 1;
   string south_hand = 2;
   string auction = 3;
   string system = 4;
 }
 
-message RecommendationResponse {
+message RestBiddingResponse {
   string system = 1;
   string evaluated_seat = 2;
   string north_hand = 3;

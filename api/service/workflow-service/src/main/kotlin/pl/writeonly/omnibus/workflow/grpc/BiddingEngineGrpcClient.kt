@@ -2,14 +2,14 @@ package pl.writeonly.omnibus.workflow.grpc
 
 import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.stereotype.Component
-import pl.writeonly.omnibus.grpc.workflow.bidding.v1.BiddingServiceGrpc
-import pl.writeonly.omnibus.grpc.workflow.bidding.v1.ManagedRuleDefinition
-import pl.writeonly.omnibus.grpc.workflow.bidding.v1.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.grpc.workflow.restbidding.v1.RestBiddingServiceGrpc
+import pl.writeonly.omnibus.grpc.workflow.restbidding.v1.ManagedRuleDefinition
+import pl.writeonly.omnibus.grpc.workflow.restbidding.v1.ManagedRuleUpsertRequest
 
 @Component
 class BiddingEngineGrpcClient(
     @GrpcClient("rule-service")
-    private val biddingService: BiddingServiceGrpc.BiddingServiceBlockingStub,
+    private val biddingService: RestBiddingServiceGrpc.RestBiddingServiceBlockingStub,
 ) {
     fun saveManagedRule(name: String, content: String): ManagedRuleDefinition =
         biddingService.saveManagedRule(
