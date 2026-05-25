@@ -3,7 +3,7 @@ import { NextBidService } from './next-bid.service';
 import { NextBidRequestDto } from './next-bid-request.dto';
 import { NextBidResponseDto } from './next-bid-response.dto';
 
-@Controller('next-bid')
+@Controller('rule/next-bid')
 export class NextBidController {
   private readonly logger = new Logger(NextBidController.name);
   constructor(private readonly service: NextBidService) {}

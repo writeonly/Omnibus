@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { nextBidApi } from "../features/bidding/nextBid/nextBid.api";
+import { nextBidApi } from "../features/rule/nextBid/nextBid.api";
 
 export const store = configureStore({
   reducer: {

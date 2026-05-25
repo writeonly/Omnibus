@@ -19,7 +19,7 @@ export const restBiddingApi = createApi({
       RestBiddingRequest
     >({
       query: (body) => ({
-        url: "/bidding/rest-bid",
+        url: "/workflow/rest-bid",
         method: "POST",
         body
       })

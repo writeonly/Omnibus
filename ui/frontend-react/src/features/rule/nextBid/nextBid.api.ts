@@ -9,7 +9,7 @@ export const nextBidApi = baseApi.injectEndpoints({
       typeof nextBidSchema._input
     >({
       query: (body) => ({
-        url: "/bidding/next-bid",
+        url: "/rule/next-bid",
         method: "POST",
         body
       }),

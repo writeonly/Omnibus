@@ -1,9 +1,9 @@
 .gitignore
 .openapi-generator-ignore
 README.md
-api.base.service.ts
 api.module.ts
 api/api.ts
+api/auth.service.ts
 api/health.service.ts
 api/nextBid.service.ts
 api/restBidding.service.ts
@@ -13,6 +13,4 @@ git_push.sh
 index.ts
 model/models.ts
 param.ts
-provide-api.ts
-query.params.ts
 variables.ts
