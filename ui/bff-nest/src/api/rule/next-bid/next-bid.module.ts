@@ -5,6 +5,6 @@ import { NextBidService } from './next-bid.service';
 @Module({
   controllers: [NextBidController],
   providers: [NextBidService],
-  exports: [NextBidService], // opcjonalnie, jeśli będzie używany gdzie indziej
+  exports: [NextBidService],
 })
 export class NextBidModule {}
