@@ -3,7 +3,7 @@ package pl.writeonly.omnibus.rule.grpc
 import io.grpc.stub.StreamObserver
 import net.devh.boot.grpc.server.service.GrpcService
 import pl.writeonly.omnibus.rule.application.ManagedRuleAdminService
-import pl.writeonly.omnibus.rule.application.RestBiddingService
+import pl.writeonly.omnibus.rule.application.NextBidService
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.ListManagedRulesRequest
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.ListManagedRulesResponse
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.ManagedRuleDefinition
@@ -13,8 +13,8 @@ import pl.writeonly.omnibus.grpc.rule.nextbid.v1.NextBidResponse
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.NextBidServiceGrpc
 
 @GrpcService
-class BiddingGrpcService(
-    private val biddingRecommendationService: RestBiddingService,
+class NextBidGrpcService(
+    private val nextBidService: NextBidService,
     private val managedRuleAdminService: ManagedRuleAdminService,
 ) : NextBidServiceGrpc.NextBidServiceImplBase() {
     override fun nextBid(
@@ -22,7 +22,7 @@ class BiddingGrpcService(
         responseObserver: StreamObserver<NextBidResponse>,
     ) {
         responseObserver.completeWith {
-            biddingRecommendationService.recommend(request.toDomain()).toGrpc()
+            nextBidService.nextBid(request.toDomain()).toGrpc()
         }
     }
 

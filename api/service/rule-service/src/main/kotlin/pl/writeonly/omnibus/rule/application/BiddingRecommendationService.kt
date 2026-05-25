@@ -1,10 +1,10 @@
 package pl.writeonly.omnibus.rule.application
 
-import pl.writeonly.omnibus.rule.domain.RecommendationRequest
-import pl.writeonly.omnibus.rule.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.domain.NextBidRequest
+import pl.writeonly.omnibus.rule.domain.NextBidResponse
 import pl.writeonly.omnibus.rule.domain.HandParser
 import pl.writeonly.omnibus.rule.events.DomainEventPublisher
-import pl.writeonly.omnibus.rule.events.RecommendationProducedEvent
+import pl.writeonly.omnibus.rule.events.NextBidProducedEvent
 import pl.writeonly.omnibus.rule.rules.BiddingFacts
 import pl.writeonly.omnibus.rule.rules.CandidateBid
 import pl.writeonly.omnibus.rule.rules.DroolsBiddingEngine
@@ -13,12 +13,12 @@ import java.time.Instant
 import java.util.UUID
 
 @Service
-class RestBiddingService(
+class NextBidService(
     private val handParser: HandParser,
     private val droolsBiddingEngine: DroolsBiddingEngine,
     private val domainEventPublisher: DomainEventPublisher,
 ) {
-    fun recommend(request: RecommendationRequest): RecommendationResponse {
+    fun nextBid(request: NextBidRequest): NextBidResponse {
         val northHandProfile = handParser.parse(request.northHand)
         handParser.parse(request.southHand)
         val biddingFacts = BiddingFacts.from(northHandProfile, request.auction, request.system)
@@ -26,7 +26,7 @@ class RestBiddingService(
         val bestCandidate = candidates.maxByOrNull { it.priority }
             ?: CandidateBid("PASS", 0, "No matching rule found")
 
-        val response = RecommendationResponse(
+        val response = NextBidResponse(
             request.system,
             "NORTH",
             northHandProfile.normalizedHand,
@@ -38,7 +38,7 @@ class RestBiddingService(
         )
 
         domainEventPublisher.publishRecommendationProduced(
-            RecommendationProducedEvent(
+            NextBidProducedEvent(
                 UUID.randomUUID().toString(),
                 Instant.now(),
                 response.system,

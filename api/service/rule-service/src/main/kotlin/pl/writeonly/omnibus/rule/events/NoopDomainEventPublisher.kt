@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 @Component
 @ConditionalOnProperty(name = ["omnibus.kafka.enabled"], havingValue = "false")
 class NoopDomainEventPublisher : DomainEventPublisher {
-    override fun publishRecommendationProduced(event: RecommendationProducedEvent) {
+    override fun publishRecommendationProduced(event: NextBidProducedEvent) {
         // intentionally no-op
     }
 

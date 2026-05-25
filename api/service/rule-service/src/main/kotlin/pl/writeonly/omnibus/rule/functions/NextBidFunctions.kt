@@ -1,23 +1,23 @@
 package pl.writeonly.omnibus.rule.functions
 
 import pl.writeonly.omnibus.rule.application.ManagedRuleAdminService
-import pl.writeonly.omnibus.rule.application.RestBiddingService
+import pl.writeonly.omnibus.rule.application.NextBidService
 import pl.writeonly.omnibus.rule.domain.ManagedRuleDefinition
 import pl.writeonly.omnibus.rule.domain.ManagedRuleUpsertRequest
-import pl.writeonly.omnibus.rule.domain.RecommendationRequest
-import pl.writeonly.omnibus.rule.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.domain.NextBidRequest
+import pl.writeonly.omnibus.rule.domain.NextBidResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.function.Function
 import java.util.function.Supplier
 
 @Configuration
-class BiddingFunctions {
+class NextBidFunctions {
     @Bean
-    fun recommendBid(
-        biddingRecommendationService: RestBiddingService,
-    ): Function<RecommendationRequest, RecommendationResponse> =
-        Function { request -> biddingRecommendationService.recommend(request) }
+    fun nextBid(
+        nextBidService: NextBidService,
+    ): Function<NextBidRequest, NextBidResponse> =
+        Function { request -> nextBidService.nextBid(request) }
 
     @Bean
     fun listManagedRules(

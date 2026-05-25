@@ -1,10 +1,8 @@
-package pl.writeonly.omnibus.rule.events
+package pl.writeonly.omnibus.rule.domain
 
-import java.time.Instant
+import pl.writeonly.omnibus.rule.rules.CandidateBid
 
-data class RecommendationProducedEvent(
-    val eventId: String,
-    val occurredAt: Instant,
+data class NextBidResponse(
     val system: String,
     val evaluatedSeat: String,
     val northHand: String,
@@ -12,6 +10,6 @@ data class RecommendationProducedEvent(
     val auction: String,
     val recommendedBid: String,
     val explanation: String,
-    val candidateBids: List<String>,
+    val candidates: List<CandidateBid>,
 )
 

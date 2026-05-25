@@ -11,7 +11,7 @@ class KafkaDomainEventPublisher(
     private val kafkaTemplate: KafkaTemplate<String, Any>,
     private val topics: KafkaTopicsProperties,
 ) : DomainEventPublisher {
-    override fun publishRecommendationProduced(event: RecommendationProducedEvent) {
+    override fun publishRecommendationProduced(event: NextBidProducedEvent) {
         kafkaTemplate.send(topics.recommendationProduced, event.eventId, event)
             .whenComplete { _, throwable ->
                 if (throwable != null) {

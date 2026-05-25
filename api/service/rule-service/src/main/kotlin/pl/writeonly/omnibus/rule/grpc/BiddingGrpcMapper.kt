@@ -2,8 +2,8 @@ package pl.writeonly.omnibus.rule.grpc
 
 import pl.writeonly.omnibus.rule.domain.ManagedRuleDefinition
 import pl.writeonly.omnibus.rule.domain.ManagedRuleUpsertRequest
-import pl.writeonly.omnibus.rule.domain.RecommendationRequest
-import pl.writeonly.omnibus.rule.domain.RecommendationResponse
+import pl.writeonly.omnibus.rule.domain.NextBidRequest
+import pl.writeonly.omnibus.rule.domain.NextBidResponse
 import pl.writeonly.omnibus.rule.rules.CandidateBid
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.CandidateBid as GrpcCandidateBid
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.ManagedRuleDefinition as GrpcManagedRuleDefinition
@@ -11,15 +11,15 @@ import pl.writeonly.omnibus.grpc.rule.nextbid.v1.ManagedRuleUpsertRequest as Grp
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.NextBidRequest as GrpcRecommendationRequest
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.NextBidResponse as GrpcRecommendationResponse
 
-fun GrpcRecommendationRequest.toDomain(): RecommendationRequest =
-    RecommendationRequest(
+fun GrpcRecommendationRequest.toDomain(): NextBidRequest =
+    NextBidRequest(
         northHand = northHand,
         southHand = southHand,
         auction = auction,
         system = system,
     )
 
-fun RecommendationResponse.toGrpc(): GrpcRecommendationResponse =
+fun NextBidResponse.toGrpc(): GrpcRecommendationResponse =
     GrpcRecommendationResponse.newBuilder()
         .setSystem(system)
         .setEvaluatedSeat(evaluatedSeat)
