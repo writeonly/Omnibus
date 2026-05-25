@@ -15,8 +15,9 @@
     "typescript": "^5.5.4"
   },
   "scripts": {
-    "run": "concurrently \"npm run frontend-angular\" \"npm run bff-nest\"",
+    "run": "concurrently \"npm run frontend-angular\" \"npm run frontend-react\" \"npm run bff-nest\"",
     "frontend-angular": "cd frontend-angular && ./run.sh",
+    "frontend-react": "cd frontend-react && ./run.sh",
     "bff-nest": "cd bff-nest && ./run.sh"
   }
 }
