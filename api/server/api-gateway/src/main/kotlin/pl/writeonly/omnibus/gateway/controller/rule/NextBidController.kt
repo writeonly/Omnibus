@@ -18,7 +18,7 @@ class NextBidController(
     private val stub: NextBidServiceGrpc.NextBidServiceStub
 ) {
     @PostMapping
-    fun register(@RequestBody body: NextBidRequest): Mono<NextBidResponse> {
+    fun nextBid(@RequestBody body: NextBidRequest): Mono<NextBidResponse> {
         return grpcMono { observer ->
             stub.nextBid(body, observer)
         }

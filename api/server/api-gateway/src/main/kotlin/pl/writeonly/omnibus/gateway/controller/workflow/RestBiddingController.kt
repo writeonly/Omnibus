@@ -18,7 +18,7 @@ class RestBiddingController(
     private val stub: RestBiddingServiceGrpc.RestBiddingServiceStub
 ) {
     @PostMapping
-    fun register(@RequestBody body: RestBiddingRequest): Mono<RestBiddingResponse> {
+    fun restBiddingBid(@RequestBody body: RestBiddingRequest): Mono<RestBiddingResponse> {
         return grpcMono { observer ->
             stub.restBiddingBid(body, observer)
         }
