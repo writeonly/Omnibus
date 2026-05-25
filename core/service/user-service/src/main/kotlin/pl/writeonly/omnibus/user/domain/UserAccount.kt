@@ -20,7 +20,7 @@ class UserAccount(
     val email: String,
 
     @Column(name = "password_hash", nullable = false)
-    val passwordHash: String,
+    val passwordHash: String?,
 
     @Column(name = "first_name")
     val firstName: String?,

@@ -1,23 +1,23 @@
 package pl.writeonly.omnibus.config
 
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest
-import org.springframework.boot.actuate.health.HealthEndpoint
-import org.springframework.boot.actuate.info.InfoEndpoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.web.server.SecurityWebFilterChain
 
 @Configuration
+@EnableWebFluxSecurity
 class ConfigServerSecurityConfiguration {
+
     @Bean
-    fun configServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain =
+    fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
         http
             .csrf { it.disable() }
-            .authorizeHttpRequests {
-                it.requestMatchers(EndpointRequest.to(HealthEndpoint::class.java, InfoEndpoint::class.java)).permitAll()
-                it.anyRequest().authenticated()
+            .authorizeExchange {
+                it.pathMatchers("/actuator/health", "/actuator/info").permitAll()
+                it.anyExchange().authenticated()
             }
             .httpBasic(Customizer.withDefaults())
             .build()

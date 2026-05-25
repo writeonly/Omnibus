@@ -1,39 +1,39 @@
 [versions]
-kotlin = "2.1.21"
 
-springBoot = "3.5.0"
+kotlin = "2.2.0"
+
+springBoot = "4.0.6"
 springCloud = "2025.0.0"
 
-dependencyManagement = "1.1.6"
+dependencyManagement = "1.1.7"
 
 detekt = "1.23.8"
 spotless = "8.4.0"
 
-protobufPlugin = "0.9.4"
-protobuf = "3.25.5"
-grpc = "1.63.0"
+protobufPlugin = "0.9.5"
+protobuf = "3.25.8"
+grpc = "1.71.0"
 
-springdoc = "2.6.0"
+springdoc = "2.8.8"
 grpcSpringBootStarter = "3.1.0.RELEASE"
 javaxAnnotation = "1.3.2"
 
 drools = "10.2.0"
 kogito = "10.2.0"
 
-lombok = "1.18.38"
-lombokPlugin = "8.6"
+lombok = "1.18.42"
+lombokPlugin = "8.14"
 
 kotlinLogging = "3.0.5"
-logback = "7.4"
+logback = "8.1"
 
-springAuthorizationServer = "1.5.1"
-postgresql = "42.7.7"
+springAuthorizationServer = "1.5.3"
+postgresql = "42.7.8"
 
 # GRAALVM / NATIVE SUPPORT
 
-graalvmNative = "0.10.3"
-springBootAot = "3.5.0"
-
+graalvmNative = "0.11.1"
+springBootAot = "4.0.6"
 
 [libraries]
 
@@ -43,7 +43,6 @@ spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 
-# FIXED TYPO HERE ↓↓↓
 spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
 
 spring-boot-starter-oauth2-resource-server = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }

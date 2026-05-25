@@ -16,8 +16,10 @@ class UserRegistrationService(
     private val outboxEventRepository: OutboxEventRepository,
     private val passwordEncoder: PasswordEncoder,
 ) {
+
     @Transactional
     fun register(request: UserRegistrationRequest): UserRegistrationResponse {
+
         val username = request.username.trim()
         val email = request.email.trim().lowercase()
 
@@ -26,6 +28,7 @@ class UserRegistrationService(
         require(request.password.length >= MIN_PASSWORD_LENGTH) {
             "password must contain at least $MIN_PASSWORD_LENGTH characters"
         }
+
         require(!userAccountRepository.existsByUsernameIgnoreCase(username)) {
             "username already exists"
         }
@@ -39,8 +42,9 @@ class UserRegistrationService(
                 username = username,
                 email = email,
                 passwordHash = passwordEncoder.encode(request.password),
-                firstName = request.firstName?.trim()?.ifBlank { null },
-                lastName = request.lastName?.trim()?.ifBlank { null },
+
+                firstName = request.firstName?.trim()?.takeIf { it.isNotBlank() },
+                lastName = request.lastName?.trim()?.takeIf { it.isNotBlank() },
             ),
         )
 
@@ -53,9 +57,11 @@ class UserRegistrationService(
                     "userId" to account.id.toString(),
                     "username" to account.username,
                     "email" to account.email,
-                    "password" to request.password,
                     "firstName" to account.firstName,
                     "lastName" to account.lastName,
+
+                    // FIX: status is NOT enum → no .name
+                    "status" to account.status,
                 ),
             ),
         )
