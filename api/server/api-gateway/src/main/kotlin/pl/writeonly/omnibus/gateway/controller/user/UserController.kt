@@ -1,16 +1,12 @@
+package pl.writeonly.omnibus.gateway.controller.user
 
-package pl.writeonly.omnibus.gateway.controller
 import org.springframework.web.bind.annotation.*
 import pl.writeonly.omnibus.grpc.user.v1.*
-import pl.writeonly.omnibus.gateway.service.user.RegisterResponseDto
-import pl.writeonly.omnibus.gateway.service.user.RegisterRequestDto
 import net.devh.boot.grpc.client.inject.GrpcClient
-
-
 
 @RestController
 @RequestMapping("/api/users")
-class UserGatewayController(
+class UserController(
     @GrpcClient("userService")
     private val userStub: UserServiceGrpc.UserServiceBlockingStub
 ) {

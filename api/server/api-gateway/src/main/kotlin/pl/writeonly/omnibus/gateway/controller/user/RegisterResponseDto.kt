@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.gateway.service.user
+package pl.writeonly.omnibus.gateway.controller.user
 
 data class RegisterResponseDto(
     val userId: String,
