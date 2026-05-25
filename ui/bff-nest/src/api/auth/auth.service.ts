@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserGrpcClient, RegisterUserInput } from '../common/grpc/user-grpc.client';
+import { UserGrpcClient, RegisterUserInput } from '../client/grpc/user-grpc.client';
 
 export interface KeycloakClientConfig {
   url: string;

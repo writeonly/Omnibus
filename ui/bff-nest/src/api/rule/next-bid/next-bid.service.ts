@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { NextBidRequestDto } from './next-bid-request.dto';
 import { NextBidResponseDto } from './next-bid-response.dto';
-import { BiddingGrpcClient } from '../../common/grpc/bidding-grpc.client';
+import { BiddingGrpcClient } from '../../client/grpc/bidding-grpc.client';
 
 @Injectable()
 export class NextBidService {
