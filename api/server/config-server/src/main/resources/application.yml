@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: config-server
+  main:
+    web-application-type: servlet
   profiles:
     active: ${CONFIG_SERVER_PROFILE:native}
 

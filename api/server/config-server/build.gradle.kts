@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.deps)
-
     kotlin("plugin.spring")
 }
 
@@ -17,15 +16,19 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.logging)
 
-    // Spring
+    // Spring core (MVC ONLY)
     implementation(libs.spring.boot.starter.actuator)
-    implementation(libs.spring.boot.starter.oauth2.resource.server)
+    implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.web)
+
+    // Config Server
     implementation(libs.spring.cloud.config.server)
     implementation(libs.spring.cloud.config.monitor)
-    implementation(libs.spring.cloud.starter.bus.kafka)
+
+    // Bus
     implementation(libs.spring.cloud.starter.bus.amqp)
+    implementation(libs.spring.cloud.starter.bus.kafka)
 
     // Observability
     implementation(libs.logback)
@@ -33,4 +36,9 @@ dependencies {
 
     // Tests
     testImplementation(libs.spring.boot.starter.test)
+}
+
+configurations.all {
+    exclude(group = "org.springframework.boot", module = "spring-boot-starter-webflux")
+    exclude(group = "org.springframework", module = "spring-webflux")
 }

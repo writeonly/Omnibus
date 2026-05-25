@@ -3,7 +3,7 @@
 kotlin = "2.2.0"
 
 springBoot = "4.0.6"
-springCloud = "2025.0.0"
+springCloud = "2025.1.1"
 
 dependencyManagement = "1.1.7"
 

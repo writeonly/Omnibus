@@ -3,22 +3,25 @@ package pl.writeonly.omnibus.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
-import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
-@EnableWebFluxSecurity
+@EnableWebSecurity
 class ConfigServerSecurityConfiguration {
 
     @Bean
-    fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+
         http
             .csrf { it.disable() }
-            .authorizeExchange {
-                it.pathMatchers("/actuator/health", "/actuator/info").permitAll()
-                it.anyExchange().authenticated()
+            .authorizeHttpRequests {
+                it.requestMatchers("/actuator/health", "/actuator/info").permitAll()
+                it.anyRequest().authenticated()
             }
             .httpBasic(Customizer.withDefaults())
-            .build()
+
+        return http.build()
+    }
 }
