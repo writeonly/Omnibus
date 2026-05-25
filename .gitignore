@@ -9,6 +9,7 @@ node_modules/
 .angular/
 target/
 out/
+logs/
 
 *.iml
 *.log
