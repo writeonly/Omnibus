@@ -33,8 +33,8 @@ project(":workflow-service").projectDir = file("service/workflow-service")
 
 project(":config-server").projectDir = file("server/config-server")
 project(":eureka-server").projectDir = file("server/eureka-server")
-project(":auth-server").projectDir = file("server/auth-server")
 project(":api-gateway").projectDir = file("server/api-gateway")
+project(":auth-server").projectDir = file("server/auth-server")
 
 //project(":swing-client").projectDir = file("legacy/swing-client")
 project(":event-archive").projectDir = file("legacy/event-archive")
