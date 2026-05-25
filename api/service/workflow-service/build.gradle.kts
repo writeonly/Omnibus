@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.kogito.api)
     implementation(libs.kogito.dmn)
 
+    implementation(project(":workflow-proto"))
+
     // Test
     testImplementation(libs.spring.boot.starter.test)
 }

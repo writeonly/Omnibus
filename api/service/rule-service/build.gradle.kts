@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.drools.mvel)
     implementation(libs.drools.decisiontables)
 
+    implementation(project(":rule-proto"))
+
     // Test
     testImplementation(libs.spring.boot.starter.test)
 }
