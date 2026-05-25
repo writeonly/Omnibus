@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.api.handler
+package pl.writeonly.omnibus.gateway.handler
 
 data class ErrorResponse(
     val code: String,

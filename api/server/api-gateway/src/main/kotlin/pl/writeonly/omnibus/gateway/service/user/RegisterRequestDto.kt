@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.api.service.user
+package pl.writeonly.omnibus.gateway.service.user
 
 data class RegisterRequestDto(
     val username: String,

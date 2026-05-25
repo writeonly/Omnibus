@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.api.handler
+package pl.writeonly.omnibus.gateway.handler
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.HttpStatus

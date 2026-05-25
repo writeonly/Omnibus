@@ -1,9 +1,9 @@
 
-package pl.writeonly.omnibus.api.controller
+package pl.writeonly.omnibus.gateway.controller
 import org.springframework.web.bind.annotation.*
 import pl.writeonly.omnibus.grpc.user.v1.*
-import pl.writeonly.omnibus.api.service.user.RegisterResponseDto
-import pl.writeonly.omnibus.api.service.user.RegisterRequestDto
+import pl.writeonly.omnibus.gateway.service.user.RegisterResponseDto
+import pl.writeonly.omnibus.gateway.service.user.RegisterRequestDto
 import net.devh.boot.grpc.client.inject.GrpcClient
 
 

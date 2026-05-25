@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.api.config
+package pl.writeonly.omnibus.gateway.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
