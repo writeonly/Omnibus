@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.kogito.dmn)
 
     implementation(project(":workflow-proto"))
+    implementation(project(":rule-proto"))
 
     // Test
     testImplementation(libs.spring.boot.starter.test)
