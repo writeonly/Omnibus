@@ -55,6 +55,10 @@ dependencies {
 
     implementation(libs.javax.annotation.api)
 
+    implementation(project(":user-proto"))
+    implementation(project(":rule-proto"))
+    implementation(project(":workflow-proto"))
+
     // ---------------- test (opcjonalnie ale warto) ----------------
     testImplementation(libs.spring.boot.starter.test)
 }

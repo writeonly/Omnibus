@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.micrometer.registry.prometheus)
 
+    implementation(project(":user-proto"))
+
     // Tests
     testImplementation(libs.spring.boot.starter.test)
 }
