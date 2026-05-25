@@ -14,6 +14,8 @@ protobufPlugin = "0.9.5"
 protobuf = "3.25.8"
 grpc = "1.71.0"
 
+grpcKotlin = "1.4.1"
+
 springdoc = "2.8.8"
 grpcSpringBootStarter = "3.1.0.RELEASE"
 javaxAnnotation = "1.3.2"
@@ -30,10 +32,9 @@ logback = "8.1"
 springAuthorizationServer = "1.5.3"
 postgresql = "42.7.8"
 
-# GRAALVM / NATIVE SUPPORT
-
 graalvmNative = "0.11.1"
 springBootAot = "4.0.6"
+
 
 [libraries]
 
@@ -57,7 +58,9 @@ spring-boot-starter-data-cassandra = { module = "org.springframework.boot:spring
 spring-boot-starter-data-elasticsearch = { module = "org.springframework.boot:spring-boot-starter-data-elasticsearch" }
 spring-boot-starter-data-mongodb = { module = "org.springframework.boot:spring-boot-starter-data-mongodb" }
 
-# ---------------- Spring Security ----------------
+spring-boot-starter-aot = { module = "org.springframework.boot:spring-boot-starter-aot", version.ref = "springBootAot" }
+
+# ---------------- Security ----------------
 
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-security-crypto = { module = "org.springframework.security:spring-security-crypto" }
@@ -127,6 +130,10 @@ grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
 grpc-netty-shaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc" }
 
+grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpcKotlin" }
+
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
 protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
 
 grpc-spring-server = { module = "net.devh:grpc-server-spring-boot-starter", version.ref = "grpcSpringBootStarter" }
@@ -134,7 +141,7 @@ grpc-spring-client = { module = "net.devh:grpc-client-spring-boot-starter", vers
 
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotation" }
 
-# ---------------- Drools / KIE ----------------
+# ---------------- Drools ----------------
 
 kie-api = { module = "org.kie:kie-api", version.ref = "drools" }
 kie-internal = { module = "org.kie:kie-internal", version.ref = "drools" }
@@ -148,9 +155,6 @@ jbpm-spring-boot-starter = { module = "org.jbpm:jbpm-spring-boot-starter", versi
 kogito-api = { module = "org.kie.kogito:kogito-api", version.ref = "kogito" }
 kogito-dmn = { module = "org.kie.kogito:kogito-dmn", version.ref = "kogito" }
 
-# NATIVE / GRAALVM LIBS
-
-spring-boot-starter-aot = { module = "org.springframework.boot:spring-boot-starter-aot", version.ref = "springBootAot" }
 
 [plugins]
 
@@ -167,7 +171,5 @@ protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-
-# GRAALVM PLUGIN
 
 graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvmNative" }
