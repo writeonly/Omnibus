@@ -5,7 +5,7 @@ import pl.writeonly.omnibus.grpc.user.v1.*
 import net.devh.boot.grpc.client.inject.GrpcClient
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user/users")
 class UserController(
     @GrpcClient("userService")
     private val userStub: UserServiceGrpc.UserServiceBlockingStub
