@@ -1,22 +1,22 @@
 import { Global, Module } from '@nestjs/common';
 
 import { HttpTransport } from './http-transport';
-import { BiddingHttpClient } from './bidding-http.client';
-import { WorkflowHttpClient } from './workflow-http.client';
 import { UserHttpClient } from './user-http.client';
+import { WorkflowHttpClient } from './workflow-http.client';
+import { BiddingHttpClient } from './bidding-http.client';
 
 @Global()
 @Module({
   providers: [
     HttpTransport,
-    BiddingHttpClient,
-    WorkflowHttpClient,
     UserHttpClient,
+    WorkflowHttpClient,
+    BiddingHttpClient,
   ],
   exports: [
-    BiddingHttpClient,
-    WorkflowHttpClient,
     UserHttpClient,
+    WorkflowHttpClient,
+    BiddingHttpClient,
   ],
 })
 export class HttpClientsModule {}
