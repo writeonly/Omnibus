@@ -42,6 +42,3 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
 
-logging:
-  level:
-    pl.writeonly.omnibus.user: DEBUG
