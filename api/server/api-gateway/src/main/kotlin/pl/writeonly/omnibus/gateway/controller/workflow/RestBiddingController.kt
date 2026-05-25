@@ -20,7 +20,7 @@ class RestBiddingController(
     @PostMapping
     fun restBiddingBid(@RequestBody body: RestBiddingRequest): Mono<RestBiddingResponse> {
         return grpcMono { observer ->
-            stub.restBiddingBid(body, observer)
+            stub.restBidding(body, observer)
         }
     }
 }

@@ -7,7 +7,7 @@ option java_package = "pl.writeonly.omnibus.grpc.workflow.restbidding.v1";
 option java_outer_classname = "RestBiddingProto";
 
 service RestBiddingService {
-  rpc RestBiddingBid(RestBiddingRequest) returns (RestBiddingResponse);
+  rpc RestBidding(RestBiddingRequest) returns (RestBiddingResponse);
   rpc ListManagedRules(ListManagedRulesRequest) returns (ListManagedRulesResponse);
   rpc SaveManagedRule(ManagedRuleUpsertRequest) returns (ManagedRuleDefinition);
 }
