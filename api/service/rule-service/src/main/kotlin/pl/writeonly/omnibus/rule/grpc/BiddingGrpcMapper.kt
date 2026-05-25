@@ -5,11 +5,11 @@ import pl.writeonly.omnibus.rule.domain.ManagedRuleUpsertRequest
 import pl.writeonly.omnibus.rule.domain.RecommendationRequest
 import pl.writeonly.omnibus.rule.domain.RecommendationResponse
 import pl.writeonly.omnibus.rule.rules.CandidateBid
-import pl.writeonly.omnibus.grpc.bidding.v1.CandidateBid as GrpcCandidateBid
-import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleDefinition as GrpcManagedRuleDefinition
-import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleUpsertRequest as GrpcManagedRuleUpsertRequest
-import pl.writeonly.omnibus.grpc.bidding.v1.RecommendationRequest as GrpcRecommendationRequest
-import pl.writeonly.omnibus.grpc.bidding.v1.RecommendationResponse as GrpcRecommendationResponse
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.CandidateBid as GrpcCandidateBid
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.ManagedRuleDefinition as GrpcManagedRuleDefinition
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.ManagedRuleUpsertRequest as GrpcManagedRuleUpsertRequest
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.RecommendationRequest as GrpcRecommendationRequest
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.RecommendationResponse as GrpcRecommendationResponse
 
 fun GrpcRecommendationRequest.toDomain(): RecommendationRequest =
     RecommendationRequest(

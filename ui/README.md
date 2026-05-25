@@ -61,3 +61,6 @@ npm run start
 | [frontend-angular/orval.sh](frontend-angular/orval.sh) | Generate/update Orval client code |
 | [frontend-angular/nginx/entrypoint.sh](frontend-angular/nginx/entrypoint.sh) | Frontend container entrypoint |
 | [frontend-react/run.sh](frontend-react/run.sh) | Run the React frontend |
+
+## TODO
+- Add tRPC

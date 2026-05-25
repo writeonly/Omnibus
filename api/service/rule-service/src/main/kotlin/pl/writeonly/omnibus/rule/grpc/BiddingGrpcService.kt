@@ -4,13 +4,13 @@ import io.grpc.stub.StreamObserver
 import net.devh.boot.grpc.server.service.GrpcService
 import pl.writeonly.omnibus.rule.application.ManagedRuleAdminService
 import pl.writeonly.omnibus.rule.application.RestBiddingService
-import pl.writeonly.omnibus.grpc.bidding.v1.BiddingServiceGrpc
-import pl.writeonly.omnibus.grpc.bidding.v1.ListManagedRulesRequest
-import pl.writeonly.omnibus.grpc.bidding.v1.ListManagedRulesResponse
-import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleDefinition
-import pl.writeonly.omnibus.grpc.bidding.v1.ManagedRuleUpsertRequest
-import pl.writeonly.omnibus.grpc.bidding.v1.RecommendationRequest
-import pl.writeonly.omnibus.grpc.bidding.v1.RecommendationResponse
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.BiddingServiceGrpc
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.ListManagedRulesRequest
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.ListManagedRulesResponse
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.ManagedRuleDefinition
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.ManagedRuleUpsertRequest
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.RecommendationRequest
+import pl.writeonly.omnibus.grpc.rule.bidding.v1.RecommendationResponse
 
 @GrpcService
 class BiddingGrpcService(
