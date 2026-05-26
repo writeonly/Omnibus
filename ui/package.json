@@ -15,10 +15,10 @@
     "typescript": "^5.5.4"
   },
   "scripts": {
-    "run": "concurrently \"npm run frontend-react-next\" \"npm run frontend-react-vite\" \"npm run frontend-angular\" \"npm run bff-nest\"",
-    "frontend-react-next": "cd frontend-react-next && ./run.sh",
-    "frontend-react-vite": "cd frontend-react-vite && ./run.sh",
+    "run": "concurrently \"npm run bff-nest\" \"npm run frontend-angular\" \"npm run frontend-react-vite\" \"npm run frontend-react-next\"",
+    "bff-nest": "cd bff-nest && ./run.sh",
     "frontend-angular": "cd frontend-angular && ./run.sh",
-    "bff-nest": "cd bff-nest && ./run.sh"
+    "frontend-react-vite": "cd frontend-react-vite && ./run.sh",
+    "frontend-react-next": "cd frontend-react-next && ./run.sh"
   }
 }
