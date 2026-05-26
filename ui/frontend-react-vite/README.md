@@ -83,7 +83,7 @@ npm install
 npm run start
 ```
 
-The development server runs on port `4200` and proxies `/api` to `http://localhost:3001`.
+The development server runs on port `4200` and proxies `/api` to `http://localhost:3002`.
 
 ## TODO
 
