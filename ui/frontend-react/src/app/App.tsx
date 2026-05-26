@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Shell } from "./components/Shell";
-import type { RouteKey } from "./components/Shell";
+import { Shell } from "../components/Shell";
+import type { RouteKey } from "../components/Shell";
 
-import { NextBid } from "./features/rule/nextBid/NextBid";
-import { RestBidding } from "./features/workflow/restBidding/RestBidding";
+import { NextBid } from "../features/rule/nextBid/NextBid";
+import { RestBidding } from "../features/workflow/restBidding/RestBidding";
 
 const routeByPath: Record<string, RouteKey> = {
   "/rule/next-bid": "next-bid",
