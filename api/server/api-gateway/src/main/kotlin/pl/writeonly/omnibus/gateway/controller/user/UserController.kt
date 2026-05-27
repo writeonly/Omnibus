@@ -1,9 +1,9 @@
 package pl.writeonly.omnibus.gateway.controller.user
 
 import org.springframework.web.bind.annotation.*
-import pl.writeonly.omnibus.grpc.user.v1.*
-import net.devh.boot.grpc.client.inject.GrpcClient
-import pl.writeonly.omnibus.gateway.controller.grpcMono
+//import pl.writeonly.omnibus.grpc.user.v1.*
+//import net.devh.boot.grpc.client.inject.GrpcClient
+//import pl.writeonly.omnibus.gateway.controller.grpcMono
 import reactor.core.publisher.Mono
 
 // @RestController
