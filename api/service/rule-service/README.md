@@ -10,7 +10,7 @@ Drools-based bridge bidding rule service.
 
 | Interface | Port |
 | --- | --- |
-| HTTP | `8083` |
+| HTTP | `8084` |
 | gRPC | `9081` |
 
 ## Recommendation Flow

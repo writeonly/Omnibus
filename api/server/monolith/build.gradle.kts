@@ -29,15 +29,15 @@ dependencyManagement {
 
 dependencies {
 
+    // ---------------- Testcontainers BOM (DODAJ TO) ----------------
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.4"))
+
     // ---------------- Spring Boot ----------------
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.data.jpa)
-
-    // jeśli reactive:
-    // implementation(libs.spring.boot.starter.webflux)
 
     // ---------------- Modulith ----------------
     implementation(libs.spring.modulith.core)
@@ -68,14 +68,10 @@ dependencies {
     // ---------------- Testing ----------------
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.security.test)
-
     testImplementation(libs.spring.kafka.test)
+
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

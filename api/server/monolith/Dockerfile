@@ -2,8 +2,8 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY service/rule-service/build/libs/rule-service-*.jar app.jar
+COPY server/monolith/build/libs/*.jar app.jar
 
-EXPOSE 8084
+EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

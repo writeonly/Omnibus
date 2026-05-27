@@ -95,8 +95,8 @@ docker compose up --build
 | config-server | `http://localhost:8888` |
 | eureka-server | `http://localhost:8761` |
 | auth-server | `http://localhost:9000` |
-| rule-service | `http://localhost:8083` |
-| workflow-service | `http://localhost:8084` |
+| rule-service | `http://localhost:8084` |
+| workflow-service | `http://localhost:8085` |
 | PostgreSQL | `localhost:5432` |
 | Keycloak | `http://localhost:9001` |
 | RabbitMQ Management | `http://localhost:15672` |

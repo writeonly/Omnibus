@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: monilith
+  cloud:
+    gateway:
+      grpc:
+        enabled: true
+  config:
+    import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"

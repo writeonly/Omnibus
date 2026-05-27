@@ -112,6 +112,35 @@ services:
     networks:
       - omnibus
 
+  monolith:
+    build:
+      context: .
+      dockerfile: server/monolith/Dockerfile
+    mem_limit: 512m
+    ports:
+      - "8081:8081"
+    healthcheck:
+      <<: *actuator-healthcheck
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      auth-server:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      AUTH_SERVER_URL: http://auth-server:9000
+
+      CASSANDRA_CONTACT_POINTS: cassandra:9042
+      CASSANDRA_HOST: cassandra
+      CASSANDRA_PORT: 9042
+      CASSANDRA_KEYSPACE: audit
+
+    networks:
+      - omnibus
   audit-service:
     build:
       context: .
@@ -119,10 +148,10 @@ services:
     container_name: audit-service
     mem_limit: 512m
     ports:
-      - "8081:8081"
+      - "8082:8082"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8081; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8082; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy
@@ -158,10 +187,10 @@ services:
     container_name: user-service
     mem_limit: 512m
     ports:
-      - "8082:8082"
+      - "8083:8083"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8082; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy
@@ -191,10 +220,10 @@ services:
     container_name: outbox-relay-service
     mem_limit: 512m
     ports:
-      - "8085:8085"
+      - "8086:8086"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8085; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8086; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy
@@ -219,10 +248,10 @@ services:
       dockerfile: service/rule-service/Dockerfile
     mem_limit: 512m
     ports:
-      - "8083:8083"
+      - "8084:8084"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8084; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy
@@ -245,10 +274,10 @@ services:
       dockerfile: service/workflow-service/Dockerfile
     mem_limit: 512m
     ports:
-      - "8084:8084"
+      - "8085:8085"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8084; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8085; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy
