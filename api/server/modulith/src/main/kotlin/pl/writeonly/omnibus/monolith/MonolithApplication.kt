@@ -1,12 +1,12 @@
-package pl.writeonly.omnibus.monolith
+package pl.writeonly.omnibus.modulith
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MonolithApplication {
+class ModulithApplication {
 }
 
 fun main(args: Array<String>) {
-    runApplication<MonolithApplication>(*args)
+    runApplication<ModulithApplication>(*args)
 }

@@ -112,10 +112,10 @@ services:
     networks:
       - omnibus
 
-  monolith:
+  modulith:
     build:
       context: .
-      dockerfile: server/monolith/Dockerfile
+      dockerfile: server/modulith/Dockerfile
     mem_limit: 512m
     ports:
       - "8081:8081"

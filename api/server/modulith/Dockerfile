@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY server/monolith/build/libs/*.jar app.jar
+COPY server/modulith/build/libs/*.jar app.jar
 
 EXPOSE 8081
 
