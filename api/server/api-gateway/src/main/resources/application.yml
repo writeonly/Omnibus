@@ -1,6 +1,9 @@
 spring:
   application:
     name: api-gateway
+  cloud:
+    gateway:
+      grpc:
+        enabled: false
   config:
     import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"
-

@@ -11,16 +11,16 @@ import pl.writeonly.omnibus.grpc.rule.nextbid.v1.NextBidResponse
 import pl.writeonly.omnibus.grpc.rule.nextbid.v1.NextBidServiceGrpc
 import reactor.core.publisher.Mono
 
-@RestController
-@RequestMapping("/api/rule/next-bid")
-class NextBidController(
-    @GrpcClient("nextBidService")
-    private val stub: NextBidServiceGrpc.NextBidServiceStub
-) {
-    @PostMapping
-    fun nextBid(@RequestBody body: NextBidRequest): Mono<NextBidResponse> {
-        return grpcMono { observer ->
-            stub.nextBid(body, observer)
-        }
-    }
-}
+// @RestController
+// @RequestMapping("/api/rule/next-bid")
+// class NextBidController(
+//     @GrpcClient("nextBidService")
+//     private val stub: NextBidServiceGrpc.NextBidServiceStub
+// ) {
+//     @PostMapping
+//     fun nextBid(@RequestBody body: NextBidRequest): Mono<NextBidResponse> {
+//         return grpcMono { observer ->
+//             stub.nextBid(body, observer)
+//         }
+//     }
+// }

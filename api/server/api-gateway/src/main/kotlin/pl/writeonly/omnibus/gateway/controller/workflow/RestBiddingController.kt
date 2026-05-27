@@ -11,16 +11,16 @@ import pl.writeonly.omnibus.grpc.workflow.restbidding.v1.RestBiddingResponse
 import pl.writeonly.omnibus.grpc.workflow.restbidding.v1.RestBiddingServiceGrpc
 import reactor.core.publisher.Mono
 
-@RestController
-@RequestMapping("/api/workflow/rest-bidding")
-class RestBiddingController(
-    @GrpcClient("restBiddingService")
-    private val stub: RestBiddingServiceGrpc.RestBiddingServiceStub
-) {
-    @PostMapping
-    fun restBiddingBid(@RequestBody body: RestBiddingRequest): Mono<RestBiddingResponse> {
-        return grpcMono { observer ->
-            stub.restBidding(body, observer)
-        }
-    }
-}
+// @RestController
+// @RequestMapping("/api/workflow/rest-bidding")
+// class RestBiddingController(
+//     @GrpcClient("restBiddingService")
+//     private val stub: RestBiddingServiceGrpc.RestBiddingServiceStub
+// ) {
+//     @PostMapping
+//     fun restBiddingBid(@RequestBody body: RestBiddingRequest): Mono<RestBiddingResponse> {
+//         return grpcMono { observer ->
+//             stub.restBidding(body, observer)
+//         }
+//     }
+// }
