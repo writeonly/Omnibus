@@ -13,6 +13,7 @@ include(
     "config-server",
     "eureka-server",
     "auth-server",
+    "monolith",
     "api-gateway",
 
     //    "swing-client",
@@ -33,6 +34,7 @@ project(":workflow-service").projectDir = file("service/workflow-service")
 
 project(":config-server").projectDir = file("server/config-server")
 project(":eureka-server").projectDir = file("server/eureka-server")
+project(":monolith").projectDir = file("server/monolith")
 project(":api-gateway").projectDir = file("server/api-gateway")
 project(":auth-server").projectDir = file("server/auth-server")
 
