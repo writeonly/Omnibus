@@ -1,8 +1,9 @@
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.jvm.JvmTestSuite
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.concurrent.Executors
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
@@ -12,7 +13,6 @@ plugins {
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.spring.deps) apply false
 
-    // alias(libs.plugins.detekt) apply false
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.protobuf) apply false
 }
@@ -28,64 +28,49 @@ allprojects {
 
 subprojects {
 
-    // CORE PLUGINS
+    // ---------------- CORE PLUGINS ----------------
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "io.spring.dependency-management")
-    // apply(plugin = "io.gitlab.arturbosch.detekt")
     apply(plugin = "com.diffplug.spotless")
 
-    // JAVA TOOLCHAIN (Java 21 ONLY)
+    // ---------------- JAVA TOOLCHAIN ----------------
     extensions.configure<JavaPluginExtension> {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
 
-    // KOTLIN CONFIG (FULL CONSISTENCY)
+    // ---------------- KOTLIN ----------------
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
-    // TEST CONFIG
+    // ---------------- TEST FIX (CRITICAL - JUnit + Test Suites) ----------------
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
     }
 
-    // DETEKT (GLOBAL SAFE MODE)
-    // extensions.configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
-    //     config.setFrom("$rootDir/detekt.yml")
-    //     buildUponDefaultConfig = true
-    //     ignoreFailures = true
-    // }
-
-    // SPOTLESS (GLOBAL)
-    extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        // kotlin {
-        //     target("src/**/*.kt")
-        //     // ktlint("1.3.0")
-        //     ktfmt().kotlinlangStyle()
-        //     // prettier(...)
-        //     trimTrailingWhitespace()
-        //     endWithNewline()
-        //     // target("DO_NOT_MATCH_ANYTHING")
-        // }
-
-        // kotlinGradle {
-        //     target("*.gradle.kts")
-        //     // ktlint("1.3.0")
-        // }
+    // FIX for Gradle JVM Test Suite (modulith:test etc.)
+    extensions.configure<org.gradle.api.plugins.testing.TestingExtension> {
+        suites.configureEach {
+            if (this is JvmTestSuite) {
+                useJUnitJupiter()
+            }
+        }
     }
+
+    // ---------------- SPOTLESS ----------------
+    extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> { }
+
     tasks.withType<com.diffplug.gradle.spotless.SpotlessTask>().configureEach {
         enabled = false
     }
 
-    tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
-        jvmArgs = listOf(
-            "-Xms256m",
-            "-Xmx256m"
-        )
+    // ---------------- BOOT RUN ----------------
+    tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun>().configureEach {
+        jvmArgs("-Xms256m", "-Xmx256m")
     }
 }
 
@@ -93,13 +78,15 @@ repositories {
     mavenCentral()
 }
 
-val processes = mutableListOf<Process>()
+// ---------------- SAFE PROCESS RUNNER ----------------
+
+val processes = java.util.concurrent.CopyOnWriteArrayList<Process>()
 
 fun runAsync(name: String, command: String) {
-    val pb = ProcessBuilder(command.split(" "))
+    val process = ProcessBuilder(command.split(" "))
         .inheritIO()
+        .start()
 
-    val process = pb.start()
     processes.add(process)
 
     println("🚀 started $name")
@@ -121,7 +108,7 @@ tasks.register("run") {
 
         Runtime.getRuntime().addShutdownHook(Thread {
             println("🛑 stopping all services...")
-            processes.forEach { it.destroy() }
+            processes.forEach { it.destroyForcibly() }
         })
 
         processes.forEach { it.waitFor() }

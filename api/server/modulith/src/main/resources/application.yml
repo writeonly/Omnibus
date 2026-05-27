@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: monilith
+    name: modulith
   cloud:
     gateway:
       grpc:

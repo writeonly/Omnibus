@@ -19,18 +19,13 @@ repositories {
 
 dependencyManagement {
     imports {
-        // Spring Cloud BOM
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${libs.versions.springCloud.get()}")
-
-        // Spring Modulith BOM
         mavenBom("org.springframework.modulith:spring-modulith-bom:${libs.versions.springModulith.get()}")
+        mavenBom("org.testcontainers:testcontainers-bom:${libs.versions.testcontainers.get()}")
     }
 }
 
 dependencies {
-
-    // ---------------- Testcontainers BOM (DODAJ TO) ----------------
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.4"))
 
     // ---------------- Spring Boot ----------------
     implementation(libs.spring.boot.starter.web)
@@ -38,18 +33,17 @@ dependencies {
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.jdbc)
 
     // ---------------- Modulith ----------------
     implementation(libs.spring.modulith.core)
     implementation(libs.spring.modulith.events.api)
     runtimeOnly(libs.spring.modulith.events.jpa)
-
     testImplementation(libs.spring.modulith.test)
 
     // ---------------- Database ----------------
     runtimeOnly(libs.postgresql)
-    implementation(libs.spring.boot.starter.jdbc)
-    implementation("org.flywaydb:flyway-core")
+    implementation(libs.flyway.core)
 
     // ---------------- JSON / Kotlin ----------------
     implementation(libs.jackson.kotlin)
@@ -66,12 +60,15 @@ dependencies {
     testAnnotationProcessor(libs.lombok)
 
     // ---------------- Testing ----------------
+    testImplementation(libs.junit.jupiter)
+
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.security.test)
     testImplementation(libs.spring.kafka.test)
 
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    testRuntimeOnly(libs.junit.platform.launcher)
 }

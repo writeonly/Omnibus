@@ -35,8 +35,12 @@ postgresql = "42.7.8"
 graalvmNative = "0.11.1"
 springBootAot = "4.0.6"
 
-# ---------------- Spring Modulith ----------------
 springModulith = "1.3.6"
+
+testcontainers = "1.20.4"
+flyway = "10.20.1"
+junitPlatform = "1.11.0"
+
 
 [libraries]
 
@@ -59,11 +63,13 @@ spring-boot-starter-data-mongodb = { module = "org.springframework.boot:spring-b
 
 spring-boot-starter-aot = { module = "org.springframework.boot:spring-boot-starter-aot", version.ref = "springBootAot" }
 
+
 # ---------------- Security ----------------
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-security-crypto = { module = "org.springframework.security:spring-security-crypto" }
 
 spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server", version.ref = "springAuthorizationServer" }
+
 
 # ---------------- Spring Cloud ----------------
 spring-cloud-config-server = { module = "org.springframework.cloud:spring-cloud-config-server" }
@@ -84,33 +90,41 @@ spring-cloud-starter-loadbalancer = { module = "org.springframework.cloud:spring
 
 spring-cloud-starter-stream-kafka = { module = "org.springframework.cloud:spring-cloud-starter-stream-kafka" }
 
-# ---------------- Eureka ----------------
 spring-cloud-starter-netflix-eureka-server = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server" }
 spring-cloud-starter-netflix-eureka-client = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client" }
+
 
 # ---------------- Kafka ----------------
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
 spring-kafka-test = { module = "org.springframework.kafka:spring-kafka-test" }
 
+
 # ---------------- Database ----------------
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+
 
 # ---------------- Observability ----------------
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
 
+
 # ---------------- OpenAPI ----------------
 springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+
 
 # ---------------- Kotlin ----------------
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlinLogging" }
 
+
 # ---------------- Logback ----------------
 logback = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logback" }
 
+
 # ---------------- Lombok ----------------
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
 
 # ---------------- gRPC / Protobuf ----------------
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
@@ -128,6 +142,7 @@ grpc-spring-client = { module = "net.devh:grpc-client-spring-boot-starter", vers
 
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotation" }
 
+
 # ---------------- Drools ----------------
 kie-api = { module = "org.kie:kie-api", version.ref = "drools" }
 kie-internal = { module = "org.kie:kie-internal", version.ref = "drools" }
@@ -135,25 +150,33 @@ drools-engine = { module = "org.drools:drools-engine", version.ref = "drools" }
 drools-mvel = { module = "org.drools:drools-mvel", version.ref = "drools" }
 drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
 
+
 # ---------------- KOGITO ----------------
 jbpm-spring-boot-starter = { module = "org.jbpm:jbpm-spring-boot-starter", version.ref = "kogito" }
 kogito-api = { module = "org.kie.kogito:kogito-api", version.ref = "kogito" }
 kogito-dmn = { module = "org.kie.kogito:kogito-dmn", version.ref = "kogito" }
 
-# =========================================================
-# 🧩 SPRING MODULITH (NOWA SEKCJA)
-# =========================================================
 
+# ---------------- Spring Modulith ----------------
 spring-modulith-core = { module = "org.springframework.modulith:spring-modulith-starter-core", version.ref = "springModulith" }
-
 spring-modulith-events-api = { module = "org.springframework.modulith:spring-modulith-events-api", version.ref = "springModulith" }
 spring-modulith-events-jpa = { module = "org.springframework.modulith:spring-modulith-events-jpa", version.ref = "springModulith" }
-
 spring-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test", version.ref = "springModulith" }
-
 spring-modulith-observability = { module = "org.springframework.modulith:spring-modulith-observability", version.ref = "springModulith" }
 
 
+# ---------------- Testcontainers ----------------
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+
+
+# ---------------- JUnit Platform ----------------
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatform" }
+
+
+# ---------------- Plugins ----------------
 [plugins]
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -163,11 +186,10 @@ kotlin-noarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
 spring-deps = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
 
-lombok = { id = "io.freefair.lombok", version.ref = "lombokPlugin" }
-
-protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
-
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+
+lombok = { id = "io.freefair.lombok", version.ref = "lombokPlugin" }
 
 graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvmNative" }
