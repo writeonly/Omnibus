@@ -1,15 +1,11 @@
 package pl.writeonly.omnibus.modulith
 
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Disabled
+import io.kotest.core.spec.style.FreeSpec
 import org.springframework.modulith.core.ApplicationModules
 
-internal class ModularityTests {
-
-    @Disabled
-    @Test
-    fun verifyModules() {
+internal class ModularityTests : FreeSpec({
+    "modulith modules are valid".config(enabled = false) {
         ApplicationModules.of(ModulithApplication::class.java)
             .verify()
     }
-}
+})

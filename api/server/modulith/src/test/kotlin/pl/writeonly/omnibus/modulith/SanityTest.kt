@@ -1,12 +1,10 @@
-package pl.writeonly.omnibus.monolith
+package pl.writeonly.omnibus.modulith
 
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertTrue
+import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.booleans.shouldBeTrue
 
-class SanityTest {
-
-    @Test
-    fun shouldAlwaysBeTrue() {
-        assertTrue(true)
+class SanityTest : FreeSpec({
+    "sanity check" {
+        true.shouldBeTrue()
     }
-}
+})

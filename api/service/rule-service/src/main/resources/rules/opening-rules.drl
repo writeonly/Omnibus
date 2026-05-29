@@ -1,7 +1,7 @@
 package rules
 
-import com.omnibus.bidding.rules.BiddingFacts;
-import com.omnibus.bidding.rules.CandidateBid;
+import pl.writeonly.omnibus.rule.rules.BiddingFacts;
+import pl.writeonly.omnibus.rule.rules.CandidateBid;
 
 rule "PASS_WITH_FEWER_THAN_12_HCP"
 salience 100

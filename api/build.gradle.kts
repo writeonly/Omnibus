@@ -1,7 +1,6 @@
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.api.tasks.testing.Test
-import org.gradle.api.tasks.testing.jvm.JvmTestSuite
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -26,6 +25,9 @@ allprojects {
     }
 }
 
+val kotestVersion = libs.versions.kotest.get()
+val junitPlatformVersion = libs.versions.junitPlatform.get()
+
 subprojects {
 
     // ---------------- CORE PLUGINS ----------------
@@ -47,18 +49,16 @@ subprojects {
         }
     }
 
-    // ---------------- TEST FIX (CRITICAL - JUnit + Test Suites) ----------------
-    tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+    // ---------------- TESTS ----------------
+    dependencies {
+        "testImplementation"("io.kotest:kotest-runner-junit5:$kotestVersion")
+        "testImplementation"("io.kotest:kotest-assertions-core:$kotestVersion")
+        "testImplementation"("io.kotest:kotest-extensions-spring:$kotestVersion")
+        "testRuntimeOnly"("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
     }
 
-    // FIX for Gradle JVM Test Suite (modulith:test etc.)
-    extensions.configure<org.gradle.api.plugins.testing.TestingExtension> {
-        suites.configureEach {
-            if (this is JvmTestSuite) {
-                useJUnitJupiter()
-            }
-        }
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
     }
 
     // ---------------- SPOTLESS ----------------
