@@ -4,7 +4,7 @@ services:
     build:
       context: ./frontend-angular
       args:
-        KEYCLOAK_URL: http://localhost:9001
+        KEYCLOAK_URL: http://localhost:9000
         KEYCLOAK_REALM: omnibus
         KEYCLOAK_CLIENT: omnibus-frontend
     mem_limit: 512m
@@ -20,7 +20,7 @@ services:
       context: ./bff-nest
     mem_limit: 512m
     environment:
-      KEYCLOAK_PUBLIC_URL: http://localhost:9001
+      KEYCLOAK_PUBLIC_URL: http://localhost:9000
       KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_REALM: omnibus
       KEYCLOAK_CLIENT_ID: omnibus-frontend

@@ -136,7 +136,7 @@ services:
     volumes:
       - ./keycloak/realm-omnibus.json:/opt/keycloak/data/import/realm-omnibus.json:ro
     ports:
-      - "9001:8080"
+      - "9000:8080"
     networks:
       omnibus:
 

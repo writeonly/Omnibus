@@ -8,7 +8,7 @@ This directory contains the JVM backend workspace for Omnibus.
 | --- | --- |
 | [server/config-server](server/config-server/README.md) | Spring Cloud Config Server |
 | [server/eureka-server](server/eureka-server/README.md) | Eureka service discovery |
-| [server/auth-server](server/auth-server/README.md) | Spring Authorization Server and auth flow support |
+| [server/auth-service](server/auth-service/README.md) | Spring Authorization Server and auth flow support |
 | [server/api-gateway](server/api-gateway/README.md) | Spring Cloud Gateway entry point for backend traffic |
 | [service/audit-service](service/audit-service/README.md) | Kafka/audit observation service |
 | [service/user-service](service/user-service/README.md) | User domain service |
@@ -22,12 +22,12 @@ This directory contains the JVM backend workspace for Omnibus.
 | --- | --- | --- |
 | `config-server` | Centralized Spring Cloud Config | `8888` |
 | `eureka-server` | Service discovery for JVM services | `8761` |
-| `auth-server` | Spring Authorization Server based authentication flows and JWT blacklist support | `9000` |
+| `auth-service` | Spring Authorization Server based authentication flows and JWT blacklist support | `8083` |
 | `api-gateway` | Spring Cloud Gateway entry point for backend services | `8080` |
 | `audit-service` | Audit/event observation service | `8082` |
-| `user-service` | User domain and registration flow | `8083` |
-| `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8084` |
-| `workflow-service` | Rule publication workflow and validation orchestration | `8085` |
+| `user-service` | User domain and registration flow | `8084` |
+| `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8085` |
+| `workflow-service` | Rule publication workflow and validation orchestration | `8086` |
 
 ## Build
 

@@ -16,7 +16,7 @@ export class AuthService {
   private readonly publicKeycloakUrl = withoutTrailingSlash(
     process.env.KEYCLOAK_PUBLIC_URL ??
       process.env.KEYCLOAK_URL ??
-      'http://localhost:9001'
+      'http://localhost:9000'
   );
 
   private readonly realm =

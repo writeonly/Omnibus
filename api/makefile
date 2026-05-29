@@ -6,7 +6,7 @@ eureka:
 	./gradlew :eureka-server:bootRun
 
 auth:
-	./gradlew :auth-server:bootRun	
+	./gradlew :auth-service:bootRun	
 
 api:
 	./gradlew :api-gateway:bootRun

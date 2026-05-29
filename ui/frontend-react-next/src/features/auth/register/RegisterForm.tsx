@@ -39,7 +39,7 @@ export function RegisterForm() {
         <h1>Create your account</h1>
         <p>
           This registration travels through React, tRPC, the API Gateway, Modulith,
-          gRPC, User Service, PostgreSQL outbox, Kafka, Auth Server, and Keycloak.
+          gRPC, User Service, PostgreSQL outbox, Kafka, Auth Service, and Keycloak.
         </p>
       </div>
 

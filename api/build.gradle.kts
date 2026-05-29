@@ -99,8 +99,9 @@ tasks.register("run") {
 
         runAsync("config-server", "./gradlew :config-server:bootRun")
         runAsync("eureka-server", "./gradlew :eureka-server:bootRun")
-        runAsync("auth-server", "./gradlew :auth-server:bootRun")
         runAsync("api-gateway", "./gradlew :api-gateway:bootRun")
+        runAsync("modulith", "./gradlew :modulith:bootRun")
+        runAsync("auth-service", "./gradlew :auth-service:bootRun")
         runAsync("audit-service", "./gradlew :audit-service:bootRun")
         runAsync("user-service", "./gradlew :user-service:bootRun")
         runAsync("rule-service", "./gradlew :rule-service:bootRun")

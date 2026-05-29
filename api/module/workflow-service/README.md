@@ -10,7 +10,7 @@ Rule-publication workflow service.
 
 | Interface | Port |
 | --- | --- |
-| HTTP | `8085` |
+| HTTP | `8086` |
 | gRPC | `9082` |
 
 ## Rule Publication Flow

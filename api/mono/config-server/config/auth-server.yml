@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8083
 
 spring:
   cloud:
@@ -9,7 +9,7 @@ spring:
       bindings:
         userRegistered-in-0:
           destination: ${USER_REGISTERED_KAFKA_TOPIC:user.registered}
-          group: auth-server
+          group: auth-service
           content-type: application/json
   datasource:
     url: ${DB_URL:jdbc:postgresql://postgres:5432/auth_db}
@@ -26,7 +26,7 @@ spring:
   security:
     oauth2:
       authorizationserver:
-        issuer: ${AUTH_ISSUER:http://localhost:9000}
+        issuer: ${AUTH_ISSUER:http://localhost:8083}
 
 logging:
   file:

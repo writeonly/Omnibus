@@ -34,7 +34,7 @@ API Gateway
     v
 Core services
   rule-service, workflow-service, user-service, audit-service,
-  auth-server, config-server, eureka-server
+  auth-service, config-server, eureka-server
     |
     v
 Infrastructure
@@ -94,11 +94,11 @@ docker compose up --build
 | API gateway | `http://localhost:8080` |
 | config-server | `http://localhost:8888` |
 | eureka-server | `http://localhost:8761` |
-| auth-server | `http://localhost:9000` |
-| rule-service | `http://localhost:8084` |
-| workflow-service | `http://localhost:8085` |
+| auth-service | `http://localhost:8083` |
+| rule-service | `http://localhost:8085` |
+| workflow-service | `http://localhost:8086` |
 | PostgreSQL | `localhost:5432` |
-| Keycloak | `http://localhost:9001` |
+| Keycloak | `http://localhost:9000` |
 | RabbitMQ Management | `http://localhost:15672` |
 | Grafana | `http://localhost:3001` |
 
