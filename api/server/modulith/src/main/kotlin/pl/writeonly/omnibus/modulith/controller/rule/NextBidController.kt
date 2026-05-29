@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.gateway.controller.rule
+package pl.writeonly.omnibus.modulith.controller.rule
 
 //import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.PostMapping

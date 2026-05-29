@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.gateway.controller
+package pl.writeonly.omnibus.modulit.controller
 
 //import io.grpc.stub.StreamObserver
 import reactor.core.publisher.Mono

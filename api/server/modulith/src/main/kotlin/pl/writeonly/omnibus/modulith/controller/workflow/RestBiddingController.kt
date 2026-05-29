@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.gateway.controller.workflow
+package pl.writeonly.omnibus.modulith.controller.workflow
 
 //import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.web.bind.annotation.PostMapping

@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.gateway.controller.user
+package pl.writeonly.omnibus.modulith.controller.user
 
 import org.springframework.web.bind.annotation.*
 //import pl.writeonly.omnibus.grpc.user.v1.*
