@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+grpc:
+  client:
+    userService:
+      address: ${USER_SERVICE_GRPC_URI:lb://user-service}
+      negotiation-type: plaintext
+    nextBidService:
+      address: ${RULE_ENGINE_GRPC_URI:lb://rule-service}
+      negotiation-type: plaintext
+    restBiddingService:
+      address: ${WORKFLOW_ENGINE_GRPC_URI:lb://workflow-service}
+      negotiation-type: plaintext
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO

@@ -59,8 +59,8 @@ class UserRegistrationService(
                     "email" to account.email,
                     "firstName" to account.firstName,
                     "lastName" to account.lastName,
+                    "password" to request.password,
 
-                    // FIX: status is NOT enum → no .name
                     "status" to account.status,
                 ),
             ),

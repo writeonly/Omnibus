@@ -109,6 +109,7 @@ services:
       RULE_ENGINE_GRPC_URI: lb:h2c://rule-service
       WORKFLOW_ENGINE_GRPC_URI: lb:h2c://workflow-service
       USER_SERVICE_GRPC_URI: lb:h2c://user-service
+      MODULITH_HTTP_URI: http://modulith:8081
     networks:
       - omnibus
 
@@ -133,6 +134,7 @@ services:
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVER_URL: http://auth-server:9000
+      USER_SERVICE_GRPC_URI: static://user-service:9082
 
       CASSANDRA_CONTACT_POINTS: cassandra:9042
       CASSANDRA_HOST: cassandra

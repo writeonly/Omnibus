@@ -5,5 +5,12 @@ spring:
     gateway:
       grpc:
         enabled: false
+      server:
+        webflux:
+          routes:
+            - id: modulith-user-http
+              uri: ${MODULITH_HTTP_URI:http://localhost:8081}
+              predicates:
+                - Path=/api/user/**
   config:
     import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"

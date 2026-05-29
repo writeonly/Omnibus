@@ -31,6 +31,7 @@ dependencies {
     // Spring Cloud
     implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.function.web)
+    implementation(libs.spring.cloud.starter.stream.kafka)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
 
     // Authorization Server

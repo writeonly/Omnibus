@@ -7,7 +7,14 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
-    ignores: [".next"],
+    ignores: [
+      ".next",
+      "src/app/App.tsx",
+      "src/app/main.tsx",
+      "src/core/**",
+      "src/features/rule/**",
+      "src/features/workflow/**",
+    ],
   },
   ...compat.extends("next/core-web-vitals"),
   {

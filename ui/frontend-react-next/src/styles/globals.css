@@ -1,6 +1,183 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+:root {
+  --ink: #18201b;
+  --muted: #667063;
+  --panel: rgba(255, 252, 243, 0.86);
+  --line: rgba(24, 32, 27, 0.16);
+  --accent: #d8763f;
+  --accent-deep: #8e3f24;
+  --success: #1f7a4d;
+  --danger: #a5332a;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 18% 14%, rgba(216, 118, 63, 0.28), transparent 28rem),
+    radial-gradient(circle at 82% 22%, rgba(72, 118, 96, 0.22), transparent 24rem),
+    linear-gradient(135deg, #fff6df 0%, #e9f1dd 48%, #f9e3c6 100%);
+  font-family: var(--font-sans), sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.register-page {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 520px);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+  padding: clamp(1.5rem, 5vw, 5rem);
+}
+
+.register-hero {
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--accent-deep);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.register-hero h2 {
+  margin: 0;
+  max-width: 720px;
+  font-family: var(--font-display), serif;
+  font-size: clamp(3.2rem, 8vw, 7.6rem);
+  font-weight: 750;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+}
+
+.register-hero p:last-child {
+  max-width: 620px;
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.register-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background: var(--panel);
+  box-shadow: 0 30px 80px rgba(64, 45, 24, 0.18);
+  backdrop-filter: blur(18px);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.register-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 8px;
+  background: linear-gradient(90deg, #2f6f58, #d8763f, #f1bf63);
+  content: "";
+}
+
+.register-card__header h1 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+}
+
+.register-card__header p:last-child {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.register-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.register-grid label {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.register-grid span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.register-grid input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  outline: 0;
+  padding: 0.9rem 1rem;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.register-grid input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(216, 118, 63, 0.16);
+  transform: translateY(-1px);
+}
+
+.register-message {
+  margin: 1rem 0 0;
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  line-height: 1.5;
+}
+
+.register-message--error {
+  background: rgba(165, 51, 42, 0.1);
+  color: var(--danger);
+}
+
+.register-message--success {
+  background: rgba(31, 122, 77, 0.12);
+  color: var(--success);
+}
+
+.register-button {
+  width: 100%;
+  margin-top: 1.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1f6f55, #d8763f);
+  color: white;
+  cursor: pointer;
+  font-weight: 750;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 16px 34px rgba(143, 71, 35, 0.26);
+}
+
+.register-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+@media (max-width: 900px) {
+  .register-page {
+    grid-template-columns: 1fr;
+  }
 }

@@ -23,8 +23,10 @@ class AuthFilter : GlobalFilter, Ordered {
         if (
             path.startsWith("/auth") ||
             path.startsWith("/actuator") ||
+            path == "/api/user/users/register" ||
             path.startsWith("/omnibus.v1.BiddingService/") ||
-            path.startsWith("/omnibus.v1.WorkflowService/")
+            path.startsWith("/omnibus.v1.WorkflowService/") ||
+            path.startsWith("/omnibus.v1.UserService/")
         ) {
             return chain.filter(exchange)
         }

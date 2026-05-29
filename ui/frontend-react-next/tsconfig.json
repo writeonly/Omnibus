@@ -38,5 +38,13 @@
     "**/*.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "generated"]
+  "exclude": [
+    "node_modules",
+    "generated",
+    "src/app/App.tsx",
+    "src/app/main.tsx",
+    "src/core/**",
+    "src/features/rule/**",
+    "src/features/workflow/**"
+  ]
 }

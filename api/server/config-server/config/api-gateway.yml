@@ -23,6 +23,11 @@ spring:
               uri: "${USER_SERVICE_GRPC_URI:lb:h2c://user-service}"
               predicates:
                 - Path=/omnibus.v1.UserService/**
+
+            - id: modulith-user-http
+              uri: "${MODULITH_HTTP_URI:lb://modulith}"
+              predicates:
+                - Path=/api/user/**
   security:
     oauth2:
       resourceserver:
