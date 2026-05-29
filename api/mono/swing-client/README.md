@@ -1,4 +1,3 @@
 ## README
 
-Fat client in Swing. 
-Use gRPC to connect with API Gateway
+- Fat client in Swing. 
