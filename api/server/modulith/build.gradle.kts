@@ -60,6 +60,16 @@ dependencies {
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
 
+    // ---------------- gRPC ----------------
+    implementation(libs.grpc.stub)
+    implementation(libs.grpc.protobuf)
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.protobuf.kotlin)
+    implementation(libs.grpc.spring.client)
+    implementation(project(":user-proto"))
+    implementation(project(":rule-proto"))
+    implementation(project(":workflow-proto"))
+
     // ---------------- Testing ----------------
     testImplementation(libs.junit.jupiter)
 
@@ -72,4 +82,5 @@ dependencies {
 
 
     testRuntimeOnly(libs.junit.platform.launcher)
+    
 }
