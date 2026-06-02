@@ -102,8 +102,8 @@ tasks.register("run") {
         runAsync("api-gateway", "./gradlew :api-gateway:bootRun")
         runAsync("modulith", "./gradlew :modulith:bootRun")
         runAsync("auth-service", "./gradlew :auth-service:bootRun")
-        runAsync("audit-service", "./gradlew :audit-service:bootRun")
         runAsync("user-service", "./gradlew :user-service:bootRun")
+        runAsync("audit-service", "./gradlew :audit-service:bootRun")
         runAsync("rule-service", "./gradlew :rule-service:bootRun")
         runAsync("workflow-service", "./gradlew :workflow-service:bootRun")
 

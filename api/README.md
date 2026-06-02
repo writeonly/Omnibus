@@ -6,14 +6,14 @@ This directory contains the JVM backend workspace for Omnibus.
 
 | Path | Purpose |
 | --- | --- |
-| [server/config-server](server/config-server/README.md) | Spring Cloud Config Server |
-| [server/eureka-server](server/eureka-server/README.md) | Eureka service discovery |
-| [server/auth-service](server/auth-service/README.md) | Spring Authorization Server and auth flow support |
-| [server/api-gateway](server/api-gateway/README.md) | Spring Cloud Gateway entry point for backend traffic |
-| [service/audit-service](service/audit-service/README.md) | Kafka/audit observation service |
-| [service/user-service](service/user-service/README.md) | User domain service |
-| [service/rule-service](service/rule-service/README.md) | Drools-based bridge bidding rule service |
-| [service/workflow-service](service/workflow-service/README.md) | Rule-publication workflow service |
+| [mono/config-server](mono/config-server/README.md) | Spring Cloud Config Server |
+| [mono/eureka-server](mono) | Eureka service discovery |
+| [mono/api-gateway](mono/api-gateway/README.md) | Spring Cloud Gateway entry point for backend traffic |
+| [micro/auth-service](micro/auth-service/README.md) | Spring Authorization Server and auth flow support |
+| [micro/user-service](micro/user-service/README.md) | User domain service |
+| [micro/audit-service](micro/audit-service/README.md) | Kafka/audit observation service |
+| [micro/rule-service](micro/rule-service/README.md) | Drools-based bridge bidding rule service |
+| [micro/workflow-service](micro/workflow-service/README.md) | Rule-publication workflow service |
 | `legacy/*` | Older or transitional services and projections |
 
 ## Backend Services
@@ -22,10 +22,10 @@ This directory contains the JVM backend workspace for Omnibus.
 | --- | --- | --- |
 | `config-server` | Centralized Spring Cloud Config | `8888` |
 | `eureka-server` | Service discovery for JVM services | `8761` |
-| `auth-service` | Spring Authorization Server based authentication flows and JWT blacklist support | `8082` |
 | `api-gateway` | Spring Cloud Gateway entry point for backend services | `8080` |
-| `audit-service` | Audit/event observation service | `8084` |
+| `auth-service` | Spring Authorization Server based authentication flows and JWT blacklist support | `8082` |
 | `user-service` | User domain and registration flow | `8083` |
+| `audit-service` | Audit/event observation service | `8084` |
 | `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8085` |
 | `workflow-service` | Rule publication workflow and validation orchestration | `8086` |
 

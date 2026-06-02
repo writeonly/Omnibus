@@ -7,9 +7,9 @@ include(
     "config-server",
     "eureka-server",
 
-    "audit-service",
     "auth-service",
     "user-service",
+    "audit-service",
     "rule-service",
     "workflow-service",
 
