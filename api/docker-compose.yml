@@ -48,35 +48,6 @@ services:
     networks:
       - omnibus
 
-  auth-service:
-    build:
-      context: .
-      dockerfile: server/auth-service/Dockerfile
-    container_name: auth-service
-    mem_limit: 512m
-    ports:
-      - "8083:8083"
-    healthcheck:
-      <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
-    depends_on:
-      config-server:
-        condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-    environment:
-      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
-      CONFIG_SERVER_URL: http://name:password@config-server:8888
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      DB_URL: jdbc:postgresql://postgres:5432/auth_db
-      POSTGRES_DB: auth_db
-      DB_USERNAME: omnibus
-      DB_PASSWORD: omnibus
-      AUTH_ISSUER: http://auth-service:8083
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    networks:
-      - omnibus
-
   api-gateway:
     build:
       context: .
@@ -182,6 +153,35 @@ services:
     networks:
       - omnibus
 
+  auth-service:
+    build:
+      context: .
+      dockerfile: server/auth-service/Dockerfile
+    container_name: auth-service
+    mem_limit: 512m
+    ports:
+      - "8083:8083"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      DB_URL: jdbc:postgresql://postgres:5432/auth_db
+      POSTGRES_DB: auth_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
+      AUTH_ISSUER: http://auth-service:8083
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - omnibus
+
   user-service:
     build:
       context: .
@@ -215,34 +215,6 @@ services:
     networks:
       - omnibus
 
-  outbox-relay-service:
-    build:
-      context: .
-      dockerfile: legacy/outbox-relay-service/Dockerfile
-    container_name: outbox-relay-service
-    mem_limit: 512m
-    ports:
-      - "8087:8087"
-    healthcheck:
-      <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8087; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
-    depends_on:
-      config-server:
-        condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-      user-service:
-        condition: service_healthy
-    environment:
-      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
-      CONFIG_SERVER_URL: http://name:password@config-server:8888
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      DB_URL: jdbc:postgresql://postgres:5432/user_db
-      DB_USERNAME: omnibus
-      DB_PASSWORD: omnibus
-    networks:
-      - omnibus
 
   rule-service:
     build:
@@ -296,6 +268,35 @@ services:
       AUTH_SERVER_URL: http://auth-service:8083
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       BIDDING_ENGINE_GRPC_ADDRESS: discovery:///rule-service
+    networks:
+      - omnibus
+
+  outbox-relay-service:
+    build:
+      context: .
+      dockerfile: legacy/outbox-relay-service/Dockerfile
+    container_name: outbox-relay-service
+    mem_limit: 512m
+    ports:
+      - "8087:8087"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8087; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      DB_URL: jdbc:postgresql://postgres:5432/user_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
     networks:
       - omnibus
 
