@@ -114,7 +114,7 @@ docker compose --profile legacy up --build
 
 The shared `omnibus` Docker network allows other services to communicate:
 
-- **Backend services** (`../core`) expect this infrastructure to be running
+- **Backend services** (`../api`) expect this infrastructure to be running
 - **Frontend and BFF** (`../ui`) use the API gateway on `http://api-gateway:8080`
 - Services can reference infrastructure by hostname (e.g., `postgres:5432`, `redis:6379`, `kafka:9092`)
 

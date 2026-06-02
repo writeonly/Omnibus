@@ -17,7 +17,7 @@ This directory contains the frontend and backend-for-frontend modules for Omnibu
 Frontend apps
   -> NestJS BFF
   -> API gateway
-  -> core services
+  -> micro services
 ```
 
 The BFF shields UI clients from backend topology. In Docker Compose it calls the backend API gateway through the shared `omnibus` network.

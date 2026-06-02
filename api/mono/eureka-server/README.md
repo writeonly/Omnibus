@@ -4,7 +4,7 @@ Service discovery server for JVM backend services.
 
 ## Responsibility
 
-`eureka-server` provides local service registration and discovery for the Spring services in `core`. Backend services register here and can discover each other without hardcoding every target address.
+`eureka-server` provides local service registration and discovery for the Spring services in `api`. Backend services register here and can discover each other without hardcoding every target address.
 
 ## Local Port
 

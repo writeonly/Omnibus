@@ -8,11 +8,9 @@ Central, cross-project information lives in this root README. Details that belon
 
 | Area | Path | Purpose |
 | --- | --- | --- |
-| Backend | [core/README.md](core/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
+| Backend | [api/README.md](api/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
 | Frontend and BFF | [ui/README.md](ui/README.md) | Angular and React clients, developer dashboard, NestJS BFF |
-| Infrastructure | [infra/README.md](infra/README.md) | PostgreSQL, Kafka/Redpanda, Cassandra/Scylla, Keycloak, Redis, RabbitMQ, search stack, NGINX |
-| Observability | [obs/README.md](obs/README.md) | Prometheus, Loki, Promtail and Grafana |
-| Protobuf contracts | [proto/omnibus/v1](proto/omnibus/v1) | Shared gRPC/API contract definitions |
+| Infrastructure | [infra/README.md](infra/README.md) | PostgreSQL, Kafka/Redpanda, Cassandra/Scylla, Keycloak, Redis, RabbitMQ, search stack, NGINX, Prometheus, Loki, Promtail and Grafana |
 
 ## Architecture At A Glance
 
@@ -67,7 +65,7 @@ docker compose up --build
 Then start backend services:
 
 ```bash
-cd core
+cd api
 docker compose up --build
 ```
 
@@ -75,13 +73,6 @@ Then start UI/BFF services:
 
 ```bash
 cd ui
-docker compose up --build
-```
-
-Optional observability stack:
-
-```bash
-cd obs
 docker compose up --build
 ```
 
@@ -109,7 +100,7 @@ See the README in each area for more ports, profiles and local development comma
 | Script | Purpose |
 | --- | --- |
 | [list-files.sh](list-files.sh) | Repository file listing helper |
-| [core/clean-gradle.sh](core/clean-gradle.sh) | Gradle cleanup helper for the backend workspace |
+| [api/clean-gradle.sh](api/clean-gradle.sh) | Gradle cleanup helper for the backend workspace |
 | [ui/bff-nest/run.sh](ui/bff-nest/run.sh) | Run the NestJS BFF |
 | [ui/frontend-angular/run.sh](ui/frontend-angular/run.sh) | Run the Angular frontend |
 | [ui/frontend-angular/openapi.sh](ui/frontend-angular/openapi.sh) | Angular OpenAPI generation helper |
@@ -119,10 +110,10 @@ See the README in each area for more ports, profiles and local development comma
 ## Development Notes
 
 - Java services use JDK 21 and Gradle Kotlin DSL.
-- Backend modules are listed in [core/settings.gradle.kts](core/settings.gradle.kts).
+- Backend modules are listed in [api/settings.gradle.kts](api/settings.gradle.kts).
 - Frontend and BFF modules use Node/npm.
-- Drools rules are in [core/service/rule-service/src/main/resources/rules](core/service/rule-service/src/main/resources/rules).
-- BPMN workflow assets live in [core/service/workflow-service/src/main/resources/bpmn](core/service/workflow-service/src/main/resources/bpmn).
+- Drools rules are in [api/service/rule-service/src/main/resources/rules](api/service/rule-service/src/main/resources/rules).
+- BPMN workflow assets live in [api/service/workflow-service/src/main/resources/bpmn](api/service/workflow-service/src/main/resources/bpmn).
 - Shared protobuf definitions live in [proto/omnibus/v1](proto/omnibus/v1), with service-local copies where needed by build tooling.
 
 ## Documentation Policy
