@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import {
-  UserHttpClient,
-  RegisterUserInput,
-} from '../client/http/user-http.client';
+import { UserHttpClient, RegisterUserInput } from '../client/http/user-http.client';
 
 export interface KeycloakClientConfig {
   url: string;
@@ -14,21 +11,14 @@ export interface KeycloakClientConfig {
 @Injectable()
 export class AuthService {
   private readonly publicKeycloakUrl = withoutTrailingSlash(
-    process.env.KEYCLOAK_PUBLIC_URL ??
-      process.env.KEYCLOAK_URL ??
-      'http://localhost:9000'
+    process.env.KEYCLOAK_PUBLIC_URL ?? process.env.KEYCLOAK_URL ?? 'http://localhost:9000'
   );
 
-  private readonly realm =
-    process.env.KEYCLOAK_REALM ?? 'omnibus';
+  private readonly realm = process.env.KEYCLOAK_REALM ?? 'omnibus';
 
-  private readonly clientId =
-    process.env.KEYCLOAK_CLIENT_ID ??
-    'omnibus-frontend';
+  private readonly clientId = process.env.KEYCLOAK_CLIENT_ID ?? 'omnibus-frontend';
 
-  constructor(
-    private readonly userHttpClient: UserHttpClient
-  ) {}
+  constructor(private readonly userHttpClient: UserHttpClient) {}
 
   getClientConfig(): KeycloakClientConfig {
     return {
@@ -76,10 +66,7 @@ export class AuthService {
     return this.userHttpClient.registerUser(input);
   }
 
-  private buildOpenIdUrl(
-    endpoint: string,
-    params: Record<string, string>
-  ): string {
+  private buildOpenIdUrl(endpoint: string, params: Record<string, string>): string {
     const query = new URLSearchParams(params);
 
     return `${this.publicKeycloakUrl}/realms/${this.realm}/protocol/openid-connect/${endpoint}?${query}`;
@@ -87,7 +74,5 @@ export class AuthService {
 }
 
 function withoutTrailingSlash(value: string): string {
-  return value.endsWith('/')
-    ? value.slice(0, -1)
-    : value;
+  return value.endsWith('/') ? value.slice(0, -1) : value;
 }

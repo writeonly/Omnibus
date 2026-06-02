@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: 'app-feature-panel',
+  selector: "app-feature-panel",
   standalone: true,
   imports: [],
-  templateUrl: './feature-panel.component.html'
+  templateUrl: "./feature-panel.component.html",
 })
 export class FeaturePanelComponent {
-  @Input() title = '';
-  @Input() subtitle = '';
+  @Input() title = "";
+  @Input() subtitle = "";
   @Input() loading = false;
   @Input() error: string | null = null;
   @Input() hasResult = false;

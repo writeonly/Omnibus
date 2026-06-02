@@ -19,21 +19,11 @@ export interface RegisterUserResult {
 
 @Injectable()
 export class UserHttpClient {
-  private readonly target =
-    process.env.API_GATEWAY_HTTP_TARGET ??
-    'http://localhost:8080';
+  private readonly target = process.env.API_GATEWAY_HTTP_TARGET ?? 'http://localhost:8080';
 
-  constructor(
-    private readonly transport: HttpTransport
-  ) {}
+  constructor(private readonly transport: HttpTransport) {}
 
-  async registerUser(
-    input: RegisterUserInput
-  ): Promise<RegisterUserResult> {
-    return this.transport.post(
-      this.target,
-      '/api/users/register',
-      input
-    );
+  async registerUser(input: RegisterUserInput): Promise<RegisterUserResult> {
+    return this.transport.post(this.target, '/api/users/register', input);
   }
 }

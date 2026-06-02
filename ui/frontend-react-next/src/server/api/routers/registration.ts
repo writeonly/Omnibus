@@ -15,13 +15,16 @@ export const registrationRouter = createTRPCRouter({
   register: publicProcedure
     .input(registerUserSchema)
     .mutation(async ({ input }) => {
-      const response = await fetch(`${env.API_GATEWAY_URL}/api/user/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${env.API_GATEWAY_URL}/api/user/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(input),
         },
-        body: JSON.stringify(input),
-      });
+      );
 
       if (!response.ok) {
         throw new TRPCError({
@@ -33,4 +36,3 @@ export const registrationRouter = createTRPCRouter({
       return response.json() as Promise<RegistrationResponse>;
     }),
 });
-

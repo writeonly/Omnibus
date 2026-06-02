@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BffApiClient } from '@core/api/bff-api.client';
-import { BidFormState } from './next-bid.model';
+import { Injectable } from "@angular/core";
+import { BffApiClient } from "@core/api/bff-api.client";
+import { BidFormState } from "./next-bid.model";
 
 @Injectable()
 export class NextBidService {
-
-  constructor(private api: BffApiClient) { }
+  constructor(private api: BffApiClient) {}
 
   recommendBid(payload: BidFormState) {
     return this.api.recommendBid(payload);
@@ -13,9 +12,9 @@ export class NextBidService {
 
   resetForm(): BidFormState {
     return {
-      hand: '',
-      bidding: '',
-      system: 'POLISH_CLUB',
+      hand: "",
+      bidding: "",
+      system: "POLISH_CLUB",
     };
   }
 }

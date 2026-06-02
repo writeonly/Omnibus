@@ -11,20 +11,19 @@ export interface RestBiddingRequest {
 export const restBiddingApi = createApi({
   reducerPath: "restBiddingApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001"
+    baseUrl: "http://localhost:3001",
   }),
   endpoints: (builder) => ({
-    recommendBidding: builder.mutation<
-      RestBiddingResponse,
-      RestBiddingRequest
-    >({
-      query: (body) => ({
-        url: "/workflow/rest-bid",
-        method: "POST",
-        body
-      })
-    })
-  })
+    recommendBidding: builder.mutation<RestBiddingResponse, RestBiddingRequest>(
+      {
+        query: (body) => ({
+          url: "/workflow/rest-bid",
+          method: "POST",
+          body,
+        }),
+      },
+    ),
+  }),
 });
 
 export const { useRecommendBiddingMutation } = restBiddingApi;

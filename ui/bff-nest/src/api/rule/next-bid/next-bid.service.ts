@@ -10,27 +10,19 @@ export class NextBidService {
   private readonly logger = new Logger(NextBidService.name);
 
   private readonly placeholderSouthHand =
-    process.env.NEXT_BID_PLACEHOLDER_SOUTH_HAND ??
-    'T97 A854 Q76 K98';
+    process.env.NEXT_BID_PLACEHOLDER_SOUTH_HAND ?? 'T97 A854 Q76 K98';
 
-  constructor(
-    private readonly biddingHttpClient: BiddingHttpClient
-  ) {}
+  constructor(private readonly biddingHttpClient: BiddingHttpClient) {}
 
-  async recommend(
-    dto: NextBidRequestDto
-  ): Promise<NextBidResponseDto> {
-    this.logger.log(
-      `Input received: ${JSON.stringify(dto)}`
-    );
+  async recommend(dto: NextBidRequestDto): Promise<NextBidResponseDto> {
+    this.logger.log(`Input received: ${JSON.stringify(dto)}`);
 
-    const recommendation =
-      await this.biddingHttpClient.recommendBid({
-        northHand: dto.hand,
-        southHand: this.placeholderSouthHand,
-        auction: dto.bidding,
-        system: dto.system,
-      });
+    const recommendation = await this.biddingHttpClient.recommendBid({
+      northHand: dto.hand,
+      southHand: this.placeholderSouthHand,
+      auction: dto.bidding,
+      system: dto.system,
+    });
 
     return {
       bid: recommendation.recommendedBid,

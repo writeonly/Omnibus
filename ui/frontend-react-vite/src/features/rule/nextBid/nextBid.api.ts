@@ -11,16 +11,16 @@ export const nextBidApi = baseApi.injectEndpoints({
       query: (body) => ({
         url: "/rule/next-bid",
         method: "POST",
-        body
+        body,
       }),
 
       extraOptions: {
         meta: {
-          schema: nextBidSchema
-        }
-      }
-    })
-  })
+          schema: nextBidSchema,
+        },
+      },
+    }),
+  }),
 });
 
 export const { useRecommendBidMutation } = nextBidApi;

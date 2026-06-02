@@ -20,21 +20,11 @@
     "useDefineForClassFields": false,
     "resolveJsonModule": true,
     "paths": {
-      "@core/*": [
-        "app/core/*"
-      ],
-      "@features/*": [
-        "app/features/*"
-      ],
-      "@shared/*": [
-        "app/shared/*"
-      ],
-      "@api/*": [
-        "app/core/api/*"
-      ],
-      "@models/*": [
-        "app/features/bidding/models/*"
-      ]
+      "@core/*": ["app/core/*"],
+      "@features/*": ["app/features/*"],
+      "@shared/*": ["app/shared/*"],
+      "@api/*": ["app/core/api/*"],
+      "@models/*": ["app/features/bidding/models/*"]
     }
   },
   "angularCompilerOptions": {

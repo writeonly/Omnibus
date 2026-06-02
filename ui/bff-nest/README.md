@@ -8,9 +8,9 @@ NestJS backend-for-frontend for Omnibus UI clients.
 
 ## Local Port
 
-| Interface | Port |
-| --- | --- |
-| HTTP | `3001` |
+| Interface | Port   |
+| --------- | ------ |
+| HTTP      | `3001` |
 
 ## Flow
 
@@ -36,8 +36,8 @@ or:
 
 ## Main Parts
 
-| Path | Purpose |
-| --- | --- |
-| `src/bidding` | Bidding endpoints and services |
+| Path              | Purpose                                              |
+| ----------------- | ---------------------------------------------------- |
+| `src/bidding`     | Bidding endpoints and services                       |
 | `src/common/grpc` | gRPC clients, protobuf loading and transport helpers |
-| `proto` | Local protobuf inputs used by the BFF |
+| `proto`           | Local protobuf inputs used by the BFF                |

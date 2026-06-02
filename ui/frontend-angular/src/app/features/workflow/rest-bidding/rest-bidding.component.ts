@@ -1,21 +1,26 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, computed, inject, signal } from "@angular/core";
+import {
+  ReactiveFormsModule,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { DestroyRef } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
-import { RestBiddingService } from './rest-bidding.service';
-import { RestBiddingResponse } from '@core/api/dto/rest-bidding.dto';
-import { System } from './rest-bidding.model';
+import { RestBiddingService } from "./rest-bidding.service";
+import { RestBiddingResponse } from "@core/api/dto/rest-bidding.dto";
+import { System } from "./rest-bidding.model";
 
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { MatSelectModule } from "@angular/material/select";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
-  selector: 'app-rest-bidding',
+  selector: "app-rest-bidding",
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -24,13 +29,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   providers: [RestBiddingService],
-  templateUrl: './rest-bidding.component.html'
+  templateUrl: "./rest-bidding.component.html",
 })
 export class RestBiddingComponent {
-
   private readonly service = inject(RestBiddingService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -38,18 +42,18 @@ export class RestBiddingComponent {
   // FORM (VALIDATION ADDED)
   // =========================
   readonly form = new FormGroup({
-    northHand: new FormControl<string>('', {
+    northHand: new FormControl<string>("", {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    southHand: new FormControl<string>('', {
+    southHand: new FormControl<string>("", {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    bidding: new FormControl<string>('', {
+    bidding: new FormControl<string>("", {
       nonNullable: true,
     }),
-    system: new FormControl<System>('POLISH_CLUB', {
+    system: new FormControl<System>("POLISH_CLUB", {
       nonNullable: true,
     }),
   });
@@ -84,7 +88,8 @@ export class RestBiddingComponent {
     this.error.set(null);
     this.result.set(null);
 
-    this.service.recommendBidding(this.form.getRawValue())
+    this.service
+      .recommendBidding(this.form.getRawValue())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
@@ -92,18 +97,18 @@ export class RestBiddingComponent {
           this.loading.set(false);
         },
         error: () => {
-          this.error.set('Request failed');
+          this.error.set("Request failed");
           this.loading.set(false);
-        }
+        },
       });
   }
 
   reset(): void {
     this.form.reset({
-      northHand: '',
-      southHand: '',
-      bidding: '',
-      system: 'POLISH_CLUB',
+      northHand: "",
+      southHand: "",
+      bidding: "",
+      system: "POLISH_CLUB",
     });
 
     this.result.set(null);

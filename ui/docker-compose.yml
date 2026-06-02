@@ -1,5 +1,4 @@
 services:
-
   frontend-angular:
     build:
       context: ./frontend-angular

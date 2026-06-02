@@ -25,7 +25,9 @@ export function RegisterForm() {
 
     const parsed = registerUserSchema.safeParse(form);
     if (!parsed.success) {
-      setValidationError(parsed.error.issues[0]?.message ?? "Check the form and try again");
+      setValidationError(
+        parsed.error.issues[0]?.message ?? "Check the form and try again",
+      );
       return;
     }
 
@@ -38,8 +40,9 @@ export function RegisterForm() {
         <p className="eyebrow">Omnibus identity</p>
         <h1>Create your account</h1>
         <p>
-          This registration travels through React, tRPC, the API Gateway, Modulith,
-          gRPC, User Service, PostgreSQL outbox, Kafka, Auth Service, and Keycloak.
+          This registration travels through React, tRPC, the API Gateway,
+          Modulith, gRPC, User Service, PostgreSQL outbox, Kafka, Auth Service,
+          and Keycloak.
         </p>
       </div>
 
@@ -48,7 +51,9 @@ export function RegisterForm() {
           <span>Username</span>
           <input
             value={form.username}
-            onChange={(event) => setForm({ ...form, username: event.target.value })}
+            onChange={(event) =>
+              setForm({ ...form, username: event.target.value })
+            }
             autoComplete="username"
           />
         </label>
@@ -56,7 +61,9 @@ export function RegisterForm() {
           <span>Email</span>
           <input
             value={form.email}
-            onChange={(event) => setForm({ ...form, email: event.target.value })}
+            onChange={(event) =>
+              setForm({ ...form, email: event.target.value })
+            }
             autoComplete="email"
             type="email"
           />
@@ -65,7 +72,9 @@ export function RegisterForm() {
           <span>Password</span>
           <input
             value={form.password}
-            onChange={(event) => setForm({ ...form, password: event.target.value })}
+            onChange={(event) =>
+              setForm({ ...form, password: event.target.value })
+            }
             autoComplete="new-password"
             type="password"
           />
@@ -74,7 +83,9 @@ export function RegisterForm() {
           <span>First name</span>
           <input
             value={form.firstName}
-            onChange={(event) => setForm({ ...form, firstName: event.target.value })}
+            onChange={(event) =>
+              setForm({ ...form, firstName: event.target.value })
+            }
             autoComplete="given-name"
           />
         </label>
@@ -82,7 +93,9 @@ export function RegisterForm() {
           <span>Last name</span>
           <input
             value={form.lastName}
-            onChange={(event) => setForm({ ...form, lastName: event.target.value })}
+            onChange={(event) =>
+              setForm({ ...form, lastName: event.target.value })
+            }
             autoComplete="family-name"
           />
         </label>
@@ -101,7 +114,11 @@ export function RegisterForm() {
         </p>
       )}
 
-      <button className="register-button" type="submit" disabled={register.isPending}>
+      <button
+        className="register-button"
+        type="submit"
+        disabled={register.isPending}
+      >
         {register.isPending ? "Creating account..." : "Start registration flow"}
       </button>
     </form>

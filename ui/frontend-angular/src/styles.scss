@@ -1,16 +1,24 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
-$light-theme: mat.define-theme((color: (theme-type: light,
-        primary: mat.$rose-palette,
-        tertiary: mat.$magenta-palette,
-      ),
-    ));
+$light-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$rose-palette,
+      tertiary: mat.$magenta-palette,
+    ),
+  )
+);
 
-$dark-theme: mat.define-theme((color: (theme-type: dark,
-        primary: mat.$green-palette,
-        tertiary: mat.$spring-green-palette,
-      ),
-    ));
+$dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$green-palette,
+      tertiary: mat.$spring-green-palette,
+    ),
+  )
+);
 
 html {
   @include mat.all-component-themes($light-theme);
@@ -21,7 +29,10 @@ html.dark-theme {
 }
 
 html {
-  background: var(--mat-toolbar-container-background-color, var(--mat-sys-surface));
+  background: var(
+    --mat-toolbar-container-background-color,
+    var(--mat-sys-surface)
+  );
 }
 
 .mat-mdc-card-title {

@@ -21,8 +21,8 @@ export const zodBaseQuery =
         return {
           error: {
             status: 400,
-            data: result.error.flatten()
-          }
+            data: result.error.flatten(),
+          },
         };
       }
 

@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BffApiClient } from '@core/api/bff-api.client';
-import { BiddingFormState } from './rest-bidding.model';
+import { Injectable } from "@angular/core";
+import { BffApiClient } from "@core/api/bff-api.client";
+import { BiddingFormState } from "./rest-bidding.model";
 
 @Injectable()
 export class RestBiddingService {
-
-  constructor(private api: BffApiClient) { }
+  constructor(private api: BffApiClient) {}
 
   recommendBidding(payload: BiddingFormState) {
     return this.api.recommendBidding(payload);
@@ -13,10 +12,10 @@ export class RestBiddingService {
 
   resetForm(): BiddingFormState {
     return {
-      northHand: '',
-      southHand: '',
-      bidding: '',
-      system: 'POLISH_CLUB',
+      northHand: "",
+      southHand: "",
+      bidding: "",
+      system: "POLISH_CLUB",
     };
   }
 }

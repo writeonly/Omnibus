@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 export interface RegisterUserRequest {
   username: string;
@@ -17,24 +17,24 @@ export interface RegisterUserResponse {
   status: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   me() {
-    return this.http.get('/api/auth/me');
+    return this.http.get("/api/auth/me");
   }
 
   login() {
-    window.location.href = this.redirectUrl('/api/auth/login');
+    window.location.href = this.redirectUrl("/api/auth/login");
   }
 
   register(request: RegisterUserRequest): Observable<RegisterUserResponse> {
-    return this.http.post<RegisterUserResponse>('/api/auth/register', request);
+    return this.http.post<RegisterUserResponse>("/api/auth/register", request);
   }
 
   logout() {
-    window.location.href = this.redirectUrl('/api/auth/logout');
+    window.location.href = this.redirectUrl("/api/auth/logout");
   }
 
   private redirectUrl(path: string): string {

@@ -7,28 +7,19 @@ import { BiddingHttpClient } from '../../client/http/bidding-http.client';
 
 @Injectable()
 export class RestBiddingService {
-  private readonly logger = new Logger(
-    RestBiddingService.name
-  );
+  private readonly logger = new Logger(RestBiddingService.name);
 
-  constructor(
-    private readonly biddingHttpClient: BiddingHttpClient
-  ) {}
+  constructor(private readonly biddingHttpClient: BiddingHttpClient) {}
 
-  async recommend(
-    dto: RestBiddingRequestDto
-  ): Promise<RestBiddingResponseDto> {
-    this.logger.log(
-      `Input received: ${JSON.stringify(dto)}`
-    );
+  async recommend(dto: RestBiddingRequestDto): Promise<RestBiddingResponseDto> {
+    this.logger.log(`Input received: ${JSON.stringify(dto)}`);
 
-    const recommendation =
-      await this.biddingHttpClient.recommendBid({
-        northHand: dto.northHand,
-        southHand: dto.southHand,
-        auction: dto.bidding,
-        system: dto.system,
-      });
+    const recommendation = await this.biddingHttpClient.recommendBid({
+      northHand: dto.northHand,
+      southHand: dto.southHand,
+      auction: dto.bidding,
+      system: dto.system,
+    });
 
     return {
       bidding: recommendation.recommendedBid,

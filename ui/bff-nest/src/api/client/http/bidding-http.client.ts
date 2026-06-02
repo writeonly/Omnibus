@@ -23,35 +23,20 @@ export interface BiddingRecommendationResponse {
 
 @Injectable()
 export class BiddingHttpClient {
-  private readonly target =
-    process.env.API_GATEWAY_HTTP_TARGET ??
-    'http://localhost:8080';
+  private readonly target = process.env.API_GATEWAY_HTTP_TARGET ?? 'http://localhost:8080';
 
-  constructor(
-    private readonly transport: HttpTransport
-  ) {}
+  constructor(private readonly transport: HttpTransport) {}
 
   async recommendBid(
     request: BiddingRecommendationRequest
   ): Promise<BiddingRecommendationResponse> {
-    return this.transport.post(
-      this.target,
-      '/api/bidding/recommend-bid',
-      request
-    );
+    return this.transport.post(this.target, '/api/bidding/recommend-bid', request);
   }
 
-  async saveManagedRule(
-    name: string,
-    content: string
-  ): Promise<void> {
-    await this.transport.post(
-      this.target,
-      '/api/bidding/managed-rules',
-      {
-        name,
-        content,
-      }
-    );
+  async saveManagedRule(name: string, content: string): Promise<void> {
+    await this.transport.post(this.target, '/api/bidding/managed-rules', {
+      name,
+      content,
+    });
   }
 }

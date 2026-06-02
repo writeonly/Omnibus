@@ -1,23 +1,23 @@
 <mat-card class="section-card">
   <form class="form" [formGroup]="form" (ngSubmit)="submit()">
-
     <mat-card class="bid-card">
-
       <mat-card-header>
         <mat-card-title>Bid recommender</mat-card-title>
         <mat-card-subtitle>Enter hand and bidding sequence</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content class="form-layout">
-
         <!-- HAND -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Hand</mat-label>
 
           <textarea matInput rows="4" formControlName="hand"></textarea>
 
-          @if (form.controls.hand.touched && form.controls.hand.hasError('required')) {
-          <mat-error>Hand is required</mat-error>
+          @if (
+            form.controls.hand.touched &&
+            form.controls.hand.hasError("required")
+          ) {
+            <mat-error>Hand is required</mat-error>
           }
         </mat-form-field>
 
@@ -36,39 +36,34 @@
             <mat-option value="POLISH_CLUB">Polish Club</mat-option>
             <mat-option value="STANDARD_AMERICAN">Standard American</mat-option>
           </mat-select>
-
         </mat-form-field>
 
         <!-- RESULT -->
         @if (result(); as r) {
-        <mat-expansion-panel expanded>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ r.bid }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{ r.bid }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <p>{{ r.explanation }}</p>
-
-        </mat-expansion-panel>
+            <p>{{ r.explanation }}</p>
+          </mat-expansion-panel>
         }
-
       </mat-card-content>
 
       <mat-card-actions>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="loading() || form.invalid">
-          {{ loading() ? 'Calculating...' : 'Calculate' }}
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading() || form.invalid"
+        >
+          {{ loading() ? "Calculating..." : "Calculate" }}
         </button>
 
-        <button mat-button type="button" (click)="reset()">
-          Reset
-        </button>
-
+        <button mat-button type="button" (click)="reset()">Reset</button>
       </mat-card-actions>
-
     </mat-card>
-
   </form>
 </mat-card>

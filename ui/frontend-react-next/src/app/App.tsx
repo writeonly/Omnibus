@@ -8,12 +8,12 @@ import { RestBidding } from "../features/workflow/restBidding/RestBidding";
 
 const routeByPath: Record<string, RouteKey> = {
   "/rule/next-bid": "next-bid",
-  "/workflow/rest-bidding": "rest-bidding"
+  "/workflow/rest-bidding": "rest-bidding",
 };
 
 const pathByRoute: Record<RouteKey, string> = {
   "next-bid": "/rule/next-bid",
-  "rest-bidding": "/workflow/rest-bidding"
+  "rest-bidding": "/workflow/rest-bidding",
 };
 
 function readInitialTheme(): boolean {
@@ -28,7 +28,7 @@ function readInitialTheme(): boolean {
 
 export function App() {
   const [activeRoute, setActiveRoute] = useState<RouteKey>(
-    () => routeByPath[window.location.pathname] ?? "next-bid"
+    () => routeByPath[window.location.pathname] ?? "next-bid",
   );
 
   const [isDark, setIsDark] = useState<boolean>(readInitialTheme);

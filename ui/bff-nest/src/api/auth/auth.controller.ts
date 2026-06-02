@@ -53,7 +53,9 @@ function normalizeRedirectUri(redirectUri?: string): string {
     return fallback;
   }
 
-  return allowedOrigins.some((origin) => redirectUri === origin || redirectUri.startsWith(`${origin}/`))
+  return allowedOrigins.some(
+    (origin) => redirectUri === origin || redirectUri.startsWith(`${origin}/`)
+  )
     ? redirectUri
     : fallback;
 }

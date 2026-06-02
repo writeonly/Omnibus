@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    var(--font-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 :root {
@@ -21,8 +22,16 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background:
-    radial-gradient(circle at 18% 14%, rgba(216, 118, 63, 0.28), transparent 28rem),
-    radial-gradient(circle at 82% 22%, rgba(72, 118, 96, 0.22), transparent 24rem),
+    radial-gradient(
+      circle at 18% 14%,
+      rgba(216, 118, 63, 0.28),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at 82% 22%,
+      rgba(72, 118, 96, 0.22),
+      transparent 24rem
+    ),
     linear-gradient(135deg, #fff6df 0%, #e9f1dd 48%, #f9e3c6 100%);
   font-family: var(--font-sans), sans-serif;
 }

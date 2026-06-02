@@ -11,8 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   app.useGlobalFilters(new AllExceptionsFilter());
-  app.useGlobalInterceptors(new LoggingInterceptor(), 
-);
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

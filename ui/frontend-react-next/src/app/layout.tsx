@@ -7,7 +7,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
   title: "Omnibus Registration",
-  description: "Registration flow through tRPC, Gateway, Modulith, gRPC, and Keycloak",
+  description:
+    "Registration flow through tRPC, Gateway, Modulith, gRPC, and Keycloak",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

@@ -3,10 +3,10 @@ import { nextBidApi } from "../../src/features/rule/nextBid/nextBid.api";
 
 export const store = configureStore({
   reducer: {
-    [nextBidApi.reducerPath]: nextBidApi.reducer
+    [nextBidApi.reducerPath]: nextBidApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(nextBidApi.middleware)
+    getDefaultMiddleware().concat(nextBidApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

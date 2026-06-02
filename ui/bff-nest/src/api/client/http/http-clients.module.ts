@@ -7,16 +7,7 @@ import { BiddingHttpClient } from './bidding-http.client';
 
 @Global()
 @Module({
-  providers: [
-    HttpTransport,
-    UserHttpClient,
-    WorkflowHttpClient,
-    BiddingHttpClient,
-  ],
-  exports: [
-    UserHttpClient,
-    WorkflowHttpClient,
-    BiddingHttpClient,
-  ],
+  providers: [HttpTransport, UserHttpClient, WorkflowHttpClient, BiddingHttpClient],
+  exports: [UserHttpClient, WorkflowHttpClient, BiddingHttpClient],
 })
 export class HttpClientsModule {}

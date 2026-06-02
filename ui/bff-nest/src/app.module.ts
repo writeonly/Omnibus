@@ -6,13 +6,8 @@ import { AuthModule } from './api/auth/auth.module';
 import { HttpClientsModule } from './api/client/http/http-clients.module';
 
 @Module({
-  imports: [
-    AuthModule,
-    HttpClientsModule,
-    NextBidModule,
-    RestBiddingModule
-  ],
+  imports: [AuthModule, HttpClientsModule, NextBidModule, RestBiddingModule],
   controllers: [HealthController],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

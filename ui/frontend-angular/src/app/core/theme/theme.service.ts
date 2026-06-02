@@ -1,8 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal } from "@angular/core";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ThemeService {
-  private readonly STORAGE_KEY = 'theme';
+  private readonly STORAGE_KEY = "theme";
 
   readonly isDark = signal(false);
 
@@ -10,9 +10,11 @@ export class ThemeService {
     const saved = localStorage.getItem(this.STORAGE_KEY);
 
     if (saved) {
-      this.setTheme(saved === 'dark');
+      this.setTheme(saved === "dark");
     } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       this.setTheme(prefersDark);
     }
   }
@@ -27,11 +29,11 @@ export class ThemeService {
     const root = document.documentElement;
 
     if (isDark) {
-      root.classList.add('dark-theme');
-      localStorage.setItem(this.STORAGE_KEY, 'dark');
+      root.classList.add("dark-theme");
+      localStorage.setItem(this.STORAGE_KEY, "dark");
     } else {
-      root.classList.remove('dark-theme');
-      localStorage.setItem(this.STORAGE_KEY, 'light');
+      root.classList.remove("dark-theme");
+      localStorage.setItem(this.STORAGE_KEY, "light");
     }
   }
 }

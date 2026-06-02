@@ -1,8 +1,6 @@
 <mat-card class="section-card">
   <form class="form" [formGroup]="form" (ngSubmit)="submit()">
-
     <mat-card class="bid-card">
-
       <!-- HEADER -->
       <mat-card-header>
         <mat-card-title>Full bidding calculator</mat-card-title>
@@ -11,15 +9,17 @@
 
       <!-- CONTENT -->
       <mat-card-content class="form-layout">
-
         <!-- NORTH -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>North</mat-label>
 
           <textarea matInput rows="4" formControlName="northHand"></textarea>
 
-          @if (form.controls.northHand.touched && form.controls.northHand.hasError('required')) {
-          <mat-error>North hand is required</mat-error>
+          @if (
+            form.controls.northHand.touched &&
+            form.controls.northHand.hasError("required")
+          ) {
+            <mat-error>North hand is required</mat-error>
           }
         </mat-form-field>
 
@@ -29,8 +29,11 @@
 
           <textarea matInput rows="4" formControlName="southHand"></textarea>
 
-          @if (form.controls.southHand.touched && form.controls.southHand.hasError('required')) {
-          <mat-error>South hand is required</mat-error>
+          @if (
+            form.controls.southHand.touched &&
+            form.controls.southHand.hasError("required")
+          ) {
+            <mat-error>South hand is required</mat-error>
           }
         </mat-form-field>
 
@@ -53,35 +56,31 @@
 
         <!-- RESULT -->
         @if (result(); as r) {
-        <mat-expansion-panel expanded>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ r.bidding }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{ r.bidding }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <p>{{ r.explanation }}</p>
-
-        </mat-expansion-panel>
+            <p>{{ r.explanation }}</p>
+          </mat-expansion-panel>
         }
-
       </mat-card-content>
 
       <!-- ACTIONS -->
       <mat-card-actions>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="loading() || form.invalid">
-          {{ loading() ? 'Calculating...' : 'Calculate' }}
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading() || form.invalid"
+        >
+          {{ loading() ? "Calculating..." : "Calculate" }}
         </button>
 
-        <button mat-button type="button" (click)="reset()">
-          Reset
-        </button>
-
+        <button mat-button type="button" (click)="reset()">Reset</button>
       </mat-card-actions>
-
     </mat-card>
-
   </form>
 </mat-card>

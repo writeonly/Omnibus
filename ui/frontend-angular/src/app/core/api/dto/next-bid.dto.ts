@@ -19,4 +19,3 @@ export interface NextBidResponse {
   northHand: string;
   bid: string;
 }
-

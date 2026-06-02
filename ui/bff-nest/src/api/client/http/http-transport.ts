@@ -22,9 +22,7 @@ export class HttpTransport {
     if (!response.ok) {
       const text = await response.text();
 
-      throw new Error(
-        `HTTP ${response.status} ${response.statusText}: ${text}`
-      );
+      throw new Error(`HTTP ${response.status} ${response.statusText}: ${text}`);
     }
 
     if (response.status === 204) {
@@ -49,9 +47,7 @@ export class HttpTransport {
     if (!response.ok) {
       const text = await response.text();
 
-      throw new Error(
-        `HTTP ${response.status} ${response.statusText}: ${text}`
-      );
+      throw new Error(`HTTP ${response.status} ${response.statusText}: ${text}`);
     }
 
     return response.json() as Promise<TResponse>;

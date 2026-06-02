@@ -1,9 +1,9 @@
-import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
+import { ApplicationConfig, APP_INITIALIZER } from "@angular/core";
+import { provideRouter } from "@angular/router";
+import { routes } from "./app.routes";
 
-import { ConfigService } from '@core/ConfigService';
-import { KeycloakService } from 'keycloak-angular';
+import { ConfigService } from "@core/ConfigService";
+import { KeycloakService } from "keycloak-angular";
 
 export function initApp(config: ConfigService, keycloak: KeycloakService) {
   return async () => {
@@ -12,8 +12,8 @@ export function initApp(config: ConfigService, keycloak: KeycloakService) {
     return keycloak.init({
       config: config.config.keycloak,
       initOptions: {
-        onLoad: 'check-sso',
-        pkceMethod: 'S256',
+        onLoad: "check-sso",
+        pkceMethod: "S256",
         checkLoginIframe: false,
       },
     });

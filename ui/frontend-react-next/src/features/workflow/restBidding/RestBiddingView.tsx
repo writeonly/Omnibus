@@ -7,7 +7,7 @@ const initialForm = {
   northHand: "",
   southHand: "",
   bidding: "",
-  system: "POLISH_CLUB" as const
+  system: "POLISH_CLUB" as const,
 };
 
 export function RestBiddingView() {
@@ -56,9 +56,7 @@ export function RestBiddingView() {
                 }
               />
               {touched && !northValid && (
-                <small className="field-error">
-                  North hand is required
-                </small>
+                <small className="field-error">North hand is required</small>
               )}
             </label>
 
@@ -73,9 +71,7 @@ export function RestBiddingView() {
                 }
               />
               {touched && !southValid && (
-                <small className="field-error">
-                  South hand is required
-                </small>
+                <small className="field-error">South hand is required</small>
               )}
             </label>
 
@@ -84,9 +80,7 @@ export function RestBiddingView() {
               <textarea
                 rows={4}
                 value={form.bidding}
-                onChange={(e) =>
-                  setForm({ ...form, bidding: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, bidding: e.target.value })}
               />
             </label>
 
@@ -97,21 +91,17 @@ export function RestBiddingView() {
                 onChange={(e) =>
                   setForm({
                     ...form,
-                    system: e.target.value as typeof form.system
+                    system: e.target.value as typeof form.system,
                   })
                 }
               >
                 <option value="POLISH_CLUB">Polish Club</option>
-                <option value="STANDARD_AMERICAN">
-                  Standard American
-                </option>
+                <option value="STANDARD_AMERICAN">Standard American</option>
               </select>
             </label>
 
             {error && (
-              <div className="result-panel error-panel">
-                Request failed
-              </div>
+              <div className="result-panel error-panel">Request failed</div>
             )}
 
             {data && (
@@ -131,11 +121,7 @@ export function RestBiddingView() {
               {isLoading ? "Calculating..." : "Calculate"}
             </button>
 
-            <button
-              className="secondary-action"
-              type="button"
-              onClick={reset}
-            >
+            <button className="secondary-action" type="button" onClick={reset}>
               Reset
             </button>
           </footer>

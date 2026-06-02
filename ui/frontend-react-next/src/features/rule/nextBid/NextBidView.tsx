@@ -7,15 +7,14 @@ import { nextBidSchema } from "./nextBid.schema";
 const initialForm = {
   hand: "",
   bidding: "",
-  system: "POLISH_CLUB" as const
+  system: "POLISH_CLUB" as const,
 };
 
 export function NextBidView() {
   const [form, setForm] = useState(initialForm);
   const [touched, setTouched] = useState(false);
 
-  const [recommendBid, { data, error, isLoading }] =
-    useRecommendBidMutation();
+  const [recommendBid, { data, error, isLoading }] = useRecommendBidMutation();
 
   const formValid = form.hand.trim().length > 0;
 
@@ -51,14 +50,10 @@ export function NextBidView() {
                 rows={4}
                 value={form.hand}
                 onBlur={() => setTouched(true)}
-                onChange={(e) =>
-                  setForm({ ...form, hand: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, hand: e.target.value })}
               />
               {touched && !formValid && (
-                <small className="field-error">
-                  Hand is required
-                </small>
+                <small className="field-error">Hand is required</small>
               )}
             </label>
 
@@ -67,9 +62,7 @@ export function NextBidView() {
               <textarea
                 rows={4}
                 value={form.bidding}
-                onChange={(e) =>
-                  setForm({ ...form, bidding: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, bidding: e.target.value })}
               />
             </label>
 
@@ -80,21 +73,17 @@ export function NextBidView() {
                 onChange={(e) =>
                   setForm({
                     ...form,
-                    system: e.target.value as typeof form.system
+                    system: e.target.value as typeof form.system,
                   })
                 }
               >
                 <option value="POLISH_CLUB">Polish Club</option>
-                <option value="STANDARD_AMERICAN">
-                  Standard American
-                </option>
+                <option value="STANDARD_AMERICAN">Standard American</option>
               </select>
             </label>
 
             {error && (
-              <div className="result-panel error-panel">
-                Request failed
-              </div>
+              <div className="result-panel error-panel">Request failed</div>
             )}
 
             {data && (
@@ -114,11 +103,7 @@ export function NextBidView() {
               {isLoading ? "Calculating..." : "Calculate"}
             </button>
 
-            <button
-              className="secondary-action"
-              type="button"
-              onClick={reset}
-            >
+            <button className="secondary-action" type="button" onClick={reset}>
               Reset
             </button>
           </footer>

@@ -1,4 +1,4 @@
-export type System = 'POLISH_CLUB' | 'STANDARD_AMERICAN';
+export type System = "POLISH_CLUB" | "STANDARD_AMERICAN";
 
 export interface NextBidRequest {
   hand: string;
@@ -36,15 +36,18 @@ export interface RestBiddingResponse {
   bidding: string;
 }
 
-const baseUrl = '/api';
+const baseUrl = "/api";
 
-async function postJson<TResponse, TPayload>(path: string, payload: TPayload): Promise<TResponse> {
+async function postJson<TResponse, TPayload>(
+  path: string,
+  payload: TPayload,
+): Promise<TResponse> {
   const response = await fetch(`${baseUrl}${path}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
@@ -56,10 +59,10 @@ async function postJson<TResponse, TPayload>(path: string, payload: TPayload): P
 
 export const bffApiClient = {
   recommendBid(payload: NextBidRequest): Promise<NextBidResponse> {
-    return postJson('/next-bid', payload);
+    return postJson("/next-bid", payload);
   },
 
   recommendBidding(payload: RestBiddingRequest): Promise<RestBiddingResponse> {
-    return postJson('/rest-bidding', payload);
-  }
+    return postJson("/rest-bidding", payload);
+  },
 };
