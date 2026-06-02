@@ -8,38 +8,38 @@ PROFILE = "false"
 
 COMPOSE_INFRA = docker compose --profile $(PROFILE) -f infra/docker-compose.yml
 COMPOSE_INIT  = docker compose --profile $(PROFILE) -p init -f infra/docker-compose.init.yml
-COMPOSE_CORE  = docker compose --profile $(PROFILE) -f core/docker-compose.yml
+COMPOSE_API   = docker compose --profile $(PROFILE) -f api/docker-compose.yml
 COMPOSE_UI    = docker compose --profile $(PROFILE) -f ui/docker-compose.yml
 
 COMPOSE_ALL = docker compose \
 	--profile $(PROFILE) \
 	-f infra/docker-compose.yml \
 	-f infra/docker-compose.init.yml \
-	-f core/docker-compose.yml \
+	-f api/docker-compose.yml \
 	-f ui/docker-compose.yml
 
-CORE_DIR = core
+API_DIR = api
 BFF_NEST_DIR = presentation/bff-nest
 
-GRADLE = cd $(CORE_DIR) && ./gradlew
+GRADLE = cd $(API_DIR) && ./gradlew
 
 # =========================
 # FULL BUILD
 # =========================
 
 all:
-	$(MAKE) core-build
+	$(MAKE) api-build
 	$(MAKE) infra-up
-	$(MAKE) core-up
+	$(MAKE) api-up
 	$(MAKE) ui-up
 
 down:
 	$(MAKE) ui-down
-	$(MAKE) core-down
+	$(MAKE) api-down
 	$(MAKE) infra-down
 
 build-all:
-	$(MAKE) core-build
+	$(MAKE) api-build
 	$(MAKE) bff-nest-build
 	$(MAKE) frontend-angular-build
 #	$(MAKE) frontend-react-build
@@ -48,7 +48,7 @@ build-all:
 
 build-all-parallel:
 	$(MAKE) -j 5 \
-		core-build \
+		api-build \
 		bff-nest-build \
 		frontend-angular-build \
 		frontend-react-build \
@@ -61,7 +61,7 @@ build-all-parallel:
 # GLOBAL
 # =========================
 
-up: infra-up core-up ui-up
+up: infra-up api-up ui-up
 
 down:
 	$(COMPOSE_ALL) down -v --remove-orphans
@@ -93,7 +93,7 @@ docker-prune:
 dev: infra-up
 	@echo "🚀 Infra running"
 
-dev-all: build-all infra-up core-up ui-up
+dev-all: build-all infra-up api-up ui-up
 	@echo "🚀 FULL SYSTEM READY"
 
 # =========================
@@ -117,17 +117,17 @@ infra-ps:
 	$(COMPOSE_INFRA) ps
 
 # =========================
-# CORE
+# API
 # =========================
 
 # ---------------------------------
-# BUILD CORE LOCALLY (NO DOCKER)
+# BUILD API LOCALLY (NO DOCKER)
 # ---------------------------------
 
-core-build:
+api-build:
 	$(GRADLE) clean build --parallel --build-cache --no-daemon
 
-core-bootjar:
+api-bootjar:
 	$(GRADLE) \
 		:config-server:bootJar \
 		:api-gateway:bootJar \
@@ -137,41 +137,41 @@ core-bootjar:
 		--build-cache \
 		--no-daemon
 
-core-clean:
+api-clean:
 	$(GRADLE) clean
 
-core-test:
+api-test:
 	$(GRADLE) test --parallel --no-daemon
 
-core-coverage:
+api-coverage:
 	$(GRADLE) jacocoTestReport
 
-core-coverage-html:
+api-coverage-html:
 	$(GRADLE) jacocoTestReport
-	open core/build/reports/jacoco/test/html/index.html
+	open api/build/reports/jacoco/test/html/index.html
 
 # ---------------------------------
 # DOCKER SERVICES
 # ---------------------------------
 
-core-up: core-bootjar
-	$(COMPOSE_CORE) up -d --build
+api-up: api-bootjar
+	$(COMPOSE_API) up -d --build
 
-core-down:
-	$(COMPOSE_CORE) down -v
+api-down:
+	$(COMPOSE_API) down -v
 
-core-logs:
-	$(COMPOSE_CORE) logs -f
+api-logs:
+	$(COMPOSE_API) logs -f
 
-core-restart: core-bootjar
-	$(COMPOSE_CORE) restart
+api-restart: api-bootjar
+	$(COMPOSE_API) restart
 
-core-rebuild: core-bootjar
-	$(COMPOSE_CORE) build --no-cache
-	$(COMPOSE_CORE) up -d
+api-rebuild: api-bootjar
+	$(COMPOSE_API) build --no-cache
+	$(COMPOSE_API) up -d
 
-core-ps:
-	$(COMPOSE_CORE) ps
+api-ps:
+	$(COMPOSE_API) ps
 
 # =========================
 # PRESENTATION
