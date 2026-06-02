@@ -36,6 +36,7 @@ find "$ROOT_DIR" \
   ! -path "*/generated/*" \
   ! -name "*.log" \
   ! -name "*.txt" \
+  ! -name "*.yml" \
   ! -name "package-lock.json" \
   -print0 \
 | while IFS= read -r -d '' file; do
