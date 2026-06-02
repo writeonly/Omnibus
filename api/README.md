@@ -1,4 +1,4 @@
-# Core
+# API
 
 This directory contains the JVM backend workspace for Omnibus.
 
