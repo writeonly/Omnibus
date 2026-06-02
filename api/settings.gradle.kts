@@ -24,18 +24,18 @@ include(
 
 )
 
-//project(":swing-client").projectDir = file("mono/swing-client")
+//project(":swing-client").projectDir = file("single/swing-client")
 project(":config-server").projectDir = file("mono/config-server")
 project(":eureka-server").projectDir = file("mono/eureka-server")
 project(":api-gateway").projectDir = file("mono/api-gateway")
 project(":modulith").projectDir = file("mono/modulith")
 
-project(":auth-service").projectDir = file("module/auth-service")
-project(":user-service").projectDir = file("module/user-service")
-project(":notification-service").projectDir = file("module/notification-service")
-project(":audit-service").projectDir = file("module/audit-service")
-project(":rule-service").projectDir = file("module/rule-service")
-project(":workflow-service").projectDir = file("module/workflow-service")
+project(":auth-service").projectDir = file("uni/auth-service")
+project(":user-service").projectDir = file("uni/user-service")
+project(":notification-service").projectDir = file("uni/notification-service")
+project(":audit-service").projectDir = file("uni/audit-service")
+project(":rule-service").projectDir = file("uni/rule-service")
+project(":workflow-service").projectDir = file("uni/workflow-service")
 
 project(":user-proto").projectDir = file("proto/user-proto")
 project(":rule-proto").projectDir = file("proto/rule-proto")
