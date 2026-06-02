@@ -12,7 +12,8 @@ export default async function Home() {
           <p>
             Registration takes the scenic route through the platform. Login is
             intentionally direct: React to tRPC, Next to Auth Service, Auth
-            Service to Keycloak, JWT back to the client.
+            Service to Keycloak, JWT back to the client. Logout closes the
+            Keycloak session and drops the access token into Redis blacklist.
           </p>
         </div>
         <div className="auth-card-stack">

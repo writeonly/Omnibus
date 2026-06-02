@@ -198,6 +198,11 @@ input {
   background: linear-gradient(135deg, #1e5b73, #2f6f58);
 }
 
+.logout-button {
+  margin-top: 0.75rem;
+  background: linear-gradient(135deg, #8e3f24, #a5332a);
+}
+
 .token-preview {
   display: grid;
   gap: 0.4rem;

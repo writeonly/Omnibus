@@ -19,7 +19,17 @@ function previewToken(token: string): string {
 export function LoginForm() {
   const [form, setForm] = useState(initialForm);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [session, setSession] = useState<{
+    accessToken: string;
+    refreshToken: string;
+    tokenType: string;
+  } | null>(null);
   const login = api.auth.login.useMutation();
+  const logout = api.auth.logout.useMutation({
+    onSuccess: () => {
+      setSession(null);
+    },
+  });
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,7 +41,21 @@ export function LoginForm() {
       return;
     }
 
-    await login.mutateAsync(parsed.data);
+    const response = await login.mutateAsync(parsed.data);
+    setSession({
+      accessToken: response.accessToken,
+      refreshToken: response.refreshToken ?? "",
+      tokenType: response.tokenType,
+    });
+  }
+
+  async function submitLogout() {
+    if (session === null || session.refreshToken.length === 0) return;
+
+    await logout.mutateAsync({
+      accessToken: session.accessToken,
+      refreshToken: session.refreshToken,
+    });
   }
 
   return (
@@ -71,17 +95,31 @@ export function LoginForm() {
         </p>
       )}
 
-      {login.data && (
+      {session !== null && (
         <div className="register-message register-message--success token-preview">
-          <span>{login.data.tokenType} token received</span>
-          <code>{previewToken(login.data.accessToken)}</code>
+          <span>{session.tokenType} token received</span>
+          <code>{previewToken(session.accessToken)}</code>
         </div>
+      )}
+
+      {logout.error !== null && (
+        <p className="register-message register-message--error">
+          {logout.error.message}
+        </p>
       )}
 
       <button className="register-button login-button" type="submit" disabled={login.isPending}>
         {login.isPending ? "Signing in..." : "Login and get JWT"}
       </button>
+
+      <button
+        className="register-button logout-button"
+        type="button"
+        disabled={session === null || logout.isPending}
+        onClick={submitLogout}
+      >
+        {logout.isPending ? "Logging out..." : "Logout, revoke and blacklist"}
+      </button>
     </form>
   );
 }
-

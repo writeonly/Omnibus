@@ -61,7 +61,7 @@ class SecurityConfig {
 
         http
             .authorizeHttpRequests {
-                it.requestMatchers("/actuator/**", "/auth/login").permitAll()
+                it.requestMatchers("/actuator/**", "/auth/login", "/auth/logout").permitAll()
                 it.anyRequest().authenticated()
             }
             .csrf { it.disable() }

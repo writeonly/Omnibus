@@ -7,3 +7,9 @@ export const loginSchema = z.object({
 
 export type LoginInput = z.infer<typeof loginSchema>;
 
+export const logoutSchema = z.object({
+  accessToken: z.string().min(1, "Access token is required"),
+  refreshToken: z.string().min(1, "Refresh token is required"),
+});
+
+export type LogoutInput = z.infer<typeof logoutSchema>;
