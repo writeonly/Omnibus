@@ -29,9 +29,9 @@ project(":eureka-server").projectDir = file("mono/eureka-server")
 project(":api-gateway").projectDir = file("mono/api-gateway")
 project(":modulith").projectDir = file("mono/modulith")
 
-project(":audit-service").projectDir = file("module/audit-service")
 project(":auth-service").projectDir = file("module/auth-service")
 project(":user-service").projectDir = file("module/user-service")
+project(":audit-service").projectDir = file("module/audit-service")
 project(":rule-service").projectDir = file("module/rule-service")
 project(":workflow-service").projectDir = file("module/workflow-service")
 
