@@ -115,30 +115,153 @@ Identity Provider
 
 Admin and rule-publication flows are handled by `workflow-service`, which validates rule submissions against `rule-service` before publication.
 
-## Local Startup
+## Local Development Setup
 
-Start the shared infrastructure first:
+### Prerequisites
+
+Before starting, ensure you have the following installed:
+
+- **Docker & Docker Compose** v2.0+ ([Install Docker Desktop](https://www.docker.com/products/docker-desktop))
+- **Node.js** 20+ ([Install Node.js](https://nodejs.org/))
+- **Java JDK** 21 ([Install JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
+- **Git** ([Install Git](https://git-scm.com/))
+
+Verify installations:
 
 ```bash
+docker --version
+docker compose version
+node --version
+npm --version
+java -version
+git --version
+```
+
+### Quick Start (5 minutes)
+
+If you just want to see the system running:
+
+```bash
+# Clone the repository
+git clone https://github.com/writeonly/Omnibus.git
+cd Omnibus
+
+# Terminal 1: Start infrastructure (PostgreSQL, Keycloak, Redis, etc.)
 cd infra
 docker compose up --build
-```
 
-Then start backend services:
-
-```bash
+# Terminal 2: Start backend services (in a new terminal)
 cd core
 docker compose up --build
-```
 
-Then start UI/BFF services:
-
-```bash
+# Terminal 3: Start frontend and BFF (in a new terminal)
 cd ui
 docker compose up --build
 ```
 
-## Main Local Ports
+Then access:
+- **Angular Frontend**: http://localhost:4200
+- **NestJS BFF**: http://localhost:3001
+- **Keycloak Admin**: http://localhost:9000 (admin / kcadmin)
+- **Grafana**: http://localhost:3000
+
+### Full Local Development Setup
+
+For full development with all features and optional services:
+
+#### Step 1: Infrastructure Stack
+
+```bash
+cd infra
+
+# Start basic infrastructure (PostgreSQL, Keycloak, Redis, RabbitMQ, etc.)
+docker compose up --build
+
+# Optional: Start with additional data stores (Kafka, Cassandra, Elasticsearch)
+docker compose --profile first up --build
+
+# Optional: Alternative stack (Redpanda, Scylla, OpenSearch instead of Kafka/Cassandra/Elasticsearch)
+docker compose --profile follow up --build
+
+# Optional: Include legacy NGINX gateway
+docker compose --profile legacy up --build
+```
+
+**Wait for services to be healthy** (check logs for "ready" messages):
+- PostgreSQL: `database system is ready to accept connections`
+- Keycloak: `Keycloak X.X.X started`
+- Redis: `Ready to accept connections`
+
+#### Step 2: Backend Services
+
+In a new terminal:
+
+```bash
+cd core
+
+# Start all backend services
+docker compose up --build
+
+# Or run individual services locally for development
+./gradlew :rule-service:bootRun
+./gradlew :workflow-service:bootRun
+./gradlew :user-service:bootRun
+./gradlew :auth-service:bootRun
+```
+
+**Wait for services to start**:
+- eureka-server: http://localhost:8761
+- API Gateway: http://localhost:8080
+- Each service logs startup completion
+
+#### Step 3: Frontend and BFF
+
+In a new terminal:
+
+```bash
+cd ui
+
+# Start all frontend and BFF services
+docker compose up --build
+
+# Or run individual services locally
+cd bff-nest
+npm install
+npm run start:dev
+
+# In another terminal, run the frontend
+cd ../frontend-angular
+npm install
+npm start
+```
+
+**Access services:**
+- Angular Frontend: http://localhost:4200
+- NestJS BFF: http://localhost:3001
+- React Vite (if running): http://localhost:5173
+- React Next.js (if running): http://localhost:3002
+
+### Verification Checklist
+
+After startup, verify everything is working:
+
+```bash
+# Check services are responding
+curl http://localhost:9000/health  # Keycloak
+curl http://localhost:8080/actuator/health  # API Gateway
+curl http://localhost:3001/health  # NestJS BFF
+
+# Check database
+PGPASSWORD=omnibus psql -h localhost -U omnibus -d omnibus -c "SELECT version();"
+
+# Check Redis
+redis-cli -p 6379 ping  # Should respond with PONG
+
+# Check RabbitMQ
+curl http://localhost:15672/api/vhosts  # Username/password: omnibus/omnibus
+```
+
+### Main Local Ports
 
 | Component | URL/Port |
 | --- | --- |
@@ -166,7 +289,221 @@ docker compose up --build
 | Loki | `http://localhost:3100` |
 | Grafana | `http://localhost:3000` |
 
-See the README in each area for more ports, profiles and local development commands.
+### Development Workflows
+
+#### Frontend Development (Angular)
+
+```bash
+cd ui/frontend-angular
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+# or
+./run.sh
+
+# Build for production
+npm run build
+
+# Run tests
+npm run test
+
+# Run e2e tests
+npm run e2e
+```
+
+#### Frontend Development (React Vite)
+
+```bash
+cd ui/frontend-react-vite
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+#### BFF Development (NestJS)
+
+```bash
+cd ui/bff-nest
+
+# Install dependencies
+npm install
+
+# Start development with hot reload
+npm run start:dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm run test
+```
+
+#### Backend Development (Spring Boot)
+
+```bash
+cd core
+
+# Build all services
+./gradlew clean build
+
+# Run specific service
+./gradlew :rule-service:bootRun
+./gradlew :user-service:bootRun
+./gradlew :auth-service:bootRun
+
+# Run all tests
+./gradlew test
+
+# Clean build artifacts
+./clean-gradle.sh
+```
+
+### Docker Compose Profiles
+
+The infrastructure supports different profiles for different use cases:
+
+```bash
+cd infra
+
+# Default: Core services only (PostgreSQL, Redis, RabbitMQ, Keycloak, etc.)
+docker compose up --build
+
+# Profile 'first': Add Kafka, Cassandra, Elasticsearch, MongoDB, Kibana
+docker compose --profile first up --build
+
+# Profile 'follow': Add Redpanda, Scylla, OpenSearch, FerretDB
+docker compose --profile follow up --build
+
+# Profile 'legacy': Add NGINX gateway
+docker compose --profile legacy up --build
+
+# Combine profiles
+docker compose --profile first --profile legacy up --build
+```
+
+### Troubleshooting
+
+#### Port Already in Use
+
+```bash
+# Find process using port (e.g., 4200)
+lsof -i :4200
+
+# Kill process
+kill -9 <PID>
+
+# Or use Docker to see which container uses the port
+docker ps --all | grep 4200
+```
+
+#### Service Connection Issues
+
+```bash
+# Check if services are running
+docker ps
+
+# Check service logs
+docker compose logs <service-name>
+
+# Verify network connectivity
+docker network ls
+docker network inspect omnibus
+```
+
+#### Database Issues
+
+```bash
+# Connect to PostgreSQL
+PGPASSWORD=omnibus psql -h localhost -U omnibus -d omnibus
+
+# Check migrations
+SELECT * FROM flyway_schema_history;
+
+# Restart and clean database
+docker compose down -v  # Remove volumes
+docker compose up --build
+```
+
+#### Frontend Proxy Issues
+
+If frontend can't reach BFF, check:
+
+```bash
+# Verify BFF is running
+curl http://localhost:3001/health
+
+# Check Angular proxy configuration
+cat ui/frontend-angular/proxy.conf.js
+
+# Check BFF environment variables
+docker logs <bff-container-id>
+```
+
+#### Memory Issues
+
+If services fail to start, increase Docker memory:
+
+1. **Docker Desktop**: Preferences → Resources → Memory (set to 4GB+)
+2. **Or limit specific services** in docker-compose.yml:
+   ```yaml
+   services:
+     postgres:
+       mem_limit: 1g  # Increase from 512m
+   ```
+
+### Common Commands
+
+```bash
+# Stop all services
+docker compose down
+
+# Remove volumes (careful - deletes data!)
+docker compose down -v
+
+# View logs
+docker compose logs -f <service-name>
+
+# Rebuild specific service
+docker compose up --build <service-name>
+
+# Run migrations
+./gradlew :core:flywayMigrate
+
+# Format code
+./gradlew spotlessApply
+
+# Run full test suite
+./gradlew test
+npm test
+```
+
+### IDE Setup
+
+#### VS Code
+
+1. Install extensions:
+   - Angular Language Service
+   - NestJS
+   - Spring Boot Extension Pack
+   - Docker
+
+2. Configure debugging in `.vscode/launch.json`
+
+#### IntelliJ IDEA
+
+1. Import project as Gradle project
+2. Configure JDK 21 in Project Settings
+3. Enable annotation processing for Lombok (if used)
+4. Run services via Gradle tasks
 
 ## Frontend Applications
 
