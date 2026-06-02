@@ -8,9 +8,10 @@ Central, cross-project information lives in this root README. Details that belon
 
 | Area | Path | Purpose |
 | --- | --- | --- |
-| Backend | [api/README.md](api/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
+| Backend | [core/README.md](core/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
 | Frontend and BFF | [ui/README.md](ui/README.md) | Angular and React clients, developer dashboard, NestJS BFF |
-| Infrastructure | [infra/README.md](infra/README.md) | PostgreSQL, Kafka/Redpanda, Cassandra/Scylla, Keycloak, Redis, RabbitMQ, search stack, NGINX, Prometheus, Loki, Promtail and Grafana |
+| Infrastructure | [infra/README.md](infra/README.md) | PostgreSQL, Kafka/Redpanda, Cassandra/Scylla, Keycloak, Redis, RabbitMQ, search stack, NGINX, Prometheus, Loki, Grafana |
+| Protobuf contracts | [proto/omnibus/v1](proto/omnibus/v1) | Shared gRPC/API contract definitions |
 
 ## Architecture At A Glance
 
@@ -19,7 +20,7 @@ Users / Admins
     |
     v
 Frontend apps
-  Angular primary UI, React frontend, developer dashboard
+  Angular primary UI, React frontends (Vite, Next.js), developer dashboard
     |
     v
 NestJS BFF
@@ -40,7 +41,11 @@ Infrastructure
   Redis, RabbitMQ, Elasticsearch/OpenSearch, MongoDB/FerretDB
 ```
 
-The main product path is the bidding recommendation flow:
+## Main Flows
+
+### Bidding Recommendation Flow
+
+The main product path for generating bridge bidding recommendations:
 
 ```text
 User enters a bridge hand
@@ -50,6 +55,63 @@ User enters a bridge hand
   -> recommendation is returned synchronously
   -> domain events can be published to Kafka and archived/audited
 ```
+
+### User Registration Flow
+
+Complete user registration flow with asynchronous processing:
+
+```text
+Client
+  |
+  v (HTTP)
+frontend-react-vite
+  |
+  v (HTTP)
+bff-nest
+  |
+  v (HTTP)
+api-gateway (Spring Cloud Gateway)
+  |
+  v (gRPC)
+user-service
+  |
+  v
+PostgreSQL
+  |
+  v (Outbox pattern)
+Outbox table
+  |
+  v (async publish)
+Message Bus (RabbitMQ or Kafka)
+  |
+  v (subscribe)
+auth-service
+  |
+  v (Spring Cloud Function)
+Keycloak
+  |
+  v (create user)
+Identity Provider
+```
+
+**Flow Details:**
+1. Client submits registration form through React Vite frontend
+2. Frontend sends HTTP request to NestJS BFF
+3. BFF translates and forwards to Spring Cloud API Gateway
+4. API Gateway routes to user-service via gRPC
+5. user-service validates and stores user in PostgreSQL
+6. Domain event written to Outbox table (transactional)
+7. Outbox relay publishes event to RabbitMQ or Kafka
+8. auth-service subscribes to registration event
+9. Spring Cloud Function triggers Keycloak integration
+10. Keycloak creates identity account
+11. Response propagates back through the chain
+
+**Key Patterns:**
+- **Outbox Pattern**: Ensures consistency between user creation and event publishing
+- **Event-Driven**: Decoupled auth-service from user-service via message bus
+- **Request/Response**: Synchronous path through API layers for immediate feedback
+- **Transactional Boundary**: PostgreSQL transaction includes both user and outbox record
 
 Admin and rule-publication flows are handled by `workflow-service`, which validates rule submissions against `rule-service` before publication.
 
@@ -65,7 +127,7 @@ docker compose up --build
 Then start backend services:
 
 ```bash
-cd api
+cd core
 docker compose up --build
 ```
 
@@ -80,7 +142,10 @@ docker compose up --build
 
 | Component | URL/Port |
 | --- | --- |
-| Angular frontend container | `http://localhost:4200` |
+| React Vite frontend | `http://localhost:5173` |
+| Angular frontend | `http://localhost:4200` |
+| React Next.js frontend | `http://localhost:3000` |
+| Developer dashboard | `http://localhost:5174` |
 | NestJS BFF | `http://localhost:3001` |
 | API gateway | `http://localhost:8080` |
 | config-server | `http://localhost:8888` |
@@ -90,8 +155,12 @@ docker compose up --build
 | workflow-service | `http://localhost:8086` |
 | PostgreSQL | `localhost:5432` |
 | Keycloak | `http://localhost:9000` |
+| Redis | `localhost:6379` |
+| RabbitMQ | `localhost:5672` |
 | RabbitMQ Management | `http://localhost:15672` |
-| Grafana | `http://localhost:3001` |
+| Prometheus | `http://localhost:9090` |
+| Loki | `http://localhost:3100` |
+| Grafana | `http://localhost:3000` |
 
 See the README in each area for more ports, profiles and local development commands.
 
@@ -100,21 +169,35 @@ See the README in each area for more ports, profiles and local development comma
 | Script | Purpose |
 | --- | --- |
 | [list-files.sh](list-files.sh) | Repository file listing helper |
-| [api/clean-gradle.sh](api/clean-gradle.sh) | Gradle cleanup helper for the backend workspace |
+| [core/clean-gradle.sh](core/clean-gradle.sh) | Gradle cleanup helper for the backend workspace |
 | [ui/bff-nest/run.sh](ui/bff-nest/run.sh) | Run the NestJS BFF |
 | [ui/frontend-angular/run.sh](ui/frontend-angular/run.sh) | Run the Angular frontend |
 | [ui/frontend-angular/openapi.sh](ui/frontend-angular/openapi.sh) | Angular OpenAPI generation helper |
 | [ui/frontend-angular/orval.sh](ui/frontend-angular/orval.sh) | Orval generation helper |
-| [ui/frontend-react/run.sh](ui/frontend-react/run.sh) | Run the React frontend |
+| [ui/frontend-react-vite/run.sh](ui/frontend-react-vite/run.sh) | Run the React Vite frontend |
+
+## Frontend Applications
+
+The `ui/` directory contains multiple frontend implementations:
+
+| Application | Technology | Port | Purpose |
+| --- | --- | --- | --- |
+| frontend-react-vite | React + TypeScript + Vite | `5173` | Primary React frontend |
+| frontend-angular | Angular | `4200` | Alternative Angular frontend |
+| frontend-react-next | Next.js (T3 Stack) | `3000` | Next.js experimental frontend |
+| dev-dashboard | React + Vite | `5174` | Developer tools dashboard |
+
+Each frontend communicates with the backend through the NestJS BFF.
 
 ## Development Notes
 
 - Java services use JDK 21 and Gradle Kotlin DSL.
-- Backend modules are listed in [api/settings.gradle.kts](api/settings.gradle.kts).
+- Backend modules are listed in [core/settings.gradle.kts](core/settings.gradle.kts).
 - Frontend and BFF modules use Node/npm.
-- Drools rules are in [api/service/rule-service/src/main/resources/rules](api/service/rule-service/src/main/resources/rules).
-- BPMN workflow assets live in [api/service/workflow-service/src/main/resources/bpmn](api/service/workflow-service/src/main/resources/bpmn).
+- Drools rules are in [core/service/rule-service/src/main/resources/rules](core/service/rule-service/src/main/resources/rules).
+- BPMN workflow assets live in [core/service/workflow-service/src/main/resources/bpmn](core/service/workflow-service/src/main/resources/bpmn).
 - Shared protobuf definitions live in [proto/omnibus/v1](proto/omnibus/v1), with service-local copies where needed by build tooling.
+- Infrastructure and observability are co-located in [infra/](infra/) for simplified local development.
 
 ## Documentation Policy
 
