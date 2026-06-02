@@ -33,8 +33,10 @@ find "$ROOT_DIR" \
   \) \
   ! -path "*/bin/*" \
   ! -path "*/build/*" \
+  ! -path "*/generated/*" \
   ! -name "*.log" \
   ! -name "*.txt" \
+  ! -name "package-lock.json" \
   -print0 \
 | while IFS= read -r -d '' file; do
     printf "%s %s\n" "$(wc -l < "$file")" "$file"
