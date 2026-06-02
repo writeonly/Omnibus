@@ -42,11 +42,7 @@ Infrastructure
   Redis, RabbitMQ, Elasticsearch/OpenSearch, MongoDB/FerretDB
 ```
 
-## Main Flows
-
-### Bidding Recommendation Flow
-
-The main product path for generating bridge bidding recommendations:
+The main product path is the bidding recommendation flow:
 
 ```text
 User enters a bridge hand
@@ -56,66 +52,6 @@ User enters a bridge hand
   -> recommendation is returned synchronously
   -> domain events can be published to Kafka and archived/audited
 ```
-
-### User Registration Flow
-
-Complete user registration flow with asynchronous processing:
-
-```text
-Client
-  |
-  v (HTTP)
-frontend-react-vite
-  |
-  v (HTTP)
-bff-nest
-  |
-  v (HTTP)
-api-gateway (mono)
-  |
-  v (HTTP)
-api-gateway (Spring Cloud Gateway)
-  |
-  v (gRPC)
-user-service (modulith)
-  |
-  v
-PostgreSQL
-  |
-  v (Outbox pattern)
-Outbox table
-  |
-  v (async publish)
-Message Bus (RabbitMQ or Kafka)
-  |
-  v (subscribe)
-auth-service
-  |
-  v (Spring Cloud Function)
-Keycloak
-  |
-  v (create user)
-Identity Provider
-```
-
-**Flow Details:**
-1. Client submits registration form through React frontend (Vite)
-2. Frontend sends HTTP request to NestJS BFF
-3. BFF translates and forwards to API Gateway (mono/api-gateway)
-4. Spring Cloud Gateway routes to user-service via gRPC
-5. user-service validates and stores user in PostgreSQL
-6. Domain event written to Outbox table (transactional)
-7. Outbox relay publishes event to RabbitMQ or Kafka
-8. auth-service subscribes to registration event
-9. Spring Cloud Function triggers Keycloak integration
-10. Keycloak creates identity account
-11. Response propagates back through the chain
-
-**Key Patterns:**
-- **Outbox Pattern**: Ensures consistency between user creation and event publishing
-- **Event-Driven**: Decoupled auth-service from user-service via message bus
-- **Request/Response**: Synchronous path through API layers for immediate feedback
-- **Transactional Boundary**: PostgreSQL transaction includes both user and outbox record
 
 Admin and rule-publication flows are handled by `workflow-service`, which validates rule submissions against `rule-service` before publication.
 
@@ -153,7 +89,6 @@ docker compose up --build
 
 | Component | URL/Port |
 | --- | --- |
-| React frontend (Vite) | `http://localhost:5173` |
 | Angular frontend container | `http://localhost:4200` |
 | NestJS BFF | `http://localhost:3001` |
 | API gateway | `http://localhost:8080` |
