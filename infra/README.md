@@ -52,7 +52,7 @@ The compose file creates or uses the shared Docker network named `omnibus`.
 | Prometheus | `http://localhost:9090` | Metrics collection and time-series database |
 | Loki | `http://localhost:3100` | Log aggregation and storage |
 | Promtail | internal | Log shipper to Loki |
-| Grafana | `http://localhost:3001` | Metrics dashboards and log exploration |
+| Grafana | `http://localhost:3000` | Metrics dashboards and log exploration |
 
 ### Legacy Services
 
