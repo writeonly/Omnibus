@@ -9,7 +9,7 @@ Central, cross-project information lives in this root README. Details that belon
 | Area | Path | Purpose |
 | --- | --- | --- |
 | Backend | [core/README.md](core/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
-| Frontend and BFF | [ui/README.md](ui/README.md) | Angular and React clients, developer dashboard, NestJS BFF |
+| Frontend and BFF | [ui/README.md](ui/README.md) | Angular primary frontend, experimental React frontends, NestJS BFF |
 | Infrastructure | [infra/README.md](infra/README.md) | PostgreSQL, Kafka/Redpanda, Cassandra/Scylla, Keycloak, Redis, RabbitMQ, search stack, NGINX, Prometheus, Loki, Grafana |
 | Protobuf contracts | [proto/omnibus/v1](proto/omnibus/v1) | Shared gRPC/API contract definitions |
 
@@ -20,7 +20,7 @@ Users / Admins
     |
     v
 Frontend apps
-  Angular primary UI, React frontends (Vite, Next.js), developer dashboard
+  Angular primary UI, experimental React frontends (Vite, Next.js), developer dashboard
     |
     v
 NestJS BFF
@@ -64,7 +64,7 @@ Complete user registration flow with asynchronous processing:
 Client
   |
   v (HTTP)
-frontend-react-vite
+frontend (Angular/React)
   |
   v (HTTP)
 bff-nest
@@ -95,7 +95,7 @@ Identity Provider
 ```
 
 **Flow Details:**
-1. Client submits registration form through React Vite frontend
+1. Client submits registration form through frontend (Angular or React)
 2. Frontend sends HTTP request to NestJS BFF
 3. BFF translates and forwards to Spring Cloud API Gateway
 4. API Gateway routes to user-service via gRPC
@@ -142,27 +142,49 @@ docker compose up --build
 
 | Component | URL/Port |
 | --- | --- |
-| React Vite frontend | `http://localhost:5173` |
-| Angular frontend | `http://localhost:4200` |
-| React Next.js frontend | `http://localhost:3000` |
-| Developer dashboard | `http://localhost:5174` |
+| **Angular frontend (primary)** | `http://localhost:4200` |
 | NestJS BFF | `http://localhost:3001` |
 | API gateway | `http://localhost:8080` |
+| **Experimental frontends** | |
+| React Vite frontend | `http://localhost:5173` |
+| React Next.js frontend | `http://localhost:3002` |
+| Developer dashboard | `http://localhost:5174` |
+| **Backend services** | |
 | config-server | `http://localhost:8888` |
 | eureka-server | `http://localhost:8761` |
 | auth-service | `http://localhost:8083` |
 | rule-service | `http://localhost:8085` |
 | workflow-service | `http://localhost:8086` |
+| **Infrastructure** | |
 | PostgreSQL | `localhost:5432` |
 | Keycloak | `http://localhost:9000` |
 | Redis | `localhost:6379` |
 | RabbitMQ | `localhost:5672` |
 | RabbitMQ Management | `http://localhost:15672` |
+| **Observability** | |
 | Prometheus | `http://localhost:9090` |
 | Loki | `http://localhost:3100` |
 | Grafana | `http://localhost:3000` |
 
 See the README in each area for more ports, profiles and local development commands.
+
+## Frontend Applications
+
+The `ui/` directory contains multiple frontend implementations:
+
+| Application | Technology | Port | Status | Purpose |
+| --- | --- | --- | --- | --- |
+| frontend-angular | Angular | `4200` | ✅ Primary | Main production frontend |
+| frontend-react-vite | React + TypeScript + Vite | `5173` | 🔬 Experimental | Alternative React implementation |
+| frontend-react-next | Next.js (T3 Stack) | `3002` | 🔬 Experimental | Next.js experimental frontend |
+| dev-dashboard | React + Vite | `5174` | 🔬 Experimental | Developer tools dashboard |
+
+All frontends communicate with the backend through the NestJS BFF on port `3001`.
+
+**Frontend Priority:**
+1. **Angular** - Primary production frontend
+2. **React Vite** - Experimental alternative
+3. **React Next.js** - Experimental alternative
 
 ## Repository Helpers
 
@@ -175,19 +197,6 @@ See the README in each area for more ports, profiles and local development comma
 | [ui/frontend-angular/openapi.sh](ui/frontend-angular/openapi.sh) | Angular OpenAPI generation helper |
 | [ui/frontend-angular/orval.sh](ui/frontend-angular/orval.sh) | Orval generation helper |
 | [ui/frontend-react-vite/run.sh](ui/frontend-react-vite/run.sh) | Run the React Vite frontend |
-
-## Frontend Applications
-
-The `ui/` directory contains multiple frontend implementations:
-
-| Application | Technology | Port | Purpose |
-| --- | --- | --- | --- |
-| frontend-react-vite | React + TypeScript + Vite | `5173` | Primary React frontend |
-| frontend-angular | Angular | `4200` | Alternative Angular frontend |
-| frontend-react-next | Next.js (T3 Stack) | `3000` | Next.js experimental frontend |
-| dev-dashboard | React + Vite | `5174` | Developer tools dashboard |
-
-Each frontend communicates with the backend through the NestJS BFF.
 
 ## Development Notes
 
