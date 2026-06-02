@@ -18,7 +18,7 @@ NestJS backend-for-frontend for Omnibus UI clients.
 Angular/React UI
   -> bff-nest
   -> api-gateway
-  -> core services
+  -> mic services
 ```
 
 ## Development

@@ -4,7 +4,7 @@ Spring Cloud Gateway entry point for backend traffic.
 
 ## Responsibility
 
-`api-gateway` is the backend boundary used by the BFF and clients during local development. It handles routing, security filters and gRPC bridge configuration for core services.
+`api-gateway` is the backend boundary used by the BFF and clients during local development. It handles routing, security filters and gRPC bridge configuration for m services.
 
 ## Local Port
 
