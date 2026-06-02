@@ -9,6 +9,7 @@ EXCLUDES=(
   ".gradle"
   ".idea"
   ".angular"
+  ".next"
   "build"
   "dist"
   "out"
@@ -22,8 +23,7 @@ done
 
 unset 'PRUNE_ARGS[${#PRUNE_ARGS[@]}-1]'
 
-CMD=(find "$ROOT_DIR" \
-  \( -type d -name ".*" ! -path "$ROOT_DIR" \) -prune -o \
+find "$ROOT_DIR" \
   \( -type d \( "${PRUNE_ARGS[@]}" \) \) -prune -o \
   -type f \( \
     -name "*.kt" -o -name "*.kts" -o -name "*.java" -o \
@@ -31,11 +31,15 @@ CMD=(find "$ROOT_DIR" \
     -name "*.yml" -o -name "*.yaml" -o -name "*.md" -o \
     -name "*.sh" -o -name "Dockerfile" \
   \) \
-  ! -name "package-lock.json" \
+  ! -path "*/bin/*" \
+  ! -path "*/build/*" \
   ! -name "*.log" \
   ! -name "*.txt" \
-  -print
-)
+  -print0 \
+| while IFS= read -r -d '' file; do
+    printf "%s %s\n" "$(wc -l < "$file")" "$file"
+  done \
+| sort -nr
 
 if [ -n "$OUTPUT_FILE" ]; then
   "${CMD[@]}" > "$OUTPUT_FILE"
