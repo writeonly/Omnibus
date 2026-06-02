@@ -36,6 +36,21 @@ export interface RestBiddingResponse {
   bidding: string;
 }
 
+export interface RegisterUserRequest {
+  username: string;
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface RegisterUserResponse {
+  userId: string;
+  username: string;
+  email: string;
+  status: string;
+}
+
 const baseUrl = "/api";
 
 async function postJson<TResponse, TPayload>(
@@ -64,5 +79,9 @@ export const bffApiClient = {
 
   recommendBidding(payload: RestBiddingRequest): Promise<RestBiddingResponse> {
     return postJson("/rest-bidding", payload);
+  },
+
+  registerUser(payload: RegisterUserRequest): Promise<RegisterUserResponse> {
+    return postJson("/auth/register", payload);
   },
 };

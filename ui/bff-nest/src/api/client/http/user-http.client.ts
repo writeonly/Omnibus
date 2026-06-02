@@ -24,6 +24,6 @@ export class UserHttpClient {
   constructor(private readonly transport: HttpTransport) {}
 
   async registerUser(input: RegisterUserInput): Promise<RegisterUserResult> {
-    return this.transport.post(this.target, '/api/users/register', input);
+    return this.transport.post(this.target, '/api/user/users/register', input);
   }
 }

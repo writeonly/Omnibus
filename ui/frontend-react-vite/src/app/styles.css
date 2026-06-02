@@ -50,6 +50,7 @@ body {
 
 button,
 textarea,
+input,
 select {
   font: inherit;
 }
@@ -85,7 +86,7 @@ select {
 
 .route-toggle {
   display: inline-grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--primary-on), transparent 56%);
   border-radius: 8px;
@@ -180,6 +181,7 @@ select {
 }
 
 .field textarea,
+.field input,
 .field select {
   width: 100%;
   border: 1px solid var(--border);
@@ -205,6 +207,7 @@ select {
 }
 
 .field textarea:focus,
+.field input:focus,
 .field select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary), transparent 78%);
@@ -276,6 +279,48 @@ select {
   background: transparent;
   color: var(--primary);
   font-weight: 600;
+}
+
+.flow-label {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary), transparent 88%);
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
+.registration-card {
+  border-radius: 18px;
+}
+
+.registration-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.registration-layout .result-panel,
+.registration-layout .field:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+.success-panel {
+  border-color: color-mix(in srgb, var(--primary), transparent 58%);
+}
+
+@media (max-width: 720px) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .route-toggle,
+  .registration-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 .secondary-action:hover {

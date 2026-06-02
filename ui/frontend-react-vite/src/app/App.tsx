@@ -5,13 +5,16 @@ import type { RouteKey } from "../components/Shell";
 
 import { NextBid } from "../features/rule/nextBid/NextBid";
 import { RestBidding } from "../features/workflow/restBidding/RestBidding";
+import { Register } from "../features/auth/register/Register";
 
 const routeByPath: Record<string, RouteKey> = {
+  "/auth/register": "register",
   "/rule/next-bid": "next-bid",
   "/workflow/rest-bidding": "rest-bidding"
 };
 
 const pathByRoute: Record<RouteKey, string> = {
+  "register": "/auth/register",
   "next-bid": "/rule/next-bid",
   "rest-bidding": "/workflow/rest-bidding"
 };
@@ -28,7 +31,7 @@ function readInitialTheme(): boolean {
 
 export function App() {
   const [activeRoute, setActiveRoute] = useState<RouteKey>(
-    () => routeByPath[window.location.pathname] ?? "next-bid"
+    () => routeByPath[window.location.pathname] ?? "register"
   );
 
   const [isDark, setIsDark] = useState<boolean>(readInitialTheme);
@@ -48,7 +51,7 @@ export function App() {
 
   useEffect(() => {
     function handlePopState() {
-      setActiveRoute(routeByPath[window.location.pathname] ?? "next-bid");
+      setActiveRoute(routeByPath[window.location.pathname] ?? "register");
     }
 
     window.addEventListener("popstate", handlePopState);
@@ -60,6 +63,8 @@ export function App() {
 
   const content = useMemo(() => {
     switch (activeRoute) {
+      case "register":
+        return <Register />;
       case "rest-bidding":
         return <RestBidding />;
       case "next-bid":
