@@ -114,7 +114,7 @@ docker compose --profile legacy up --build
 
 The shared `omnibus` Docker network allows other services to communicate:
 
-- **Backend services** (`../api`) expect this infrastructure to be running
+- **Backend services** (`../core`) expect this infrastructure to be running
 - **Frontend and BFF** (`../ui`) use the API gateway on `http://api-gateway:8080`
 - Services can reference infrastructure by hostname (e.g., `postgres:5432`, `redis:6379`, `kafka:9092`)
 
@@ -125,7 +125,7 @@ Access observability tools to monitor the infrastructure:
 - **Prometheus**: Scrapes metrics from services on the `omnibus` network
 - **Loki**: Aggregates logs via Promtail from container logs
 - **Grafana**: Unified dashboard for metrics, logs, and service health
-  - Default access: `http://localhost:3001`
+  - Default access: `http://localhost:3000`
   - Datasources: Prometheus (metrics) and Loki (logs)
 
 ## Network Configuration
