@@ -7,13 +7,13 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets:
-          - audit-service:8082
+          - audit-service:8084
 
   - job_name: omnibus-user-service
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - user-service:8084
+          - user-service:8083
 
   - job_name: omnibus-rule-service
     metrics_path: /actuator/prometheus

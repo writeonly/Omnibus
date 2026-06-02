@@ -5,17 +5,20 @@ config:
 eureka:
 	./gradlew :eureka-server:bootRun
 
-auth:
-	./gradlew :auth-service:bootRun	
-
 api:
 	./gradlew :api-gateway:bootRun
 
-audit:
-	./gradlew :audit-service:bootRun
+modulith:
+	./gradlew :modulith:bootRun
+
+auth:
+	./gradlew :auth-service:bootRun	
 
 user:
 	./gradlew :user-service:bootRun
+
+audit:
+	./gradlew :audit-service:bootRun
 
 rule:
 	./gradlew :rule-service:bootRun

@@ -75,7 +75,7 @@ services:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      AUTH_SERVER_URL: http://auth-service:8083
+      AUTH_SERVER_URL: http://auth-service:8082
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       RULE_ENGINE_GRPC_URI: lb:h2c://rule-service
       WORKFLOW_ENGINE_GRPC_URI: lb:h2c://workflow-service
@@ -104,46 +104,8 @@ services:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      AUTH_SERVER_URL: http://auth-service:8083
+      AUTH_SERVER_URL: http://auth-service:8082
       USER_SERVICE_GRPC_URI: static://user-service:9082
-
-      CASSANDRA_CONTACT_POINTS: cassandra:9042
-      CASSANDRA_HOST: cassandra
-      CASSANDRA_PORT: 9042
-      CASSANDRA_KEYSPACE: audit
-
-    networks:
-      - omnibus
-  audit-service:
-    build:
-      context: .
-      dockerfile: service/audit-service/Dockerfile
-    container_name: audit-service
-    mem_limit: 512m
-    ports:
-      - "8082:8082"
-    healthcheck:
-      <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8082; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
-    depends_on:
-      config-server:
-        condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-      auth-service:
-        condition: service_healthy
-    environment:
-      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
-      CONFIG_SERVER_URL: http://name:password@config-server:8888
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      AUTH_SERVER_URL: http://auth-service:8083
-
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-
-      DB_URL: jdbc:postgresql://postgres:5432/audit_db
-      DB_USERNAME: omnibus
-      DB_PASSWORD: omnibus
-      POSTGRES_DB: audit_db
 
       CASSANDRA_CONTACT_POINTS: cassandra:9042
       CASSANDRA_HOST: cassandra
@@ -160,10 +122,10 @@ services:
     container_name: auth-service
     mem_limit: 512m
     ports:
-      - "8083:8083"
+      - "8082:8082"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8082; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy
@@ -177,7 +139,7 @@ services:
       POSTGRES_DB: auth_db
       DB_USERNAME: omnibus
       DB_PASSWORD: omnibus
-      AUTH_ISSUER: http://auth-service:8083
+      AUTH_ISSUER: http://auth-service:8082
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - omnibus
@@ -187,6 +149,39 @@ services:
       context: .
       dockerfile: service/user-service/Dockerfile
     container_name: user-service
+    mem_limit: 512m
+    ports:
+      - "8083:8083"
+    healthcheck:
+      <<: *actuator-healthcheck
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8083; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
+      CONFIG_SERVER_URL: http://name:password@config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      AUTH_SERVER_URL: http://auth-service:8082
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+      # jeśli używasz DB w user-service:
+      DB_URL: jdbc:postgresql://postgres:5432/user_db
+      DB_USERNAME: omnibus
+      DB_PASSWORD: omnibus
+      POSTGRES_DB: user_db
+    networks:
+      - omnibus
+
+  audit-service:
+    build:
+      context: .
+      dockerfile: service/audit-service/Dockerfile
+    container_name: audit-service
     mem_limit: 512m
     ports:
       - "8084:8084"
@@ -204,17 +199,22 @@ services:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      AUTH_SERVER_URL: http://auth-service:8083
+      AUTH_SERVER_URL: http://auth-service:8082
+
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
-      # jeśli używasz DB w user-service:
-      DB_URL: jdbc:postgresql://postgres:5432/user_db
+      DB_URL: jdbc:postgresql://postgres:5432/audit_db
       DB_USERNAME: omnibus
       DB_PASSWORD: omnibus
-      POSTGRES_DB: user_db
+      POSTGRES_DB: audit_db
+
+      CASSANDRA_CONTACT_POINTS: cassandra:9042
+      CASSANDRA_HOST: cassandra
+      CASSANDRA_PORT: 9042
+      CASSANDRA_KEYSPACE: audit
+
     networks:
       - omnibus
-
 
   rule-service:
     build:
@@ -237,7 +237,7 @@ services:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      AUTH_SERVER_URL: http://auth-service:8083
+      AUTH_SERVER_URL: http://auth-service:8082
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - omnibus
@@ -265,7 +265,7 @@ services:
       JAVA_TOOL_OPTIONS: "-Xms128m -Xmx256m -XX:+UseSerialGC"
       CONFIG_SERVER_URL: http://name:password@config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      AUTH_SERVER_URL: http://auth-service:8083
+      AUTH_SERVER_URL: http://auth-service:8082
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       BIDDING_ENGINE_GRPC_ADDRESS: discovery:///rule-service
     networks:
@@ -278,10 +278,10 @@ services:
     container_name: outbox-relay-service
     mem_limit: 512m
     ports:
-      - "8087:8087"
+      - "8084:8084"
     healthcheck:
       <<: *actuator-healthcheck
-      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8087; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/8084; printf \"GET /actuator/health/readiness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q \"UP\" <&3'"]
     depends_on:
       config-server:
         condition: service_healthy

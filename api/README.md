@@ -22,10 +22,10 @@ This directory contains the JVM backend workspace for Omnibus.
 | --- | --- | --- |
 | `config-server` | Centralized Spring Cloud Config | `8888` |
 | `eureka-server` | Service discovery for JVM services | `8761` |
-| `auth-service` | Spring Authorization Server based authentication flows and JWT blacklist support | `8083` |
+| `auth-service` | Spring Authorization Server based authentication flows and JWT blacklist support | `8082` |
 | `api-gateway` | Spring Cloud Gateway entry point for backend services | `8080` |
-| `audit-service` | Audit/event observation service | `8082` |
-| `user-service` | User domain and registration flow | `8084` |
+| `audit-service` | Audit/event observation service | `8084` |
+| `user-service` | User domain and registration flow | `8083` |
 | `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8085` |
 | `workflow-service` | Rule publication workflow and validation orchestration | `8086` |
 

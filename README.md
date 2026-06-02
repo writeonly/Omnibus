@@ -8,7 +8,7 @@ Central, cross-project information lives in this root README. Details that belon
 
 | Area | Path | Purpose |
 | --- | --- | --- |
-| Backend | [core/README.md](core/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
+| Backend | [api/README.md](api/README.md) | Spring Boot/Kotlin services, HTTP/gRPC APIs, rule processing, workflow, auth, audit, config and discovery |
 | Frontend and BFF | [ui/README.md](ui/README.md) | Angular primary frontend, experimental React frontends, NestJS BFF |
 | Infrastructure | [infra/README.md](infra/README.md) | PostgreSQL, Kafka/Redpanda, Cassandra/Scylla, Keycloak, Redis, RabbitMQ, search stack, NGINX, Prometheus, Loki, Grafana |
 | Protobuf contracts | [proto/omnibus/v1](proto/omnibus/v1) | Shared gRPC/API contract definitions |
@@ -275,7 +275,7 @@ curl http://localhost:15672/api/vhosts  # Username/password: omnibus/omnibus
 | **Backend services** | |
 | config-server | `http://localhost:8888` |
 | eureka-server | `http://localhost:8761` |
-| auth-service | `http://localhost:8083` |
+| auth-service | `http://localhost:8082` |
 | rule-service | `http://localhost:8085` |
 | workflow-service | `http://localhost:8086` |
 | **Infrastructure** | |
