@@ -9,6 +9,7 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
     API_GATEWAY_URL: z.string().url().default("http://localhost:8080"),
+    AUTH_SERVER_URL: z.string().url().default("http://localhost:8083"),
   },
 
   /**
@@ -27,6 +28,7 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     API_GATEWAY_URL: process.env.API_GATEWAY_URL,
+    AUTH_SERVER_URL: process.env.AUTH_SERVER_URL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

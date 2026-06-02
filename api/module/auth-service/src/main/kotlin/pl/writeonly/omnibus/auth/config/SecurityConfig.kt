@@ -61,9 +61,10 @@ class SecurityConfig {
 
         http
             .authorizeHttpRequests {
-                it.requestMatchers("/actuator/**").permitAll()
+                it.requestMatchers("/actuator/**", "/auth/login").permitAll()
                 it.anyRequest().authenticated()
             }
+            .csrf { it.disable() }
             .formLogin(Customizer.withDefaults())
 
         return http.build()

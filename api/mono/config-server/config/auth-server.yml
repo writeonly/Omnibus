@@ -41,3 +41,4 @@ omnibus:
     admin-username: ${KEYCLOAK_ADMIN_USERNAME:kcadmin}
     admin-password: ${KEYCLOAK_ADMIN_PASSWORD:kcadmin}
     admin-client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:admin-cli}
+    frontend-client-id: ${KEYCLOAK_FRONTEND_CLIENT_ID:omnibus-frontend}

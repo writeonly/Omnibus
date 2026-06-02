@@ -9,4 +9,5 @@ data class KeycloakProperties(
     val adminUsername: String,
     val adminPassword: String,
     val adminClientId: String = "admin-cli",
+    val frontendClientId: String = "omnibus-frontend",
 )

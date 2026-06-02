@@ -44,10 +44,15 @@ input {
 .register-page {
   display: grid;
   min-height: 100vh;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 520px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 560px);
   gap: clamp(2rem, 6vw, 6rem);
   align-items: center;
   padding: clamp(1.5rem, 5vw, 5rem);
+}
+
+.auth-card-stack {
+  display: grid;
+  gap: 1.25rem;
 }
 
 .register-hero {
@@ -98,6 +103,10 @@ input {
   height: 8px;
   background: linear-gradient(90deg, #2f6f58, #d8763f, #f1bf63);
   content: "";
+}
+
+.auth-card--login::before {
+  background: linear-gradient(90deg, #1e5b73, #2f6f58, #9f7f35);
 }
 
 .register-card__header h1 {
@@ -183,6 +192,26 @@ input {
 .register-button:disabled {
   cursor: wait;
   opacity: 0.72;
+}
+
+.login-button {
+  background: linear-gradient(135deg, #1e5b73, #2f6f58);
+}
+
+.token-preview {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.token-preview span {
+  font-weight: 750;
+}
+
+.token-preview code {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 0.86rem;
 }
 
 @media (max-width: 900px) {
