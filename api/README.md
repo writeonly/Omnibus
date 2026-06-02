@@ -25,9 +25,9 @@ This directory contains the JVM backend workspace for Omnibus.
 | `api-gateway` | Spring Cloud Gateway entry point for backend services | `8080` |
 | `auth-service` | Spring Authorization Server based authentication flows and JWT blacklist support | `8082` |
 | `user-service` | User domain and registration flow | `8083` |
-| `audit-service` | Audit/event observation service | `8084` |
-| `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8085` |
-| `workflow-service` | Rule publication workflow and validation orchestration | `8086` |
+| `audit-service` | Audit/event observation service | `8085` |
+| `rule-service` | Bridge hand parsing, Drools rule evaluation, managed rule storage | `8086` |
+| `workflow-service` | Rule publication workflow and validation orchestration | `8087` |
 
 ## Build
 

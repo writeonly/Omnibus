@@ -276,8 +276,8 @@ curl http://localhost:15672/api/vhosts  # Username/password: omnibus/omnibus
 | config-server | `http://localhost:8888` |
 | eureka-server | `http://localhost:8761` |
 | auth-service | `http://localhost:8082` |
-| rule-service | `http://localhost:8085` |
-| workflow-service | `http://localhost:8086` |
+| rule-service | `http://localhost:8086` |
+| workflow-service | `http://localhost:8087` |
 | **Infrastructure** | |
 | PostgreSQL | `localhost:5432` |
 | Keycloak | `http://localhost:9000` |

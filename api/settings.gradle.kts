@@ -9,6 +9,7 @@ include(
 
     "auth-service",
     "user-service",
+    "notification-service",
     "audit-service",
     "rule-service",
     "workflow-service",
@@ -31,6 +32,7 @@ project(":modulith").projectDir = file("mono/modulith")
 
 project(":auth-service").projectDir = file("module/auth-service")
 project(":user-service").projectDir = file("module/user-service")
+project(":notification-service").projectDir = file("module/notification-service")
 project(":audit-service").projectDir = file("module/audit-service")
 project(":rule-service").projectDir = file("module/rule-service")
 project(":workflow-service").projectDir = file("module/workflow-service")
