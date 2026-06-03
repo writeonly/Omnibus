@@ -93,7 +93,7 @@ spring-cloud-starter-netflix-eureka-client = { module = "org.springframework.clo
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-security-crypto = { module = "org.springframework.security:spring-security-crypto" }
 
-spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server", version.ref = "springAuthorizationServer" }
+spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server"}
 
 # ---------------- Spring ----------------
 spring-jcl = { module = "org.springframework:spring-jcl", version.ref = "springJcl" }
