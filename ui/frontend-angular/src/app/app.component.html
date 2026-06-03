@@ -8,11 +8,8 @@
     [value]="activeRoute"
     (change)="onRouteChange($event.value)"
   >
-    <mat-button-toggle value="/bidding/next-bid"> Next bid </mat-button-toggle>
-
-    <mat-button-toggle value="/bidding/rest-bidding">
-      Rest bidding
-    </mat-button-toggle>
+    <mat-button-toggle value="/workflow/rest-bidding"> Rest bidding </mat-button-toggle>
+    <mat-button-toggle value="/rule/next-bid"> Next bid </mat-button-toggle>
   </mat-button-toggle-group>
 
   <span class="spacer"></span>

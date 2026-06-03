@@ -1,19 +1,4 @@
 services:
-  frontend-angular:
-    build:
-      context: ./frontend-angular
-      args:
-        KEYCLOAK_URL: http://localhost:9000
-        KEYCLOAK_REALM: omnibus
-        KEYCLOAK_CLIENT: omnibus-frontend
-    mem_limit: 512m
-    ports:
-      - "4200:80"
-    depends_on:
-      - bff-nest
-    networks:
-      omnibus:
-
   bff-nest:
     build:
       context: ./bff-nest
@@ -29,6 +14,21 @@ services:
       PORT: 3001
     ports:
       - "3001:3001"
+    networks:
+      omnibus:
+
+  frontend-angular:
+    build:
+      context: ./frontend-angular
+      args:
+        KEYCLOAK_URL: http://localhost:9000
+        KEYCLOAK_REALM: omnibus
+        KEYCLOAK_CLIENT: omnibus-frontend
+    mem_limit: 512m
+    ports:
+      - "4200:80"
+    depends_on:
+      - bff-nest
     networks:
       omnibus:
 

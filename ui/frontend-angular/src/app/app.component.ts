@@ -89,6 +89,7 @@ export class AppComponent implements OnInit {
   }
 
   onRouteChange(route: string) {
+    console.log('navigate to:', route);
     this.router.navigateByUrl(route);
   }
 }

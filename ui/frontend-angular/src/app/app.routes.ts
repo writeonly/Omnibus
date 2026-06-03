@@ -6,7 +6,7 @@ import { RestBiddingComponent } from "./features/workflow/rest-bidding/rest-bidd
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "rule/next-bid",
+    redirectTo: "workflow/rest-bidding",
     pathMatch: "full",
   },
   {
@@ -19,6 +19,6 @@ export const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "rule/next-bid",
+    redirectTo: "workflow/rest-bidding",
   },
 ];
