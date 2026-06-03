@@ -11,8 +11,8 @@ import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.core.AuthorizationGrantType
@@ -21,9 +21,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.SecurityFilterChain
 import java.security.KeyPair
 import java.security.KeyPairGenerator
@@ -36,32 +36,25 @@ class SecurityConfig {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    fun authorizationServerSecurityFilterChain(
-        http: HttpSecurity
-    ): SecurityFilterChain {
-
-        val authorizationServerConfigurer =
-            OAuth2AuthorizationServerConfigurer.authorizationServer()
+    fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
 
         http
-            .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-            .with(authorizationServerConfigurer, Customizer.withDefaults())
+            .securityMatcher("/oauth2/**", "/.well-known/**")
             .authorizeHttpRequests {
-                it.requestMatchers("/actuator/**").permitAll()
                 it.anyRequest().authenticated()
             }
+            .csrf { it.disable() }
+            .apply { OAuth2AuthorizationServerConfigurer() }
 
         return http.build()
     }
 
     @Bean
-    fun defaultSecurityFilterChain(
-        http: HttpSecurity
-    ): SecurityFilterChain {
+    fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
 
         http
             .authorizeHttpRequests {
-                it.requestMatchers("/actuator/**", "/auth/login", "/auth/logout").permitAll()
+                it.requestMatchers("/actuator/**").permitAll()
                 it.anyRequest().authenticated()
             }
             .csrf { it.disable() }
@@ -113,21 +106,17 @@ class SecurityConfig {
             .keyID(UUID.randomUUID().toString())
             .build()
 
-        val jwkSet = JWKSet(rsaKey)
-
-        return ImmutableJWKSet(jwkSet)
+        return ImmutableJWKSet(JWKSet(rsaKey))
     }
 
     @Bean
-    fun jwtDecoder(jwkSource: JWKSource<SecurityContext>): JwtDecoder =
-        OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)
+    fun jwtDecoder(jwkSource: JWKSource<SecurityContext>): JwtDecoder {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)
+    }
 
     private fun generateRsaKey(): KeyPair {
-
         val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-
         keyPairGenerator.initialize(2048)
-
         return keyPairGenerator.generateKeyPair()
     }
 }
