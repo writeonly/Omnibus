@@ -2,11 +2,11 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 
 import { bffApiClient } from "../../../core/api/bffApiClient";
-import type { RegisterUserResponse } from "../../../core/api/bffApiClient";
-import { validateRegistration } from "./register.schema";
-import type { RegisterFormData } from "./register.schema";
+import type { LoginUserResponse } from "../../../core/api/bffApiClient";
+import { validateLogin } from "./login.schema";
+import type { LoginFormData } from "./login.schema";
 
-const initialForm: RegisterFormData = {
+const initialForm: LoginFormData = {
   username: "",
   email: "",
   password: "",
@@ -14,10 +14,10 @@ const initialForm: RegisterFormData = {
   lastName: "",
 };
 
-export function RegisterView() {
+export function LoginView() {
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<RegisterUserResponse | null>(null);
+  const [result, setResult] = useState<LoginUserResponse | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -25,7 +25,7 @@ export function RegisterView() {
     setError(null);
     setResult(null);
 
-    const validationError = validateRegistration(form);
+    const validationError = validateLogin(form);
     if (validationError !== null) {
       setError(validationError);
       return;
@@ -34,17 +34,14 @@ export function RegisterView() {
     setSubmitting(true);
 
     try {
-      const response = await bffApiClient.registerUser({
+      const response = await bffApiClient.loginUser({
         username: form.username.trim(),
-        email: form.email.trim(),
         password: form.password,
-        firstName: form.firstName.trim() || undefined,
-        lastName: form.lastName.trim() || undefined,
       });
 
       setResult(response);
     } catch (exception) {
-      setError(exception instanceof Error ? exception.message : "Registration failed");
+      setError(exception instanceof Error ? exception.message : "Login failed");
     } finally {
       setSubmitting(false);
     }
@@ -55,12 +52,7 @@ export function RegisterView() {
       <form className="form" onSubmit={submit}>
         <article className="bid-card registration-card">
           <header className="card-header">
-            <span className="flow-label">React HTTP to Keycloak</span>
-            <h1>Register player account</h1>
-            <p>
-              Client → React Vite → Nest BFF → API Gateway → Modulith → gRPC User Service →
-              PostgreSQL outbox → bus → Auth Service function → Keycloak.
-            </p>
+            <h1>Login player account</h1>
           </header>
 
           <div className="form-layout registration-layout">
@@ -74,40 +66,12 @@ export function RegisterView() {
             </label>
 
             <label className="field">
-              <span>Email</span>
-              <input
-                value={form.email}
-                onChange={(event) => setForm({ ...form, email: event.target.value })}
-                autoComplete="email"
-                type="email"
-              />
-            </label>
-
-            <label className="field">
               <span>Password</span>
               <input
                 value={form.password}
                 onChange={(event) => setForm({ ...form, password: event.target.value })}
                 autoComplete="new-password"
                 type="password"
-              />
-            </label>
-
-            <label className="field">
-              <span>First name</span>
-              <input
-                value={form.firstName}
-                onChange={(event) => setForm({ ...form, firstName: event.target.value })}
-                autoComplete="given-name"
-              />
-            </label>
-
-            <label className="field">
-              <span>Last name</span>
-              <input
-                value={form.lastName}
-                onChange={(event) => setForm({ ...form, lastName: event.target.value })}
-                autoComplete="family-name"
               />
             </label>
 
@@ -118,7 +82,7 @@ export function RegisterView() {
                 <summary>{result.username} queued for auth provisioning</summary>
                 <p>
                   User ID {result.userId}. Current status: {result.status}. The outbox relay will
-                  publish the registration event to the bus for Auth Service and Keycloak.
+                  publish the login event to the bus for Auth Service and Keycloak.
                 </p>
               </details>
             )}
@@ -126,7 +90,7 @@ export function RegisterView() {
 
           <footer className="card-actions">
             <button className="primary-action" type="submit" disabled={submitting}>
-              {submitting ? "Registering..." : "Register through BFF"}
+              {submitting ? "Logining..." : "Login"}
             </button>
             <button
               className="secondary-action"

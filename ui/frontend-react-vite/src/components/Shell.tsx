@@ -35,18 +35,18 @@ export function Shell({ activeRoute, isDark, onRouteChange, onThemeToggle, child
             Next bid
           </button>
           <button
-            className={activeRoute === 'login' ? 'active' : ''}
-            type="button"
-            onClick={() => onRouteChange('login')}
-          >
-            Login
-          </button>
-          <button
             className={activeRoute === 'register' ? 'active' : ''}
             type="button"
             onClick={() => onRouteChange('register')}
           >
             Register
+          </button>
+          <button
+            className={activeRoute === 'login' ? 'active' : ''}
+            type="button"
+            onClick={() => onRouteChange('login')}
+          >
+            Login
           </button>
         </nav>
 

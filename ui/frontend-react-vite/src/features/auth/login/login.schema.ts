@@ -1,4 +1,4 @@
-export interface RegisterFormData {
+export interface LoginFormData {
   username: string;
   email: string;
   password: string;
@@ -6,13 +6,9 @@ export interface RegisterFormData {
   lastName: string;
 }
 
-export function validateRegistration(form: RegisterFormData): string | null {
+export function validateLogin(form: LoginFormData): string | null {
   if (form.username.trim().length < 3) {
     return "Username must contain at least 3 characters";
-  }
-
-  if (!form.email.includes("@")) {
-    return "Enter a valid email address";
   }
 
   if (form.password.length < 8) {

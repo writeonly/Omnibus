@@ -3,20 +3,23 @@ import { useEffect, useMemo, useState } from "react";
 import { Shell } from "../components/Shell";
 import type { RouteKey } from "../components/Shell";
 
+import { Login } from "../features/auth/login/Login";
 import { NextBid } from "../features/rule/nextBid/NextBid";
 import { RestBidding } from "../features/workflow/restBidding/RestBidding";
-import { Register } from "../features/auth/register/Register";
+import { Register } from "../features/user/register/Register";
 
 const routeByPath: Record<string, RouteKey> = {
-  "/auth/register": "register",
+  "/workflow/rest-bidding": "rest-bidding",
   "/rule/next-bid": "next-bid",
-  "/workflow/rest-bidding": "rest-bidding"
+  "/user/register": "register",
+  "/auth/login": "login"
 };
 
 const pathByRoute: Record<RouteKey, string> = {
-  "register": "/auth/register",
+  "rest-bidding": "/workflow/rest-bidding",
   "next-bid": "/rule/next-bid",
-  "rest-bidding": "/workflow/rest-bidding"
+  "register": "/user/register",
+  "login": "/auth/login"
 };
 
 function readInitialTheme(): boolean {
@@ -63,13 +66,16 @@ export function App() {
 
   const content = useMemo(() => {
     switch (activeRoute) {
-      case "register":
-        return <Register />;
+      case "next-bid":
+        return <NextBid />;
       case "rest-bidding":
         return <RestBidding />;
-      case "next-bid":
+      case "register":
+        return <Register />;
+      case "login":
+        return <Login />;
       default:
-        return <NextBid />;
+        return <NextBid />; 
     }
   }, [activeRoute]);
 

@@ -41,6 +41,8 @@ export interface RegisterUserRequest {
   email: string;
   password: string;
   firstName?: string;
+  secondName?: string;
+  thirdName?: string;
   lastName?: string;
 }
 
@@ -48,6 +50,21 @@ export interface RegisterUserResponse {
   userId: string;
   username: string;
   email: string;
+  status: string;
+}
+
+export interface LoginUserRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginUserResponse {
+  userId: string;
+  username: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  token: string;
   status: string;
 }
 
@@ -82,6 +99,11 @@ export const bffApiClient = {
   },
 
   registerUser(payload: RegisterUserRequest): Promise<RegisterUserResponse> {
-    return postJson("/auth/register", payload);
+    return postJson("/user/register", payload);
   },
+
+  loginUser(payload: LoginUserRequest): Promise<LoginUserResponse> {
+    return postJson("/user/login", payload);
+  },
+
 };
