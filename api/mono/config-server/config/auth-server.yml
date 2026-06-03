@@ -36,7 +36,7 @@ logging:
 
 omnibus:
   keycloak:
-    url: ${KEYCLOAK_INTERNAL_URL:http://keycloak:8080}
+    url: ${KEYCLOAK_INTERNAL_URL:http://keycloak:9090}
     realm: ${KEYCLOAK_REALM:omnibus}
     admin-username: ${KEYCLOAK_ADMIN_USERNAME:kcadmin}
     admin-password: ${KEYCLOAK_ADMIN_PASSWORD:kcadmin}

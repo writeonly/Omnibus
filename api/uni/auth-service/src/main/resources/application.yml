@@ -1,5 +1,53 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: auth-service
   config:
-    import: "configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://name:password@localhost:8888}"
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-attempts: 10
+        initial-interval: 2000
+    function:
+      definition: userRegistered
+    stream:
+      bindings:
+        userRegistered-in-0:
+          destination: ${USER_REGISTERED_KAFKA_TOPIC:user.registered}
+          group: auth-service
+          content-type: application/json
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/auth_db}
+    username: ${DB_USERNAME:omnibus}
+    password: ${DB_PASSWORD:omnibus}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: ${AUTH_ISSUER:http://localhost:8082}
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
+
+omnibus:
+  keycloak:
+    url: ${KEYCLOAK_INTERNAL_URL:http://keycloak:9090}
+    realm: ${KEYCLOAK_REALM:omnibus}
+    admin-username: ${KEYCLOAK_ADMIN_USERNAME:kcadmin}
+    admin-password: ${KEYCLOAK_ADMIN_PASSWORD:kcadmin}
+    admin-client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:admin-cli}
+    frontend-client-id: ${KEYCLOAK_FRONTEND_CLIENT_ID:omnibus-frontend}

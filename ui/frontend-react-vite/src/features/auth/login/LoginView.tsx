@@ -1,8 +1,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 
-import { bffApiClient } from "../../../core/api/bffApiClient";
-import type { LoginUserResponse } from "../../../core/api/bffApiClient";
+import { authClient } from "../authClient";
+import type { LoginUserResponse } from "../authClient";
 import { validateLogin } from "./login.schema";
 import type { LoginFormData } from "./login.schema";
 
@@ -34,7 +34,7 @@ export function LoginView() {
     setSubmitting(true);
 
     try {
-      const response = await bffApiClient.loginUser({
+      const response = await authClient.loginUser({
         username: form.username.trim(),
         password: form.password,
       });

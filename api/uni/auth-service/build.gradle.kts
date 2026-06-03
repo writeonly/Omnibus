@@ -33,9 +33,10 @@ dependencies {
     implementation(libs.spring.cloud.starter.function.web)
     implementation(libs.spring.cloud.starter.stream.kafka)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
-
-    // Authorization Server
+    
+    // Spring
     implementation(libs.spring.security.oauth2.authorization.server)
+    implementation(libs.spring.jcl)
 
     // Observability
     implementation(libs.logback)

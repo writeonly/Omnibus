@@ -53,21 +53,6 @@ export interface RegisterUserResponse {
   status: string;
 }
 
-export interface LoginUserRequest {
-  username: string;
-  password: string;
-}
-
-export interface LoginUserResponse {
-  userId: string;
-  username: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  token: string;
-  status: string;
-}
-
 const baseUrl = "/api";
 
 async function postJson<TResponse, TPayload>(
@@ -90,20 +75,15 @@ async function postJson<TResponse, TPayload>(
 }
 
 export const bffApiClient = {
-  recommendBid(payload: NextBidRequest): Promise<NextBidResponse> {
-    return postJson("/next-bid", payload);
+  recommendBidding(payload: RestBiddingRequest): Promise<RestBiddingResponse> {
+    return postJson("/workflow/rest-bidding", payload);
   },
 
-  recommendBidding(payload: RestBiddingRequest): Promise<RestBiddingResponse> {
-    return postJson("/rest-bidding", payload);
+  recommendBid(payload: NextBidRequest): Promise<NextBidResponse> {
+    return postJson("/rule/next-bid", payload);
   },
 
   registerUser(payload: RegisterUserRequest): Promise<RegisterUserResponse> {
     return postJson("/user/register", payload);
   },
-
-  loginUser(payload: LoginUserRequest): Promise<LoginUserResponse> {
-    return postJson("/user/login", payload);
-  },
-
 };

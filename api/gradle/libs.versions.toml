@@ -42,6 +42,7 @@ flyway = "10.20.1"
 junitPlatform = "6.0.3"
 kotest = "6.0.6"
 
+springJcl = "6.2.6"
 
 [libraries]
 
@@ -63,13 +64,6 @@ spring-boot-starter-data-elasticsearch = { module = "org.springframework.boot:sp
 spring-boot-starter-data-mongodb = { module = "org.springframework.boot:spring-boot-starter-data-mongodb" }
 
 spring-boot-starter-aot = { module = "org.springframework.boot:spring-boot-starter-aot", version.ref = "springBootAot" }
-
-
-# ---------------- Security ----------------
-spring-security-test = { module = "org.springframework.security:spring-security-test" }
-spring-security-crypto = { module = "org.springframework.security:spring-security-crypto" }
-
-spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server", version.ref = "springAuthorizationServer" }
 
 
 # ---------------- Spring Cloud ----------------
@@ -94,6 +88,15 @@ spring-cloud-starter-stream-kafka = { module = "org.springframework.cloud:spring
 spring-cloud-starter-netflix-eureka-server = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server" }
 spring-cloud-starter-netflix-eureka-client = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client" }
 
+
+# ---------------- Security ----------------
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+spring-security-crypto = { module = "org.springframework.security:spring-security-crypto" }
+
+spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server", version.ref = "springAuthorizationServer" }
+
+# ---------------- Spring ----------------
+spring-jcl = { module = "org.springframework:spring-jcl", version.ref = "springJcl" }
 
 # ---------------- Kafka ----------------
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }

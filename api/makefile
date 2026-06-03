@@ -12,10 +12,13 @@ modulith:
 	./gradlew :modulith:bootRun
 
 auth:
-	./gradlew :auth-service:bootRun	
+	./gradlew :auth-service:bootRun
 
 user:
 	./gradlew :user-service:bootRun
+
+notification:
+	./gradlew :notification-service:bootRun
 
 audit:
 	./gradlew :audit-service:bootRun
