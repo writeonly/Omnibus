@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export type RouteKey = 'register' | 'next-bid' | 'rest-bidding';
+export type RouteKey = 'rest-bidding' | 'next-bid' | 'register' | 'login';
 
 interface ShellProps {
   activeRoute: RouteKey;
@@ -21,11 +21,11 @@ export function Shell({ activeRoute, isDark, onRouteChange, onThemeToggle, child
 
         <nav className="route-toggle" aria-label="Feature mode">
           <button
-            className={activeRoute === 'register' ? 'active' : ''}
+            className={activeRoute === 'rest-bidding' ? 'active' : ''}
             type="button"
-            onClick={() => onRouteChange('register')}
+            onClick={() => onRouteChange('rest-bidding')}
           >
-            Register
+            Rest bidding
           </button>
           <button
             className={activeRoute === 'next-bid' ? 'active' : ''}
@@ -35,11 +35,18 @@ export function Shell({ activeRoute, isDark, onRouteChange, onThemeToggle, child
             Next bid
           </button>
           <button
-            className={activeRoute === 'rest-bidding' ? 'active' : ''}
+            className={activeRoute === 'login' ? 'active' : ''}
             type="button"
-            onClick={() => onRouteChange('rest-bidding')}
+            onClick={() => onRouteChange('login')}
           >
-            Rest bidding
+            Login
+          </button>
+          <button
+            className={activeRoute === 'register' ? 'active' : ''}
+            type="button"
+            onClick={() => onRouteChange('register')}
+          >
+            Register
           </button>
         </nav>
 
