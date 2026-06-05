@@ -8,37 +8,46 @@
     [value]="activeRoute"
     (change)="onRouteChange($event.value)"
   >
-    <mat-button-toggle value="/workflow/rest-bidding"> Rest bidding </mat-button-toggle>
-    <mat-button-toggle value="/rule/next-bid"> Next bid </mat-button-toggle>
+    <mat-button-toggle value="/workflow/rest-bidding">
+      Rest bidding
+    </mat-button-toggle>
+
+    <mat-button-toggle value="/rule/next-bid">
+      Next bid
+    </mat-button-toggle>
   </mat-button-toggle-group>
 
   <span class="spacer"></span>
 
   <!-- 🔐 AUTH SECTION -->
 
-  <button
-    *ngIf="!isLoggedIn"
-    mat-raised-button
-    color="accent"
-    (click)="login()"
-  >
-    Login
-  </button>
+  @if (!isLoggedIn) {
+    <button mat-button (click)="register()">Register</button>
 
-  <button *ngIf="!isLoggedIn" mat-button (click)="register()">Register</button>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="login()"
+    >
+      Login
+    </button>
+  } @else {
+    <div class="user-section">
+      <span class="username">{{ username }}</span>
 
-  <div *ngIf="isLoggedIn" class="user-section">
-    <span class="username">{{ username }}</span>
-
-    <button mat-button (click)="logout()">Logout</button>
-  </div>
+      <button mat-button (click)="logout()">Logout</button>
+    </div>
+  }
 
   <span class="spacer"></span>
 
   <!-- 🌙 THEME -->
 
-  <mat-slide-toggle [checked]="theme.isDark()" (change)="theme.toggle()">
-    {{ theme.isDark() ? "🌙 Dark" : "☀️ Light" }}
+  <mat-slide-toggle
+    [checked]="theme.isDark()"
+    (change)="theme.toggle()"
+  >
+    {{ theme.isDark() ? '🌙 Dark' : '☀️ Light' }}
   </mat-slide-toggle>
 </mat-toolbar>
 
