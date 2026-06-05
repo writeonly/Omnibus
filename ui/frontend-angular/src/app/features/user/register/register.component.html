@@ -1,0 +1,111 @@
+<mat-card class="section-card">
+  <form class="form" [formGroup]="form" (ngSubmit)="register()">
+    <mat-card class="bid-card">
+
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>Create account</mat-card-title>
+        <mat-card-subtitle>
+          Register a new Omnibus account
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <!-- CONTENT -->
+      <mat-card-content class="form-layout">
+
+        <!-- USERNAME -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+
+          <input matInput formControlName="username" />
+
+          @if (
+            form.controls.username.touched &&
+            form.controls.username.hasError("required")
+          ) {
+            <mat-error>
+              Username is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- EMAIL -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+
+          <input matInput type="email" formControlName="email" />
+
+          @if (
+            form.controls.email.touched &&
+            form.controls.email.hasError("required")
+          ) {
+            <mat-error>
+              Email is required
+            </mat-error>
+          }
+
+          @if (
+            form.controls.email.touched &&
+            form.controls.email.hasError("email")
+          ) {
+            <mat-error>
+              Invalid email address
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- PASSWORD -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+
+          <input matInput type="password" formControlName="password" />
+
+          @if (
+            form.controls.password.touched &&
+            form.controls.password.hasError("required")
+          ) {
+            <mat-error>
+              Password is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- FIRST NAME -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>First name</mat-label>
+
+          <input matInput formControlName="firstName" />
+        </mat-form-field>
+
+        <!-- LAST NAME -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last name</mat-label>
+
+          <input matInput formControlName="lastName" />
+        </mat-form-field>
+
+      </mat-card-content>
+
+      <!-- ACTIONS -->
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading() || form.invalid"
+        >
+          {{ loading() ? "Creating account..." : "Register" }}
+        </button>
+
+        <button
+          mat-button
+          type="button"
+          routerLink="/login"
+        >
+          Already have an account?
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </form>
+</mat-card>

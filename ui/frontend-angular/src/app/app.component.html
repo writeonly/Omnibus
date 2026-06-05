@@ -15,6 +15,12 @@
     <mat-button-toggle value="/rule/next-bid">
       Next bid
     </mat-button-toggle>
+
+    @if (!isLoggedIn) {
+    <mat-button-toggle value="/user/register">
+      Register
+    </mat-button-toggle>
+    }
   </mat-button-toggle-group>
 
   <span class="spacer"></span>
