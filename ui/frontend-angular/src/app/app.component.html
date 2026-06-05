@@ -20,7 +20,15 @@
     <mat-button-toggle value="/user/register">
       Register
     </mat-button-toggle>
-    }
+    <mat-button-toggle value="/auth/login">
+      Login
+    </mat-button-toggle>
+
+    } @else {
+    <mat-button-toggle value="/auth/logout">
+      Logout
+    </mat-button-toggle>
+  }
   </mat-button-toggle-group>
 
   <span class="spacer"></span>

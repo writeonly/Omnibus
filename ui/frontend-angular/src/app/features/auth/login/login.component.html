@@ -1,0 +1,64 @@
+<mat-card class="section-card">
+  <form class="form" [formGroup]="form" (ngSubmit)="login()">
+    <mat-card class="bid-card">
+
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>
+          Sign in to your Omnibus account
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <!-- CONTENT -->
+      <mat-card-content class="form-layout">
+
+        <!-- USERNAME -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+
+          <input matInput formControlName="username" />
+
+          @if (
+            form.controls.username.touched &&
+            form.controls.username.hasError("required")
+          ) {
+            <mat-error>
+              Username is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- PASSWORD -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+
+          <input matInput type="password" formControlName="password" />
+
+          @if (
+            form.controls.password.touched &&
+            form.controls.password.hasError("required")
+          ) {
+            <mat-error>
+              Password is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+      </mat-card-content>
+
+      <!-- ACTIONS -->
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading() || form.invalid"
+        >
+          {{ loading() ? "Logging in..." : "Login" }}
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </form>
+</mat-card>
