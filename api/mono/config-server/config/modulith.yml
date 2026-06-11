@@ -1,16 +1,21 @@
 server:
   port: 8081
 
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
 grpc:
   client:
     userService:
-      address: ${USER_SERVICE_GRPC_URI:lb://user-service}
+      address: ${USER_SERVICE_GRPC_URI:user-service}
       negotiation-type: plaintext
     nextBidService:
-      address: ${RULE_ENGINE_GRPC_URI:lb://rule-service}
+      address: ${RULE_ENGINE_GRPC_URI:rule-service}
       negotiation-type: plaintext
     restBiddingService:
-      address: ${WORKFLOW_ENGINE_GRPC_URI:lb://workflow-service}
+      address: ${WORKFLOW_ENGINE_GRPC_URI:workflow-service}
       negotiation-type: plaintext
 
 logging:

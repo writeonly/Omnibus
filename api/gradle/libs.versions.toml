@@ -146,7 +146,6 @@ grpc-spring-client = { module = "net.devh:grpc-client-spring-boot-starter", vers
 
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotation" }
 
-
 # ---------------- Drools ----------------
 kie-api = { module = "org.kie:kie-api", version.ref = "drools" }
 kie-internal = { module = "org.kie:kie-internal", version.ref = "drools" }

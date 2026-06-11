@@ -7,7 +7,7 @@ import { KeycloakService } from "keycloak-angular";
 
 export function initApp(config: ConfigService, keycloak: KeycloakService) {
   return async () => {
-    await config.load();
+    // await config.load();
 
     return keycloak.init({
       config: config.config.keycloak,

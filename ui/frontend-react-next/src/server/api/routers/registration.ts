@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import { env } from "~/env";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { registerUserSchema } from "~/features/auth/register/register.schema";
+import { registerUserSchema } from "~/features/user/register/register.schema";
 
 type RegistrationResponse = {
   userId: string;

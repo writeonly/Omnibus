@@ -1,5 +1,5 @@
 import { LoginForm } from "~/features/auth/login/LoginForm";
-import { RegisterForm } from "~/features/auth/register/RegisterForm";
+import { RegisterForm } from "~/features/user/register/RegisterForm";
 import { HydrateClient } from "~/trpc/server";
 
 export default async function Home() {

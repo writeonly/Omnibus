@@ -36,6 +36,10 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.webflux)
 
+    // ---------------- Spring Cloud ----------------
+    implementation(libs.spring.cloud.starter.config)
+    
+
     // ---------------- Modulith ----------------
     implementation(libs.spring.modulith.core)
     implementation(libs.spring.modulith.events.api)
@@ -66,6 +70,7 @@ dependencies {
     implementation(libs.grpc.kotlin.stub)
     implementation(libs.protobuf.kotlin)
     implementation(libs.grpc.spring.client)
+
     implementation(project(":user-proto"))
     implementation(project(":rule-proto"))
     implementation(project(":workflow-proto"))

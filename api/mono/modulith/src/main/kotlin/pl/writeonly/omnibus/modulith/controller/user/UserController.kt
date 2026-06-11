@@ -10,7 +10,7 @@ import pl.writeonly.omnibus.modulith.controller.grpcMono
 import reactor.core.publisher.Mono
 
 @RestController
-@RequestMapping("/api/user/users")
+@RequestMapping("/api/user")
 class UserController(
     @GrpcClient("userService")
     private val stub: UserServiceGrpc.UserServiceStub,

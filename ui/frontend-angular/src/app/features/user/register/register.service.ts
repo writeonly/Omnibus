@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class RegisterService {
   private readonly http = inject(HttpClient);
 
-  private readonly baseUrl = '/api/auth';
+  private readonly baseUrl = '/api/user';
 
   register(payload: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(

@@ -29,9 +29,6 @@ export class AuthService {
     window.location.href = this.redirectUrl("/api/auth/login");
   }
 
-  register(request: RegisterUserRequest): Observable<RegisterUserResponse> {
-    return this.http.post<RegisterUserResponse>("/api/auth/register", request);
-  }
 
   logout() {
     window.location.href = this.redirectUrl("/api/auth/logout");

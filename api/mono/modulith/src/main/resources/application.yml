@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: modulith
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   cloud:
     gateway:
       grpc:
@@ -14,5 +17,13 @@ spring:
 grpc:
   client:
     userService:
-      address: ${USER_SERVICE_GRPC_URI:static://localhost:9082}
+      address: ${USER_SERVICE_GRPC_URI:static://localhost:9083}
       negotiation-type: plaintext
+
+    rule-service:
+      address: static://localhost:9086
+      negotiationType: plaintext
+
+    workflow-service:
+      address: static://localhost:9087
+      negotiationType: plaintext
