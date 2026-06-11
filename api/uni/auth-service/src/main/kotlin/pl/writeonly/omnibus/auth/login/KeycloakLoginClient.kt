@@ -8,7 +8,7 @@ import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestClient
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.http.HttpStatus
-import pl.writeonly.omnibus.auth.registration.KeycloakProperties
+import pl.writeonly.omnibus.auth.register.KeycloakProperties
 
 @Component
 class KeycloakLoginClient(

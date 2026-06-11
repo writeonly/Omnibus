@@ -1,29 +1,23 @@
-package pl.writeonly.omnibus.auth.controller
+package pl.writeonly.omnibus.auth.logout
+
 import com.nimbusds.jwt.SignedJWT
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pl.writeonly.omnibus.auth.login.KeycloakLoginClient
-import pl.writeonly.omnibus.auth.login.KeycloakLogoutClient
-import pl.writeonly.omnibus.auth.login.LoginRequest
-import pl.writeonly.omnibus.auth.login.LoginResponse
+import pl.writeonly.omnibus.auth.logout.KeycloakLogoutClient
 import pl.writeonly.omnibus.auth.service.JwtBlacklistService
 import java.time.Instant
 
-@RestController
-@RequestMapping("/auth")
-class AuthController(
+@RestController()
+@RequestMapping("/auth/logout")
+class LogoutController(
     private val blacklistService: JwtBlacklistService,
-    private val keycloakLoginClient: KeycloakLoginClient,
     private val keycloakLogoutClient: KeycloakLogoutClient,
 ) {
-    @PostMapping("/login")
-    fun login(@RequestBody request: LoginRequest): LoginResponse =
-        keycloakLoginClient.login(request)
 
-    @PostMapping("/logout")
+    @PostMapping("")
     fun logout(
         @RequestHeader("Authorization") auth: String,
         @RequestBody request: LogoutRequest,
@@ -47,10 +41,5 @@ class AuthController(
     }
 }
 
-data class LogoutRequest(
-    val refreshToken: String,
-)
 
-data class LogoutResponse(
-    val status: String,
-)
+

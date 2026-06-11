@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.registration
+package pl.writeonly.omnibus.auth.register
 
 data class UserRegisteredEvent(
     val userId: String = "",
