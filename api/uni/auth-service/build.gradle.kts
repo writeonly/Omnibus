@@ -42,6 +42,9 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.micrometer.registry.prometheus)
 
+    // Keycloak
+    implementation("org.keycloak:keycloak-admin-client:26.0.9")
+
     // Testing
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.security.test)
