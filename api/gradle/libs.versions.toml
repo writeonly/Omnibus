@@ -84,6 +84,7 @@ spring-cloud-starter-gateway-server-webflux = { module = "org.springframework.cl
 spring-cloud-starter-loadbalancer = { module = "org.springframework.cloud:spring-cloud-starter-loadbalancer" }
 
 spring-cloud-starter-stream-kafka = { module = "org.springframework.cloud:spring-cloud-starter-stream-kafka" }
+spring-cloud-starter-stream-rabbit = { module = "org.springframework.cloud:spring-cloud-starter-stream-rabbit" }
 
 spring-cloud-starter-netflix-eureka-server = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server" }
 spring-cloud-starter-netflix-eureka-client = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client" }

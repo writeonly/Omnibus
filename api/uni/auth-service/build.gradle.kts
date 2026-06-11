@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.spring.cloud.starter.config)
     implementation(libs.spring.cloud.starter.function.web)
     implementation(libs.spring.cloud.starter.stream.kafka)
+    implementation(libs.spring.cloud.starter.stream.rabbit)
     implementation(libs.spring.cloud.starter.netflix.eureka.client)
     
     // Spring

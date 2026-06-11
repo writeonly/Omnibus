@@ -9,16 +9,12 @@ import org.springframework.stereotype.Service
 @Service
 class KeycloakRegisterService(
     private val keycloak: Keycloak,
+    private val eventPublisher: org.springframework.context.ApplicationEventPublisher,
     @Value("\${keycloak.realm}")
     private val realm: String,
 ) {
 
     fun register(request: RegisterRequest) {
-        val credential = CredentialRepresentation().apply {
-            type = CredentialRepresentation.PASSWORD
-            value = request.password
-            isTemporary = false
-        }
 
         val user = UserRepresentation().apply {
             username = request.username
@@ -26,19 +22,21 @@ class KeycloakRegisterService(
             firstName = request.firstName
             lastName = request.lastName
             isEnabled = true
-            credentials = listOf(credential)
         }
 
-        keycloak
-            .realm(realm)
-            .users()
-            .create(user)
-            .use { response ->
-                if (response.status !in 200..299) {
-                    throw IllegalStateException(
-                        "Cannot create user. Status=${response.status}"
-                    )
-                }
+        keycloak.realm(realm).users().create(user).use { response ->
+            if (response.status !in 200..299) {
+                throw IllegalStateException("Cannot create user")
             }
+
+            eventPublisher.publishEvent(
+                UserRegisteredEvent(
+                    username = request.username,
+                    email = request.email,
+                    firstName = request.firstName,
+                    lastName = request.lastName
+                )
+            )
+        }
     }
 }
