@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.login
+package pl.writeonly.omnibus.auth.features.login
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class KeycloakTokenResponse(

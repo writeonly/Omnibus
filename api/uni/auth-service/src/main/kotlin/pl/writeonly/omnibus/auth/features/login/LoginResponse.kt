@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.login
+package pl.writeonly.omnibus.auth.features.login
 
 data class LoginResponse(
     val accessToken: String,

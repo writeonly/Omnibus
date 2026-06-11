@@ -1,11 +1,11 @@
-package pl.writeonly.omnibus.auth.login
+package pl.writeonly.omnibus.auth.features.login
 
 import org.keycloak.OAuth2Constants
 import org.keycloak.admin.client.KeycloakBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import pl.writeonly.omnibus.auth.register.KeycloakProperties
+import pl.writeonly.omnibus.auth.features.register.KeycloakProperties
 
 @Service
 class KeycloakLoginService(

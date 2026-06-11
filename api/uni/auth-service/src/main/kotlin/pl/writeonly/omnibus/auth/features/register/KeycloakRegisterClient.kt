@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.register
+package pl.writeonly.omnibus.auth.features.register
 
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.CredentialRepresentation

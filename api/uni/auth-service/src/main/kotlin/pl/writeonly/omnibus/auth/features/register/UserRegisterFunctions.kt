@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.register
+package pl.writeonly.omnibus.auth.features.register
 
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component

@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.register
+package pl.writeonly.omnibus.auth.features.register
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration

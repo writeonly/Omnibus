@@ -1,4 +1,4 @@
-package pl.writeonly.omnibus.auth.register
+package pl.writeonly.omnibus.auth.features.register
 
 import com.nimbusds.jwt.SignedJWT
 import org.springframework.web.bind.annotation.PostMapping
@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pl.writeonly.omnibus.auth.service.JwtBlacklistService
 import java.time.Instant
-import pl.writeonly.omnibus.auth.register.KeycloakRegisterService
-import pl.writeonly.omnibus.auth.register.RegisterRequest
-import pl.writeonly.omnibus.auth.register.RegisterResponse
+import pl.writeonly.omnibus.auth.features.register.KeycloakRegisterService
+import pl.writeonly.omnibus.auth.features.register.RegisterRequest
+import pl.writeonly.omnibus.auth.features.register.RegisterResponse
 
 
 @RestController()
