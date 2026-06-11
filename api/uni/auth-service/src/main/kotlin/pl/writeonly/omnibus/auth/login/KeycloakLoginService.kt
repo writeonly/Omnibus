@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus
 import pl.writeonly.omnibus.auth.register.KeycloakProperties
 
 @Component
-class KeycloakLoginClient(
+class KeycloakLoginService(
     private val properties: KeycloakProperties,
 ) {
     private val restClient: RestClient = RestClient.builder()

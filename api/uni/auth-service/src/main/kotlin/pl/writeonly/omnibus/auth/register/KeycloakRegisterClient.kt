@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class KeycloakRegisterClient(
+class KeycloakRegisterService(
     private val keycloak: Keycloak,
     @Value("\${keycloak.realm}")
     private val realm: String,

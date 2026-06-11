@@ -1,14 +1,14 @@
 package pl.writeonly.omnibus.auth.logout
 
 import org.springframework.http.MediaType
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestClient
 import pl.writeonly.omnibus.auth.register.KeycloakProperties
-
-@Component
-class KeycloakLogoutClient(
+    
+@Service
+class KeycloakLogoutService(
     private val properties: KeycloakProperties,
 ) {
     private val restClient: RestClient = RestClient.builder()

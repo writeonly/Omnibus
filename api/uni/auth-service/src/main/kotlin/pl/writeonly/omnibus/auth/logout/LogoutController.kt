@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pl.writeonly.omnibus.auth.logout.KeycloakLogoutClient
+import pl.writeonly.omnibus.auth.logout.KeycloakLogoutService
 import pl.writeonly.omnibus.auth.service.JwtBlacklistService
 import java.time.Instant
 
@@ -14,7 +14,7 @@ import java.time.Instant
 @RequestMapping("/auth/logout")
 class LogoutController(
     private val blacklistService: JwtBlacklistService,
-    private val keycloakLogoutClient: KeycloakLogoutClient,
+    private val keycloakLogoutService: KeycloakLogoutService,
 ) {
 
     @PostMapping("")
@@ -22,7 +22,7 @@ class LogoutController(
         @RequestHeader("Authorization") auth: String,
         @RequestBody request: LogoutRequest,
     ): LogoutResponse {
-        keycloakLogoutClient.logout(request.refreshToken)
+        keycloakLogoutService.logout(request.refreshToken)
 
         val token = auth.removePrefix("Bearer ").trim()
         val claims = SignedJWT.parse(token).jwtClaimsSet
