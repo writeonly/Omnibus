@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.RestController
 import pl.writeonly.omnibus.auth.login.KeycloakLoginClient
 import pl.writeonly.omnibus.auth.login.LoginRequest
 import pl.writeonly.omnibus.auth.login.LoginResponse
-import pl.writeonly.omnibus.auth.service.JwtBlacklistService
 import java.time.Instant
 
 @RestController
 @RequestMapping("/auth/login")
 class LoginController(
-    private val blacklistService: JwtBlacklistService,
     private val keycloakLoginClient: KeycloakLoginClient,
 ) {
     @PostMapping("")

@@ -51,26 +51,3 @@ class KeycloakLoginClient(
         }
     }
 }
-
-data class LoginRequest(
-    val username: String,
-    val password: String,
-)
-
-data class LoginResponse(
-    val accessToken: String,
-    val refreshToken: String?,
-    val tokenType: String,
-    val expiresIn: Long?,
-)
-
-data class KeycloakTokenResponse(
-    @field:JsonProperty("access_token")
-    val accessToken: String? = null,
-    @field:JsonProperty("refresh_token")
-    val refreshToken: String? = null,
-    @field:JsonProperty("token_type")
-    val tokenType: String? = null,
-    @field:JsonProperty("expires_in")
-    val expiresIn: Long? = null,
-)
