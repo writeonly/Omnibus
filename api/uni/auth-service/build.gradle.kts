@@ -48,4 +48,11 @@ dependencies {
     // Testing
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.security.test)
+    testImplementation("org.testcontainers:junit-jupiter:1.20.4")
+    testImplementation("org.testcontainers:testcontainers:1.20.4")
+    // testImplementation("org.testcontainers:keycloak:1.20.4")
+    testImplementation("com.github.dasniko:testcontainers-keycloak:4.2.1")
+    testImplementation("org.keycloak:keycloak-admin-client:25.0.6")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }

@@ -1,53 +1,42 @@
 package pl.writeonly.omnibus.auth.login
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import org.springframework.http.MediaType
-import org.springframework.stereotype.Component
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.RestClient
-import org.springframework.web.server.ResponseStatusException
+import org.keycloak.OAuth2Constants
+import org.keycloak.admin.client.KeycloakBuilder
 import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import pl.writeonly.omnibus.auth.register.KeycloakProperties
 
-@Component
+@Service
 class KeycloakLoginService(
     private val properties: KeycloakProperties,
 ) {
-    private val restClient: RestClient = RestClient.builder()
-        .baseUrl(properties.url.trimEnd('/'))
-        .build()
 
     fun login(request: LoginRequest): LoginResponse {
-        val form = LinkedMultiValueMap<String, String>().apply {
-            add("grant_type", "password")
-            add("client_id", properties.frontendClientId)
-            add("username", request.username)
-            add("password", request.password)
-        }
+        try {
+            val keycloak = KeycloakBuilder.builder()
+                .serverUrl(properties.url)
+                .realm(properties.realm)
+                .clientId(properties.frontendClientId)
+                .grantType(OAuth2Constants.PASSWORD)
+                .username(request.username)
+                .password(request.password)
+                .build()
 
-        return try {
-            val response = restClient.post()
-                .uri("/realms/{realm}/protocol/openid-connect/token", properties.realm)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(form)
-                .retrieve()
-                .body(KeycloakTokenResponse::class.java)
+            val token = keycloak.tokenManager().accessToken
 
-            val token = requireNotNull(response?.accessToken) {
-                "Keycloak token response did not contain access_token"
-            }
-
-            LoginResponse(
-                accessToken = token,
-                refreshToken = response.refreshToken,
-                tokenType = response.tokenType ?: "Bearer",
-                expiresIn = response.expiresIn,
+            return LoginResponse(
+                accessToken = token.token,
+                refreshToken = token.refreshToken,
+                tokenType = "Bearer",
+                expiresIn = token.expiresIn,
             )
-        } catch (exception: HttpClientErrorException.Unauthorized) {
-            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password", exception)
-        } catch (exception: HttpClientErrorException.BadRequest) {
-            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password", exception)
+        } catch (e: Exception) {
+            throw ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "Invalid username or password",
+                e
+            )
         }
     }
 }
